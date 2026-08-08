@@ -112,11 +112,11 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 h-14 md:h-20 transition-all duration-300 ${
           scrolled ? 'bg-[#0d0c0b]/98 backdrop-blur-sm' : 'bg-[#0d0c0b]'
         } border-b border-white/10`}
       >
-        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-5 md:px-16">
+        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-4 md:px-16">
 
           {/* Logo */}
           <Link
@@ -130,7 +130,7 @@ export function Header() {
               <div className="w-[3px] h-3 bg-[#ff571a]/40" style={{ transform: 'skewY(-20deg)' }} />
             </div>
             {/* Brand name */}
-            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(15px,1.5vw,20px)' }}>
+            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(13px,1.5vw,20px)' }}>
               <span className="text-[#f5f2ed] italic">REVIVE{' '}</span>
               <span className="text-[#ff571a] italic">FIGHT{' '}</span>
               <span style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(245,242,237,0.55)', fontStyle: 'normal' }}>CLUB</span>

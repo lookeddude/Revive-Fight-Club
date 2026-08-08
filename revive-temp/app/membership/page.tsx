@@ -22,7 +22,7 @@ export default async function MembershipPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen pt-14 md:pt-20">
         <section className="py-16 md:py-24 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
