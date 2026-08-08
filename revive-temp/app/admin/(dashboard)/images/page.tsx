@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllSlots, getMediaLibrary, getImageStats } from '@/lib/data/images'
 import { getHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
+import { getProgramsWithSlides } from '@/lib/data/programSlides'
 import { ImageManagementClient } from './ImageManagementClient'
 
 export const metadata: Metadata = {
@@ -10,12 +11,13 @@ export const metadata: Metadata = {
 export const revalidate = 0
 
 export default async function AdminImagesPage() {
-  const [slots, { data: mediaAssets }, stats, heroSlides, heroSettings] = await Promise.all([
+  const [slots, { data: mediaAssets }, stats, heroSlides, heroSettings, programs] = await Promise.all([
     getAllSlots(),
     getMediaLibrary(undefined, 1, 200),
     getImageStats(),
     getHeroSlides(),
     getHeroSettings(),
+    getProgramsWithSlides(),
   ])
 
   return (
@@ -44,6 +46,7 @@ export default async function AdminImagesPage() {
         stats={stats}
         heroSlides={heroSlides}
         heroSettings={heroSettings}
+        programs={programs}
       />
     </div>
   )

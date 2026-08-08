@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer'
 import { ProgramSlideshow } from '@/components/ui/ProgramSlideshow'
 import { getProgramBySlug, getBusinessSettings } from '@/lib/data/content'
 import { getSlotImages } from '@/lib/data/images'
+import { getProgramSlides } from '@/lib/data/programSlides'
 
 export const revalidate = 300
 
@@ -34,20 +35,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [program, settings, slotImages] = await Promise.all([
+  const [program, settings, slotImages, dbSlides] = await Promise.all([
     getProgramBySlug(slug),
     getBusinessSettings(),
     getSlotImages([`program.${slug}`]),
+    // We need program id — fetch slides after getting program
+    Promise.resolve([] as Awaited<ReturnType<typeof getProgramSlides>>),
   ])
 
   if (!program) notFound()
 
-  // Image priority: slot → program gallery → program image_path → Unsplash fallback
+  // Fetch slides with the real program id
+  const programSlides = await getProgramSlides(program.id)
+
+  // Image priority: DB slides → slot image → program image_path → Unsplash fallback
   const slotImage = slotImages[`program.${slug}`]
-  const galleryImages: string[] = (program as any).gallery_images ?? []
+  const slideUrls = programSlides.map(s => s.image_url)
   const mainImage = slotImage ?? program.image_path ?? FALLBACK_IMAGES[slug] ?? FALLBACK_IMAGES.default
-  const allImages = galleryImages.length > 0
-    ? (slotImage ? [slotImage, ...galleryImages] : galleryImages)
+  const allImages = slideUrls.length > 0
+    ? (slotImage && !slideUrls.includes(slotImage) ? [slotImage, ...slideUrls] : slideUrls)
     : [mainImage]
 
   const levelLabel = program.level?.replace('_', ' ') ?? 'All Levels'

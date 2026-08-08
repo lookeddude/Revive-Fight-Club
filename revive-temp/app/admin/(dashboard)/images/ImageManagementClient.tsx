@@ -3,10 +3,12 @@
 import { useState, useMemo } from 'react'
 import type { ImageSlot, MediaAsset } from '@/lib/data/images'
 import type { HeroSlide, HeroSettings } from '@/lib/data/heroSlideshow'
+import type { ProgramWithSlides } from '@/lib/data/programSlides'
 import { ImageSlotCard } from '@/components/admin/ImageSlotCard'
 import { HeroSlideshowManager } from './HeroSlideshowManager'
+import { ProgramSlidesManager } from './ProgramSlidesManager'
 
-const SECTIONS = ['Hero Slideshow', 'All', 'Home', 'Programs', 'Trainers', 'About', 'Gallery', 'Membership', 'Contact']
+const SECTIONS = ['Hero Slideshow', 'Program Slides', 'All', 'Home', 'Programs', 'Trainers', 'About', 'Gallery', 'Membership', 'Contact']
 
 interface Props {
   slots: ImageSlot[]
@@ -19,9 +21,10 @@ interface Props {
   }
   heroSlides: HeroSlide[]
   heroSettings: HeroSettings
+  programs: ProgramWithSlides[]
 }
 
-export function ImageManagementClient({ slots, mediaAssets, stats, heroSlides, heroSettings }: Props) {
+export function ImageManagementClient({ slots, mediaAssets, stats, heroSlides, heroSettings, programs }: Props) {
   const [section, setSection] = useState('Hero Slideshow')
   const [search, setSearch] = useState('')
 
@@ -40,9 +43,9 @@ export function ImageManagementClient({ slots, mediaAssets, stats, heroSlides, h
 
   const statCards = [
     { label: 'Hero Slides', value: heroSlides.length, color: '#ff571a' },
+    { label: 'Program Slides', value: programs.reduce((acc, p) => acc + p.slides.length, 0), color: '#a855f7' },
     { label: 'Total Media', value: stats.totalMedia, color: '#f59e0b' },
-    { label: 'Image Slots', value: stats.activeSlots, color: '#22c55e' },
-    { label: 'Unassigned', value: stats.unassignedSlots, color: stats.unassignedSlots > 0 ? '#ef4444' : '#6b7280' },
+    { label: 'Unassigned Slots', value: stats.unassignedSlots, color: stats.unassignedSlots > 0 ? '#ef4444' : '#6b7280' },
   ]
 
   return (
@@ -86,6 +89,8 @@ export function ImageManagementClient({ slots, mediaAssets, stats, heroSlides, h
           initialSlides={heroSlides}
           initialSettings={heroSettings}
         />
+      ) : section === 'Program Slides' ? (
+        <ProgramSlidesManager initialPrograms={programs} />
       ) : (
         <>
           {/* Search */}
