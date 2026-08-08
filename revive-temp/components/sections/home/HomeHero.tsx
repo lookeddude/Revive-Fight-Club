@@ -124,7 +124,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
             priority
             quality={85}
             sizes="100vw"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
           />
         </div>
 
