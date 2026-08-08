@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import type { HeroSlide, HeroSettings } from '@/lib/data/heroSlideshow'
 import {
   addHeroSlide,
@@ -10,186 +10,292 @@ import {
   reorderHeroSlides,
   updateHeroSettings,
 } from '@/lib/actions/admin/heroSlideshowActions'
-import { uploadToMediaLibrary } from '@/lib/actions/admin/imageActions'
+import { uploadImage } from '@/lib/actions/admin/uploadActions'
 
 const MAX_SLIDES = 10
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
 
-interface Props {
-  initialSlides: HeroSlide[]
-  initialSettings: HeroSettings
+// ── Upload helper — calls uploadImage directly (no extra DB round-trip) ─────
+async function uploadSlideImage(file: File): Promise<string | null> {
+  const fd = new FormData()
+  fd.append('file', file)
+  const res = await uploadImage(fd, 'revive-gallery', 'hero-slides')
+  if (res.success) return res.url
+  return null
 }
 
-type DeviceType = 'desktop' | 'tablet' | 'mobile'
-
+// ─────────────────────────────────────────────────────────────────────────────
+// SlideCard
+// ─────────────────────────────────────────────────────────────────────────────
 function SlideCard({
   slide,
   index,
   total,
-  onUpdate,
+  onOptimisticUpdate,
   onToggle,
   onDelete,
   onMoveUp,
   onMoveDown,
+  onToast,
 }: {
   slide: HeroSlide
   index: number
   total: number
-  onUpdate: (id: string, fields: Partial<HeroSlide>) => void
+  onOptimisticUpdate: (id: string, fields: Partial<HeroSlide>) => void
   onToggle: (id: string, active: boolean) => void
   onDelete: (id: string) => void
   onMoveUp: (id: string) => void
   onMoveDown: (id: string) => void
+  onToast: (msg: string, ok: boolean) => void
 }) {
-  const [uploading, setUploading] = useState<DeviceType | null>(null)
+  const [uploadingDevice, setUploadingDevice] = useState<'desktop' | 'tablet' | 'mobile' | null>(null)
+  const [savingAlt, setSavingAlt] = useState(false)
   const desktopRef = useRef<HTMLInputElement>(null)
-  const mobileRef = useRef<HTMLInputElement>(null)
   const tabletRef = useRef<HTMLInputElement>(null)
+  const mobileRef = useRef<HTMLInputElement>(null)
 
-  const refs: Record<DeviceType, React.RefObject<HTMLInputElement | null>> = {
-    desktop: desktopRef,
-    tablet: tabletRef,
-    mobile: mobileRef,
-  }
+  const refs = { desktop: desktopRef, tablet: tabletRef, mobile: mobileRef }
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, device: DeviceType) => {
+  const handleFileChange = useCallback(async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    device: 'desktop' | 'tablet' | 'mobile'
+  ) => {
     const file = e.target.files?.[0]
     if (!file) return
-    setUploading(device)
-    const fd = new FormData()
-    fd.append('file', file)
-    const res = await uploadToMediaLibrary(fd)
-    setUploading(null)
-    if (res.success && res.url) {
-      const field = device === 'desktop' ? 'desktop_url' : device === 'mobile' ? 'mobile_url' : 'tablet_url'
-      onUpdate(slide.id, { [field]: res.url })
-    }
-    e.target.value = ''
-  }
 
-  const deviceConfigs: { device: DeviceType; label: string; icon: string; url: string | null; badge: string }[] = [
-    { device: 'desktop', label: 'Desktop', icon: '🖥', url: slide.desktop_url, badge: 'Required' },
-    { device: 'tablet', label: 'Tablet', icon: '📱', url: slide.tablet_url, badge: 'Optional' },
-    { device: 'mobile', label: 'Mobile', icon: '📲', url: slide.mobile_url, badge: 'Optional' },
+    // Validate client-side before hitting server
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!allowed.includes(file.type)) {
+      onToast('Only JPEG, PNG, WebP or GIF allowed.', false)
+      e.target.value = ''
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      onToast('File too large — max 5MB.', false)
+      e.target.value = ''
+      return
+    }
+
+    setUploadingDevice(device)
+    try {
+      const url = await uploadSlideImage(file)
+      if (!url) {
+        onToast('Upload failed. Try again.', false)
+        setUploadingDevice(null)
+        e.target.value = ''
+        return
+      }
+
+      const field = device === 'desktop' ? 'desktop_url' : device === 'mobile' ? 'mobile_url' : 'tablet_url'
+
+      // Optimistically update UI immediately
+      onOptimisticUpdate(slide.id, { [field]: url })
+
+      // Persist to DB
+      const res = await updateHeroSlide(slide.id, { [field]: url })
+      if (res.success) {
+        onToast(`${device.charAt(0).toUpperCase() + device.slice(1)} image updated!`, true)
+      } else {
+        onToast(res.error, false)
+      }
+    } catch {
+      onToast('Upload failed. Check your connection.', false)
+    } finally {
+      setUploadingDevice(null)
+      e.target.value = ''
+    }
+  }, [slide.id, onOptimisticUpdate, onToast])
+
+  const handleAltSave = useCallback(async (value: string) => {
+    if (value === (slide.alt_text ?? '')) return
+    setSavingAlt(true)
+    onOptimisticUpdate(slide.id, { alt_text: value || null })
+    await updateHeroSlide(slide.id, { alt_text: value || null })
+    setSavingAlt(false)
+  }, [slide.id, slide.alt_text, onOptimisticUpdate])
+
+  const deviceConfigs = [
+    { device: 'desktop' as const, label: 'Desktop', icon: '🖥', url: slide.desktop_url, required: true },
+    { device: 'tablet' as const, label: 'Tablet (768–1024px)', icon: '📱', url: slide.tablet_url, required: false },
+    { device: 'mobile' as const, label: 'Mobile (<768px)', icon: '📲', url: slide.mobile_url, required: false },
   ]
 
   return (
     <div
-      className="border border-white/[0.08] overflow-hidden"
-      style={{ background: '#0f1110', opacity: slide.is_active ? 1 : 0.5 }}
+      className="border overflow-hidden transition-all duration-200"
+      style={{
+        background: '#0f1110',
+        borderColor: slide.is_active ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
+        opacity: slide.is_active ? 1 : 0.6,
+      }}
     >
-      {/* Slide header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+      {/* ── Slide header ──────────────────────────────── */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.05]">
         <div className="flex items-center gap-3">
-          <span className="font-[family-name:var(--font-outfit)] text-sm font-black text-[#ff571a]">
-            #{index + 1}
+          <span className="font-[family-name:var(--font-outfit)] text-base font-black text-[#ff571a]">
+            Slide {index + 1}
           </span>
           {!slide.is_active && (
-            <span className="px-1.5 py-0.5 bg-[#3a3530] text-[#6b6059] text-[9px] font-bold uppercase tracking-wider">DISABLED</span>
+            <span className="px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider"
+              style={{ background: 'rgba(255,255,255,0.04)', color: '#4b5563' }}>
+              DISABLED
+            </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          {/* Reorder */}
+
+        <div className="flex items-center gap-1.5">
+          {/* Move up/down */}
           <button
             onClick={() => onMoveUp(slide.id)}
             disabled={index === 0}
-            className="w-6 h-6 flex items-center justify-center text-[#4b5563] hover:text-[#f0ede8] transition-colors disabled:opacity-20"
             title="Move up"
+            className="w-7 h-7 flex items-center justify-center text-[#4b5563] hover:text-[#f0ede8] disabled:opacity-20 transition-colors"
           >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
             </svg>
           </button>
           <button
             onClick={() => onMoveDown(slide.id)}
             disabled={index === total - 1}
-            className="w-6 h-6 flex items-center justify-center text-[#4b5563] hover:text-[#f0ede8] transition-colors disabled:opacity-20"
             title="Move down"
+            className="w-7 h-7 flex items-center justify-center text-[#4b5563] hover:text-[#f0ede8] disabled:opacity-20 transition-colors"
           >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          {/* Toggle */}
+
+          {/* Toggle active */}
           <button
             onClick={() => onToggle(slide.id, !slide.is_active)}
-            className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider transition-colors ${
+            className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-wider transition-colors ${
               slide.is_active
-                ? 'bg-green-500/20 text-green-400 hover:bg-red-500/20 hover:text-red-400'
-                : 'bg-white/[0.05] text-[#6b6059] hover:bg-green-500/20 hover:text-green-400'
+                ? 'hover:bg-red-500/10 hover:text-red-400 text-green-400'
+                : 'text-[#4b5563] hover:text-green-400'
             }`}
+            style={{
+              background: slide.is_active ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.04)',
+              border: `1px solid ${slide.is_active ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.06)'}`,
+            }}
           >
-            {slide.is_active ? 'Active' : 'Disabled'}
+            {slide.is_active ? '● Active' : '○ Disabled'}
           </button>
+
           {/* Delete */}
           <button
             onClick={() => onDelete(slide.id)}
-            className="w-6 h-6 flex items-center justify-center text-[#4b5563] hover:text-red-400 transition-colors"
             title="Delete slide"
+            className="w-7 h-7 flex items-center justify-center text-[#4b5563] hover:text-red-400 transition-colors"
           >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
           </button>
         </div>
       </div>
 
-      {/* Device images grid */}
-      <div className="grid grid-cols-3 gap-3 p-4">
-        {deviceConfigs.map(({ device, label, icon, url, badge }) => (
+      {/* ── Device image grid ──────────────────────────── */}
+      <div className="grid grid-cols-3 gap-4 p-4">
+        {deviceConfigs.map(({ device, label, icon, url, required }) => (
           <div key={device} className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider">
-                {icon} {label}
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm">{icon}</span>
+              <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold text-[#6b6059] uppercase tracking-wider truncate">
+                {label}
               </span>
-              <span className={`text-[8px] font-bold px-1 py-0.5 uppercase ${
-                badge === 'Required' ? 'bg-[#ff571a]/20 text-[#ff571a]' : 'bg-white/[0.05] text-[#4b5563]'
-              }`}>
-                {badge}
-              </span>
+              {required && (
+                <span className="shrink-0 text-[8px] font-black px-1 py-0.5 uppercase"
+                  style={{ background: 'rgba(255,87,26,0.15)', color: '#ff571a' }}>
+                  Required
+                </span>
+              )}
             </div>
 
-            {/* Preview */}
+            {/* Image preview / upload target */}
             <div
-              className="relative aspect-video bg-[#0a0b0a] border border-white/[0.06] overflow-hidden cursor-pointer hover:border-[#ff571a]/40 transition-colors group"
+              className="relative overflow-hidden cursor-pointer group transition-all duration-200"
+              style={{
+                aspectRatio: device === 'mobile' ? '9/16' : '16/9',
+                background: '#0a0b0a',
+                border: url ? '1px solid rgba(255,255,255,0.06)' : '1px dashed rgba(255,255,255,0.08)',
+              }}
               onClick={() => refs[device].current?.click()}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') refs[device].current?.click() }}
             >
-              {url ? (
-                <img src={url} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-1">
-                  <svg className="w-4 h-4 text-[#2a2825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-                  </svg>
-                  <span className="font-[family-name:var(--font-inter)] text-[8px] text-[#3a3530] uppercase tracking-wider">Add image</span>
+              {/* Preview */}
+              {url && (
+                <img
+                  src={url}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              )}
+
+              {/* Empty state */}
+              {!url && !uploadingDevice && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(255,87,26,0.08)', border: '1px solid rgba(255,87,26,0.15)' }}>
+                    <svg className="w-4 h-4 text-[#ff571a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#3a3530] uppercase tracking-wider">
+                    Click to upload
+                  </span>
                 </div>
               )}
-              {/* Upload overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                {uploading === device ? (
-                  <div className="w-4 h-4 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                  </svg>
-                )}
-              </div>
+
+              {/* Uploading spinner */}
+              {uploadingDevice === device && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                  style={{ background: 'rgba(10,11,10,0.85)' }}>
+                  <div className="w-6 h-6 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
+                  <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#ff571a] uppercase tracking-wider">
+                    Uploading…
+                  </span>
+                </div>
+              )}
+
+              {/* Hover overlay (only when not uploading) */}
+              {uploadingDevice !== device && (
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  style={{ background: 'rgba(0,0,0,0.65)' }}>
+                  <div className="flex flex-col items-center gap-1">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                    <span className="font-[family-name:var(--font-inter)] text-[9px] text-white uppercase tracking-wider">
+                      {url ? 'Change' : 'Upload'}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               <input
                 ref={refs[device]}
                 type="file"
-                accept="image/*"
-                onChange={(e) => handleUpload(e, device)}
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={e => handleFileChange(e, device)}
                 className="hidden"
+                aria-label={`Upload ${device} image for slide ${index + 1}`}
               />
             </div>
 
-            {/* Clear optional */}
-            {url && device !== 'desktop' && (
+            {/* Remove optional image */}
+            {url && !required && (
               <button
-                onClick={() => onUpdate(slide.id, { [`${device}_url`]: null })}
-                className="font-[family-name:var(--font-inter)] text-[9px] text-[#4b5563] hover:text-red-400 transition-colors text-center uppercase tracking-wider"
+                onClick={() => {
+                  const field = device === 'mobile' ? 'mobile_url' : 'tablet_url'
+                  onOptimisticUpdate(slide.id, { [field]: null })
+                  updateHeroSlide(slide.id, { [field]: null })
+                }}
+                className="font-[family-name:var(--font-inter)] text-[9px] text-[#4b5563] hover:text-red-400 transition-colors uppercase tracking-wider text-center"
               >
-                Remove
+                ✕ Remove
               </button>
             )}
           </div>
@@ -197,96 +303,120 @@ function SlideCard({
       </div>
 
       {/* Alt text */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 flex items-center gap-2">
         <input
+          key={slide.id}
           defaultValue={slide.alt_text ?? ''}
-          onBlur={(e) => {
-            if (e.target.value !== slide.alt_text) {
-              onUpdate(slide.id, { alt_text: e.target.value || null })
-            }
-          }}
-          placeholder="Alt text (for SEO and accessibility)..."
-          className="w-full bg-[#0d0c0b] border border-white/[0.06] px-3 py-1.5 text-xs text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/40 font-[family-name:var(--font-inter)] placeholder:text-[#3a3530]"
+          onBlur={e => handleAltSave(e.target.value)}
+          placeholder="Alt text for SEO & accessibility..."
+          className="flex-1 px-3 py-2 text-xs text-[#f0ede8] font-[family-name:var(--font-inter)] focus:outline-none placeholder:text-[#3a3530]"
+          style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.05)' }}
         />
+        {savingAlt && <div className="w-3 h-3 border border-[#ff571a] border-t-transparent rounded-full animate-spin shrink-0" />}
       </div>
     </div>
   )
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Main HeroSlideshowManager
+// ─────────────────────────────────────────────────────────────────────────────
+interface Props {
+  initialSlides: HeroSlide[]
+  initialSettings: HeroSettings
+}
+
 export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) {
   const [slides, setSlides] = useState<HeroSlide[]>(initialSlides)
-  const [settings, setSettings] = useState(initialSettings)
-  const [interval, setInterval_] = useState(initialSettings.interval_seconds)
+  const [intervalSec, setIntervalSec] = useState(initialSettings.interval_seconds)
   const [transitionType, setTransitionType] = useState(initialSettings.transition)
   const [savingSettings, setSavingSettings] = useState(false)
   const [addingSlide, setAddingSlide] = useState(false)
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
   const addFileRef = useRef<HTMLInputElement>(null)
 
-  const showToast = (msg: string, ok: boolean) => {
+  const showToast = useCallback((msg: string, ok: boolean) => {
     setToast({ msg, ok })
-    setTimeout(() => setToast(null), 3500)
-  }
+    setTimeout(() => setToast(null), 4000)
+  }, [])
 
-  // ── Settings save ─────────────────────────────────────────────────────────
+  // ── Optimistic update (updates local state immediately) ─────────────────
+  const handleOptimisticUpdate = useCallback((id: string, fields: Partial<HeroSlide>) => {
+    setSlides(prev => prev.map(s => s.id === id ? { ...s, ...fields } : s))
+  }, [])
+
+  // ── Save settings ───────────────────────────────────────────────────────
   const handleSaveSettings = async () => {
     setSavingSettings(true)
-    const res = await updateHeroSettings(interval, transitionType)
+    const res = await updateHeroSettings(intervalSec, transitionType)
     setSavingSettings(false)
-    if (res.success) {
-      setSettings(prev => ({ ...prev, interval_seconds: interval, transition: transitionType }))
-      showToast(res.message, true)
-    } else {
-      showToast(res.error, false)
-    }
+    showToast(res.success ? res.message : res.error, res.success)
   }
 
-  // ── Add slide ─────────────────────────────────────────────────────────────
+  // ── Add new slide ───────────────────────────────────────────────────────
   const handleAddSlide = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    setAddingSlide(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    const uploadRes = await uploadToMediaLibrary(fd)
-    if (!uploadRes.success || !uploadRes.url) {
-      setAddingSlide(false)
-      showToast('Upload failed.', false)
+
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    if (!allowed.includes(file.type)) {
+      showToast('Only JPEG, PNG, WebP or GIF allowed.', false)
+      e.target.value = ''
       return
     }
-    const res = await addHeroSlide(uploadRes.url)
-    setAddingSlide(false)
-    if (res.success) {
-      // Refresh slides from server
-      window.location.reload()
-    } else {
-      showToast(res.error, false)
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File too large — max 5MB.', false)
+      e.target.value = ''
+      return
     }
+
+    setAddingSlide(true)
     e.target.value = ''
-  }
 
-  // ── Update slide ──────────────────────────────────────────────────────────
-  const handleUpdate = async (id: string, fields: Partial<HeroSlide>) => {
-    const res = await updateHeroSlide(id, fields as Parameters<typeof updateHeroSlide>[1])
-    setSlides(prev => prev.map(s => s.id === id ? { ...s, ...fields } : s))
-    if (!res.success) showToast(res.error, false)
-    else showToast('Slide saved.', true)
-  }
+    const url = await uploadSlideImage(file)
+    if (!url) {
+      showToast('Upload failed. Check the file and try again.', false)
+      setAddingSlide(false)
+      return
+    }
 
-  // ── Toggle ────────────────────────────────────────────────────────────────
-  const handleToggle = async (id: string, active: boolean) => {
-    const res = await toggleHeroSlide(id, active)
-    if (res.success) {
-      setSlides(prev => prev.map(s => s.id === id ? { ...s, is_active: active } : s))
-      showToast(res.message, true)
-    } else {
+    const res = await addHeroSlide(url)
+    if (res.success && res.id) {
+      // Add optimistically to local state (no full reload)
+      const newSlide: HeroSlide = {
+        id: res.id,
+        desktop_url: url,
+        mobile_url: null,
+        tablet_url: null,
+        alt_text: null,
+        sort_order: slides.length,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+      setSlides(prev => [...prev, newSlide])
+      showToast('Slide added! You can now set tablet & mobile images.', true)
+    } else if (!res.success) {
       showToast(res.error, false)
     }
+    setAddingSlide(false)
   }
 
-  // ── Delete ────────────────────────────────────────────────────────────────
-  const handleDelete = async (id: string) => {
-    if (!confirm('Delete this slide?')) return
+  // ── Toggle ──────────────────────────────────────────────────────────────
+  const handleToggle = useCallback(async (id: string, active: boolean) => {
+    setSlides(prev => prev.map(s => s.id === id ? { ...s, is_active: active } : s))
+    const res = await toggleHeroSlide(id, active)
+    if (!res.success) {
+      setSlides(prev => prev.map(s => s.id === id ? { ...s, is_active: !active } : s))
+      showToast(res.error, false)
+    } else {
+      showToast(res.message, true)
+    }
+  }, [showToast])
+
+  // ── Delete ──────────────────────────────────────────────────────────────
+  const handleDelete = useCallback(async (id: string) => {
+    if (!confirm('Delete this slide permanently?')) return
     const res = await deleteHeroSlide(id)
     if (res.success) {
       setSlides(prev => prev.filter(s => s.id !== id))
@@ -294,10 +424,10 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
     } else {
       showToast(res.error, false)
     }
-  }
+  }, [showToast])
 
-  // ── Reorder ───────────────────────────────────────────────────────────────
-  const handleMove = async (id: string, direction: 'up' | 'down') => {
+  // ── Reorder ─────────────────────────────────────────────────────────────
+  const handleMove = useCallback(async (id: string, direction: 'up' | 'down') => {
     const idx = slides.findIndex(s => s.id === id)
     if (direction === 'up' && idx === 0) return
     if (direction === 'down' && idx === slides.length - 1) return
@@ -307,88 +437,131 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
     ;[newSlides[idx], newSlides[targetIdx]] = [newSlides[targetIdx], newSlides[idx]]
     setSlides(newSlides)
     await reorderHeroSlides(newSlides.map(s => s.id))
-  }
+    showToast('Order saved.', true)
+  }, [slides, showToast])
+
+  const activeCount = slides.filter(s => s.is_active).length
 
   return (
     <div className="space-y-6">
-      {/* Toast */}
+      {/* Toast notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-3 text-sm font-[family-name:var(--font-inter)] border ${
-            toast.ok ? 'bg-green-500/10 border-green-500/30 text-green-400' : 'bg-red-500/10 border-red-500/30 text-red-400'
-          }`}
+          className="fixed bottom-6 right-6 z-50 px-5 py-3 text-sm font-[family-name:var(--font-inter)] font-medium shadow-2xl transition-all duration-300"
+          style={{
+            background: toast.ok ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)',
+            border: `1px solid ${toast.ok ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`,
+            color: toast.ok ? '#34d399' : '#f87171',
+            backdropFilter: 'blur(12px)',
+          }}
         >
-          {toast.msg}
+          {toast.ok ? '✓ ' : '✕ '}{toast.msg}
         </div>
       )}
 
-      {/* Section header */}
-      <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/[0.06]">
+      {/* ── Header ──────────────────────────────────────────────────────── */}
+      <div className="flex items-start justify-between gap-4 pb-5"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div>
           <h2 className="font-[family-name:var(--font-outfit)] text-xl font-black text-[#f0ede8] uppercase tracking-tight">
             Hero Slideshow
           </h2>
-          <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] mt-1">
-            {slides.length} / {MAX_SLIDES} slides · {slides.filter(s => s.is_active).length} active
+          <p className="font-[family-name:var(--font-inter)] text-xs mt-1" style={{ color: '#4b5563' }}>
+            {slides.length}/{MAX_SLIDES} slides · {activeCount} active
+            {activeCount === 0 && (
+              <span style={{ color: '#ef4444' }}> — Enable at least 1 slide to show on homepage</span>
+            )}
           </p>
         </div>
-        <button
-          onClick={() => addFileRef.current?.click()}
-          disabled={slides.length >= MAX_SLIDES || addingSlide}
-          className="shrink-0 px-4 py-2 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider hover:bg-white transition-colors disabled:opacity-40"
-        >
-          {addingSlide ? 'Uploading…' : `+ Add Slide`}
-        </button>
-        <input ref={addFileRef} type="file" accept="image/*" onChange={handleAddSlide} className="hidden" />
+
+        <div className="flex flex-col items-end gap-2 shrink-0">
+          <button
+            onClick={() => addFileRef.current?.click()}
+            disabled={slides.length >= MAX_SLIDES || addingSlide}
+            className="px-5 py-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-40"
+            style={{ background: '#ff571a', color: '#000' }}
+          >
+            {addingSlide ? (
+              <span className="flex items-center gap-2">
+                <span className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin inline-block" />
+                Uploading…
+              </span>
+            ) : (
+              `+ Add Slide`
+            )}
+          </button>
+          {slides.length >= MAX_SLIDES && (
+            <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#4b5563]">
+              Max {MAX_SLIDES} slides reached
+            </span>
+          )}
+          <input
+            ref={addFileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={handleAddSlide}
+            className="hidden"
+            aria-label="Upload new hero slide"
+          />
+        </div>
       </div>
 
-      {/* ── Settings Panel ──────────────────────────────────────────────────── */}
-      <div className="p-4 border border-white/[0.06]" style={{ background: '#0a0b0a' }}>
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b6059] mb-4">
+      {/* ── Settings Panel ───────────────────────────────────────────────── */}
+      <div className="p-5 space-y-5" style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <h3 className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider"
+          style={{ color: '#6b6059' }}>
           Slideshow Settings
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-end">
-          {/* Interval slider */}
-          <div className="sm:col-span-2">
-            <div className="flex items-center justify-between mb-2">
-              <label className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] uppercase tracking-wider">
-                Auto-advance interval
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Interval */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="font-[family-name:var(--font-inter)] text-xs font-medium uppercase tracking-wider"
+                style={{ color: '#9ca3af' }}>
+                Auto-advance every
               </label>
-              <span className="font-[family-name:var(--font-outfit)] text-lg font-black text-[#ff571a]">
-                {interval}s
+              <span className="font-[family-name:var(--font-outfit)] text-2xl font-black" style={{ color: '#ff571a' }}>
+                {intervalSec}s
               </span>
             </div>
             <input
               type="range"
               min={3}
               max={15}
-              value={interval}
-              onChange={e => setInterval_(Number(e.target.value))}
-              className="w-full accent-[#ff571a]"
+              step={1}
+              value={intervalSec}
+              onChange={e => setIntervalSec(Number(e.target.value))}
+              className="w-full h-1.5 accent-[#ff571a] cursor-pointer"
             />
-            <div className="flex justify-between mt-1">
-              <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#3a3530]">3s (fast)</span>
-              <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#3a3530]">15s (slow)</span>
+            <div className="flex justify-between mt-1.5">
+              <span className="font-[family-name:var(--font-inter)] text-[10px]" style={{ color: '#3a3530' }}>3s — fast</span>
+              <span className="font-[family-name:var(--font-inter)] text-[10px]" style={{ color: '#3a3530' }}>15s — slow</span>
             </div>
           </div>
 
-          {/* Transition picker */}
+          {/* Transition */}
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] uppercase tracking-wider mb-2">
-              Transition
+            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium uppercase tracking-wider mb-3"
+              style={{ color: '#9ca3af' }}>
+              Transition effect
             </label>
             <div className="flex gap-2">
-              {['fade', 'slide'].map(t => (
+              {[
+                { id: 'fade', label: '◐ Fade' },
+                { id: 'slide', label: '→ Slide' },
+              ].map(t => (
                 <button
-                  key={t}
-                  onClick={() => setTransitionType(t)}
-                  className={`flex-1 py-2 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider transition-colors border ${
-                    transitionType === t
-                      ? 'bg-[#ff571a] text-black border-[#ff571a]'
-                      : 'border-white/[0.08] text-[#6b6059] hover:text-[#f0ede8]'
-                  }`}
+                  key={t.id}
+                  onClick={() => setTransitionType(t.id)}
+                  className="flex-1 py-2.5 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                  style={{
+                    background: transitionType === t.id ? '#ff571a' : 'rgba(255,255,255,0.03)',
+                    color: transitionType === t.id ? '#000' : '#6b6059',
+                    border: `1px solid ${transitionType === t.id ? '#ff571a' : 'rgba(255,255,255,0.07)'}`,
+                  }}
                 >
-                  {t}
+                  {t.label}
                 </button>
               ))}
             </div>
@@ -398,39 +571,46 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
         <button
           onClick={handleSaveSettings}
           disabled={savingSettings}
-          className="mt-4 px-5 py-2 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider hover:bg-white transition-colors disabled:opacity-50"
+          className="px-6 py-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-50"
+          style={{ background: '#ff571a', color: '#000' }}
         >
           {savingSettings ? 'Saving…' : 'Save Settings'}
         </button>
       </div>
 
-      {/* Responsive image guide */}
-      <div className="flex flex-wrap gap-3 text-xs font-[family-name:var(--font-inter)]">
+      {/* ── Device legend ─────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-[family-name:var(--font-inter)]">
         {[
-          { icon: '🖥', label: 'Desktop', desc: '> 1024px — Required' },
-          { icon: '📱', label: 'Tablet', desc: '768–1024px — Optional' },
-          { icon: '📲', label: 'Mobile', desc: '< 768px — Optional' },
+          { icon: '🖥', label: 'Desktop', desc: '> 1024px · Required' },
+          { icon: '📱', label: 'Tablet', desc: '768–1024px · Optional (falls back to desktop)' },
+          { icon: '📲', label: 'Mobile', desc: '< 768px · Optional (falls back to desktop)' },
         ].map(item => (
-          <div key={item.label} className="flex items-center gap-2 px-3 py-2 border border-white/[0.06] text-[#4b5563]">
-            <span>{item.icon}</span>
-            <span className="font-bold text-[#6b6059]">{item.label}</span>
-            <span>{item.desc}</span>
+          <div key={item.label}
+            className="flex items-start gap-2 px-3 py-2.5"
+            style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.04)' }}>
+            <span className="mt-0.5">{item.icon}</span>
+            <div>
+              <div className="font-bold" style={{ color: '#6b6059' }}>{item.label}</div>
+              <div style={{ color: '#3a3530' }}>{item.desc}</div>
+            </div>
           </div>
         ))}
-        <div className="flex items-center gap-1 px-3 py-2 text-[#3a3530]">
-          If optional not set → falls back to desktop image
-        </div>
       </div>
 
-      {/* ── Slides Grid ────────────────────────────────────────────────────── */}
+      {/* ── Slides ───────────────────────────────────────────────────────── */}
       {slides.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-white/[0.06]">
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563]">No slides yet.</p>
+        <div className="py-20 text-center"
+          style={{ border: '1px dashed rgba(255,255,255,0.06)' }}>
+          <div className="font-[family-name:var(--font-inter)] text-sm mb-3" style={{ color: '#4b5563' }}>
+            No slides yet
+          </div>
           <button
             onClick={() => addFileRef.current?.click()}
-            className="mt-3 text-[#ff571a] text-xs font-bold uppercase tracking-wider hover:underline font-[family-name:var(--font-inter)]"
+            disabled={addingSlide}
+            className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider"
+            style={{ color: '#ff571a' }}
           >
-            Add your first hero slide →
+            Upload your first hero slide →
           </button>
         </div>
       ) : (
@@ -441,20 +621,15 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
               slide={slide}
               index={i}
               total={slides.length}
-              onUpdate={handleUpdate}
+              onOptimisticUpdate={handleOptimisticUpdate}
               onToggle={handleToggle}
               onDelete={handleDelete}
-              onMoveUp={(id) => handleMove(id, 'up')}
-              onMoveDown={(id) => handleMove(id, 'down')}
+              onMoveUp={id => handleMove(id, 'up')}
+              onMoveDown={id => handleMove(id, 'down')}
+              onToast={showToast}
             />
           ))}
         </div>
-      )}
-
-      {slides.length >= MAX_SLIDES && (
-        <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] text-center">
-          Maximum {MAX_SLIDES} slides reached. Delete a slide to add a new one.
-        </p>
       )}
     </div>
   )
