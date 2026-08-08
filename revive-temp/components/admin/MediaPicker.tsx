@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useRef } from 'react'
 import Image from 'next/image'
-import { uploadToMediaLibrary, assignImageToSlot } from '@/lib/actions/admin/imageActions'
+import { assignImageToSlot, registerGalleryImageInMediaLibrary } from '@/lib/actions/admin/imageActions'
+import { uploadFileToStorage } from '@/lib/upload/client'
 import type { MediaAsset, ImageSlot } from '@/lib/data/images'
 
 interface MediaPickerProps {
@@ -32,19 +33,18 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    const res = await uploadToMediaLibrary(fd, altText)
+    const result = await uploadFileToStorage(file, 'revive-gallery', 'media-library')
     setUploading(false)
-    if (res.success && res.url) {
+    if (result) {
+      // Register in media_assets table
+      await registerGalleryImageInMediaLibrary(result.url, result.path, file.name, file.type, file.size)
       setToast('Uploaded! Now click "Use This Image" to assign.')
-      // Auto-select newly uploaded
       const newAsset: MediaAsset = {
-        id: res.mediaId ?? '',
+        id: crypto.randomUUID(),
         file_name: file.name,
         storage_bucket: 'revive-gallery',
-        storage_path: '',
-        public_url: res.url,
+        storage_path: result.path,
+        public_url: result.url,
         mime_type: file.type,
         file_size: file.size,
         alt_text: altText || null,
@@ -53,8 +53,8 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
       }
       setSelected(newAsset)
       setTab('gallery')
-    } else if (!res.success) {
-      setToast(res.error)
+    } else {
+      setToast('Upload failed. Please try a different image.')
     }
     e.target.value = ''
   }

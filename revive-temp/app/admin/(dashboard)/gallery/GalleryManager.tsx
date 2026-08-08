@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { createGalleryItem, deleteGalleryItem } from '@/lib/actions/admin/contentActions'
-import { uploadImage } from '@/lib/actions/admin/uploadActions'
+import { uploadFileToStorage } from '@/lib/upload/client'
 import { registerGalleryImageInMediaLibrary } from '@/lib/actions/admin/imageActions'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { Toast } from '@/components/admin/Toast'
@@ -32,17 +32,16 @@ export function GalleryManager({ items }: { items: GalleryItem[] }) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const fd = new FormData(); fd.append('file', file)
-    const result = await uploadImage(fd, 'revive-gallery', 'uploads')
+    const result = await uploadFileToStorage(file, 'revive-gallery', 'uploads')
     setUploading(false)
-    if (result.success) {
+    if (result) {
       setImagePath(result.path)
       setImagePreview(result.url)
       setToast({ message: 'Image uploaded & added to media library.', type: 'success' })
       // Register in media_assets so it appears in Image Management picker
       await registerGalleryImageInMediaLibrary(result.url, result.path, file.name, file.type, file.size)
     } else {
-      setToast({ message: result.error, type: 'error' })
+      setToast({ message: 'Upload failed. Please try again.', type: 'error' })
     }
   }
 

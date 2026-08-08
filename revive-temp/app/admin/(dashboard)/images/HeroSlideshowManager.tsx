@@ -10,18 +10,15 @@ import {
   reorderHeroSlides,
   updateHeroSettings,
 } from '@/lib/actions/admin/heroSlideshowActions'
-import { uploadImage } from '@/lib/actions/admin/uploadActions'
+import { uploadFileToStorage } from '@/lib/upload/client'
 
 const MAX_SLIDES = 10
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
 
-// ── Upload helper — calls uploadImage directly (no extra DB round-trip) ─────
-async function uploadSlideImage(file: File): Promise<string | null> {
-  const fd = new FormData()
-  fd.append('file', file)
-  const res = await uploadImage(fd, 'revive-gallery', 'hero-slides')
-  if (res.success) return res.url
-  return null
+// ── Upload helper — calls /api/admin/upload via fetch ───────────────────────
+async function uploadSlideImage(file: File, folder: string): Promise<string | null> {
+  const result = await uploadFileToStorage(file, 'revive-gallery', folder)
+  return result?.url ?? null
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -78,7 +75,7 @@ function SlideCard({
 
     setUploadingDevice(device)
     try {
-      const url = await uploadSlideImage(file)
+      const url = await uploadSlideImage(file, 'hero-slides')
       if (!url) {
         onToast('Upload failed. Try again.', false)
         setUploadingDevice(null)
@@ -373,7 +370,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
     setAddingSlide(true)
     e.target.value = ''
 
-    const url = await uploadSlideImage(file)
+    const url = await uploadSlideImage(file, 'hero-slides')
     if (!url) {
       showToast('Upload failed. Check the file and try again.', false)
       setAddingSlide(false)
