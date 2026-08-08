@@ -8,9 +8,7 @@ import { HomeProgramsPreview } from '@/components/sections/home/HomeProgramsPrev
 import { HomeTrainersPreview } from '@/components/sections/home/HomeTrainersPreview'
 import { HomeReviews } from '@/components/sections/home/HomeReviews'
 import { HomeCTA } from '@/components/sections/home/HomeCTA'
-import { getFeaturedPrograms } from '@/lib/data/content'
-import { getFeaturedTrainers } from '@/lib/data/content'
-import { getFeaturedReviews } from '@/lib/data/content'
+import { getFeaturedPrograms, getFeaturedTrainers, getFeaturedReviews, getBusinessSettings } from '@/lib/data/content'
 
 export const metadata: Metadata = {
   title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
@@ -21,31 +19,28 @@ export const metadata: Metadata = {
   },
 }
 
-// Revalidate every 60 seconds — ISR keeps homepage fast without stale content
 export const revalidate = 60
 
 export default async function HomePage() {
-  // Server-side parallel fetches — all public, all typed
-  const [programs, trainers, reviews] = await Promise.all([
+  const [programs, trainers, reviews, settings] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
     getFeaturedReviews(3),
+    getBusinessSettings(),
   ])
 
   return (
     <>
       <Header />
       <main>
-        <HomeHero />
+        <HomeHero whatsappNumber={settings?.whatsapp_number ?? null} />
         <HomePhilosophy />
         <HomeStats />
-        {/* Programs section — shows only if active data exists in DB */}
         <HomeProgramsPreview programs={programs} />
-        {/* Trainers section — shows only if active data exists in DB */}
         <HomeTrainersPreview trainers={trainers} />
-        {/* Reviews section — shows only if published reviews exist */}
         <HomeReviews reviews={reviews} />
-        <HomeCTA />
+        {/* WhatsApp number from Supabase — never hardcoded */}
+        <HomeCTA whatsappNumber={settings?.whatsapp_number ?? null} />
       </main>
       <Footer />
     </>

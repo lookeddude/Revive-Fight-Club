@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Revive Fight Club
+
+Professional marketing and lead generation website for Revive Fight Club, Bengaluru.
+
+Built with Next.js 15, Supabase, and TypeScript.
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router, Server Components)
+- **Database**: Supabase (PostgreSQL)
+- **Auth**: Supabase Auth
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript
+- **Deployment**: Vercel (recommended)
+
+## Features
+
+### Public Website
+- Homepage with programs preview, trainer showcase, reviews
+- Programs listing
+- Trainer profiles
+- Class schedule
+- Membership plans
+- Gallery
+- Contact page
+- Book a Trial form
+- WhatsApp, phone, and directions CTAs
+
+### Admin Dashboard (`/admin`)
+- Authentication with role-based access (admin / manager)
+- Trial request management with status workflow
+- Contact enquiry management
+- Full CMS: Programs, Trainers, Schedule, Memberships, Reviews, FAQs, Facilities, Gallery
+- Business settings management
+- Image upload to Supabase Storage
 
 ## Getting Started
 
-First, run the development server:
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for full setup and deployment instructions.
+
+### Quick Start (Local Development)
 
 ```bash
+# Clone the repository
+git clone https://github.com/kuku9570/Revive-Fight-Club.git
+cd Revive-Fight-Club
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the public site.
+Open [http://localhost:3000/admin](http://localhost:3000/admin) to access the admin panel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [ADMIN.md](./ADMIN.md) for admin user creation and management instructions.
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+The database schema is in `supabase/migrations/`. See [SUPABASE.md](./SUPABASE.md) for database documentation.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anonymous/public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes (server) | Service role key — server only, never expose |
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Private — All rights reserved. Revive Fight Club.

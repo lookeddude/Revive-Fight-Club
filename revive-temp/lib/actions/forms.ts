@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
 export type TrialRequestInput = {
   name: string
   phone: string
-  email: string
+  email?: string | null
   program_id?: string | null
   preferred_date?: string | null
   preferred_time?: string | null
@@ -28,7 +28,8 @@ export async function submitTrialRequest(
     const { data, error } = await supabase.rpc('submit_trial_request', {
       p_name: input.name,
       p_phone: input.phone,
-      p_email: input.email,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      p_email: (input.email && input.email.trim() !== '' ? input.email.trim() : null) as any,
       p_program_id: input.program_id ?? undefined,
       p_preferred_date: input.preferred_date ?? undefined,
       p_preferred_time: input.preferred_time ?? undefined,

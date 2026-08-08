@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/schedule', label: 'Schedule' },
   { href: '/membership', label: 'Membership' },
   { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export function Header() {
@@ -27,6 +28,7 @@ export function Header() {
 
   // Close mobile nav on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileOpen(false)
   }, [pathname])
 

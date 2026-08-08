@@ -524,6 +524,63 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          id: string
+          full_name: string | null
+          role: string
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          full_name?: string | null
+          role?: string
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string | null
+          role?: string
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      admin_audit_logs: {
+        Row: {
+          id: string
+          admin_user_id: string
+          action: string
+          entity_type: string
+          entity_id: string | null
+          metadata: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          admin_user_id: string
+          action: string
+          entity_type: string
+          entity_id?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          admin_user_id?: string
+          action?: string
+          entity_type?: string
+          entity_id?: string | null
+          metadata?: Json | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -602,3 +659,8 @@ export type ReviewSource = Enums<'review_source'>
 export type TrialRequestStatus = Enums<'trial_request_status'>
 export type ContactEnquiryStatus = Enums<'contact_enquiry_status'>
 export type GalleryCategory = Enums<'gallery_category'>
+
+// Admin domain types
+export type AdminProfile = Tables<'profiles'>
+export type AdminAuditLog = Tables<'admin_audit_logs'>
+export type AdminRole = 'admin' | 'manager'
