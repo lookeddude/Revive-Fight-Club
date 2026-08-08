@@ -121,20 +121,20 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-[family-name:var(--font-outfit)] text-2xl font-bold text-[#e2e3e1] tracking-tighter hover:opacity-80 transition-opacity active:scale-95"
+            className="font-[family-name:var(--font-outfit)] text-xl font-black text-[#f0ede8] tracking-tight hover:opacity-80 transition-opacity active:scale-95 whitespace-nowrap shrink-0"
           >
             REVIVE FIGHT CLUB
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6 ml-10" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center gap-4 ml-8" aria-label="Main navigation">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase transition-colors duration-200 ${
+                  className={`font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 ${
                     isActive
                       ? 'text-[#ffb59e] border-b border-[#ffb59e] pb-1'
                       : 'text-[#f0ede8] hover:text-[#ff571a]'
@@ -152,7 +152,7 @@ export function Header() {
             {/* Book Trial always visible */}
             <Link
               href="/book-trial"
-              className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 hover:bg-white transition-all duration-300 active:scale-95"
+              className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.08em] uppercase px-5 py-2.5 hover:bg-white transition-all duration-300 active:scale-95 whitespace-nowrap shrink-0"
             >
               BOOK A TRIAL
             </Link>
