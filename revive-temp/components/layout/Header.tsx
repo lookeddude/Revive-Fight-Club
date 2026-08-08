@@ -113,7 +113,7 @@ export function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-300 ${
-          scrolled ? 'bg-[#121413]/98 backdrop-blur-sm' : 'bg-[#121413]'
+          scrolled ? 'bg-[#0d0c0b]/98 backdrop-blur-sm' : 'bg-[#0d0c0b]'
         } border-b border-white/10`}
       >
         <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-5 md:px-16">
@@ -137,7 +137,7 @@ export function Header() {
                   className={`font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase transition-colors duration-200 ${
                     isActive
                       ? 'text-[#ffb59e] border-b border-[#ffb59e] pb-1'
-                      : 'text-[#e2e3e1] hover:text-[#ffb59e]'
+                      : 'text-[#f0ede8] hover:text-[#ff571a]'
                   }`}
                 >
                   {link.label}
@@ -240,7 +240,7 @@ export function Header() {
               /* Not logged in */
               <Link
                 href="/login"
-                className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#e2e3e1] hover:text-[#ffb59e] transition-colors px-3 py-3"
+                className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors px-3 py-3"
               >
                 LOGIN
               </Link>
@@ -250,7 +250,7 @@ export function Header() {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden text-[#e2e3e1] hover:text-[#ffb59e] transition-colors p-2"
+            className="md:hidden text-[#f0ede8] hover:text-[#ff571a] transition-colors p-2"
             aria-label="Open navigation menu"
             aria-expanded={mobileOpen}
           >
