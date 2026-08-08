@@ -15,6 +15,7 @@ import {
   getBusinessSettings,
 } from '@/lib/data/content'
 import { getActiveHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
+import { getFirstProgramSlides } from '@/lib/data/programSlides'
 
 export const metadata: Metadata = {
   title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
@@ -37,6 +38,9 @@ export default async function HomePage() {
     getHeroSettings(),
   ])
 
+  // Fetch first slide image per program (overrides image_path on cards)
+  const slideImages = await getFirstProgramSlides(programs.map(p => p.id))
+
   return (
     <>
       <Header />
@@ -48,7 +52,7 @@ export default async function HomePage() {
         />
         <HomeStats />
         <HomePhilosophy />
-        <HomeProgramsPreview programs={programs} />
+        <HomeProgramsPreview programs={programs} slideImages={slideImages} />
         <HomeTrainersPreview trainers={trainers} />
         <HomeReviews reviews={reviews} />
         <HomeCTA whatsappNumber={settings?.whatsapp_number ?? null} />

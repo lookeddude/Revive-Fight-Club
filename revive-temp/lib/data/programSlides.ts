@@ -48,3 +48,30 @@ export async function getProgramSlides(programId: string): Promise<ProgramSlide[
     .order('sort_order')
   return (data ?? []) as ProgramSlide[]
 }
+
+/**
+ * Fetch the FIRST active slide URL for each program.
+ * Returns a map of programId → imageUrl.
+ * Used by homepage and programs list to show the uploaded slide as featured image.
+ */
+export async function getFirstProgramSlides(
+  programIds: string[]
+): Promise<Record<string, string>> {
+  if (programIds.length === 0) return {}
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('program_slides')
+    .select('program_id, image_url, sort_order')
+    .in('program_id', programIds)
+    .eq('is_active', true)
+    .order('sort_order')
+
+  const result: Record<string, string> = {}
+  ;(data ?? []).forEach(row => {
+    // Only keep the first (lowest sort_order) slide per program
+    if (!result[row.program_id]) {
+      result[row.program_id] = row.image_url
+    }
+  })
+  return result
+}

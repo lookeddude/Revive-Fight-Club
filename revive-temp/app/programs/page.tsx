@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { getActivePrograms, getBusinessSettings } from '@/lib/data/content'
 import { getSlotImages } from '@/lib/data/images'
+import { getFirstProgramSlides } from '@/lib/data/programSlides'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 
 export const metadata: Metadata = {
@@ -21,14 +22,15 @@ export default async function ProgramsPage() {
     getBusinessSettings(),
   ])
 
-  // Fetch slot images for all active programs in one DB query
   const slotKeys = programs.map(p => `program.${p.slug}`)
-  const slotImages = slotKeys.length > 0 ? await getSlotImages(slotKeys) : {}
+  const [slotImages, slideImages] = await Promise.all([
+    slotKeys.length > 0 ? getSlotImages(slotKeys) : Promise.resolve({} as Record<string, string | null>),
+    getFirstProgramSlides(programs.map(p => p.id)),
+  ])
 
-  // Resolve final image for each program: slot → DB image_path → null
-  const getImage = (slug: string, imagePath: string | null): string | null => {
-    return slotImages[`program.${slug}`] ?? imagePath ?? null
-  }
+  // Priority: uploaded program slide → slot image → image_path → null
+  const getImage = (slug: string, id: string, imagePath: string | null): string | null =>
+    slideImages[id] ?? slotImages[`program.${slug}`] ?? imagePath ?? null
 
   return (
     <>
@@ -55,7 +57,7 @@ export default async function ProgramsPage() {
             {programs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {programs.map((program) => {
-                  const img = getImage(program.slug, program.image_path)
+                  const img = getImage(program.slug, program.id, program.image_path)
                   return (
                     <div key={program.id} className="group flex flex-col">
                       <div className="relative overflow-hidden aspect-[4/3] bg-[#1a1c1b] mb-6">

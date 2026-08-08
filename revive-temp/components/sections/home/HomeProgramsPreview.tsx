@@ -10,16 +10,19 @@ const FALLBACK_IMAGES: Record<string, string> = {
   default: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=800&q=85&fit=crop',
 }
 
-function getImage(program: ProgramCard): string {
+function getImage(program: ProgramCard, slideImages: Record<string, string>): string {
+  // Priority: uploaded slide → program image_path → Unsplash fallback
+  if (slideImages[program.id]) return slideImages[program.id]
   if (program.image_path) return program.image_path
   return FALLBACK_IMAGES[program.slug] ?? FALLBACK_IMAGES.default
 }
 
 interface HomeProgramsPreviewProps {
   programs: ProgramCard[]
+  slideImages: Record<string, string>
 }
 
-export function HomeProgramsPreview({ programs }: HomeProgramsPreviewProps) {
+export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPreviewProps) {
   if (programs.length === 0) return null
 
   return (
@@ -77,7 +80,7 @@ export function HomeProgramsPreview({ programs }: HomeProgramsPreviewProps) {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <div
                   className="w-full h-full bg-cover bg-center opacity-65 group-hover:opacity-85 group-hover:scale-108 transition-all duration-700"
-                  style={{ backgroundImage: `url('${getImage(program)}')` }}
+                  style={{ backgroundImage: `url('${getImage(program, slideImages)}')` }}
                   role="img"
                   aria-label={program.name}
                 />
