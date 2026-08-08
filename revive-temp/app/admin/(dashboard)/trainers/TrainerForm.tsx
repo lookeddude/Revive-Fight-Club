@@ -65,7 +65,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     const input = {
       name: name.trim(), slug: slug.trim(), role: role.trim(),
       short_bio: shortBio.trim() || null, bio: bio.trim() || null,
-      specialties: specialties ? specialties.split(',').map(s => s.trim()).filter(Boolean) : null,
+      specialties: specialties ? specialties.split(',').map((s: string) => s.trim()).filter(Boolean) : null,
       years_experience: yearsExp ? parseInt(yearsExp) : null,
       profile_image_path: imagePath || null,
       is_active: isActive, is_featured: isFeatured,

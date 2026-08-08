@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ProgramSlideshow } from '@/components/ui/ProgramSlideshow'
 import { getProgramBySlug, getBusinessSettings } from '@/lib/data/content'
+import { getSlotImages } from '@/lib/data/images'
 
 export const revalidate = 300
 
@@ -33,18 +34,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [program, settings] = await Promise.all([
+  const [program, settings, slotImages] = await Promise.all([
     getProgramBySlug(slug),
     getBusinessSettings(),
+    getSlotImages([`program.${slug}`]),
   ])
 
   if (!program) notFound()
 
-  // Build slideshow images — gallery first, then main image, then fallback
+  // Image priority: slot → program gallery → program image_path → Unsplash fallback
+  const slotImage = slotImages[`program.${slug}`]
   const galleryImages: string[] = (program as any).gallery_images ?? []
-  const mainImage = program.image_path || FALLBACK_IMAGES[slug] || FALLBACK_IMAGES.default
+  const mainImage = slotImage ?? program.image_path ?? FALLBACK_IMAGES[slug] ?? FALLBACK_IMAGES.default
   const allImages = galleryImages.length > 0
-    ? galleryImages
+    ? (slotImage ? [slotImage, ...galleryImages] : galleryImages)
     : [mainImage]
 
   const levelLabel = program.level?.replace('_', ' ') ?? 'All Levels'

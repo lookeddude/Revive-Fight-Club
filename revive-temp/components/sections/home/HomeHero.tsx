@@ -4,10 +4,14 @@ import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 
 interface HomeHeroProps {
   whatsappNumber?: string | null
+  heroImage?: string | null
 }
 
-export function HomeHero({ whatsappNumber }: HomeHeroProps) {
+const DEFAULT_HERO = 'https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png'
+
+export function HomeHero({ whatsappNumber, heroImage }: HomeHeroProps) {
   const whatsappUrl = buildWhatsAppUrl(whatsappNumber ?? null, WHATSAPP_MESSAGES.general)
+  const bgImage = heroImage ?? DEFAULT_HERO
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -16,7 +20,7 @@ export function HomeHero({ whatsappNumber }: HomeHeroProps) {
       <div className="absolute inset-0 z-0">
         {/* next/image with priority — loads instantly, auto WebP/AVIF */}
         <Image
-          src="https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png"
+          src={bgImage}
           alt="Revive Fight Club athletes training"
           fill
           priority

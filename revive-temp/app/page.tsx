@@ -14,6 +14,7 @@ import {
   getFeaturedReviews,
   getBusinessSettings,
 } from '@/lib/data/content'
+import { getSlotImages } from '@/lib/data/images'
 
 export const metadata: Metadata = {
   title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
@@ -28,19 +29,22 @@ export const metadata: Metadata = {
 export const revalidate = 300
 
 export default async function HomePage() {
-  // All 4 queries run in parallel — single round trip to Supabase
-  const [programs, trainers, reviews, settings] = await Promise.all([
+  const [programs, trainers, reviews, settings, slotImages] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
     getFeaturedReviews(3),
     getBusinessSettings(),
+    getSlotImages(['home.hero']),
   ])
 
   return (
     <>
       <Header />
       <main>
-        <HomeHero whatsappNumber={settings?.whatsapp_number ?? null} />
+        <HomeHero
+          whatsappNumber={settings?.whatsapp_number ?? null}
+          heroImage={slotImages['home.hero']}
+        />
         <HomeStats />
         <HomePhilosophy />
         <HomeProgramsPreview programs={programs} />

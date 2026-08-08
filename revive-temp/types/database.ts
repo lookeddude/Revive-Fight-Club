@@ -7,8 +7,43 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.15"
+  }
   public: {
     Tables: {
+      admin_audit_logs: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          metadata: Json | null
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
       business_settings: {
         Row: {
           address: string | null
@@ -81,7 +116,7 @@ export type Database = {
           message: string
           name: string
           phone: string | null
-          status: Database['public']['Enums']['contact_enquiry_status']
+          status: Database["public"]["Enums"]["contact_enquiry_status"]
           subject: string
           updated_at: string
         }
@@ -93,7 +128,7 @@ export type Database = {
           message: string
           name: string
           phone?: string | null
-          status?: Database['public']['Enums']['contact_enquiry_status']
+          status?: Database["public"]["Enums"]["contact_enquiry_status"]
           subject: string
           updated_at?: string
         }
@@ -105,7 +140,7 @@ export type Database = {
           message?: string
           name?: string
           phone?: string | null
-          status?: Database['public']['Enums']['contact_enquiry_status']
+          status?: Database["public"]["Enums"]["contact_enquiry_status"]
           subject?: string
           updated_at?: string
         }
@@ -185,7 +220,7 @@ export type Database = {
       }
       gallery_items: {
         Row: {
-          category: Database['public']['Enums']['gallery_category']
+          category: Database["public"]["Enums"]["gallery_category"]
           created_at: string
           description: string | null
           id: string
@@ -197,7 +232,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          category?: Database['public']['Enums']['gallery_category']
+          category?: Database["public"]["Enums"]["gallery_category"]
           created_at?: string
           description?: string | null
           id?: string
@@ -209,7 +244,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          category?: Database['public']['Enums']['gallery_category']
+          category?: Database["public"]["Enums"]["gallery_category"]
           created_at?: string
           description?: string | null
           id?: string
@@ -222,9 +257,146 @@ export type Database = {
         }
         Relationships: []
       }
+      image_assignment_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          id: string
+          media_id: string | null
+          new_url: string | null
+          previous_url: string | null
+          slot_id: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          media_id?: string | null
+          new_url?: string | null
+          previous_url?: string | null
+          slot_id: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          media_id?: string | null
+          new_url?: string | null
+          previous_url?: string | null
+          slot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "image_assignment_history_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "image_assignment_history_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "image_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      image_slots: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          current_media_id: string | null
+          current_url: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          section: string
+          slot_key: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          current_media_id?: string | null
+          current_url?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          section: string
+          slot_key: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          current_media_id?: string | null
+          current_url?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          section?: string
+          slot_key?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "image_slots_current_media_id_fkey"
+            columns: ["current_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media_assets: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          created_by: string | null
+          file_name: string
+          file_size: number | null
+          id: string
+          mime_type: string | null
+          public_url: string
+          storage_bucket: string
+          storage_path: string
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          created_by?: string | null
+          file_name: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          public_url: string
+          storage_bucket?: string
+          storage_path: string
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          created_by?: string | null
+          file_name?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          public_url?: string
+          storage_bucket?: string
+          storage_path?: string
+        }
+        Relationships: []
+      }
       membership_plans: {
         Row: {
-          billing_period: Database['public']['Enums']['billing_period']
+          billing_period: Database["public"]["Enums"]["billing_period"]
           created_at: string
           description: string | null
           features: string[] | null
@@ -238,7 +410,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          billing_period?: Database['public']['Enums']['billing_period']
+          billing_period?: Database["public"]["Enums"]["billing_period"]
           created_at?: string
           description?: string | null
           features?: string[] | null
@@ -252,7 +424,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          billing_period?: Database['public']['Enums']['billing_period']
+          billing_period?: Database["public"]["Enums"]["billing_period"]
           created_at?: string
           description?: string | null
           features?: string[] | null
@@ -267,17 +439,45 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          is_active: boolean
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          is_active?: boolean
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          is_active?: boolean
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       programs: {
         Row: {
           category: string | null
           created_at: string
           description: string | null
           duration_minutes: number | null
+          gallery_images: string[] | null
           id: string
           image_path: string | null
           is_active: boolean
           is_featured: boolean
-          level: Database['public']['Enums']['program_level']
+          level: Database["public"]["Enums"]["program_level"]
           name: string
           short_description: string | null
           slug: string
@@ -289,11 +489,12 @@ export type Database = {
           created_at?: string
           description?: string | null
           duration_minutes?: number | null
+          gallery_images?: string[] | null
           id?: string
           image_path?: string | null
           is_active?: boolean
           is_featured?: boolean
-          level?: Database['public']['Enums']['program_level']
+          level?: Database["public"]["Enums"]["program_level"]
           name: string
           short_description?: string | null
           slug: string
@@ -305,11 +506,12 @@ export type Database = {
           created_at?: string
           description?: string | null
           duration_minutes?: number | null
+          gallery_images?: string[] | null
           id?: string
           image_path?: string | null
           is_active?: boolean
           is_featured?: boolean
-          level?: Database['public']['Enums']['program_level']
+          level?: Database["public"]["Enums"]["program_level"]
           name?: string
           short_description?: string | null
           slug?: string
@@ -330,7 +532,7 @@ export type Database = {
           reviewer_name: string
           reviewer_role: string | null
           sort_order: number
-          source: Database['public']['Enums']['review_source']
+          source: Database["public"]["Enums"]["review_source"]
           updated_at: string
         }
         Insert: {
@@ -344,7 +546,7 @@ export type Database = {
           reviewer_name: string
           reviewer_role?: string | null
           sort_order?: number
-          source?: Database['public']['Enums']['review_source']
+          source?: Database["public"]["Enums"]["review_source"]
           updated_at?: string
         }
         Update: {
@@ -358,7 +560,7 @@ export type Database = {
           reviewer_name?: string
           reviewer_role?: string | null
           sort_order?: number
-          source?: Database['public']['Enums']['review_source']
+          source?: Database["public"]["Enums"]["review_source"]
           updated_at?: string
         }
         Relationships: []
@@ -370,7 +572,7 @@ export type Database = {
           end_time: string
           id: string
           is_active: boolean
-          level: Database['public']['Enums']['program_level'] | null
+          level: Database["public"]["Enums"]["program_level"] | null
           location: string | null
           program_id: string
           start_time: string
@@ -383,7 +585,7 @@ export type Database = {
           end_time: string
           id?: string
           is_active?: boolean
-          level?: Database['public']['Enums']['program_level'] | null
+          level?: Database["public"]["Enums"]["program_level"] | null
           location?: string | null
           program_id: string
           start_time: string
@@ -396,7 +598,7 @@ export type Database = {
           end_time?: string
           id?: string
           is_active?: boolean
-          level?: Database['public']['Enums']['program_level'] | null
+          level?: Database["public"]["Enums"]["program_level"] | null
           location?: string | null
           program_id?: string
           start_time?: string
@@ -405,18 +607,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'schedule_items_program_id_fkey'
-            columns: ['program_id']
+            foreignKeyName: "schedule_items_program_id_fkey"
+            columns: ["program_id"]
             isOneToOne: false
-            referencedRelation: 'programs'
-            referencedColumns: ['id']
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'schedule_items_trainer_id_fkey'
-            columns: ['trainer_id']
+            foreignKeyName: "schedule_items_trainer_id_fkey"
+            columns: ["trainer_id"]
             isOneToOne: false
-            referencedRelation: 'trainers'
-            referencedColumns: ['id']
+            referencedRelation: "trainers"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -483,7 +685,7 @@ export type Database = {
           preferred_date: string | null
           preferred_time: string | null
           program_id: string | null
-          status: Database['public']['Enums']['trial_request_status']
+          status: Database["public"]["Enums"]["trial_request_status"]
           updated_at: string
         }
         Insert: {
@@ -497,7 +699,7 @@ export type Database = {
           preferred_date?: string | null
           preferred_time?: string | null
           program_id?: string | null
-          status?: Database['public']['Enums']['trial_request_status']
+          status?: Database["public"]["Enums"]["trial_request_status"]
           updated_at?: string
         }
         Update: {
@@ -511,81 +713,25 @@ export type Database = {
           preferred_date?: string | null
           preferred_time?: string | null
           program_id?: string | null
-          status?: Database['public']['Enums']['trial_request_status']
+          status?: Database["public"]["Enums"]["trial_request_status"]
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'trial_requests_program_id_fkey'
-            columns: ['program_id']
+            foreignKeyName: "trial_requests_program_id_fkey"
+            columns: ["program_id"]
             isOneToOne: false
-            referencedRelation: 'programs'
-            referencedColumns: ['id']
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
           },
         ]
-      }
-      profiles: {
-        Row: {
-          id: string
-          full_name: string | null
-          role: string
-          is_active: boolean
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id: string
-          full_name?: string | null
-          role?: string
-          is_active?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          full_name?: string | null
-          role?: string
-          is_active?: boolean
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      admin_audit_logs: {
-        Row: {
-          id: string
-          admin_user_id: string
-          action: string
-          entity_type: string
-          entity_id: string | null
-          metadata: Json | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          admin_user_id: string
-          action: string
-          entity_type: string
-          entity_id?: string | null
-          metadata?: Json | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          admin_user_id?: string
-          action?: string
-          entity_type?: string
-          entity_id?: string | null
-          metadata?: Json | null
-          created_at?: string
-        }
-        Relationships: []
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      get_my_role: { Args: never; Returns: string }
       submit_contact_enquiry: {
         Args: {
           p_email: string
@@ -598,7 +744,7 @@ export type Database = {
       }
       submit_trial_request: {
         Args: {
-          p_email: string
+          p_email?: string
           p_message?: string
           p_name: string
           p_phone: string
@@ -610,18 +756,18 @@ export type Database = {
       }
     }
     Enums: {
-      billing_period: 'monthly' | 'quarterly' | 'annually'
-      contact_enquiry_status: 'new' | 'contacted' | 'resolved' | 'spam'
-      gallery_category: 'training' | 'gym' | 'coaches' | 'community' | 'events'
-      program_level: 'beginner' | 'intermediate' | 'advanced' | 'all_levels'
-      review_source: 'google' | 'facebook' | 'internal' | 'other'
+      billing_period: "monthly" | "quarterly" | "annually"
+      contact_enquiry_status: "new" | "contacted" | "resolved" | "spam"
+      gallery_category: "training" | "gym" | "coaches" | "community" | "events"
+      program_level: "beginner" | "intermediate" | "advanced" | "all_levels"
+      review_source: "google" | "facebook" | "internal" | "other"
       trial_request_status:
-        | 'pending'
-        | 'contacted'
-        | 'confirmed'
-        | 'completed'
-        | 'cancelled'
-        | 'no_show'
+        | "pending"
+        | "contacted"
+        | "confirmed"
+        | "completed"
+        | "cancelled"
+        | "no_show"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -629,38 +775,162 @@ export type Database = {
   }
 }
 
-// Convenience type aliases
-export type Tables<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T]['Row']
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-export type TablesInsert<T extends keyof Database['public']['Tables']> =
-  Database['public']['Tables'][T]['Insert']
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
-export type Enums<T extends keyof Database['public']['Enums']> =
-  Database['public']['Enums'][T]
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
 
-// Domain types
-export type Program = Tables<'programs'>
-export type Trainer = Tables<'trainers'>
-export type Facility = Tables<'facilities'>
-export type MembershipPlan = Tables<'membership_plans'>
-export type ScheduleItem = Tables<'schedule_items'>
-export type GalleryItem = Tables<'gallery_items'>
-export type Review = Tables<'reviews'>
-export type FAQ = Tables<'faqs'>
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      billing_period: ["monthly", "quarterly", "annually"],
+      contact_enquiry_status: ["new", "contacted", "resolved", "spam"],
+      gallery_category: ["training", "gym", "coaches", "community", "events"],
+      program_level: ["beginner", "intermediate", "advanced", "all_levels"],
+      review_source: ["google", "facebook", "internal", "other"],
+      trial_request_status: [
+        "pending",
+        "contacted",
+        "confirmed",
+        "completed",
+        "cancelled",
+        "no_show",
+      ],
+    },
+  },
+} as const
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Convenience type aliases — re-exported for use throughout the codebase
+// ─────────────────────────────────────────────────────────────────────────────
+export type GalleryItem     = Tables<'gallery_items'>
+export type GalleryCategory = Database['public']['Enums']['gallery_category']
+export type Program         = Tables<'programs'>
+export type ProgramLevel    = Database['public']['Enums']['program_level']
+export type Trainer         = Tables<'trainers'>
 export type BusinessSettings = Tables<'business_settings'>
-export type TrialRequest = Tables<'trial_requests'>
-export type ContactEnquiry = Tables<'contact_enquiries'>
-
-// Enum types
-export type ProgramLevel = Enums<'program_level'>
-export type BillingPeriod = Enums<'billing_period'>
-export type ReviewSource = Enums<'review_source'>
-export type TrialRequestStatus = Enums<'trial_request_status'>
-export type ContactEnquiryStatus = Enums<'contact_enquiry_status'>
-export type GalleryCategory = Enums<'gallery_category'>
-
-// Admin domain types
-export type AdminProfile = Tables<'profiles'>
-export type AdminAuditLog = Tables<'admin_audit_logs'>
-export type AdminRole = 'admin' | 'manager'
+export type MembershipPlan  = Tables<'membership_plans'>
+export type TrialRequest    = Tables<'trial_requests'>
+export type TrialRequestStatus = Database['public']['Enums']['trial_request_status']
+export type ContactEnquiry  = Tables<'contact_enquiries'>
+export type ContactEnquiryStatus = Database['public']['Enums']['contact_enquiry_status']
+export type Review          = Tables<'reviews'>
+export type FAQ             = Tables<'faqs'>
+export type Facility        = Tables<'facilities'>
+export type ScheduleItem    = Tables<'schedule_items'>
+export type Profile         = Tables<'profiles'>
+export type ImageSlot       = Tables<'image_slots'>
+export type MediaAsset      = Tables<'media_assets'>
+export type ImageAssignmentHistory = Tables<'image_assignment_history'>

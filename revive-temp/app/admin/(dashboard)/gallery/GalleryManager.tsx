@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createGalleryItem, deleteGalleryItem } from '@/lib/actions/admin/contentActions'
 import { uploadImage } from '@/lib/actions/admin/uploadActions'
+import { registerGalleryImageInMediaLibrary } from '@/lib/actions/admin/imageActions'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { Toast } from '@/components/admin/Toast'
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog'
@@ -34,8 +35,15 @@ export function GalleryManager({ items }: { items: GalleryItem[] }) {
     const fd = new FormData(); fd.append('file', file)
     const result = await uploadImage(fd, 'revive-gallery', 'uploads')
     setUploading(false)
-    if (result.success) { setImagePath(result.path); setImagePreview(result.url); setToast({ message: 'Image uploaded.', type: 'success' }) }
-    else setToast({ message: result.error, type: 'error' })
+    if (result.success) {
+      setImagePath(result.path)
+      setImagePreview(result.url)
+      setToast({ message: 'Image uploaded & added to media library.', type: 'success' })
+      // Register in media_assets so it appears in Image Management picker
+      await registerGalleryImageInMediaLibrary(result.url, result.path, file.name, file.type, file.size)
+    } else {
+      setToast({ message: result.error, type: 'error' })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,9 +74,13 @@ export function GalleryManager({ items }: { items: GalleryItem[] }) {
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <ConfirmDialog open={!!archiveTarget} title="Archive this image?" description="The image will be hidden from the public gallery." confirmLabel="Archive" destructive onConfirm={handleArchive} onCancel={() => setArchiveTarget(null)} />
 
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+          Images uploaded here are automatically added to the{' '}
+          <a href="/admin/images" className="text-[#ff571a] hover:underline">Image Management</a> media library.
+        </p>
         <button onClick={() => { if (showAdd) { setShowAdd(false); resetForm() } else setShowAdd(true) }}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors shrink-0">
           {showAdd ? 'Cancel' : '+ Upload Image'}
         </button>
       </div>

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { getActivePrograms, getBusinessSettings } from '@/lib/data/content'
+import { getSlotImages } from '@/lib/data/images'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 
 export const metadata: Metadata = {
@@ -13,18 +14,21 @@ export const metadata: Metadata = {
 
 export const revalidate = 300
 
-const FALLBACK_IMAGES: Record<string, string> = {
-  mma: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80&fit=crop',
-  'muay-thai': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&fit=crop',
-  bjj: 'https://images.unsplash.com/photo-1549476464-37392f717541?w=800&q=80&fit=crop',
-  default: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=800&q=80&fit=crop',
-}
 
 export default async function ProgramsPage() {
   const [programs, settings] = await Promise.all([
     getActivePrograms(),
     getBusinessSettings(),
   ])
+
+  // Fetch slot images for all active programs in one DB query
+  const slotKeys = programs.map(p => `program.${p.slug}`)
+  const slotImages = slotKeys.length > 0 ? await getSlotImages(slotKeys) : {}
+
+  // Resolve final image for each program: slot → DB image_path → null
+  const getImage = (slug: string, imagePath: string | null): string | null => {
+    return slotImages[`program.${slug}`] ?? imagePath ?? null
+  }
 
   return (
     <>
@@ -51,17 +55,23 @@ export default async function ProgramsPage() {
             {programs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {programs.map((program) => {
-                  const img = program.image_path || FALLBACK_IMAGES[program.slug] || FALLBACK_IMAGES.default
+                  const img = getImage(program.slug, program.image_path)
                   return (
                     <div key={program.id} className="group flex flex-col">
                       <div className="relative overflow-hidden aspect-[4/3] bg-[#1a1c1b] mb-6">
-                        <Image
-                          src={img}
-                          alt={program.name}
-                          fill
-                          className="object-cover image-hover-scale"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
+                        {img ? (
+                          <Image
+                            src={img}
+                            alt={program.name}
+                            fill
+                            className="object-cover image-hover-scale"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="font-[family-name:var(--font-inter)] text-xs text-[#3a3530] uppercase tracking-wider">No Image</span>
+                          </div>
+                        )}
                         {program.level && (
                           <span className="absolute top-4 left-4 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase px-3 py-1">
                             {program.level.replace('_', ' ')}

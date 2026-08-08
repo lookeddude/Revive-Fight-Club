@@ -80,6 +80,12 @@ const SettingsIcon = () => (
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
   </svg>
 )
+const ImageMgmtIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+    <circle cx="9" cy="9" r="1.5"/><polyline points="20 14 15 9 9 14"/>
+  </svg>
+)
 
 const NAV_SECTIONS: NavSection[] = [
   {
@@ -106,6 +112,7 @@ const NAV_SECTIONS: NavSection[] = [
       { label: 'FAQs', href: '/admin/faqs', icon: <FAQIcon /> },
       { label: 'Facilities', href: '/admin/facilities', icon: <FacilityIcon /> },
       { label: 'Gallery', href: '/admin/gallery', icon: <GalleryIcon /> },
+      { label: 'Image Management', href: '/admin/images', icon: <ImageMgmtIcon /> },
     ],
   },
   {
