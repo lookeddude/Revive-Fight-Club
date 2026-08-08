@@ -121,9 +121,20 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-[family-name:var(--font-outfit)] text-xl font-black text-[#f0ede8] tracking-tight hover:opacity-80 transition-opacity active:scale-95 whitespace-nowrap shrink-0"
+            className="flex items-center gap-2.5 group shrink-0 whitespace-nowrap active:scale-95 transition-transform"
+            aria-label="Revive Fight Club - Home"
           >
-            REVIVE FIGHT CLUB
+            {/* Orange slash accent */}
+            <div className="flex flex-col gap-[3px] shrink-0">
+              <div className="w-[3px] h-3 bg-[#ff571a]" style={{ transform: 'skewY(-20deg)' }} />
+              <div className="w-[3px] h-3 bg-[#ff571a]/40" style={{ transform: 'skewY(-20deg)' }} />
+            </div>
+            {/* Brand name */}
+            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(15px,1.5vw,20px)' }}>
+              <span className="text-[#f5f2ed] italic">REVIVE{' '}</span>
+              <span className="text-[#ff571a] italic">FIGHT{' '}</span>
+              <span style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(245,242,237,0.55)', fontStyle: 'normal' }}>CLUB</span>
+            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -149,11 +160,23 @@ export function Header() {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-3">
 
-            {/* Book Trial always visible */}
+            {/* Book Trial CTA — skewed parallelogram with glow */}
             <Link
               href="/book-trial"
-              className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.08em] uppercase px-5 py-2.5 hover:bg-white transition-all duration-300 active:scale-95 whitespace-nowrap shrink-0"
+              className="relative inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-[11px] font-black tracking-[0.14em] uppercase transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 group"
+              style={{
+                background: 'linear-gradient(135deg, #ff571a 0%, #d94418 100%)',
+                color: '#000',
+                padding: '10px 22px',
+                clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)',
+                boxShadow: '0 0 18px rgba(255,87,26,0.45), 0 0 36px rgba(255,87,26,0.2)',
+                animation: 'navGlow 2.5s ease-in-out infinite',
+              }}
             >
+              {/* Lightning bolt icon */}
+              <svg className="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
               BOOK A TRIAL
             </Link>
 
