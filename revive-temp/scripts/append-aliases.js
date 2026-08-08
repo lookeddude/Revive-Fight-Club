@@ -1,12 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const outputFile = 'C:/Users/rajni/.gemini/antigravity/brain/b1164f88-4c56-4763-80c5-07ac4dcb01af/.system_generated/steps/1378/output.txt';
 const destFile = path.join(__dirname, '..', 'types', 'database.ts');
-
-const raw = fs.readFileSync(outputFile, 'utf8');
-const parsed = JSON.parse(raw);
-
 const aliases = `
 // ─────────────────────────────────────────────────────────────────────────────
 // Convenience type aliases — re-exported for use throughout the codebase
@@ -34,5 +29,10 @@ export type HeroSlideRow    = Tables<'hero_slides'>
 export type HeroSettingsRow = Tables<'hero_settings'>
 `;
 
-fs.writeFileSync(destFile, parsed.types + aliases, 'utf8');
-console.log('database.ts updated —', (parsed.types + aliases).length, 'bytes written');
+let content = fs.readFileSync(destFile, 'utf8');
+if (!content.includes('export type GalleryItem')) {
+  fs.appendFileSync(destFile, aliases, 'utf8');
+  console.log('Aliases appended to database.ts');
+} else {
+  console.log('Aliases already present');
+}

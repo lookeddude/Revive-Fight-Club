@@ -257,6 +257,63 @@ export type Database = {
         }
         Relationships: []
       }
+      hero_settings: {
+        Row: {
+          id: number
+          interval_seconds: number
+          transition: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          interval_seconds?: number
+          transition?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          interval_seconds?: number
+          transition?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      hero_slides: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          desktop_url: string
+          id: string
+          is_active: boolean
+          mobile_url: string | null
+          sort_order: number
+          tablet_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          desktop_url: string
+          id?: string
+          is_active?: boolean
+          mobile_url?: string | null
+          sort_order?: number
+          tablet_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          desktop_url?: string
+          id?: string
+          is_active?: boolean
+          mobile_url?: string | null
+          sort_order?: number
+          tablet_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       image_assignment_history: {
         Row: {
           changed_at: string
@@ -934,3 +991,5 @@ export type Profile         = Tables<'profiles'>
 export type ImageSlot       = Tables<'image_slots'>
 export type MediaAsset      = Tables<'media_assets'>
 export type ImageAssignmentHistory = Tables<'image_assignment_history'>
+export type HeroSlideRow    = Tables<'hero_slides'>
+export type HeroSettingsRow = Tables<'hero_settings'>

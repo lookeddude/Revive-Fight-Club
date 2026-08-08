@@ -14,7 +14,7 @@ import {
   getFeaturedReviews,
   getBusinessSettings,
 } from '@/lib/data/content'
-import { getSlotImages } from '@/lib/data/images'
+import { getActiveHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
 
 export const metadata: Metadata = {
   title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
@@ -25,16 +25,16 @@ export const metadata: Metadata = {
   },
 }
 
-// ISR — page cached for 5 minutes on Vercel edge, then regenerated
 export const revalidate = 300
 
 export default async function HomePage() {
-  const [programs, trainers, reviews, settings, slotImages] = await Promise.all([
+  const [programs, trainers, reviews, settings, heroSlides, heroSettings] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
     getFeaturedReviews(3),
     getBusinessSettings(),
-    getSlotImages(['home.hero']),
+    getActiveHeroSlides(),
+    getHeroSettings(),
   ])
 
   return (
@@ -43,7 +43,8 @@ export default async function HomePage() {
       <main>
         <HomeHero
           whatsappNumber={settings?.whatsapp_number ?? null}
-          heroImage={slotImages['home.hero']}
+          slides={heroSlides}
+          settings={heroSettings}
         />
         <HomeStats />
         <HomePhilosophy />

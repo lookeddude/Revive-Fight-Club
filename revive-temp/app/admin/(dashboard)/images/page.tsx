@@ -1,18 +1,21 @@
 import type { Metadata } from 'next'
 import { getAllSlots, getMediaLibrary, getImageStats } from '@/lib/data/images'
+import { getHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
 import { ImageManagementClient } from './ImageManagementClient'
 
 export const metadata: Metadata = {
   title: 'Image Management | Revive Fight Club Admin',
 }
 
-export const revalidate = 0 // Always fresh in admin
+export const revalidate = 0
 
 export default async function AdminImagesPage() {
-  const [slots, { data: mediaAssets }, stats] = await Promise.all([
+  const [slots, { data: mediaAssets }, stats, heroSlides, heroSettings] = await Promise.all([
     getAllSlots(),
     getMediaLibrary(undefined, 1, 200),
     getImageStats(),
+    getHeroSlides(),
+    getHeroSettings(),
   ])
 
   return (
@@ -39,6 +42,8 @@ export default async function AdminImagesPage() {
         slots={slots}
         mediaAssets={mediaAssets}
         stats={stats}
+        heroSlides={heroSlides}
+        heroSettings={heroSettings}
       />
     </div>
   )
