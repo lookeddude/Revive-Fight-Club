@@ -15,7 +15,15 @@ export type ProgramWithSlides = {
   id: string
   name: string
   slug: string
+  category: string | null
+  level: string | null
+  short_description: string | null
+  description: string | null
+  duration_minutes: number | null
+  image_path: string | null
   is_active: boolean
+  is_featured: boolean
+  sort_order: number
   slides: ProgramSlide[]
 }
 
@@ -24,7 +32,7 @@ export async function getProgramsWithSlides(): Promise<ProgramWithSlides[]> {
   const supabase = await createClient()
 
   const [programsRes, slidesRes] = await Promise.all([
-    supabase.from('programs').select('id, name, slug, is_active').eq('is_active', true).order('name'),
+    supabase.from('programs').select('id, name, slug, category, level, short_description, description, duration_minutes, image_path, is_active, is_featured, sort_order').eq('is_active', true).order('name'),
     supabase.from('program_slides').select('*').order('sort_order'),
   ])
 

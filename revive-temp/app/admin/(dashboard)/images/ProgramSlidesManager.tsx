@@ -92,7 +92,7 @@ export function ProgramSlidesManager({ initialPrograms }: Props) {
       if (res.success) {
         setPrograms(prev => prev.map(p => p.id === editingProgram ? { ...p, ...payload } : p))
         showToast('Program updated!', true); setShowAddProgram(false)
-      } else { showToast(res.error, false) }
+      } else { showToast(!res.success ? res.error : 'Failed.', false) }
     } else {
       const res = await createProgram({ ...payload, is_featured: false, sort_order: programs.length })
       setSaving(false)
@@ -104,7 +104,7 @@ export function ProgramSlidesManager({ initialPrograms }: Props) {
         setPrograms(prev => [...prev, newP])
         setSelectedId(res.id)
         showToast('Program created!', true); setShowAddProgram(false)
-      } else { showToast(res.error, false) }
+      } else { showToast(!res.success ? res.error : 'Failed.', false) }
     }
   }
 
