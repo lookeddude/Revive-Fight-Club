@@ -43,23 +43,29 @@ export async function Footer() {
             >
               REVIVE FIGHT CLUB
             </Link>
-            {/* Dynamic address from Supabase */}
-            {settings?.address && (
-              <p className="text-[#c8c6c5] text-sm leading-relaxed mb-2 opacity-80">
-                {settings.address}
-              </p>
-            )}
-            {settings?.city && (
-              <p className="text-[#c8c6c5] text-sm leading-relaxed mb-2 opacity-80">
-                {settings.city}{settings.state ? `, ${settings.state}` : ''}
-              </p>
-            )}
-            {/* Fallback city if settings not populated */}
-            {!settings?.city && (
-              <p className="text-[#c8c6c5] text-sm leading-relaxed mb-2 opacity-80">
-                Frazer Town, Bengaluru
-              </p>
-            )}
+            {/* Google Maps button */}
+            <a
+              href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Revive Fight Club location in Google Maps"
+              className="group inline-flex items-start gap-2.5 mt-1 mb-3 hover:opacity-100 transition-all duration-200"
+              style={{ opacity: 0.75 }}
+            >
+              {/* Pin icon */}
+              <svg
+                className="w-4 h-4 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
+                fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"
+              >
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
+                3rd floor, 157, MM Road,<br />
+                above Indian Overseas Bank,<br />
+                Fraser Town, Bengaluru,<br />
+                Karnataka 560005
+              </span>
+            </a>
             {/* Dynamic phone */}
             {settings?.phone ? (
               <a
