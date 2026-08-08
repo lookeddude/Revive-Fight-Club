@@ -2,18 +2,21 @@ import type { Metadata } from 'next'
 import { Outfit, Inter } from 'next/font/google'
 import './globals.css'
 
+// Preload only needed weights — faster font load
 const outfit = Outfit({
   subsets: ['latin'],
-  weight: ['600', '700', '800'],
+  weight: ['700', '800', '900'],
   variable: '--font-outfit',
   display: 'swap',
+  preload: true,
 })
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-inter',
   display: 'swap',
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -28,6 +31,8 @@ export const metadata: Metadata = {
     'fight club Bengaluru',
     'Muay Thai Bengaluru',
     'BJJ Bengaluru',
+    'boxing Bengaluru',
+    'kickboxing Bengaluru',
     'fitness Frazer Town',
     'combat sports training',
   ],
@@ -57,8 +62,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable} dark`}>
-      <body className="bg-[#121413] text-[#e2e3e1] font-[family-name:var(--font-inter)] antialiased">
+    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
+      <head>
+        {/* Preconnect to Supabase for faster API + image loads */}
+        <link rel="preconnect" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
+        <link rel="dns-prefetch" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
+        {/* Preconnect to Google Fonts CDN */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-inter)] antialiased">
         {children}
       </body>
     </html>

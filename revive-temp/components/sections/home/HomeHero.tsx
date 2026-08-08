@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 
 interface HomeHeroProps {
@@ -13,14 +14,15 @@ export function HomeHero({ whatsappNumber }: HomeHeroProps) {
 
       {/* ── Background Photo ───────────────────────────────── */}
       <div className="absolute inset-0 z-0">
-        <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png')`,
-            backgroundPosition: 'center center',
-          }}
-          role="img"
-          aria-label="Revive Fight Club athletes training"
+        {/* next/image with priority — loads instantly, auto WebP/AVIF */}
+        <Image
+          src="https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png"
+          alt="Revive Fight Club athletes training"
+          fill
+          priority
+          quality={85}
+          sizes="100vw"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
         />
 
         {/* Strong left-to-right gradient — text on left, photo visible on right */}
