@@ -39,31 +39,18 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
-                Training Disciplines
-              </p>
-            </div>
-            <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,56px)]">
-              OUR<br />
-              <span className="text-[#ff571a]">PROGRAMS</span>
-            </h2>
+        {/* Section Header — title only */}
+        <div className="mb-14">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-px bg-[#ff571a]" />
+            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
+              Training Disciplines
+            </p>
           </div>
-          <Link
-            href="/programs"
-            className="group flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors self-start md:self-auto"
-          >
-            EXPLORE ALL
-            <span className="flex items-center justify-center w-8 h-8 border border-white/15 group-hover:border-[#ff571a] group-hover:bg-[#ff571a]/10 transition-all duration-300">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
+          <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,56px)]">
+            OUR<br />
+            <span className="text-[#ff571a]">PROGRAMS</span>
+          </h2>
         </div>
 
         {/* Programs Grid */}
@@ -121,6 +108,22 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
             </Link>
           ))}
         </div>
+
+        {/* Explore All — below the grid */}
+        <div className="flex justify-center mt-10">
+          <Link
+            href="/programs"
+            className="group flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors"
+          >
+            EXPLORE ALL PROGRAMS
+            <span className="flex items-center justify-center w-8 h-8 border border-white/15 group-hover:border-[#ff571a] group-hover:bg-[#ff571a]/10 transition-all duration-300">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </Link>
+        </div>
+
       </div>
     </section>
   )
