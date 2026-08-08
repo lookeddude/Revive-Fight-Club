@@ -20,6 +20,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [uploadingGallery, setUploadingGallery] = useState(false)
   const [showArchive, setShowArchive] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
@@ -35,6 +36,10 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
   const [isActive, setIsActive] = useState(program?.is_active ?? true)
   const [isFeatured, setIsFeatured] = useState(program?.is_featured ?? false)
   const [sortOrder, setSortOrder] = useState(String(program?.sort_order ?? 0))
+  // Gallery images — array of public URLs
+  const [galleryImages, setGalleryImages] = useState<string[]>(
+    (program as any)?.gallery_images ?? []
+  )
 
   const autoSlug = (name: string) =>
     name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -55,10 +60,52 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
     if (result.success) {
       setImagePath(result.path)
       setImagePreview(result.url)
-      setToast({ message: 'Image uploaded.', type: 'success' })
+      setToast({ message: 'Cover image uploaded.', type: 'success' })
     } else {
       setToast({ message: result.error, type: 'error' })
     }
+  }
+
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? [])
+    if (files.length === 0) return
+    setUploadingGallery(true)
+
+    const newUrls: string[] = []
+    for (const file of files) {
+      const formData = new FormData()
+      formData.append('file', file)
+      const result = await uploadImage(
+        formData,
+        'revive-programs',
+        `${program?.id ?? 'new'}-gallery-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      )
+      if (result.success) {
+        newUrls.push(result.url)
+      } else {
+        setToast({ message: `Failed to upload ${file.name}`, type: 'error' })
+      }
+    }
+
+    setGalleryImages(prev => [...prev, ...newUrls])
+    setUploadingGallery(false)
+    if (newUrls.length > 0) {
+      setToast({ message: `${newUrls.length} photo(s) added to gallery.`, type: 'success' })
+    }
+    // Reset input
+    e.target.value = ''
+  }
+
+  const removeGalleryImage = (url: string) => {
+    setGalleryImages(prev => prev.filter(u => u !== url))
+  }
+
+  const moveGalleryImage = (index: number, direction: 'up' | 'down') => {
+    const newArr = [...galleryImages]
+    const swap = direction === 'up' ? index - 1 : index + 1
+    if (swap < 0 || swap >= newArr.length) return
+    ;[newArr[index], newArr[swap]] = [newArr[swap], newArr[index]]
+    setGalleryImages(newArr)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,8 +122,9 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
       image_path: imagePath || null,
       is_active: isActive, is_featured: isFeatured,
       sort_order: parseInt(sortOrder) || 0,
+      gallery_images: galleryImages,
     }
-    const result = mode === 'create' ? await createProgram(input) : await updateProgram(program!.id, input)
+    const result = mode === 'create' ? await createProgram(input as any) : await updateProgram(program!.id, input as any)
     setSaving(false)
     if (result.success) {
       setToast({ message: result.message, type: 'success' })
@@ -111,6 +159,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
         onCancel={() => setShowArchive(false)}
       />
 
+      {/* Basic Info */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
         <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
 
@@ -132,7 +181,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
 
         <div>
           <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Full Description</label>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={4} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] resize-none" placeholder="Detailed program description" />
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] resize-none" placeholder="Detailed program description shown on the program detail page" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -153,9 +202,10 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
         </div>
       </div>
 
-      {/* Image */}
+      {/* Cover Image */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Image</h3>
+        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Cover Image</h3>
+        <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Main image shown on program cards and as the first slideshow photo.</p>
         {imagePreview && (
           <img src={imagePreview} alt="Preview" className="w-full max-w-xs h-40 object-cover border border-white/[0.08]" />
         )}
@@ -164,6 +214,102 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
           <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
           {uploading && <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Uploading…</span>}
         </label>
+      </div>
+
+      {/* Gallery Images — Slideshow */}
+      <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
+        <div>
+          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">
+            Photo Gallery — Slideshow
+          </h3>
+          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] mt-1">
+            Upload multiple photos. They will display as an auto-advancing slideshow on the program detail page. Drag to reorder.
+          </p>
+        </div>
+
+        {/* Upload multiple */}
+        <label className="flex flex-col gap-1.5">
+          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">
+            Select multiple photos (hold Ctrl/Cmd to select multiple)
+          </span>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleGalleryUpload}
+            disabled={uploadingGallery}
+            className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1e201f] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#282a29] file:transition-colors file:border file:border-white/10"
+          />
+          {uploadingGallery && (
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
+              <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading photos…</span>
+            </div>
+          )}
+        </label>
+
+        {/* Gallery grid preview */}
+        {galleryImages.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {galleryImages.map((url, i) => (
+              <div key={url} className="relative group border border-white/[0.08] overflow-hidden">
+                <img src={url} alt={`Gallery ${i + 1}`} className="w-full h-28 object-cover" />
+
+                {/* Order badge */}
+                <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-[#ff571a] flex items-center justify-center">
+                  <span className="text-black text-[10px] font-black">{i + 1}</span>
+                </div>
+
+                {/* Overlay controls */}
+                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5">
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => moveGalleryImage(i, 'up')}
+                      disabled={i === 0}
+                      className="w-7 h-7 bg-white/10 hover:bg-white/20 disabled:opacity-30 flex items-center justify-center transition-colors"
+                      title="Move left"
+                    >
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveGalleryImage(i, 'down')}
+                      disabled={i === galleryImages.length - 1}
+                      className="w-7 h-7 bg-white/10 hover:bg-white/20 disabled:opacity-30 flex items-center justify-center transition-colors"
+                      title="Move right"
+                    >
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeGalleryImage(url)}
+                    className="px-2 py-1 bg-red-500/80 hover:bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider transition-colors"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="border border-dashed border-white/10 p-8 text-center">
+            <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+              No gallery photos yet. Upload photos above to create a slideshow.
+            </p>
+          </div>
+        )}
+
+        {galleryImages.length > 0 && (
+          <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+            {galleryImages.length} photo{galleryImages.length !== 1 ? 's' : ''} · Hover a photo to reorder or remove · First photo shows first in slideshow
+          </p>
+        )}
       </div>
 
       {/* Settings */}
@@ -198,7 +344,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
           <Link href="/admin/programs" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">
             Cancel
           </Link>
-          <button type="submit" disabled={saving || uploading} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
+          <button type="submit" disabled={saving || uploading || uploadingGallery} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : mode === 'create' ? 'Create Program' : 'Save Changes'}
           </button>
         </div>

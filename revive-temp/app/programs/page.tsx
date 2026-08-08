@@ -81,12 +81,24 @@ export default async function ProgramsPage() {
                           {program.short_description}
                         </p>
                       )}
-                      <Link
-                        href={`/book-trial?program=${program.id}`}
-                        className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 hover:bg-white transition-all duration-300 active:scale-95 self-start"
-                      >
-                        BOOK TRIAL
-                      </Link>
+                      <div className="flex gap-3 flex-wrap">
+                        <Link
+                          href={`/book-trial?program=${program.id}`}
+                          className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 hover:bg-white transition-all duration-300 active:scale-95"
+                        >
+                          BOOK TRIAL
+                        </Link>
+                        <Link
+                          href={`/programs/${program.slug}`}
+                          className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 transition-all duration-300 hover:border-white/30 text-[#f0ede8]"
+                          style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
+                        >
+                          SEE MORE
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        </Link>
+                      </div>
                     </div>
                   )
                 })}
