@@ -127,7 +127,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center gap-6 ml-10" aria-label="Main navigation">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
