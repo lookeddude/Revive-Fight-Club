@@ -60,7 +60,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
               key={program.id}
               href={`/programs/${program.slug}`}
               className="group relative overflow-hidden flex flex-col justify-end border border-white/8 card-hover"
-              style={{ height: i === 0 ? '420px' : '360px' }}
+              style={{ height: '380px' }}
               aria-label={`View ${program.name} program`}
             >
               {/* Background Image — much more visible */}
