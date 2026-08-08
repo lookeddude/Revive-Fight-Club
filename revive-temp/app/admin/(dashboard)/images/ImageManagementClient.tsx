@@ -8,7 +8,7 @@ import { ImageSlotCard } from '@/components/admin/ImageSlotCard'
 import { HeroSlideshowManager } from './HeroSlideshowManager'
 import { ProgramSlidesManager } from './ProgramSlidesManager'
 
-const SECTIONS = ['Hero Slideshow', 'Program Slides', 'All', 'Home', 'Programs', 'Trainers', 'About', 'Gallery', 'Membership', 'Contact']
+const SECTIONS = ['Hero Slideshow', 'Program Slides', 'All', 'Trainers', 'About', 'Gallery', 'Membership', 'Contact']
 
 interface Props {
   slots: ImageSlot[]
@@ -30,6 +30,7 @@ export function ImageManagementClient({ slots, mediaAssets, stats, heroSlides, h
 
   const filtered = useMemo(() => {
     if (section === 'Hero Slideshow') return []
+    if (section === 'Program Slides') return []
     return slots.filter(slot => {
       const matchSection = section === 'All' || slot.section === section
       const matchSearch =
