@@ -130,7 +130,7 @@ export function Header() {
               <div className="w-[3px] h-3 bg-[#ff571a]/40" style={{ transform: 'skewY(-20deg)' }} />
             </div>
             {/* Brand name */}
-            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(13px,1.5vw,20px)' }}>
+            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(17px,1.8vw,24px)' }}>
               <span className="text-[#f5f2ed] italic">REVIVE{' '}</span>
               <span className="text-[#ff571a] italic">FIGHT{' '}</span>
               <span style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(245,242,237,0.55)', fontStyle: 'normal' }}>CLUB</span>
