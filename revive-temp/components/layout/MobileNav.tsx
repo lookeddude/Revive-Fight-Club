@@ -8,11 +8,11 @@ interface MobileNavProps {
   onClose: () => void
   navLinks: { href: string; label: string }[]
   currentPath: string
-  adminUser?: { name: string | null; email: string } | null
+  authUser?: { name: string | null; email: string; isAdmin: boolean } | null
   onLogout?: () => void
 }
 
-export function MobileNav({ isOpen, onClose, navLinks, currentPath, adminUser, onLogout }: MobileNavProps) {
+export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, onLogout }: MobileNavProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -22,12 +22,9 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, adminUser, o
     } else {
       document.body.style.overflow = ''
     }
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  // Escape key closes
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) onClose()
@@ -37,6 +34,11 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, adminUser, o
   }, [isOpen, onClose])
 
   if (!isOpen) return null
+
+  const getInitials = (name: string | null, email: string) => {
+    if (name) return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    return email[0].toUpperCase()
+  }
 
   return (
     <>
@@ -65,40 +67,36 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, adminUser, o
             className="text-[#e2e3e1] hover:text-[#ffb59e] transition-colors p-2"
             aria-label="Close navigation menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="square"
-                strokeLinejoin="miter"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Admin Badge — shown when admin is logged in */}
-        {adminUser && (
-          <div className="px-6 py-3 bg-[#ff571a]/10 border-b border-[#ff571a]/20 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse flex-shrink-0" />
+        {/* User info — shown when logged in */}
+        {authUser && (
+          <div className="px-6 py-4 border-b border-white/8 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#ff571a] flex items-center justify-center flex-shrink-0 relative">
+              <span className="font-[family-name:var(--font-inter)] text-xs font-bold text-black">
+                {getInitials(authUser.name, authUser.email)}
+              </span>
+              {authUser.isAdmin && (
+                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#22c55e] rounded-full border-2 border-[#0d0f0e]" />
+              )}
+            </div>
             <div className="min-w-0">
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.08em] uppercase text-[#ff571a]">
-                Admin Logged In
+              <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e2e3e1] truncate">
+                {authUser.name ?? 'My Account'}
               </p>
-              <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] truncate">
-                {adminUser.name ?? adminUser.email}
+              <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] truncate">
+                {authUser.email}
               </p>
             </div>
           </div>
         )}
 
         {/* Nav Links */}
-        <nav className="flex-1 flex flex-col px-6 py-8 gap-1 overflow-y-auto" aria-label="Mobile navigation">
+        <nav className="flex-1 flex flex-col px-6 py-6 gap-1 overflow-y-auto" aria-label="Mobile navigation">
           {navLinks.map((link) => {
             const isActive = currentPath === link.href
             return (
@@ -114,55 +112,48 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, adminUser, o
               </Link>
             )
           })}
+
+          {/* Admin Panel link — only for admins */}
+          {authUser?.isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase py-4 border-b border-white/5 text-[#ff571a] hover:text-[#ffb59e] transition-colors"
+              onClick={onClose}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              Admin Panel
+            </Link>
+          )}
         </nav>
 
-        {/* Mobile CTA Section */}
+        {/* Bottom CTA */}
         <div className="px-6 pb-8 pt-4 border-t border-white/10 flex flex-col gap-3">
-          {adminUser ? (
-            <>
-              {/* Admin Panel button */}
-              <Link
-                href="/admin"
-                className="flex items-center justify-center gap-2 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 text-center"
-                onClick={onClose}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                  <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                </svg>
-                ADMIN PANEL
-              </Link>
-              <Link
-                href="/book-trial"
-                className="block border border-white/20 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white/5 transition-all duration-300 text-center"
-                onClick={onClose}
-              >
-                BOOK A TRIAL
-              </Link>
-              <button
-                onClick={() => { onLogout?.(); onClose() }}
-                className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] hover:text-[#ef4444] transition-colors text-center py-2"
-              >
-                SIGN OUT
-              </button>
-            </>
+          <Link
+            href="/book-trial"
+            className="block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 text-center"
+            onClick={onClose}
+          >
+            BOOK A TRIAL
+          </Link>
+
+          {authUser ? (
+            <button
+              onClick={() => { onLogout?.(); onClose() }}
+              className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] hover:text-[#ef4444] transition-colors py-2 text-center"
+            >
+              SIGN OUT
+            </button>
           ) : (
-            <>
-              <Link
-                href="/book-trial"
-                className="block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 text-center"
-                onClick={onClose}
-              >
-                BOOK A TRIAL
-              </Link>
-              <Link
-                href="/admin/login"
-                className="block border border-white/10 text-[#6b7280] font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase px-8 py-3 hover:border-white/20 hover:text-[#9ca3af] transition-all duration-300 text-center"
-                onClick={onClose}
-              >
-                STAFF LOGIN
-              </Link>
-            </>
+            <Link
+              href="/login"
+              className="block border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:border-white/20 transition-all duration-300 text-center"
+              onClick={onClose}
+            >
+              LOGIN
+            </Link>
           )}
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -16,9 +16,10 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ]
 
-type AdminUser = {
+type AuthUser = {
   name: string | null
   email: string
+  isAdmin: boolean
 }
 
 export function Header() {
@@ -26,8 +27,10 @@ export function Header() {
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [adminUser, setAdminUser] = useState<AdminUser | null>(null)
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null)
   const [authLoading, setAuthLoading] = useState(true)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Scroll detection
   useEffect(() => {
@@ -40,38 +43,48 @@ export function Header() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileOpen(false)
+    setDropdownOpen(false)
   }, [pathname])
 
-  // Check admin auth state
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  // Auth state — check user + whether they are admin
   useEffect(() => {
     const supabase = createClient()
 
     const checkSession = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
+        // Check if they have an active admin profile
         const { data: profile } = await supabase
           .from('profiles')
           .select('full_name, is_active')
           .eq('id', user.id)
           .single()
 
-        if (profile?.is_active) {
-          setAdminUser({
-            name: profile.full_name,
-            email: user.email ?? '',
-          })
-        } else {
-          setAdminUser(null)
-        }
+        const isAdmin = !!(profile?.is_active)
+        const displayName = profile?.full_name
+          ?? user.user_metadata?.full_name
+          ?? null
+
+        setAuthUser({ name: displayName, email: user.email ?? '', isAdmin })
       } else {
-        setAdminUser(null)
+        setAuthUser(null)
       }
       setAuthLoading(false)
     }
 
     checkSession()
 
-    // Listen for auth state changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
       checkSession()
     })
@@ -82,9 +95,18 @@ export function Header() {
   const handleLogout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    setAdminUser(null)
+    setAuthUser(null)
+    setDropdownOpen(false)
     router.push('/')
     router.refresh()
+  }
+
+  // Get initials for avatar
+  const getInitials = (name: string | null, email: string) => {
+    if (name) {
+      return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    }
+    return email[0].toUpperCase()
   }
 
   return (
@@ -95,6 +117,7 @@ export function Header() {
         } border-b border-white/10`}
       >
         <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-5 md:px-16">
+
           {/* Logo */}
           <Link
             href="/"
@@ -123,66 +146,104 @@ export function Header() {
             })}
           </nav>
 
-          {/* Desktop Right Actions */}
+          {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-3">
-            {!authLoading && (
-              <>
-                {adminUser ? (
-                  /* Admin is logged in — show Admin Panel + Logout */
-                  <div className="flex items-center gap-3">
-                    {/* Admin greeting */}
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[#1e201f] border border-white/10 rounded-none">
-                      <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
-                      <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.08em] uppercase text-[#9ca3af]">
-                        {adminUser.name ?? 'Admin'}
-                      </span>
+
+            {/* Book Trial always visible */}
+            <Link
+              href="/book-trial"
+              className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 hover:bg-white transition-all duration-300 active:scale-95"
+            >
+              BOOK A TRIAL
+            </Link>
+
+            {/* Auth area */}
+            {authLoading ? (
+              <div className="w-9 h-9 bg-white/5 animate-pulse rounded-full" />
+            ) : authUser ? (
+              /* Logged in — show avatar dropdown */
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 group"
+                  aria-label="Account menu"
+                  aria-expanded={dropdownOpen}
+                >
+                  {/* Avatar */}
+                  <div className="w-9 h-9 rounded-full bg-[#ff571a] flex items-center justify-center relative">
+                    <span className="font-[family-name:var(--font-inter)] text-xs font-bold text-black">
+                      {getInitials(authUser.name, authUser.email)}
+                    </span>
+                    {/* Admin indicator dot */}
+                    {authUser.isAdmin && (
+                      <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#22c55e] rounded-full border-2 border-[#121413]" />
+                    )}
+                  </div>
+                  <svg
+                    className={`w-3 h-3 text-[#6b7280] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Dropdown */}
+                {dropdownOpen && (
+                  <div className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50">
+                    {/* User info */}
+                    <div className="px-4 py-3 border-b border-white/8">
+                      <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e2e3e1] truncate">
+                        {authUser.name ?? 'My Account'}
+                      </p>
+                      <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] truncate mt-0.5">
+                        {authUser.email}
+                      </p>
                     </div>
-                    {/* Admin Panel button */}
-                    <Link
-                      href="/admin"
-                      className="flex items-center gap-2 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-5 py-3 hover:bg-white transition-all duration-300 active:scale-95"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-                      </svg>
-                      ADMIN PANEL
-                    </Link>
-                    {/* Logout */}
+
+                    {/* Admin Panel — only if admin */}
+                    {authUser.isAdmin && (
+                      <div className="border-b border-white/8">
+                        <Link
+                          href="/admin"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 text-[#ff571a] hover:bg-[#ff571a]/10 transition-colors group"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                          </svg>
+                          <span className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.08em] uppercase">
+                            Admin Panel
+                          </span>
+                        </Link>
+                      </div>
+                    )}
+
+                    {/* Sign out */}
                     <button
                       onClick={handleLogout}
-                      className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] hover:text-[#ef4444] transition-colors duration-200 px-2 py-3"
-                      aria-label="Sign out of admin"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-[#6b7280] hover:text-[#ef4444] hover:bg-[#ef4444]/5 transition-colors"
                     >
-                      SIGN OUT
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                      </svg>
+                      <span className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.08em] uppercase">
+                        Sign Out
+                      </span>
                     </button>
                   </div>
-                ) : (
-                  /* Not logged in — show Book Trial + Login */
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href="/admin/login"
-                      className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] hover:text-[#9ca3af] transition-colors duration-200 px-2 py-3 border border-white/10 hover:border-white/20"
-                    >
-                      STAFF LOGIN
-                    </Link>
-                    <Link
-                      href="/book-trial"
-                      className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
-                    >
-                      BOOK A TRIAL
-                    </Link>
-                  </div>
                 )}
-              </>
-            )}
-
-            {/* Loading skeleton */}
-            {authLoading && (
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-24 bg-white/5 animate-pulse" />
-                <div className="h-10 w-32 bg-[#ff571a]/20 animate-pulse" />
               </div>
+            ) : (
+              /* Not logged in */
+              <Link
+                href="/login"
+                className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#e2e3e1] hover:text-[#ffb59e] transition-colors px-3 py-3"
+              >
+                LOGIN
+              </Link>
             )}
           </div>
 
@@ -193,19 +254,8 @@ export function Header() {
             aria-label="Open navigation menu"
             aria-expanded={mobileOpen}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="square"
-                strokeLinejoin="miter"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
@@ -217,7 +267,7 @@ export function Header() {
         onClose={() => setMobileOpen(false)}
         navLinks={navLinks}
         currentPath={pathname}
-        adminUser={adminUser}
+        authUser={authUser}
         onLogout={handleLogout}
       />
     </>
