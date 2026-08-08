@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { unstable_cache } from 'next/cache'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { HomeHero } from '@/components/sections/home/HomeHero'
@@ -25,41 +24,16 @@ export const metadata: Metadata = {
   },
 }
 
-// Cache for 5 minutes — fast loads, data stays fresh
+// ISR — page cached for 5 minutes on Vercel edge, then regenerated
 export const revalidate = 300
 
-// Cached data fetchers — prevents repeated DB calls on same render cycle
-const getCachedPrograms = unstable_cache(
-  getFeaturedPrograms,
-  ['featured-programs'],
-  { revalidate: 300, tags: ['programs'] }
-)
-
-const getCachedTrainers = unstable_cache(
-  getFeaturedTrainers,
-  ['featured-trainers'],
-  { revalidate: 300, tags: ['trainers'] }
-)
-
-const getCachedReviews = unstable_cache(
-  () => getFeaturedReviews(3),
-  ['featured-reviews'],
-  { revalidate: 300, tags: ['reviews'] }
-)
-
-const getCachedSettings = unstable_cache(
-  getBusinessSettings,
-  ['business-settings'],
-  { revalidate: 600, tags: ['settings'] }
-)
-
 export default async function HomePage() {
-  // Parallel fetch — all 4 queries run simultaneously
+  // All 4 queries run in parallel — single round trip to Supabase
   const [programs, trainers, reviews, settings] = await Promise.all([
-    getCachedPrograms(),
-    getCachedTrainers(),
-    getCachedReviews(),
-    getCachedSettings(),
+    getFeaturedPrograms(),
+    getFeaturedTrainers(),
+    getFeaturedReviews(3),
+    getBusinessSettings(),
   ])
 
   return (
