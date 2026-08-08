@@ -43,6 +43,14 @@ export async function Footer() {
             >
               REVIVE FIGHT CLUB
             </Link>
+            {/* Location label */}
+            <div className="flex items-center gap-2 mt-3 mb-2">
+              <div className="w-4 h-px bg-[#ff571a]" />
+              <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                Our Location
+              </p>
+            </div>
+
             {/* Google Maps button */}
             <a
               href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
