@@ -31,7 +31,7 @@ export async function Footer() {
   ].filter(Boolean) as { href: string; label: string }[]
 
   return (
-    <footer className="bg-[#0d0f0e] text-[#e2e3e1] border-t border-white/10 pt-24 pb-8">
+    <footer className="bg-[#0d0f0e] text-[#e2e3e1] border-t border-white/10 pt-16 pb-8">
       <div className="max-w-[1280px] mx-auto px-5 md:px-16">
         {/* 4-column grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">

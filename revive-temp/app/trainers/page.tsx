@@ -49,7 +49,7 @@ export default async function TrainersPage() {
             {trainers.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {trainers.map((trainer, i) => (
-                  <div key={trainer.id} className="group">
+                  <Link key={trainer.id} href={`/trainers/${trainer.slug}`} className="group block border border-white/[0.06] hover:border-white/20 transition-all duration-300">
                     <div className="relative overflow-hidden aspect-[3/4] bg-[#1a1c1b] mb-5">
                       <Image
                         src={trainer.profile_image_path || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]}
@@ -70,7 +70,11 @@ export default async function TrainersPage() {
                         {trainer.short_bio}
                       </p>
                     )}
-                  </div>
+                    <span className="inline-flex items-center gap-1 mt-3 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] opacity-0 group-hover:opacity-100 transition-opacity">
+                      View Profile
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </span>
+                  </Link>
                 ))}
               </div>
             ) : (

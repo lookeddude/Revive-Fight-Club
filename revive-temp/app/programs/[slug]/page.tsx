@@ -34,12 +34,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [program, settings, slotImages, dbSlides] = await Promise.all([
+  const [program, settings, slotImages] = await Promise.all([
     getProgramBySlug(slug),
     getBusinessSettings(),
     getSlotImages([`program.${slug}`]),
-    // We need program id — fetch slides after getting program
-    Promise.resolve([] as Awaited<ReturnType<typeof getProgramSlides>>),
   ])
 
   if (!program) notFound()
@@ -136,10 +134,10 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                 </Link>
                 <Link
                   href="/programs"
-                  className="inline-flex items-center justify-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase px-8 py-4 transition-all duration-300 text-[#f0ede8] hover:border-white/30"
-                  style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
+                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#6b6059] hover:text-[#f0ede8] transition-colors"
                 >
-                  ← ALL PROGRAMS
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                  All Programs
                 </Link>
               </div>
 
