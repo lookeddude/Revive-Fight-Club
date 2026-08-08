@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ProgramSlideshow } from '@/components/ui/ProgramSlideshow'
-import { getProgramBySlug, getActivePrograms, getBusinessSettings } from '@/lib/data/content'
+import { getProgramBySlug, getBusinessSettings } from '@/lib/data/content'
 
 export const revalidate = 300
 
@@ -19,11 +19,6 @@ const FALLBACK_IMAGES: Record<string, string> = {
   bodybuilding: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=85&fit=crop',
   'weight-loss': 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&q=85&fit=crop',
   default: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=1200&q=85&fit=crop',
-}
-
-export async function generateStaticParams() {
-  const programs = await getActivePrograms()
-  return programs.map((p) => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
