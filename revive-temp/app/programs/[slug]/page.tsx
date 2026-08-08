@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
@@ -82,17 +81,6 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             <div className="lg:col-span-7">
               <div className="sticky top-24">
                 <ProgramSlideshow images={allImages} programName={program.name} />
-
-                {/* Thumbnail strip */}
-                {allImages.length > 1 && (
-                  <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
-                    {allImages.map((src, i) => (
-                      <div key={i} className="relative flex-shrink-0 w-16 h-16 overflow-hidden border border-white/10">
-                        <Image src={src} alt={`${program.name} ${i + 1}`} fill className="object-cover" sizes="64px" />
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
 
