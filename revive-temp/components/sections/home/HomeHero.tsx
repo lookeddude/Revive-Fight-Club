@@ -15,7 +15,7 @@ export function HomeHero({ whatsappNumber }: HomeHeroProps) {
         <div
           className="w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/main.png')`,
+            backgroundImage: `url('https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png')`,
           }}
           role="img"
           aria-label="Elite MMA fighters training in a cinematic gym setting"
