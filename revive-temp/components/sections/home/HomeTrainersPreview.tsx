@@ -1,31 +1,18 @@
 import Link from 'next/link'
+import type { TrainerCard } from '@/lib/data/content'
 
-const trainers = [
-  {
-    slug: 'marcus-vance',
-    name: 'MARCUS VANCE',
-    role: 'Head Striking Coach',
-    bio: 'Former professional kickboxer with over 15 years of competitive experience. Marcus emphasizes technical fluidity and devastating power.',
-    disciplines: ['Muay Thai', 'Kickboxing'],
-    image:
-      'https://images.unsplash.com/photo-1564415315949-7a0c4c73aab4?w=800&q=80&fit=crop',
-    alt: 'Cinematic portrait of a male MMA coach in a dark urban gym with dramatic lighting',
-    imageRight: false,
-  },
-  {
-    slug: 'elena-rostova',
-    name: 'ELENA ROSTOVA',
-    role: 'Grappling Specialist',
-    bio: 'A BJJ black belt known for her analytical approach to ground control. Elena\'s methodology focuses on leverage, timing, and positional dominance.',
-    disciplines: ['BJJ', 'Wrestling'],
-    image:
-      'https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=800&q=80&fit=crop',
-    alt: 'Cinematic portrait of a female BJJ coach in a premium dark training facility',
-    imageRight: true,
-  },
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1564415315949-7a0c4c73aab4?w=800&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=800&q=80&fit=crop',
 ]
 
-export function HomeTrainersPreview() {
+interface HomeTrainersPreviewProps {
+  trainers: TrainerCard[]
+}
+
+export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
+  if (trainers.length === 0) return null
+
   return (
     <section className="py-24 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto px-5 md:px-16">
@@ -52,57 +39,65 @@ export function HomeTrainersPreview() {
 
         {/* Trainer Cards — Editorial Layout */}
         <div className="flex flex-col gap-6">
-          {trainers.map((trainer) => (
-            <Link
-              key={trainer.slug}
-              href={`/trainers/${trainer.slug}`}
-              className="group grid grid-cols-1 md:grid-cols-12 gap-6 border border-white/10 p-2 hover:border-white/20 transition-colors relative"
-              aria-label={`View ${trainer.name} profile`}
-            >
-              {/* Image — left or right depending on trainer */}
-              <div
-                className={`md:col-span-7 h-[400px] md:h-[500px] overflow-hidden relative ${
-                  trainer.imageRight ? 'md:order-2' : 'md:order-1'
-                }`}
-              >
-                <div
-                  className="w-full h-full bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
-                  style={{ backgroundImage: `url('${trainer.image}')` }}
-                  role="img"
-                  aria-label={trainer.alt}
-                />
-                {/* Bottom gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121413] to-transparent opacity-80" />
-              </div>
+          {trainers.map((trainer, index) => {
+            const imageRight = index % 2 !== 0
+            const image = trainer.profile_image_path ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]
 
-              {/* Content */}
-              <div
-                className={`md:col-span-5 flex flex-col justify-end p-4 md:p-6 ${
-                  trainer.imageRight ? 'md:order-1' : 'md:order-2'
-                }`}
+            return (
+              <Link
+                key={trainer.id}
+                href={`/trainers/${trainer.slug}`}
+                className="group grid grid-cols-1 md:grid-cols-12 gap-6 border border-white/10 p-2 hover:border-white/20 transition-colors relative"
+                aria-label={`View ${trainer.name} profile`}
               >
-                <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ff571a] mb-2 block">
-                  {trainer.role}
-                </span>
-                <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl md:text-4xl leading-tight mb-4">
-                  {trainer.name}
-                </h3>
-                <p className="font-[family-name:var(--font-inter)] text-base leading-relaxed text-[#bab8b7] mb-6">
-                  {trainer.bio}
-                </p>
-                <div className="flex gap-3 flex-wrap">
-                  {trainer.disciplines.map((d) => (
-                    <span
-                      key={d}
-                      className="border border-white/10 px-3 py-1 font-[family-name:var(--font-inter)] text-xs font-medium text-[#e2e3e1]"
-                    >
-                      {d}
-                    </span>
-                  ))}
+                {/* Image */}
+                <div
+                  className={`md:col-span-7 h-[400px] md:h-[500px] overflow-hidden relative ${
+                    imageRight ? 'md:order-2' : 'md:order-1'
+                  }`}
+                >
+                  <div
+                    className="w-full h-full bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                    style={{ backgroundImage: `url('${image}')` }}
+                    role="img"
+                    aria-label={`${trainer.name}, ${trainer.role}`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#121413] to-transparent opacity-80" />
                 </div>
-              </div>
-            </Link>
-          ))}
+
+                {/* Content */}
+                <div
+                  className={`md:col-span-5 flex flex-col justify-end p-4 md:p-6 ${
+                    imageRight ? 'md:order-1' : 'md:order-2'
+                  }`}
+                >
+                  <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ff571a] mb-2 block">
+                    {trainer.role}
+                  </span>
+                  <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl md:text-4xl leading-tight mb-4 uppercase">
+                    {trainer.name}
+                  </h3>
+                  {trainer.short_bio && (
+                    <p className="font-[family-name:var(--font-inter)] text-base leading-relaxed text-[#bab8b7] mb-6">
+                      {trainer.short_bio}
+                    </p>
+                  )}
+                  {trainer.specialties && trainer.specialties.length > 0 && (
+                    <div className="flex gap-3 flex-wrap">
+                      {trainer.specialties.map((specialty) => (
+                        <span
+                          key={specialty}
+                          className="border border-white/10 px-3 py-1 font-[family-name:var(--font-inter)] text-xs font-medium text-[#e2e3e1]"
+                        >
+                          {specialty}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

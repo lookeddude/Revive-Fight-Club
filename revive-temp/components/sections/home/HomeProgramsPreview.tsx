@@ -1,42 +1,27 @@
 import Link from 'next/link'
 import { Badge } from '@/components/ui/Badge'
+import type { ProgramCard } from '@/lib/data/content'
 
-const programs = [
-  {
-    slug: 'mma',
-    title: 'Mixed Martial Arts',
-    category: 'FLAGSHIP PROGRAM',
-    image:
-      'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80&fit=crop',
-    alt: 'Two MMA fighters training in a dark cinematic gym with dramatic lighting',
-  },
-  {
-    slug: 'muay-thai',
-    title: 'Muay Thai',
-    category: 'STRIKING',
-    image:
-      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&fit=crop',
-    alt: 'Muay Thai fighter executing a powerful kick during pad work training',
-  },
-  {
-    slug: 'bjj',
-    title: 'Brazilian Jiu-Jitsu',
-    category: 'GRAPPLING',
-    image:
-      'https://images.unsplash.com/photo-1549476464-37392f717541?w=800&q=80&fit=crop',
-    alt: 'Two BJJ practitioners engaged in technical ground control on dark mats',
-  },
-  {
-    slug: 'strength-conditioning',
-    title: 'Strength & Conditioning',
-    category: 'PERFORMANCE',
-    image:
-      'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=800&q=80&fit=crop',
-    alt: 'Athlete performing strength training in a premium dark gym facility',
-  },
-]
+const FALLBACK_IMAGES: Record<string, string> = {
+  mma: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80&fit=crop',
+  'muay-thai': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&fit=crop',
+  bjj: 'https://images.unsplash.com/photo-1549476464-37392f717541?w=800&q=80&fit=crop',
+  default: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=800&q=80&fit=crop',
+}
 
-export function HomeProgramsPreview() {
+
+function getImage(program: ProgramCard): string {
+  if (program.image_path) return program.image_path
+  return FALLBACK_IMAGES[program.slug] ?? FALLBACK_IMAGES.default
+}
+
+interface HomeProgramsPreviewProps {
+  programs: ProgramCard[]
+}
+
+export function HomeProgramsPreview({ programs }: HomeProgramsPreviewProps) {
+  if (programs.length === 0) return null
+
   return (
     <section className="py-24 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto px-5 md:px-16">
@@ -65,29 +50,31 @@ export function HomeProgramsPreview() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {programs.map((program) => (
             <Link
-              key={program.slug}
+              key={program.id}
               href={`/programs/${program.slug}`}
               className="group relative overflow-hidden h-80 flex flex-col justify-end p-6 border border-white/10 hover:border-white/20 transition-colors"
-              aria-label={`View ${program.title} program`}
+              aria-label={`View ${program.name} program`}
             >
               {/* Background Image */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <div
                   className="w-full h-full bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 mix-blend-luminosity"
-                  style={{ backgroundImage: `url('${program.image}')` }}
+                  style={{ backgroundImage: `url('${getImage(program)}')` }}
                   role="img"
-                  aria-label={program.alt}
+                  aria-label={program.name}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121413] via-[#121413]/60 to-transparent" />
               </div>
 
               {/* Card Content */}
               <div className="relative z-10">
-                <Badge variant="orange" className="mb-3">
-                  {program.category}
-                </Badge>
+                {program.category && (
+                  <Badge variant="orange" className="mb-3">
+                    {program.category}
+                  </Badge>
+                )}
                 <h3 className="font-[family-name:var(--font-outfit)] font-semibold text-[#e2e3e1] text-2xl leading-tight tracking-[-0.01em] group-hover:text-white transition-colors">
-                  {program.title}
+                  {program.name}
                 </h3>
               </div>
             </Link>

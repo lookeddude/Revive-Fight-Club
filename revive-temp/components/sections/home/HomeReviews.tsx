@@ -1,27 +1,29 @@
-import Link from 'next/link'
+import type { ReviewCard } from '@/lib/data/content'
 
-const reviews = [
-  {
-    name: 'Rahul Sharma',
-    rating: 5,
-    text: 'The trainers here are world-class. My Muay Thai improved dramatically in just 3 months. The facility is immaculate and the culture is elite but welcoming.',
-    role: 'Member since 2022',
-  },
-  {
-    name: 'Priya Nair',
-    rating: 5,
-    text: 'Best BJJ coaching in Bengaluru, hands down. Elena is incredibly technical and patient. The curriculum is structured and progressive — not just sparring every session.',
-    role: 'BJJ Purple Belt',
-  },
-  {
-    name: 'Aditya Kumar',
-    rating: 5,
-    text: 'I came in completely new to combat sports. Within 6 months I was competing locally. The environment here is serious about development, not just attendance.',
-    role: 'Competitive Athlete',
-  },
-]
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-1" aria-label={`${rating} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <svg
+          key={i}
+          className={`w-4 h-4 fill-current ${i <= rating ? 'text-[#ff571a]' : 'text-white/10'}`}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ))}
+    </div>
+  )
+}
 
-export function HomeReviews() {
+interface HomeReviewsProps {
+  reviews: ReviewCard[]
+}
+
+export function HomeReviews({ reviews }: HomeReviewsProps) {
+  if (reviews.length === 0) return null
+
   return (
     <section className="py-24 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto px-5 md:px-16">
@@ -46,39 +48,32 @@ export function HomeReviews() {
             <span className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e2e3e1]">
               5.0
             </span>
-            <span className="text-[#c8c6c5] text-sm">Based on 126+ verified reviews</span>
+            <span className="text-[#c8c6c5] text-sm">Based on verified reviews</span>
           </div>
         </div>
 
-        {/* Review Cards Grid */}
+        {/* Review Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {reviews.map((review) => (
             <div
-              key={review.name}
+              key={review.id}
               className="border border-white/10 p-8 flex flex-col gap-4 hover:border-white/20 transition-colors"
             >
-              {/* Stars */}
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <svg key={i} className="w-4 h-4 text-[#ff571a] fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                ))}
-              </div>
+              <StarRating rating={review.rating} />
 
-              {/* Quote */}
               <p className="font-[family-name:var(--font-inter)] text-base leading-relaxed text-[#bab8b7] flex-1">
-                &ldquo;{review.text}&rdquo;
+                &ldquo;{review.review_text}&rdquo;
               </p>
 
-              {/* Reviewer */}
               <div className="border-t border-white/5 pt-4">
                 <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e2e3e1]">
-                  {review.name}
+                  {review.reviewer_name}
                 </p>
-                <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]">
-                  {review.role}
-                </p>
+                {review.reviewer_role && (
+                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]">
+                    {review.reviewer_role}
+                  </p>
+                )}
               </div>
             </div>
           ))}

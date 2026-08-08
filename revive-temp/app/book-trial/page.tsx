@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { BookTrialForm } from '@/components/forms/BookTrialForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Book a Trial Class',
+  title: 'Book a Trial Class | Revive Fight Club',
   description: 'Book your trial class at Revive Fight Club and experience elite MMA training in Bengaluru.',
 }
 
@@ -37,108 +38,7 @@ export default function BookTrialPage() {
                 your first session.
               </p>
 
-              {/* Form */}
-              <form className="flex flex-col gap-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  {/* Name */}
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="Your full name"
-                      className="input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-inter)] text-base"
-                      required
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
-                    >
-                      Phone Number
-                    </label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      placeholder="+91 00000 00000"
-                      className="input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-inter)] text-base"
-                      required
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
-                    >
-                      Email Address
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="your@email.com"
-                      className="input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-inter)] text-base"
-                      required
-                    />
-                  </div>
-
-                  {/* Discipline */}
-                  <div>
-                    <label
-                      htmlFor="discipline"
-                      className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
-                    >
-                      Interested In
-                    </label>
-                    <select
-                      id="discipline"
-                      className="input-underline w-full py-3 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-base appearance-none"
-                    >
-                      <option value="" className="bg-[#1e201f]">Select a discipline</option>
-                      <option value="mma" className="bg-[#1e201f]">MMA</option>
-                      <option value="muay-thai" className="bg-[#1e201f]">Muay Thai</option>
-                      <option value="bjj" className="bg-[#1e201f]">Brazilian Jiu-Jitsu</option>
-                      <option value="strength" className="bg-[#1e201f]">Strength & Conditioning</option>
-                      <option value="not-sure" className="bg-[#1e201f]">Not sure yet</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
-                  >
-                    Anything else? (optional)
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={3}
-                    placeholder="Any experience level, injuries, goals..."
-                    className="input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-inter)] text-base resize-none"
-                  />
-                </div>
-
-                {/* Submit */}
-                <div>
-                  <button
-                    type="submit"
-                    className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
-                  >
-                    BOOK MY TRIAL CLASS
-                  </button>
-                </div>
-              </form>
+              <BookTrialForm />
             </div>
           </div>
         </section>
