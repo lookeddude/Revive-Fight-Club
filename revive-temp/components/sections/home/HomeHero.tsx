@@ -150,7 +150,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
       </div>
 
       {/* ── Main Content — anchored to bottom ───────────────────────── */}
-      <div className="relative z-10 w-full px-6 md:px-14 pb-14 md:pb-10">
+      <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
         {/* Discipline tags — horizontal row */}
         <div className="flex flex-wrap items-center gap-2 mb-5">
@@ -264,13 +264,16 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
         </div>
       </div>
 
-      {/* ── Slideshow controls ───────────────────────────────────────── */}
+      {/* ── Slideshow controls — always visible on every device ──────── */}
       {activeSlides.length > 1 && (
-        <div className="absolute right-6 md:right-14 bottom-14 md:bottom-10 z-20 flex items-center gap-4">
-          {/* Prev / Next */}
+        <div
+          className="relative z-20 w-full px-6 md:px-14 flex items-center justify-between gap-3 pb-5"
+          style={{ background: 'transparent' }}
+        >
+          {/* Prev button */}
           <button
             onClick={goPrev}
-            className="w-8 h-8 flex items-center justify-center border border-white/20 text-white/50 hover:border-[#ff571a] hover:text-[#ff571a] transition-colors"
+            className="w-8 h-8 shrink-0 flex items-center justify-center border border-white/20 text-white/50 hover:border-[#ff571a] hover:text-[#ff571a] transition-colors"
             aria-label="Previous slide"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -278,8 +281,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
             </svg>
           </button>
 
-          {/* Dots */}
-          <div className="flex items-center gap-1.5">
+          {/* Dots — centered */}
+          <div className="flex-1 flex items-center justify-center gap-1.5">
             {activeSlides.map((_, i) => (
               <button
                 key={i}
@@ -287,29 +290,30 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
                 aria-label={`Slide ${i + 1}`}
                 className="transition-all duration-300"
                 style={{
-                  width: i === currentIndex ? '20px' : '5px',
-                  height: '5px',
-                  borderRadius: '3px',
-                  background: i === currentIndex ? '#ff571a' : 'rgba(255,255,255,0.3)',
+                  width: i === currentIndex ? '22px' : '6px',
+                  height: '6px',
+                  borderRadius: '4px',
+                  background: i === currentIndex ? '#ff571a' : 'rgba(255,255,255,0.25)',
                 }}
               />
             ))}
           </div>
 
-          <button
-            onClick={goNext}
-            className="w-8 h-8 flex items-center justify-center border border-white/20 text-white/50 hover:border-[#ff571a] hover:text-[#ff571a] transition-colors"
-            aria-label="Next slide"
-          >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          {/* Slide counter */}
-          <span className="font-[family-name:var(--font-inter)] text-[10px] text-white/30 tracking-widest tabular-nums">
-            {String(currentIndex + 1).padStart(2, '0')}&nbsp;/&nbsp;{String(activeSlides.length).padStart(2, '0')}
-          </span>
+          {/* Next + counter */}
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={goNext}
+              className="w-8 h-8 flex items-center justify-center border border-white/20 text-white/50 hover:border-[#ff571a] hover:text-[#ff571a] transition-colors"
+              aria-label="Next slide"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            <span className="font-[family-name:var(--font-inter)] text-[10px] text-white/30 tracking-widest tabular-nums">
+              {String(currentIndex + 1).padStart(2, '0')}&nbsp;/&nbsp;{String(activeSlides.length).padStart(2, '0')}
+            </span>
+          </div>
         </div>
       )}
 
