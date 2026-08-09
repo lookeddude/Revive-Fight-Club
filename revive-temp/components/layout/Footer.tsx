@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/membership', label: 'Membership' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/reviews', label: 'Reviews' },
 ]
 
 const legalLinks = [
