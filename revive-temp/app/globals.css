@@ -414,6 +414,15 @@ body {
   filter: grayscale(0%) contrast(1);
 }
 
+/* ── Hero Background Image — mobile object-position ─────── */
+/* On mobile: shift focal point down so fighters show more,
+   dark ceiling is hidden. Desktop keeps center top. */
+@media (max-width: 767px) {
+  .hero-bg-img {
+    object-position: center 40% !important;
+  }
+}
+
 /* ── Review Card Enhancement ─────────────────────────────── */
 .review-card-premium {
   background: rgba(22, 20, 18, 0.8);

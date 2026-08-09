@@ -112,6 +112,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
             priority
             quality={90}
             sizes="100vw"
+            className="hero-bg-img"
             style={{ objectFit: 'cover', objectPosition: 'center top' }}
           />
         </div>
