@@ -34,7 +34,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
 
   const [values, setValues] = useState({
     name: '',
-    phone: '',
+    phone: '+91 ',
     email: '',
     subject: '',
     message: '',
@@ -54,8 +54,8 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
   function validate(): FormErrors {
     return {
       name: validateName(values.name),
-      // Phone is optional — only validate format if a value was entered
-      phone: values.phone.trim() ? validatePhone(values.phone) : null,
+      // Phone is required
+      phone: validatePhone(values.phone),
       email: validateEmail(values.email, true),
       subject: validateSubject(values.subject),
       message: validateMessageRequired(values.message, 5000),
@@ -84,7 +84,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
     try {
       const result = await submitContactEnquiry({
         name: values.name.trim(),
-        phone: values.phone.trim() || null,
+        phone: values.phone.trim(),
         email: values.email.trim(),
         subject: values.subject.trim(),
         message: values.message.trim(),
@@ -207,7 +207,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
           />
         </FormField>
 
-        <FormField id="phone" label="Phone Number" error={errors.phone} optional>
+        <FormField id="phone" label="Phone Number" error={errors.phone} required>
           <input
             id="phone"
             name="phone"
@@ -217,6 +217,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             value={values.phone}
             onChange={handleChange('phone')}
             className={inputClass(!!errors.phone)}
+            aria-required="true"
             aria-invalid={!!errors.phone}
             disabled={isPending}
           />
