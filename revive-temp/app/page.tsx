@@ -32,7 +32,7 @@ export default async function HomePage() {
   const [programs, trainers, reviews, settings, heroSlides, heroSettings] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
-    getFeaturedReviews(3),
+    getFeaturedReviews(10),
     getBusinessSettings(),
     getActiveHeroSlides(),
     getHeroSettings(),

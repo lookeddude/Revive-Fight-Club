@@ -79,48 +79,67 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
           </div>
         </div>
 
-        {/* Review Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {reviews.map((review, i) => (
-            <div
-              key={review.id}
-              className="review-card-premium p-8 pt-12 flex flex-col gap-5"
-              style={{
-                background: i === 1
-                  ? 'linear-gradient(135deg, rgba(255,87,26,0.07) 0%, rgba(22,20,18,0.95) 100%)'
-                  : 'rgba(20,18,16,0.8)',
-                border: i === 1 ? '1px solid rgba(255,87,26,0.2)' : '1px solid rgba(255,240,230,0.07)',
-              }}
-            >
-              <StarRating rating={review.rating} />
-
-              <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[1.9] text-[#9ca3a0] flex-1 italic">
-                &ldquo;{review.review_text}&rdquo;
-              </p>
-
-              <div className="pt-5 flex items-center gap-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                {/* Avatar */}
-                <div
-                  className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-black text-black"
-                  style={{ background: i === 1 ? 'linear-gradient(135deg, #ff571a, #e03020)' : 'linear-gradient(135deg, #3a3530, #2a2622)' }}
-                >
-                  <span className={i === 1 ? 'text-black' : 'text-[#8a7e76]'}>
-                    {review.reviewer_name.charAt(0).toUpperCase()}
+        {/* Review Cards — 2 col mobile, 3 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reviews.map((review, i) => {
+            const isAccent = i % 3 === 1
+            return (
+              <div
+                key={review.id}
+                className="review-card-premium p-6 pt-10 flex flex-col gap-4"
+                style={{
+                  background: isAccent
+                    ? 'linear-gradient(135deg, rgba(255,87,26,0.07) 0%, rgba(22,20,18,0.95) 100%)'
+                    : 'rgba(20,18,16,0.8)',
+                  border: isAccent ? '1px solid rgba(255,87,26,0.2)' : '1px solid rgba(255,240,230,0.07)',
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <StarRating rating={review.rating} />
+                  {/* Source badge */}
+                  <span
+                    className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-[0.15em] px-2 py-1"
+                    style={{
+                      background: review.source === 'google' ? 'rgba(66,133,244,0.1)' : 'rgba(255,87,26,0.1)',
+                      color: review.source === 'google' ? '#4285f4' : '#ff571a',
+                      border: review.source === 'google' ? '1px solid rgba(66,133,244,0.2)' : '1px solid rgba(255,87,26,0.2)',
+                    }}
+                  >
+                    {review.source === 'google' ? 'Google' : 'Member'}
                   </span>
                 </div>
-                <div>
-                  <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e8e4df]">
-                    {review.reviewer_name}
-                  </p>
-                  {review.reviewer_role && (
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#5a5249] tracking-[0.1em] uppercase">
-                      {review.reviewer_role}
+
+                <p className="font-[family-name:var(--font-inter)] text-[14px] leading-[1.85] text-[#9ca3a0] flex-1 italic">
+                  &ldquo;{review.review_text}&rdquo;
+                </p>
+
+                <div className="pt-4 flex items-center gap-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  {/* Avatar */}
+                  <div
+                    className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-black text-sm"
+                    style={{
+                      background: isAccent
+                        ? 'linear-gradient(135deg, #ff571a, #e03020)'
+                        : 'linear-gradient(135deg, #3a3530, #2a2622)',
+                      color: isAccent ? '#000' : '#8a7e76',
+                    }}
+                  >
+                    {review.reviewer_name.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e8e4df]">
+                      {review.reviewer_name}
                     </p>
-                  )}
+                    {review.reviewer_role && (
+                      <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#5a5249] tracking-[0.1em] uppercase">
+                        {review.reviewer_role}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
