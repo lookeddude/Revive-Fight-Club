@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getBusinessSettings } from '@/lib/data/content'
+import { getBusinessSettings, getActivePrograms } from '@/lib/data/content'
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 
 const navLinks = [
@@ -18,7 +18,10 @@ const legalLinks = [
 ]
 
 export async function Footer() {
-  const settings = await getBusinessSettings()
+  const [settings, programs] = await Promise.all([
+    getBusinessSettings(),
+    getActivePrograms(),
+  ])
 
   const whatsappUrl = buildWhatsAppUrl(
     settings?.whatsapp_number ?? null,
@@ -108,9 +111,28 @@ export async function Footer() {
                 <span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(245,242,237,0.35)' }}>CLUB</span>
               </Link>
 
-              <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] leading-relaxed -mt-3 max-w-[260px]">
-                Bengaluru&apos;s premier combat sports gym. MMA, Kickboxing, Bodybuilding &amp; Weight Loss.
-              </p>
+              {/* Dynamic Programs List */}
+              <div className="-mt-2">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-5 h-px bg-[#ff571a]" aria-hidden="true" />
+                  <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">
+                    Our Programs
+                  </p>
+                </div>
+                <ul className="flex flex-col gap-1.5">
+                  {programs.map((p) => (
+                    <li key={p.id}>
+                      <Link
+                        href={`/programs/${p.slug}`}
+                        className="group flex items-center gap-2 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors"
+                      >
+                        <span className="w-1 h-1 rounded-full bg-[#ff571a] flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
+                        {p.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               {/* Location */}
               <div>
