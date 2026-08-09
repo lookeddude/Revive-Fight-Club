@@ -148,32 +148,54 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                   </div>
                 </div>
 
-                {/* Address */}
-                {(settings?.address || settings?.city) && (
-                  <div className="border-t border-white/10 pt-8">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3">
-                      Location
+                {/* Address — footer-style Google Maps button */}
+                <div className="border-t border-white/10 pt-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-4 h-px bg-[#ff571a]" />
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                      Our Location
                     </p>
-                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#bab8b7] leading-relaxed mb-4">
-                      {settings.address && <>{settings.address}<br /></>}
-                      {settings.city}{settings.state ? `, ${settings.state}` : ''}
-                    </p>
-                    {settings?.google_maps_url && (
-                      <a
-                        href={settings.google_maps_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ff571a] hover:text-white transition-colors"
-                        aria-label="Get directions on Google Maps"
-                      >
-                        GET DIRECTIONS
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      </a>
-                    )}
                   </div>
-                )}
+                  <a
+                    href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open Revive Fight Club location in Google Maps"
+                    className="group inline-flex items-start gap-2.5 hover:opacity-100 transition-all duration-200"
+                    style={{ opacity: 0.75 }}
+                  >
+                    <svg
+                      className="w-4 h-4 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
+                      fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"
+                    >
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
+                      3rd floor, 157, MM Road,<br />
+                      above Indian Overseas Bank,<br />
+                      Fraser Town, Bengaluru,<br />
+                      Karnataka 560005
+                    </span>
+                  </a>
+                </div>
+
+                {/* Opening Days & Time */}
+                <div className="border-t border-white/10 pt-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-4 h-px bg-[#ff571a]" />
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                      Opening Days &amp; Time
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">
+                      Monday – Sunday
+                    </p>
+                    <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">
+                      6 AM – 11 PM
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

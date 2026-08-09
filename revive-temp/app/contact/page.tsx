@@ -88,51 +88,54 @@ export default async function ContactPage() {
                   </div>
                 </div>
 
-                {/* Address */}
-                {(settings?.address || settings?.city) && (
-                  <div className="border-t border-white/10 pt-8">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
+                {/* Address — footer-style Google Maps button */}
+                <div className="border-t border-white/10 pt-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-4 h-px bg-[#ff571a]" />
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
                       Our Location
                     </p>
-                    <address className="not-italic font-[family-name:var(--font-inter)] text-sm text-[#bab8b7] leading-relaxed">
-                      {settings.address && <span className="block">{settings.address}</span>}
-                      <span className="block">
-                        {settings.city}
-                        {settings.state ? `, ${settings.state}` : ''}
-                        {settings.postal_code ? ` – ${settings.postal_code}` : ''}
-                      </span>
-                    </address>
                   </div>
-                )}
+                  <a
+                    href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open Revive Fight Club location in Google Maps"
+                    className="group inline-flex items-start gap-2.5 hover:opacity-100 transition-all duration-200"
+                    style={{ opacity: 0.75 }}
+                  >
+                    <svg
+                      className="w-4 h-4 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
+                      fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"
+                    >
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
+                      3rd floor, 157, MM Road,<br />
+                      above Indian Overseas Bank,<br />
+                      Fraser Town, Bengaluru,<br />
+                      Karnataka 560005
+                    </span>
+                  </a>
+                </div>
 
-                {/* Opening Hours */}
-                {openingHours && Object.keys(openingHours).length > 0 && (
-                  <div className="border-t border-white/10 pt-8">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
-                      Opening Hours
-                    </p>
-                    <dl className="flex flex-col gap-2">
-                      {Object.entries(openingHours).map(([day, hours]) => (
-                        <div key={day} className="flex justify-between">
-                          <dt className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">{day}</dt>
-                          <dd className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] font-medium">{hours}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                )}
-
-                {/* Fallback opening hours if not set in DB */}
-                {(!openingHours || Object.keys(openingHours).length === 0) && (
-                  <div className="border-t border-white/10 pt-8">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
-                      Opening Hours
-                    </p>
-                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#bab8b7]">
-                      Contact us for current session timings.
+                {/* Opening Days & Time — always shown */}
+                <div className="border-t border-white/10 pt-8">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-4 h-px bg-[#ff571a]" />
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                      Opening Days &amp; Time
                     </p>
                   </div>
-                )}
+                  <div className="flex items-center justify-between">
+                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">
+                      Monday – Sunday
+                    </p>
+                    <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">
+                      6 AM – 11 PM
+                    </p>
+                  </div>
+                </div>
 
                 {/* Social links */}
                 {(settings?.instagram_url || settings?.facebook_url || settings?.youtube_url) && (
