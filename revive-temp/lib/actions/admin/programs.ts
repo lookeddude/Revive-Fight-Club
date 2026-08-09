@@ -8,9 +8,9 @@ type ProgramRow = { id: string; sort_order: number }
 
 /**
  * Move a program up or down.
- * Instead of swapping two rows (race-prone), we fetch the full ordered list,
- * move the target item, then reassign clean sequential sort_order values
- * (1, 2, 3 …) to ALL programs in one upsert. Completely atomic, no conflicts.
+ * Fetches the full ordered list, swaps the two affected rows' sort_order
+ * values using plain UPDATE (not upsert — avoids NOT NULL constraint errors),
+ * then reassigns clean sequential values to every row to keep things tidy.
  */
 export async function reorderProgram(
   programId: string,
@@ -21,7 +21,7 @@ export async function reorderProgram(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const supabase = createAdminClient() as any
 
-    // 1. Fetch all programs sorted by current sort_order
+    // 1. Fetch all programs ordered by sort_order
     const { data, error: fetchError } = await supabase
       .from('programs')
       .select('id, sort_order')
@@ -33,7 +33,7 @@ export async function reorderProgram(
 
     const list: ProgramRow[] = data as ProgramRow[]
 
-    // 2. Find the target and its neighbour
+    // 2. Find target and neighbour
     const idx = list.findIndex((p) => p.id === programId)
     if (idx === -1) return { success: false, error: 'Program not found.' }
 
@@ -42,22 +42,25 @@ export async function reorderProgram(
       return { success: false, error: 'Already at boundary.' }
     }
 
-    // 3. Swap positions in the array
+    // 3. Build new full order by moving item in array
     const reordered = [...list]
     const tmp = reordered[idx]
     reordered[idx] = reordered[swapIdx]
     reordered[swapIdx] = tmp
 
-    // 4. Build clean sequential sort_order values (1, 2, 3, …)
-    const updates = reordered.map((p, i) => ({ id: p.id, sort_order: i + 1 }))
+    // 4. Update ONLY sort_order for every program using UPDATE (never INSERT)
+    //    Run all updates in parallel for speed
+    const updatePromises = reordered.map((p, i) =>
+      supabase
+        .from('programs')
+        .update({ sort_order: i + 1 })
+        .eq('id', p.id)
+    )
 
-    // 5. Upsert ALL programs in one call — atomic, no conflicts
-    const { error: upsertError } = await supabase
-      .from('programs')
-      .upsert(updates, { onConflict: 'id' })
-
-    if (upsertError) {
-      return { success: false, error: `Save failed: ${upsertError.message}` }
+    const results = await Promise.all(updatePromises)
+    const failed = results.find((r: { error: unknown }) => r.error)
+    if (failed) {
+      return { success: false, error: 'Failed to save order. Please try again.' }
     }
 
     revalidatePath('/admin/programs')
