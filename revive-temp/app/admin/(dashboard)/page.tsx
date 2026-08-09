@@ -7,14 +7,41 @@ export const revalidate = 60
 
 function AlertCard({ label, value, href, note }: { label: string; value: number; href: string; note?: string }) {
   return (
-    <Link href={href} className="group flex items-center justify-between p-4 border transition-all duration-200 hover:border-[#ff571a]/60" style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.08) 0%, rgba(17,19,18,1) 100%)', border: '1px solid rgba(255,87,26,0.3)' }}>
+    <Link
+      href={href}
+      className="group flex items-center justify-between p-4 transition-all duration-200"
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,87,26,0.1) 0%, rgba(22,26,24,0.9) 100%)',
+        border: '1px solid rgba(255,87,26,0.25)',
+        boxShadow: '0 0 20px rgba(255,87,26,0.06)',
+      }}
+    >
       <div>
-        <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider text-[#ff571a]">{label}</p>
-        {note && <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b5040] mt-0.5">{note}</p>}
+        <div className="flex items-center gap-2 mb-0.5">
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0"
+            style={{ background: '#ff571a' }}
+            aria-hidden="true"
+          />
+          <p className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.15em] text-[#ff571a]">{label}</p>
+        </div>
+        {note && <p className="font-[family-name:var(--font-inter)] text-[10px] mt-0.5" style={{ color: 'rgba(255,87,26,0.5)' }}>{note}</p>}
       </div>
       <div className="flex items-center gap-3">
-        <span className="font-[family-name:var(--font-outfit)] font-black text-4xl text-[#ff571a]">{value}</span>
-        <svg className="w-4 h-4 text-[#ff571a]/50 group-hover:text-[#ff571a] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
+        <span
+          className="font-[family-name:var(--font-outfit)] font-black"
+          style={{ fontSize: '40px', lineHeight: 1, letterSpacing: '-0.04em', color: '#ff571a' }}
+        >
+          {value}
+        </span>
+        <svg
+          className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+          style={{ color: 'rgba(255,87,26,0.5)' }}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </div>
     </Link>
   )
@@ -22,14 +49,70 @@ function AlertCard({ label, value, href, note }: { label: string; value: number;
 
 function StatCard({ label, value, href, sub }: { label: string; value: number; href?: string; sub?: string }) {
   const inner = (
-    <div className="p-4 border border-white/[0.07] bg-[#111312] flex flex-col gap-1 hover:border-white/15 transition-colors">
-      <span className="font-[family-name:var(--font-inter)] text-[11px] font-medium text-[#4b5563] uppercase tracking-wider">{label}</span>
-      <span className="font-[family-name:var(--font-outfit)] font-bold text-2xl text-[#e2e3e1]">{value}</span>
-      {sub && <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563]">{sub}</span>}
+    <div
+      className="group p-4 flex flex-col gap-1.5 transition-all duration-200"
+      style={{
+        background: '#111412',
+        border: '1px solid rgba(255,255,255,0.05)',
+      }}
+    >
+      <span
+        className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em]"
+        style={{ color: 'rgba(255,255,255,0.25)' }}
+      >
+        {label}
+      </span>
+      <span
+        className="font-[family-name:var(--font-outfit)] font-black"
+        style={{ fontSize: '28px', lineHeight: 1, letterSpacing: '-0.04em', color: 'rgba(255,255,255,0.85)' }}
+      >
+        {value}
+      </span>
+      {sub && (
+        <span
+          className="font-[family-name:var(--font-inter)] text-[10px]"
+          style={{ color: 'rgba(255,255,255,0.2)' }}
+        >
+          {sub}
+        </span>
+      )}
+      {/* Bottom accent line on hover */}
+      {href && (
+        <div
+          className="h-px w-0 group-hover:w-full transition-all duration-300 mt-1"
+          style={{ background: 'rgba(255,87,26,0.3)' }}
+          aria-hidden="true"
+        />
+      )}
     </div>
   )
   if (href) return <Link href={href} className="block">{inner}</Link>
   return inner
+}
+
+function SectionHeading({ children, href, linkLabel }: { children: React.ReactNode; href?: string; linkLabel?: string }) {
+  return (
+    <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center gap-3">
+        <div className="w-px h-4" style={{ background: 'rgba(255,87,26,0.5)' }} aria-hidden="true" />
+        <h3
+          className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.15em]"
+          style={{ color: 'rgba(255,255,255,0.4)' }}
+        >
+          {children}
+        </h3>
+      </div>
+      {href && (
+        <Link
+          href={href}
+          className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider transition-colors hover:text-white"
+          style={{ color: 'rgba(255,87,26,0.7)' }}
+        >
+          {linkLabel ?? 'View all →'}
+        </Link>
+      )}
+    </div>
+  )
 }
 
 export default async function AdminDashboard() {
@@ -39,20 +122,43 @@ export default async function AdminDashboard() {
   const hasAlerts = hasPendingTrials || hasNewEnquiries
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="max-w-5xl space-y-10">
       {/* Page header */}
-      <div>
-        <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-xl uppercase tracking-tight">Dashboard</h2>
-        <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563] mt-1">Revive Fight Club — management overview.</p>
+      <div className="flex items-end justify-between">
+        <div>
+          <p
+            className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.22em] mb-1"
+            style={{ color: 'rgba(255,87,26,0.7)' }}
+          >
+            Overview
+          </p>
+          <h2
+            className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase tracking-[-0.03em] leading-none"
+            style={{ fontSize: '28px' }}
+          >
+            Dashboard
+          </h2>
+        </div>
+        {/* Live indicator */}
+        <div className="flex items-center gap-2">
+          <span
+            className="w-2 h-2 rounded-full"
+            style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
+            aria-hidden="true"
+          />
+          <span
+            className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em]"
+            style={{ color: 'rgba(255,255,255,0.25)' }}
+          >
+            Live
+          </span>
+        </div>
       </div>
 
-      {/* ── ALERTS — needs attention ────────────────────────── */}
+      {/* ALERTS */}
       {hasAlerts && (
         <section>
-          <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em] text-[#ff571a] mb-3 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#ff571a] rounded-full animate-pulse" />
-            Needs Attention
-          </p>
+          <SectionHeading>Needs Attention</SectionHeading>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {hasPendingTrials && (
               <AlertCard
@@ -74,12 +180,9 @@ export default async function AdminDashboard() {
         </section>
       )}
 
-      {/* ── TRIALS ─────────────────────────────────────────── */}
+      {/* TRIALS */}
       <section>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">Trial Requests</h3>
-          <Link href="/admin/trials" className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a] hover:text-white transition-colors uppercase tracking-wider">View all →</Link>
-        </div>
+        <SectionHeading href="/admin/trials" linkLabel="View all →">Trial Requests</SectionHeading>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-2">
           <StatCard label="Today" value={metrics.trials.today} />
           <StatCard label="This Week" value={metrics.trials.this_week} />
@@ -96,12 +199,9 @@ export default async function AdminDashboard() {
         </div>
       </section>
 
-      {/* ── ENQUIRIES ──────────────────────────────────────── */}
+      {/* ENQUIRIES */}
       <section>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">Contact Enquiries</h3>
-          <Link href="/admin/enquiries" className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a] hover:text-white transition-colors uppercase tracking-wider">View all →</Link>
-        </div>
+        <SectionHeading href="/admin/enquiries" linkLabel="View all →">Contact Enquiries</SectionHeading>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <StatCard label="Total" value={metrics.enquiries.total} href="/admin/enquiries" />
           <StatCard label="New" value={metrics.enquiries.new} href="/admin/enquiries?status=new" />
@@ -110,9 +210,9 @@ export default async function AdminDashboard() {
         </div>
       </section>
 
-      {/* ── CONTENT STATUS ─────────────────────────────────── */}
+      {/* CONTENT */}
       <section>
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b7280] mb-3">Content</h3>
+        <SectionHeading>Content Status</SectionHeading>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
           <StatCard label="Programs" value={metrics.content.active_programs} href="/admin/programs" />
           <StatCard label="Trainers" value={metrics.content.active_trainers} href="/admin/trainers" />
@@ -123,12 +223,12 @@ export default async function AdminDashboard() {
         </div>
       </section>
 
-      {/* ── QUICK ACTIONS ──────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] pt-6">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b7280] mb-4">Quick Actions</h3>
+      {/* QUICK ACTIONS */}
+      <section style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '24px' }}>
+        <SectionHeading>Quick Actions</SectionHeading>
         <div className="flex flex-wrap gap-2">
           {[
-            { label: 'View Pending Trials', href: '/admin/trials?status=pending' },
+            { label: 'Pending Trials', href: '/admin/trials?status=pending' },
             { label: 'New Enquiries', href: '/admin/enquiries?status=new' },
             { label: 'Add Program', href: '/admin/programs/new' },
             { label: 'Add Trainer', href: '/admin/trainers/new' },
@@ -138,7 +238,12 @@ export default async function AdminDashboard() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af] border border-white/[0.07] px-4 py-2 hover:border-white/20 hover:text-[#e2e3e1] transition-all duration-200"
+              className="group font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider px-4 py-2 transition-all duration-200"
+              style={{
+                color: 'rgba(255,255,255,0.35)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                background: 'rgba(255,255,255,0.02)',
+              }}
             >
               {link.label}
             </Link>
