@@ -26,70 +26,77 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
   if (programs.length === 0) return null
 
   return (
-    <section className="py-24 section-divider relative" style={{ background: 'linear-gradient(180deg, #0d0c0b 0%, #111009 100%)' }}>
-      {/* Background pattern */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-30"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,87,26,0.06) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-        }}
-        aria-hidden="true"
-      />
+    <section
+      className="py-24 md:py-32 relative overflow-hidden section-divider"
+      style={{ background: '#0d0c0b' }}
+    >
+      {/* Subtle dot grid background texture */}
+      <div className="absolute inset-0 bg-dots-subtle opacity-25 pointer-events-none" aria-hidden="true" />
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
         {/* Section Header */}
-        <div className="mb-14">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-px bg-[#ff571a]" />
-            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
-              Training Disciplines
-            </p>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <div>
+            <p className="section-label">Training Disciplines</p>
+            <h2
+              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+              style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
+            >
+              OUR <span className="text-[#ff571a]">PROGRAMS</span>
+            </h2>
           </div>
-          <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,56px)]">
-            OUR<br />
-            <span className="text-[#ff571a]">PROGRAMS</span>
-          </h2>
+          <Link
+            href="/programs"
+            className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#6b6059] hover:text-[#ff571a] transition-colors self-end"
+          >
+            VIEW ALL
+            <span className="flex items-center justify-center w-8 h-8 border border-white/10 group-hover:border-[#ff571a]/40 group-hover:bg-[#ff571a]/08 transition-all duration-300">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </Link>
         </div>
 
-        {/* Programs Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Programs Grid — 4-up on large, 2-up on tablet, 1-up on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {programs.map((program, i) => (
             <Link
               key={program.id}
               href={`/programs/${program.slug}`}
-              className="group relative overflow-hidden flex flex-col justify-end border border-white/[0.08] hover:border-[#ff571a]/30 transition-colors duration-300"
-              style={{ height: '380px' }}
+              className="group relative overflow-hidden flex flex-col justify-end card-premium"
+              style={{ height: '420px' }}
               aria-label={`View ${program.name} program`}
             >
-              {/* Background Image — Next.js Image for optimization */}
-              <div className="absolute inset-0 z-0 overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
                 <Image
                   src={getImage(program, slideImages)}
                   alt={program.name}
                   fill
-                  className="object-cover opacity-65 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
+                  className="object-cover transition-all duration-700 group-hover:scale-107"
+                  style={{ opacity: 0.72 }}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
-                {/* Bottom gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0c0b] via-[#0d0c0b]/60 to-transparent" />
-                {/* Orange hover glow */}
-                <div className="absolute inset-0 bg-[#ff571a]/0 group-hover:bg-[#ff571a]/5 transition-all duration-500" />
+                {/* Bottom gradient overlay - not full bleed */}
+                <div className="absolute inset-0 img-overlay-bottom" aria-hidden="true" />
+                {/* Subtle orange hover glow */}
+                <div className="absolute inset-0 bg-[#ff571a]/0 group-hover:bg-[#ff571a]/04 transition-all duration-500" aria-hidden="true" />
               </div>
 
-              {/* Category badge */}
-              {program.category && (
-                <div className="absolute top-4 left-4 z-10">
+              {/* Top badges */}
+              <div className="absolute top-4 left-4 z-10 flex gap-2 items-center">
+                {program.category && (
                   <Badge variant="orange">{program.category}</Badge>
-                </div>
-              )}
+                )}
+              </div>
 
-              {/* Number */}
+              {/* Top-right number */}
               <div className="absolute top-4 right-4 z-10">
                 <span
-                  className="font-[family-name:var(--font-outfit)] font-black text-4xl"
-                  style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,87,26,0.3)' }}
+                  className="font-[family-name:var(--font-outfit)] font-black text-[40px] leading-none"
+                  style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(255,87,26,0.25)', letterSpacing: '-0.04em' }}
                 >
                   {String(i + 1).padStart(2, '0')}
                 </span>
@@ -97,34 +104,34 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
 
               {/* Card Content */}
               <div className="relative z-10 p-6">
-                <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-2xl leading-tight tracking-[-0.02em] group-hover:text-white transition-colors uppercase mb-2">
+                <h3
+                  className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-tight tracking-[-0.02em] uppercase mb-3 group-hover:text-white transition-colors"
+                >
                   {program.name}
                 </h3>
-                {/* Short description — visible on hover */}
+                {/* Reveal description on hover */}
                 {program.short_description && (
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#d4cfc9] leading-relaxed mb-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-h-0 group-hover:max-h-10 overflow-hidden">
+                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c4bf] leading-relaxed mb-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-400 max-h-0 group-hover:max-h-12 overflow-hidden">
                     {program.short_description}
                   </p>
                 )}
-                {/* Animated accent line */}
-                <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-10 transition-all duration-400" />
+                {/* Orange accent underline */}
+                <div className="w-0 h-[2px] bg-gradient-to-r from-[#ff571a] to-[#e03020] group-hover:w-12 transition-all duration-500" aria-hidden="true" />
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Explore All */}
-        <div className="flex justify-center mt-10">
+        {/* Mobile - View All */}
+        <div className="flex justify-center mt-10 md:hidden">
           <Link
             href="/programs"
-            className="group flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors"
+            className="btn-ghost"
           >
             EXPLORE ALL PROGRAMS
-            <span className="flex items-center justify-center w-8 h-8 border border-white/15 group-hover:border-[#ff571a] group-hover:bg-[#ff571a]/10 transition-all duration-300">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </span>
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </Link>
         </div>
       </div>

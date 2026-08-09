@@ -7,49 +7,58 @@ const stats = [
 
 export function HomeStats() {
   return (
-    <section className="relative py-0 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1410 0%, #0d0c0b 50%, #160e09 100%)' }}>
-      {/* Orange top border */}
-      <div className="h-px w-full" style={{ background: 'linear-gradient(to right, transparent, #ff571a, #e03020, transparent)' }} />
+    <section
+      className="relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #0a0908 0%, #0d0c0b 100%)' }}
+    >
+      {/* Top separator */}
+      <div className="sep-orange" aria-hidden="true" />
 
-      <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4">
+      <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-16 md:py-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
               className="group relative flex flex-col items-center justify-center py-10 px-6 cursor-default"
             >
-              {/* Vertical divider between items */}
+              {/* Vertical divider */}
               {i < stats.length - 1 && (
-                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-12 bg-white/8" />
+                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-14"
+                  style={{ background: 'linear-gradient(to bottom, transparent, rgba(255,87,26,0.15), transparent)' }}
+                  aria-hidden="true"
+                />
               )}
 
               {/* Number */}
-              <div className="flex items-start gap-0.5 mb-2">
+              <div className="flex items-start gap-0.5 mb-3">
                 <span
-                  className="font-[family-name:var(--font-outfit)] font-black text-[clamp(44px,6vw,72px)] leading-none text-[#f0ede8] group-hover:text-[#ff571a] transition-colors duration-400 stat-glow"
-                  style={{ letterSpacing: '-0.04em' }}
+                  className="stat-number text-[clamp(52px,7vw,80px)] group-hover:text-[#ff571a] transition-colors duration-500"
+                  style={{ textShadow: 'none' }}
                 >
                   {stat.value}
                 </span>
-                <span className="font-[family-name:var(--font-outfit)] font-black text-2xl md:text-3xl text-[#ff571a] mt-2">
+                <span
+                  className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] mt-2"
+                  style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
+                >
                   {stat.suffix}
                 </span>
               </div>
 
               {/* Label */}
-              <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.15em] uppercase text-[#7a6e68] group-hover:text-[#a09890] transition-colors duration-300">
+              <span className="font-[family-name:var(--font-inter)] text-[11px] font-bold tracking-[0.18em] uppercase text-[#6b6059] group-hover:text-[#9ca3a0] transition-colors duration-300">
                 {stat.label}
               </span>
 
               {/* Hover bottom accent */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#ff571a] group-hover:w-12 transition-all duration-400" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-[#ff571a] group-hover:w-16 transition-all duration-500" aria-hidden="true" />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Orange bottom border */}
-      <div className="h-px w-full" style={{ background: 'linear-gradient(to right, transparent, rgba(255,87,26,0.3), transparent)' }} />
+      {/* Bottom separator */}
+      <div className="sep-subtle" aria-hidden="true" />
     </section>
   )
 }

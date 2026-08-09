@@ -22,11 +22,14 @@ export default async function AboutPage() {
       <Header />
       <main className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
-        <section className="py-16 md:py-24 border-b border-white/10">
+        <section className="py-16 md:py-24 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
-              Our Story
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-[#ff571a]" />
+              <p className="section-label">
+                Our Story
+              </p>
+            </div>
             <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,5vw,64px)] max-w-2xl mb-6">
               ABOUT REVIVE FIGHT CLUB
             </h1>
@@ -38,10 +41,10 @@ export default async function AboutPage() {
         </section>
 
         {/* Mission + Location */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24" style={{ backgroundColor: '#111210' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-              <div>
+              <div style={{ backgroundColor: '#161412', border: '1px solid rgba(255,240,230,0.07)' }} className="p-8">
                 <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase text-3xl tracking-tight mb-6">
                   OUR MISSION
                 </h2>
@@ -56,7 +59,7 @@ export default async function AboutPage() {
                 <div className="flex flex-wrap gap-4">
                   <Link
                     href="/programs"
-                    className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300"
+                    className="btn-primary inline-block px-8 py-4 transition-all duration-300"
                   >
                     VIEW PROGRAMS
                   </Link>
@@ -69,7 +72,7 @@ export default async function AboutPage() {
                 </div>
               </div>
 
-              <div>
+              <div style={{ backgroundColor: '#161412', border: '1px solid rgba(255,240,230,0.07)' }} className="p-8">
                 <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase text-3xl tracking-tight mb-6">
                   FIND US
                 </h2>
@@ -92,7 +95,7 @@ export default async function AboutPage() {
                 {/* Opening hours */}
                 {settings?.opening_hours && Object.keys(settings.opening_hours as Record<string, string>).length > 0 && (
                   <div className="mt-6 mb-6">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3">
+                    <p className="section-label mb-3">
                       Opening Hours
                     </p>
                     <dl className="flex flex-col gap-1">
@@ -121,7 +124,7 @@ export default async function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 border-t border-white/10 bg-[#0d0f0e]">
+        <section className="py-16 border-t border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase text-3xl mb-4">
               START YOUR JOURNEY
@@ -132,7 +135,7 @@ export default async function AboutPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/book-trial"
-                className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300"
+                className="btn-primary inline-block px-8 py-4 transition-all duration-300"
               >
                 BOOK A TRIAL
               </Link>

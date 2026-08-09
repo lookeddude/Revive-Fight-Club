@@ -251,3 +251,267 @@ body {
     box-shadow: 0 0 28px rgba(255, 87, 26, 0.75), 0 0 52px rgba(255, 87, 26, 0.35);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM UI SYSTEM v3 — Section Rhythm, Cards, Typography
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Section Surface Levels ──────────────────────────────── */
+/* Use these to create visual rhythm between page sections   */
+.surface-0 { background-color: #0a0908; }   /* deepest — hero, reviews  */
+.surface-1 { background-color: #0d0c0b; }   /* base — default           */
+.surface-2 { background-color: #111210; }   /* mid — alternate sections */
+.surface-3 { background-color: #161412; }   /* elevated — cards, panels */
+
+/* ── Premium Card ────────────────────────────────────────── */
+.card-premium {
+  background: #161412;
+  border: 1px solid rgba(255, 240, 230, 0.07);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.025) inset;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.card-premium:hover {
+  border-color: rgba(255, 87, 26, 0.25);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 87, 26, 0.18);
+  transform: translateY(-3px);
+}
+
+/* ── Section Label ───────────────────────────────────────── */
+/* Usage: <p className="section-label">Training Disciplines</p> */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ff571a;
+  margin-bottom: 1rem;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: #ff571a;
+  flex-shrink: 0;
+}
+
+/* ── Bottom-only Image Overlay ───────────────────────────── */
+.img-overlay-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(13, 12, 11, 0.96) 0%,
+    rgba(13, 12, 11, 0.6) 35%,
+    rgba(13, 12, 11, 0.15) 65%,
+    transparent 100%
+  );
+}
+
+/* ── Cinematic Overlay (hero/featured) ───────────────────── */
+.img-overlay-cinema {
+  background: linear-gradient(
+    to top,
+    rgba(13, 12, 11, 1) 0%,
+    rgba(13, 12, 11, 0.55) 45%,
+    rgba(13, 12, 11, 0.1) 100%
+  );
+}
+
+/* ── Section Separator ───────────────────────────────────── */
+.sep-orange {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 87, 26, 0.3), transparent);
+}
+.sep-subtle {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 240, 230, 0.07), transparent);
+}
+
+/* ── Premium CTA Button ──────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ff571a 0%, #d94418 100%);
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(255, 87, 26, 0.3);
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ff7a45 0%, #ff571a 100%);
+  box-shadow: 0 8px 32px rgba(255, 87, 26, 0.5);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #e2e0db;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  border-color: rgba(255, 87, 26, 0.35);
+  background: rgba(255, 87, 26, 0.05);
+  color: #f0ede8;
+}
+
+/* ── Entrance Animations ─────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up   { animation: fadeUp 0.6s ease forwards; }
+.animate-fade-in   { animation: fadeIn 0.5s ease forwards; }
+.animate-slide-left { animation: slideInLeft 0.6s ease forwards; }
+
+/* ── Trainer Image Hover (grayscale → color) ─────────────── */
+.trainer-img {
+  filter: grayscale(85%) contrast(1.05);
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+.group:hover .trainer-img,
+.trainer-img:hover {
+  filter: grayscale(0%) contrast(1);
+}
+
+/* ── Review Card Enhancement ─────────────────────────────── */
+.review-card-premium {
+  background: rgba(22, 20, 18, 0.8);
+  border: 1px solid rgba(255, 240, 230, 0.07);
+  position: relative;
+  transition: all 0.35s ease;
+}
+.review-card-premium:hover {
+  border-color: rgba(255, 87, 26, 0.2);
+  background: rgba(26, 23, 20, 0.9);
+}
+.review-card-premium::before {
+  content: '\201C';
+  position: absolute;
+  top: -4px;
+  left: 20px;
+  font-size: 72px;
+  line-height: 1;
+  font-family: 'Outfit', sans-serif;
+  color: #ff571a;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ── Orange Left Border (featured/active card) ───────────── */
+.border-left-orange {
+  border-left: 3px solid #ff571a;
+  padding-left: 20px;
+}
+
+/* ── Watermark Text ──────────────────────────────────────── */
+.watermark-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 87, 26, 0.06);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Background Grid ─────────────────────────────────────── */
+.bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(255, 87, 26, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 87, 26, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* ── Background Dot Grid ─────────────────────────────────── */
+.bg-dots-subtle {
+  background-image: radial-gradient(circle, rgba(255, 87, 26, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── Diagonal Stripes ────────────────────────────────────── */
+.bg-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 87, 26, 0.02) 20px,
+    rgba(255, 87, 26, 0.02) 21px
+  );
+}
+
+/* ── Stat Number ─────────────────────────────────────────── */
+.stat-number {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  color: #f0ede8;
+}
+
+/* ── Headline Display ────────────────────────────────────── */
+.headline-display {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: #f0ede8;
+}
+
+/* ── Orange Gradient Top Border ──────────────────────────── */
+.border-top-orange {
+  border-top: 1px solid transparent;
+  background:
+    linear-gradient(#0d0c0b, #0d0c0b) padding-box,
+    linear-gradient(to right, transparent, #ff571a 30%, #e03020 70%, transparent) border-box;
+}
+
+/* ── Responsive Type Clamp utilities ─────────────────────── */
+.text-hero { font-size: clamp(48px, 8vw, 96px); }
+.text-display { font-size: clamp(36px, 6vw, 72px); }
+.text-headline { font-size: clamp(28px, 4vw, 52px); }
+.text-subhead { font-size: clamp(20px, 3vw, 32px); }
+
+/* ── Focus visible ───────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #ff571a;
+  outline-offset: 2px;
+}

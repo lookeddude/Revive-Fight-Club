@@ -116,22 +116,24 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
           />
         </div>
 
-        {/* Bottom-only gradient — image visible at top 60% */}
+        {/* Bottom-only gradient — lighter so images breathe at top 65% */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to top, rgba(8,7,6,1) 0%, rgba(8,7,6,0.88) 20%, rgba(8,7,6,0.45) 45%, rgba(8,7,6,0.1) 65%, transparent 80%)',
+            background: 'linear-gradient(to top, rgba(8,7,6,0.98) 0%, rgba(8,7,6,0.7) 18%, rgba(8,7,6,0.3) 42%, rgba(8,7,6,0.05) 62%, transparent 78%)',
           }}
+          aria-hidden="true"
         />
-        {/* Subtle header vignette */}
+        {/* Subtle header vignette so nav is readable */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(8,7,6,0.5) 0%, transparent 18%)' }}
+          style={{ background: 'linear-gradient(to bottom, rgba(8,7,6,0.45) 0%, transparent 15%)' }}
+          aria-hidden="true"
         />
-        {/* Orange glow accent at bottom-left */}
+        {/* Orange accent glow — bottom-left energy */}
         <div
-          className="absolute bottom-0 left-0 w-96 h-64 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at bottom left, rgba(255,87,26,0.18) 0%, transparent 70%)' }}
+          className="absolute bottom-0 left-0 w-[500px] h-80 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at bottom left, rgba(255,87,26,0.14) 0%, transparent 65%)' }}
           aria-hidden="true"
         />
       </div>
@@ -152,17 +154,22 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
       {/* ── Main Content — anchored to bottom ───────────────────────── */}
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
-        {/* Discipline tags — horizontal row */}
-        <div className="flex flex-wrap items-center gap-2 mb-5">
+        {/* Discipline tags — horizontal row with subtle pill styling */}
+        <div className="flex flex-wrap items-center gap-2 mb-6">
           {DISCIPLINES.map((d, i) => (
             <span key={d} className="flex items-center gap-2">
               <span
-                className="font-[family-name:var(--font-inter)] text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-[#ff571a]/90"
+                className="font-[family-name:var(--font-inter)] text-[10px] md:text-[11px] font-black uppercase tracking-[0.22em]"
+                style={{ color: 'rgba(255,87,26,0.95)', letterSpacing: '0.22em' }}
               >
                 {d}
               </span>
               {i < DISCIPLINES.length - 1 && (
-                <span className="w-1 h-1 rounded-full bg-[#ff571a]/40" />
+                <span
+                  className="w-[3px] h-[3px] rounded-full"
+                  style={{ background: 'rgba(255,87,26,0.35)' }}
+                  aria-hidden="true"
+                />
               )}
             </span>
           ))}
@@ -284,14 +291,20 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
         </div>
       )}
 
-      {/* Progress bar */}
+      {/* Progress bar — orange accent at bottom */}
       {activeSlides.length > 1 && !isPaused && (
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] z-20" style={{ background: 'rgba(255,255,255,0.06)' }}>
+        <div
+          className="absolute bottom-0 left-0 right-0 z-20"
+          style={{ height: '3px', background: 'rgba(255,255,255,0.04)' }}
+          role="progressbar"
+          aria-label="Slide progress"
+        >
           <div
             key={`${currentIndex}-${intervalMs}`}
             className="h-full origin-left"
             style={{
-              background: 'linear-gradient(to right, #ff571a, #e03020)',
+              background: 'linear-gradient(to right, #ff571a, #d94418)',
+              boxShadow: '0 0 8px rgba(255,87,26,0.6)',
               animation: `heroProgress ${intervalMs}ms linear`,
             }}
           />

@@ -29,11 +29,14 @@ export default async function ContactPage() {
       <Header />
       <main className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
-        <section className="py-16 md:py-24 border-b border-white/10">
+        <section className="py-16 md:py-24 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
-              Get In Touch
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-[#ff571a]" />
+              <p className="section-label">
+                Get In Touch
+              </p>
+            </div>
             <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,4vw,64px)] max-w-2xl mb-6">
               CONTACT REVIVE FIGHT CLUB
             </h1>
@@ -44,12 +47,12 @@ export default async function ContactPage() {
         </section>
 
         {/* Main content */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24" style={{ backgroundColor: '#111210' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
               {/* Contact form */}
-              <div className="lg:col-span-7">
-                <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-8">
+              <div style={{ backgroundColor: '#0d0c0b' }} className="p-8 rounded-lg border border-white/5">
+                <p className="section-label mb-8">
                   Send a Message
                 </p>
                 <ContactForm
@@ -59,10 +62,10 @@ export default async function ContactPage() {
               </div>
 
               {/* Info sidebar */}
-              <div className="lg:col-span-5 flex flex-col gap-10">
+              <div className="card-premium flex flex-col gap-10 p-8 rounded-lg" style={{ backgroundColor: '#111210', border: '1px solid rgba(255,240,230,0.07)' }}>
                 {/* Quick actions */}
                 <div>
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-6">
+                  <p className="section-label mb-6">
                     Quick Contact
                   </p>
                   <div className="flex flex-col gap-3">
@@ -91,8 +94,10 @@ export default async function ContactPage() {
                 {/* Address — footer-style Google Maps button */}
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-4 h-px bg-[#ff571a]" />
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                    <svg className="w-4 h-4 text-[#ff571a] shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <p className="section-label">
                       Our Location
                     </p>
                   </div>
@@ -104,12 +109,6 @@ export default async function ContactPage() {
                     className="group inline-flex items-start gap-2.5 hover:opacity-100 transition-all duration-200"
                     style={{ opacity: 0.75 }}
                   >
-                    <svg
-                      className="w-4 h-4 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform"
-                      fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"
-                    >
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
                     <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
                       3rd floor, 157, MM Road,<br />
                       above Indian Overseas Bank,<br />
@@ -122,8 +121,10 @@ export default async function ContactPage() {
                 {/* Opening Days & Time — always shown */}
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-4 h-px bg-[#ff571a]" />
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                    <svg className="w-4 h-4 text-[#ff571a] shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <p className="section-label">
                       Opening Days &amp; Time
                     </p>
                   </div>
@@ -140,7 +141,7 @@ export default async function ContactPage() {
                 {/* Social links */}
                 {(settings?.instagram_url || settings?.facebook_url || settings?.youtube_url) && (
                   <div className="border-t border-white/10 pt-8">
-                    <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
+                    <p className="section-label mb-4">
                       Follow Us
                     </p>
                     <div className="flex gap-4">
@@ -188,7 +189,7 @@ export default async function ContactPage() {
                   </p>
                   <a
                     href="/book-trial"
-                    className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
+                    className="btn-primary inline-block px-8 py-4 transition-all duration-300 active:scale-95"
                   >
                     BOOK A TRIAL
                   </a>

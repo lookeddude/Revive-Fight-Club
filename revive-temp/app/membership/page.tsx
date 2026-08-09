@@ -24,11 +24,11 @@ export default async function MembershipPage() {
       <Header />
       <main className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
-        <section className="py-16 md:py-20 border-b border-white/10">
+        <section className="py-16 md:py-20 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">Membership</p>
+              <p className="section-label">Membership</p>
             </div>
             <h1 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,72px)] max-w-2xl mb-4">
               MEMBERSHIP PLANS
@@ -39,30 +39,35 @@ export default async function MembershipPage() {
           </div>
         </section>
 
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24" style={{ backgroundColor: '#111210' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+            <div className="flex items-center gap-3 mb-10">
+              <div className="w-6 h-px bg-[#ff571a]" />
+              <h2 className="section-label">Membership Plans</h2>
+            </div>
             {plans.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 {plans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="relative flex flex-col gap-6"
+                    className="relative flex flex-col gap-6 rounded-lg"
                     style={plan.is_featured ? {
-                      background: 'linear-gradient(135deg, rgba(255,87,26,0.08) 0%, rgba(13,12,11,1) 60%)',
-                      border: '2px solid rgba(255,87,26,0.6)',
-                      boxShadow: '0 0 40px rgba(255,87,26,0.15), inset 0 0 0 1px rgba(255,87,26,0.1)',
+                      background: '#161412',
+                      border: '2px solid rgba(255,87,26,0.4)',
+                      boxShadow: '0 8px 32px rgba(255,87,26,0.1)',
                       padding: '2rem',
                       transform: 'scale(1.02)',
                     } : {
-                      background: '#0f0e0d',
-                      border: '1px solid rgba(255,255,255,0.08)',
+                      background: '#161412',
+                      border: '1px solid rgba(255,240,230,0.07)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
                       padding: '2rem',
                     }}
                   >
                     {plan.is_featured && (
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                        <span className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-[11px] font-black tracking-[0.15em] uppercase px-4 py-1 whitespace-nowrap" style={{ boxShadow: '0 0 16px rgba(255,87,26,0.5)' }}>
-                          ★ MOST POPULAR
+                        <span className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-[11px] font-black tracking-[0.15em] uppercase px-4 py-1 whitespace-nowrap rounded" style={{ boxShadow: '0 0 16px rgba(255,87,26,0.5)' }}>
+                          POPULAR
                         </span>
                       </div>
                     )}
@@ -93,8 +98,8 @@ export default async function MembershipPage() {
                       <ul className="flex flex-col gap-3 flex-1">
                         {plan.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-3 font-[family-name:var(--font-inter)] text-sm text-[#a09890]">
-                            <svg className={`w-4 h-4 fill-current mt-0.5 flex-shrink-0 ${plan.is_featured ? 'text-[#ff571a]' : 'text-[#ff571a]/70'}`} viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            <svg className="w-5 h-5 text-[#ff571a] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                             </svg>
                             {feature}
                           </li>
@@ -126,13 +131,13 @@ export default async function MembershipPage() {
           </div>
         </section>
 
-        <section className="py-16 border-t border-white/10" style={{ background: '#0a0b0a' }}>
+        <section className="py-16 border-t border-white/10" style={{ background: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-[clamp(24px,3vw,36px)] tracking-[-0.02em] mb-4">
               NOT READY TO COMMIT?
             </h2>
             <p className="font-[family-name:var(--font-inter)] text-[#8a8079] mb-8">Start with a free trial class. No pressure, no commitment.</p>
-            <Link href="/book-trial" className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-300" style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)' }}>
+            <Link href="/book-trial" className="btn-primary inline-flex items-center gap-2 px-8 py-4 transition-all duration-300">
               BOOK A FREE TRIAL
             </Link>
           </div>
