@@ -52,7 +52,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
           </Link>
         </div>
 
-        {/* Trainer Cards — Editorial Alternating Layout */}
+        {/* Trainer Cards — Compact horizontal on mobile, editorial alternating on desktop */}
         <div className="flex flex-col gap-4">
           {trainers.map((trainer, index) => {
             const imageRight = index % 2 !== 0
@@ -62,73 +62,130 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
               <Link
                 key={trainer.id}
                 href={`/trainers/${trainer.slug}`}
-                className="group grid grid-cols-1 md:grid-cols-12 gap-0 card-premium overflow-hidden"
-                style={{ minHeight: '360px' }}
+                className="group card-premium overflow-hidden"
                 aria-label={`View ${trainer.name} profile`}
               >
-                {/* Image — grayscale to color on hover */}
-                <div
-                  className={`md:col-span-7 relative overflow-hidden ${
-                    imageRight ? 'md:order-2' : 'md:order-1'
-                  }`}
-                  style={{ minHeight: '280px' }}
-                >
-                  <Image
-                    src={image}
-                    alt={`${trainer.name}, ${trainer.role}`}
-                    fill
-                    className="object-cover trainer-img group-hover:scale-104 transition-transform duration-600"
-                    sizes="(max-width: 768px) 100vw, 58vw"
-                  />
-                  {/* Bottom gradient for mobile readability */}
-                  <div className="absolute inset-0 md:hidden img-overlay-cinema" aria-hidden="true" />
+                {/* Mobile: compact horizontal card */}
+                <div className="flex md:hidden" style={{ minHeight: '140px' }}>
+                  {/* Image — fixed width left column */}
+                  <div className="relative flex-shrink-0 overflow-hidden" style={{ width: '38%' }}>
+                    <Image
+                      src={image}
+                      alt={`${trainer.name}, ${trainer.role}`}
+                      fill
+                      className="object-cover trainer-img"
+                      sizes="38vw"
+                    />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(22,20,18,0.5))' }} aria-hidden="true" />
+                  </div>
+                  {/* Content */}
+                  <div className="flex flex-col justify-center px-5 py-4 flex-1" style={{ background: 'rgba(22,20,18,0.5)' }}>
+                    <span className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.18em] uppercase text-[#ff571a] mb-1 block">
+                      {trainer.role}
+                    </span>
+                    <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase tracking-[-0.02em] leading-tight mb-2" style={{ fontSize: '20px' }}>
+                      {trainer.name}
+                    </h3>
+                    {trainer.specialties && trainer.specialties.length > 0 && (
+                      <div className="flex gap-1.5 flex-wrap">
+                        {trainer.specialties.slice(0, 2).map((specialty) => (
+                          <span
+                            key={specialty}
+                            className="px-2 py-0.5 font-[family-name:var(--font-inter)] text-[9px] font-bold tracking-[0.08em] uppercase text-[#8a7e76]"
+                            style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
+                          >
+                            {specialty}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-3 flex items-center gap-1.5 font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#ff571a]">
+                      VIEW PROFILE
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Content */}
+                {/* Desktop: editorial alternating layout */}
                 <div
-                  className={`md:col-span-5 flex flex-col justify-center p-8 md:p-10 ${
-                    imageRight ? 'md:order-1' : 'md:order-2'
-                  }`}
-                  style={{ background: 'rgba(22,20,18,0.5)' }}
+                  className="hidden md:grid md:grid-cols-12"
+                  style={{ minHeight: '360px' }}
                 >
-                  <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a] mb-3 block">
-                    {trainer.role}
-                  </span>
-                  <h3
-                    className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase tracking-[-0.02em] mb-4 leading-tight"
-                    style={{ fontSize: 'clamp(28px, 3.5vw, 42px)' }}
+                  {/* Image */}
+                  <div
+                    className={`md:col-span-7 relative overflow-hidden ${
+                      imageRight ? 'md:order-2' : 'md:order-1'
+                    }`}
                   >
-                    {trainer.name}
-                  </h3>
-                  {trainer.short_bio && (
-                    <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[1.8] text-[#7a7068] mb-6">
-                      {trainer.short_bio}
-                    </p>
-                  )}
-                  {trainer.specialties && trainer.specialties.length > 0 && (
-                    <div className="flex gap-2 flex-wrap">
-                      {trainer.specialties.map((specialty) => (
-                        <span
-                          key={specialty}
-                          className="px-3 py-1 font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.1em] uppercase text-[#8a7e76]"
-                          style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
-                        >
-                          {specialty}
-                        </span>
-                      ))}
+                    <Image
+                      src={image}
+                      alt={`${trainer.name}, ${trainer.role}`}
+                      fill
+                      className="object-cover trainer-img group-hover:scale-104 transition-transform duration-600"
+                      sizes="58vw"
+                    />
+                  </div>
+                  {/* Content */}
+                  <div
+                    className={`md:col-span-5 flex flex-col justify-center p-10 ${
+                      imageRight ? 'md:order-1' : 'md:order-2'
+                    }`}
+                    style={{ background: 'rgba(22,20,18,0.5)' }}
+                  >
+                    <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a] mb-3 block">
+                      {trainer.role}
+                    </span>
+                    <h3
+                      className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase tracking-[-0.02em] mb-4 leading-tight"
+                      style={{ fontSize: 'clamp(28px, 3.5vw, 42px)' }}
+                    >
+                      {trainer.name}
+                    </h3>
+                    {trainer.short_bio && (
+                      <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[1.8] text-[#7a7068] mb-6">
+                        {trainer.short_bio}
+                      </p>
+                    )}
+                    {trainer.specialties && trainer.specialties.length > 0 && (
+                      <div className="flex gap-2 flex-wrap">
+                        {trainer.specialties.map((specialty) => (
+                          <span
+                            key={specialty}
+                            className="px-3 py-1 font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.1em] uppercase text-[#8a7e76]"
+                            style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
+                          >
+                            {specialty}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.12em] uppercase text-[#ff571a] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      VIEW PROFILE
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
                     </div>
-                  )}
-                  {/* View profile CTA */}
-                  <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.12em] uppercase text-[#ff571a] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    VIEW PROFILE
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
                   </div>
                 </div>
               </Link>
             )
           })}
+        </div>
+
+        {/* Mobile: View All link */}
+        <div className="flex justify-center mt-8 md:hidden">
+          <Link
+            href="/trainers"
+            className="flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.14em] uppercase text-[#f0ede8] px-6 py-3 transition-colors"
+            style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
+          >
+            VIEW ALL TRAINERS
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>
