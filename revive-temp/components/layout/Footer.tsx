@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getBusinessSettings, getFeaturedReviews } from '@/lib/data/content'
+import { getBusinessSettings } from '@/lib/data/content'
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 
 const navLinks = [
@@ -18,12 +18,7 @@ const legalLinks = [
 ]
 
 export async function Footer() {
-  const [settings, reviews] = await Promise.all([
-    getBusinessSettings(),
-    getFeaturedReviews(1),
-  ])
-
-  const spotlightReview = reviews[0] ?? null
+  const settings = await getBusinessSettings()
 
   const whatsappUrl = buildWhatsAppUrl(
     settings?.whatsapp_number ?? null,
@@ -153,42 +148,7 @@ export async function Footer() {
                 )}
               </div>
 
-              {/* Review Snippet */}
-              <div
-                className="p-4 relative overflow-hidden"
-                style={{ background: 'rgba(255,87,26,0.04)', border: '1px solid rgba(255,87,26,0.12)', borderLeft: '3px solid #ff571a' }}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => (
-                      <svg key={i} className="w-3 h-3 fill-[#f5a623]" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="font-[family-name:var(--font-outfit)] font-black text-[#f5a623] text-lg leading-none">5.0</span>
-                  <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#4a4540] uppercase tracking-widest">Google</span>
-                </div>
-                {spotlightReview && (
-                  <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] leading-relaxed italic line-clamp-3 mb-2">
-                    &ldquo;{spotlightReview.review_text}&rdquo;
-                  </p>
-                )}
-                {spotlightReview && (
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold text-[#3a3835] uppercase tracking-wider">
-                    — {spotlightReview.reviewer_name}
-                  </p>
-                )}
-                <Link
-                  href="/reviews"
-                  className="inline-flex items-center gap-1 font-[family-name:var(--font-inter)] text-[9px] font-black uppercase tracking-[0.18em] text-[#ff571a] hover:text-[#ff8a5a] transition-colors mt-3"
-                >
-                  Read all reviews
-                  <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </Link>
-              </div>
+
             </div>
 
             {/* ── Navigation ─────── col-span-3 */}
