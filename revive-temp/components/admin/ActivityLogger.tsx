@@ -19,8 +19,9 @@ export function ActivityLogger() {
     hasLogged.current = true
     if (typeof window !== 'undefined') sessionStorage.setItem(SESSION_KEY, '1')
 
-    // Fire and forget — don't block UI
-    logAdminLogin().catch(() => {})
+    // Pass browser userAgent so device info can be stored
+    const ua = typeof navigator !== 'undefined' ? navigator.userAgent : ''
+    logAdminLogin(ua).catch(() => {})
   }, [])
 
   return null

@@ -67,7 +67,7 @@ export async function logActivity(
  * Log the current admin's login. Called client-side via this server action
  * so it has the authenticated user context.
  */
-export async function logAdminLogin(): Promise<void> {
+export async function logAdminLogin(userAgent?: string): Promise<void> {
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -82,12 +82,40 @@ export async function logAdminLogin(): Promise<void> {
 
     if (!profile) return
 
+    // Parse device info from userAgent
+    const ua = userAgent ?? ''
+    const browser =
+      ua.includes('Edg/') ? 'Edge' :
+      ua.includes('OPR/') || ua.includes('Opera') ? 'Opera' :
+      ua.includes('Chrome') ? 'Chrome' :
+      ua.includes('Firefox') ? 'Firefox' :
+      ua.includes('Safari') ? 'Safari' : 'Unknown'
+
+    const os =
+      ua.includes('Windows NT') ? 'Windows' :
+      ua.includes('Mac OS X') ? 'macOS' :
+      ua.includes('Android') ? 'Android' :
+      ua.includes('iPhone') || ua.includes('iPad') ? 'iOS' :
+      ua.includes('Linux') ? 'Linux' : 'Unknown'
+
+    const deviceType =
+      ua.includes('Mobile') || ua.includes('iPhone') ? 'Mobile' :
+      ua.includes('Tablet') || ua.includes('iPad') ? 'Tablet' : 'Desktop'
+
     await logActivity(
       profile.id,
       user.email,
       profile.role,
       'login',
       `${user.email} logged in to admin panel`,
+      {
+        metadata: {
+          browser,
+          os,
+          deviceType,
+          userAgent: ua.slice(0, 300), // store trimmed UA
+        },
+      },
     )
   } catch {
     // Swallow
