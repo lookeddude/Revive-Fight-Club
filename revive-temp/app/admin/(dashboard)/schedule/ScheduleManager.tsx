@@ -47,7 +47,14 @@ export function ScheduleManager({
   const [newLocation, setNewLocation] = useState('')
 
   const handleAdd = async () => {
-    if (!newProgramId) return
+    if (!newProgramId) {
+      setToast({ message: 'Please select a program first.', type: 'error' })
+      return
+    }
+    if (newEnd <= newStart) {
+      setToast({ message: 'End time must be after start time.', type: 'error' })
+      return
+    }
     setSubmitting(true)
     const result = await createScheduleItem({
       program_id: newProgramId,

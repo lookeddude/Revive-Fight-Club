@@ -36,7 +36,7 @@ export async function updateBusinessSettings(
 
     const { error } = await supabase
       .from('business_settings')
-      .update({ ...input, updated_at: new Date().toISOString() })
+      .upsert({ id: 1, ...input, updated_at: new Date().toISOString() })
       .eq('id', 1)
 
     if (error) {
