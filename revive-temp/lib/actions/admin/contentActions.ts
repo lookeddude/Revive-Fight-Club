@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type ActionResult =
   | { success: true; message: string; id?: string }
@@ -24,6 +25,7 @@ type ProgramInput = {
 
 export async function createProgram(input: ProgramInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('programs').insert(input).select('id').single()
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to create program.' }
@@ -37,6 +39,7 @@ export async function createProgram(input: ProgramInput): Promise<ActionResult> 
 
 export async function updateProgram(id: string, input: Partial<ProgramInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('programs').update(input).eq('id', id)
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to update program.' }
@@ -52,6 +55,7 @@ export async function updateProgram(id: string, input: Partial<ProgramInput>): P
 
 export async function deleteProgram(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     // Soft-delete: set is_active = false to preserve FK relationships
     const { error } = await supabase.from('programs').update({ is_active: false }).eq('id', id)
@@ -82,6 +86,7 @@ type TrainerInput = {
 
 export async function createTrainer(input: TrainerInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('trainers').insert(input).select('id').single()
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to create trainer.' }
@@ -95,6 +100,7 @@ export async function createTrainer(input: TrainerInput): Promise<ActionResult> 
 
 export async function updateTrainer(id: string, input: Partial<TrainerInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('trainers').update(input).eq('id', id)
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to update trainer.' }
@@ -110,6 +116,7 @@ export async function updateTrainer(id: string, input: Partial<TrainerInput>): P
 
 export async function deleteTrainer(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('trainers').update({ is_active: false }).eq('id', id)
     if (error) return { success: false, error: 'Failed to archive trainer.' }
@@ -135,6 +142,7 @@ type ScheduleInput = {
 
 export async function createScheduleItem(input: ScheduleInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('schedule_items').insert(input).select('id').single()
     if (error) return { success: false, error: 'Failed to create schedule item.' }
@@ -148,6 +156,7 @@ export async function createScheduleItem(input: ScheduleInput): Promise<ActionRe
 
 export async function updateScheduleItem(id: string, input: Partial<ScheduleInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('schedule_items').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update schedule item.' }
@@ -161,6 +170,7 @@ export async function updateScheduleItem(id: string, input: Partial<ScheduleInpu
 
 export async function deleteScheduleItem(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('schedule_items').update({ is_active: false }).eq('id', id)
     if (error) return { success: false, error: 'Failed to deactivate item.' }
@@ -187,6 +197,7 @@ type MembershipInput = {
 
 export async function createMembership(input: MembershipInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('membership_plans').insert(input).select('id').single()
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to create plan.' }
@@ -200,6 +211,7 @@ export async function createMembership(input: MembershipInput): Promise<ActionRe
 
 export async function updateMembership(id: string, input: Partial<MembershipInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('membership_plans').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update plan.' }
@@ -226,6 +238,7 @@ type ReviewInput = {
 
 export async function createReview(input: ReviewInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase
       .from('reviews')
@@ -243,6 +256,7 @@ export async function createReview(input: ReviewInput): Promise<ActionResult> {
 
 export async function updateReview(id: string, input: Partial<ReviewInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('reviews').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update review.' }
@@ -256,6 +270,7 @@ export async function updateReview(id: string, input: Partial<ReviewInput>): Pro
 
 export async function deleteReview(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('reviews').update({ is_published: false }).eq('id', id)
     if (error) return { success: false, error: 'Failed to archive review.' }
@@ -278,6 +293,7 @@ type FAQInput = {
 
 export async function createFAQ(input: FAQInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('faqs').insert(input).select('id').single()
     if (error) return { success: false, error: 'Failed to create FAQ.' }
@@ -290,6 +306,7 @@ export async function createFAQ(input: FAQInput): Promise<ActionResult> {
 
 export async function updateFAQ(id: string, input: Partial<FAQInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('faqs').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update FAQ.' }
@@ -302,6 +319,7 @@ export async function updateFAQ(id: string, input: Partial<FAQInput>): Promise<A
 
 export async function deleteFAQ(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('faqs').delete().eq('id', id)
     if (error) return { success: false, error: 'Failed to delete FAQ.' }
@@ -325,6 +343,7 @@ type FacilityInput = {
 
 export async function createFacility(input: FacilityInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase.from('facilities').insert(input).select('id').single()
     if (error) return { success: false, error: error.code === '23505' ? 'Slug already exists.' : 'Failed to create facility.' }
@@ -337,6 +356,7 @@ export async function createFacility(input: FacilityInput): Promise<ActionResult
 
 export async function updateFacility(id: string, input: Partial<FacilityInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('facilities').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update facility.' }
@@ -360,6 +380,7 @@ type GalleryInput = {
 
 export async function createGalleryItem(input: GalleryInput): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { data, error } = await supabase
       .from('gallery_items')
@@ -376,6 +397,7 @@ export async function createGalleryItem(input: GalleryInput): Promise<ActionResu
 
 export async function updateGalleryItem(id: string, input: Partial<GalleryInput>): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('gallery_items').update(input).eq('id', id)
     if (error) return { success: false, error: 'Failed to update gallery item.' }
@@ -388,6 +410,7 @@ export async function updateGalleryItem(id: string, input: Partial<GalleryInput>
 
 export async function deleteGalleryItem(id: string): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('gallery_items').update({ is_published: false }).eq('id', id)
     if (error) return { success: false, error: 'Failed to archive gallery item.' }

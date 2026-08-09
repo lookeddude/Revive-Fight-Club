@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type UploadResult =
   | { success: true; path: string; url: string }
@@ -17,11 +18,8 @@ export async function uploadImage(
   try {
     const supabase = await createClient()
 
-    // Verify caller is authenticated
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return { success: false, error: 'Not authenticated. Please log in again.' }
-    }
+    // Verify caller is an active staff member (not just any authenticated user)
+    await requireAdmin()
 
     const file = formData.get('file') as File | null
     if (!file) return { success: false, error: 'No file provided.' }

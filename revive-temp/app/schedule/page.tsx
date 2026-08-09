@@ -15,8 +15,10 @@ export const revalidate = 300
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-function formatTime(time: string): string {
+function formatTime(time: string | null | undefined): string {
+  if (!time) return '—'
   const [h, m] = time.split(':')
+  if (!h || !m) return time
   const hour = parseInt(h)
   const period = hour >= 12 ? 'PM' : 'AM'
   const display = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour
@@ -31,7 +33,7 @@ export default async function SchedulePage() {
 
   // Group by day_of_week
   const byDay: Record<number, typeof scheduleItems> = {}
-  scheduleItems.forEach((item) => {
+  ;(scheduleItems ?? []).forEach((item) => {
     if (!byDay[item.day_of_week]) byDay[item.day_of_week] = []
     byDay[item.day_of_week].push(item)
   })
@@ -63,7 +65,7 @@ export default async function SchedulePage() {
                   .map(([day, items]) => (
                     <div key={day}>
                       <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase tracking-tight mb-6 border-b border-white/10 pb-4">
-                        {DAYS[Number(day)]}
+                        {DAYS[Number(day)] ?? `Day ${day}`}
                       </h2>
                       <div className="flex flex-col gap-4">
                         {items.map((item) => (
@@ -94,7 +96,7 @@ export default async function SchedulePage() {
                             <div className="flex items-center gap-4">
                               {item.level && (
                                 <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#c8c6c5] border border-white/10 px-3 py-1">
-                                  {item.level.replace('_', ' ')}
+                                  {item.level.replaceAll('_', ' ')}
                                 </span>
                               )}
                               <Link

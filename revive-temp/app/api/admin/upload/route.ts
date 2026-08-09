@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAdminSession } from '@/lib/auth/getAdminSession'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif']
 const MAX_SIZE = 10 * 1024 * 1024 // 10 MB
 
 export async function POST(request: NextRequest) {
   try {
-    // 1. Auth check
-    const supabase = await createClient()
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Not authenticated. Please log in again.' }, { status: 401 })
+    // 1. Auth + role check — must be an active staff member, not just any user
+    const profile = await getAdminSession()
+    if (!profile) {
+      return NextResponse.json({ error: 'Not authorised. Admin access required.' }, { status: 403 })
     }
 
     // 2. Parse form data
@@ -33,6 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. Upload to Supabase Storage
+    const supabase = await createClient()
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
     const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
     const bytes = await file.arrayBuffer()

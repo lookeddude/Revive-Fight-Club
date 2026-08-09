@@ -28,14 +28,16 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
     getBusinessSettings(),
   ])
 
+  const safePrograms = programs ?? []
+
   // Verify preselected program ID is actually valid (active program)
   const preselectedId =
-    params.program && programs.some((p) => p.id === params.program)
+    params.program && safePrograms.some((p) => p.id === params.program)
       ? params.program
       : null
 
   const preselectedProgram = preselectedId
-    ? programs.find((p) => p.id === preselectedId)
+    ? safePrograms.find((p) => p.id === preselectedId)
     : null
 
   return (
@@ -80,7 +82,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                 )}
 
                 <BookTrialForm
-                  programs={programs.map((p) => ({ id: p.id, name: p.name, slug: p.slug }))}
+                  programs={safePrograms.map((p) => ({ id: p.id, name: p.name, slug: p.slug }))}
                   preselectedProgramId={preselectedId}
                   whatsappNumber={settings?.whatsapp_number ?? null}
                   phone={settings?.phone ?? null}

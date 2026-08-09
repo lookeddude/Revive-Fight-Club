@@ -40,50 +40,74 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
   const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-  const [trialsRes, enquiriesRes, programsRes, trainersRes, scheduleRes, membershipsRes, reviewsRes, faqsRes] =
-    await Promise.all([
-      supabase.from('trial_requests').select('status, created_at'),
-      supabase.from('contact_enquiries').select('status, created_at'),
-      supabase.from('programs').select('id').eq('is_active', true),
-      supabase.from('trainers').select('id').eq('is_active', true),
-      supabase.from('schedule_items').select('id').eq('is_active', true),
-      supabase.from('membership_plans').select('id').eq('is_active', true),
-      supabase.from('reviews').select('id').eq('is_published', true),
-      supabase.from('faqs').select('id').eq('is_published', true),
-    ])
-
-  const trials = trialsRes.data ?? []
-  const enquiries = enquiriesRes.data ?? []
+  // Use server-side COUNT queries — much more efficient than fetching all rows
+  const [
+    trialTotal, trialPending, trialContacted, trialConfirmed,
+    trialCompleted, trialCancelled, trialNoShow,
+    trialToday, trialWeek, trialMonth,
+    enquiryTotal, enquiryNew, enquiryContacted, enquiryResolved, enquirySpam,
+    enquiryToday, enquiryWeek,
+    progCount, trainerCount, scheduleCount, membershipCount, reviewCount, faqCount,
+  ] = await Promise.all([
+    // Trial counts by status
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'contacted'),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'confirmed'),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'cancelled'),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).eq('status', 'no_show'),
+    // Trial counts by date
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).gte('created_at', weekStart),
+    supabase.from('trial_requests').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
+    // Enquiry counts by status
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }),
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).eq('status', 'contacted'),
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).eq('status', 'resolved'),
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).eq('status', 'spam'),
+    // Enquiry counts by date
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('contact_enquiries').select('*', { count: 'exact', head: true }).gte('created_at', weekStart),
+    // Content counts
+    supabase.from('programs').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('trainers').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('schedule_items').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('membership_plans').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('reviews').select('*', { count: 'exact', head: true }).eq('is_published', true),
+    supabase.from('faqs').select('*', { count: 'exact', head: true }).eq('is_published', true),
+  ])
 
   return {
     trials: {
-      total: trials.length,
-      pending: trials.filter(t => t.status === 'pending').length,
-      contacted: trials.filter(t => t.status === 'contacted').length,
-      confirmed: trials.filter(t => t.status === 'confirmed').length,
-      completed: trials.filter(t => t.status === 'completed').length,
-      cancelled: trials.filter(t => t.status === 'cancelled').length,
-      no_show: trials.filter(t => t.status === 'no_show').length,
-      today: trials.filter(t => t.created_at >= todayStart).length,
-      this_week: trials.filter(t => t.created_at >= weekStart).length,
-      this_month: trials.filter(t => t.created_at >= monthStart).length,
+      total:      trialTotal.count     ?? 0,
+      pending:    trialPending.count   ?? 0,
+      contacted:  trialContacted.count ?? 0,
+      confirmed:  trialConfirmed.count ?? 0,
+      completed:  trialCompleted.count ?? 0,
+      cancelled:  trialCancelled.count ?? 0,
+      no_show:    trialNoShow.count    ?? 0,
+      today:      trialToday.count     ?? 0,
+      this_week:  trialWeek.count      ?? 0,
+      this_month: trialMonth.count     ?? 0,
     },
     enquiries: {
-      total: enquiries.length,
-      new: enquiries.filter(e => e.status === 'new').length,
-      contacted: enquiries.filter(e => e.status === 'contacted').length,
-      resolved: enquiries.filter(e => e.status === 'resolved').length,
-      spam: enquiries.filter(e => e.status === 'spam').length,
-      today: enquiries.filter(e => e.created_at >= todayStart).length,
-      this_week: enquiries.filter(e => e.created_at >= weekStart).length,
+      total:     enquiryTotal.count     ?? 0,
+      new:       enquiryNew.count       ?? 0,
+      contacted: enquiryContacted.count ?? 0,
+      resolved:  enquiryResolved.count  ?? 0,
+      spam:      enquirySpam.count      ?? 0,
+      today:     enquiryToday.count     ?? 0,
+      this_week: enquiryWeek.count      ?? 0,
     },
     content: {
-      active_programs: programsRes.data?.length ?? 0,
-      active_trainers: trainersRes.data?.length ?? 0,
-      active_schedule_items: scheduleRes.data?.length ?? 0,
-      active_membership_plans: membershipsRes.data?.length ?? 0,
-      published_reviews: reviewsRes.data?.length ?? 0,
-      published_faqs: faqsRes.data?.length ?? 0,
+      active_programs:        progCount.count     ?? 0,
+      active_trainers:        trainerCount.count  ?? 0,
+      active_schedule_items:  scheduleCount.count ?? 0,
+      active_membership_plans: membershipCount.count ?? 0,
+      published_reviews:      reviewCount.count   ?? 0,
+      published_faqs:         faqCount.count      ?? 0,
     },
   }
 }

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type SlideshowResult =
   | { success: true; message: string; id?: string }
@@ -17,6 +18,7 @@ export async function addHeroSlide(
   altText?: string | null
 ): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     // Check limit
@@ -71,6 +73,7 @@ export async function updateHeroSlide(
   }
 ): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase
       .from('hero_slides')
@@ -90,6 +93,7 @@ export async function updateHeroSlide(
 // ── Toggle slide active ───────────────────────────────────────────────────────
 export async function toggleHeroSlide(id: string, isActive: boolean): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase
       .from('hero_slides')
@@ -109,6 +113,7 @@ export async function toggleHeroSlide(id: string, isActive: boolean): Promise<Sl
 // ── Delete slide ──────────────────────────────────────────────────────────────
 export async function deleteHeroSlide(id: string): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     // Ensure at least 1 slide remains
@@ -144,6 +149,7 @@ export async function deleteHeroSlide(id: string): Promise<SlideshowResult> {
 // ── Reorder slides ────────────────────────────────────────────────────────────
 export async function reorderHeroSlides(orderedIds: string[]): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     await Promise.all(
@@ -169,6 +175,7 @@ export async function updateHeroSettings(
   transition: string
 ): Promise<SlideshowResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     const clampedInterval = Math.min(15, Math.max(3, intervalSeconds))

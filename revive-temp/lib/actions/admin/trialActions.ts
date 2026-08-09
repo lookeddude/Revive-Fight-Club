@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { TrialRequestStatus } from '@/types/database'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type ActionResult =
   | { success: true; message: string }
@@ -14,15 +15,25 @@ export async function updateTrialStatus(
   adminNotes?: string | null
 ): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
+
+    const updatePayload: {
+      status: TrialRequestStatus
+      updated_at: string
+      admin_notes?: string | null
+    } = {
+      status,
+      updated_at: new Date().toISOString(),
+    }
+    // Only include admin_notes when explicitly provided
+    if (adminNotes !== undefined) {
+      updatePayload.admin_notes = adminNotes ?? null
+    }
 
     const { error } = await supabase
       .from('trial_requests')
-      .update({
-        status,
-        admin_notes: adminNotes !== undefined ? adminNotes : undefined,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', id)
 
     if (error) {
@@ -43,6 +54,7 @@ export async function updateTrialNotes(
   adminNotes: string
 ): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     const { error } = await supabase

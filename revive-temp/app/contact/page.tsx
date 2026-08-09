@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ContactForm } from '@/components/forms/ContactForm'
@@ -118,24 +119,29 @@ export default async function ContactPage() {
                   </a>
                 </div>
 
-                {/* Opening Days & Time — always shown */}
+                {/* Opening hours — dynamic from settings */}
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-center gap-2 mb-3">
                     <svg className="w-4 h-4 text-[#ff571a] shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
                     </svg>
-                    <p className="section-label">
-                      Opening Days &amp; Time
-                    </p>
+                    <p className="section-label">Opening Days &amp; Time</p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">
-                      Monday – Sunday
-                    </p>
-                    <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">
-                      6 AM – 11 PM
-                    </p>
-                  </div>
+                  {openingHours && Object.keys(openingHours).length > 0 ? (
+                    <dl className="flex flex-col gap-1.5">
+                      {Object.entries(openingHours).map(([day, hours]) => (
+                        <div key={day} className="flex justify-between">
+                          <dt className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">{day}</dt>
+                          <dd className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">{hours}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : (
+                    <div className="flex items-center justify-between">
+                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">Monday – Sunday</p>
+                      <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">6 AM – 11 PM</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Social links */}
@@ -187,12 +193,12 @@ export default async function ContactPage() {
                   <p className="font-[family-name:var(--font-inter)] text-sm text-[#bab8b7] mb-4 leading-relaxed">
                     Ready to start training? Skip the enquiry and book a trial class directly.
                   </p>
-                  <a
+                  <Link
                     href="/book-trial"
                     className="btn-primary inline-block px-8 py-4 transition-all duration-300 active:scale-95"
                   >
                     BOOK A TRIAL
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

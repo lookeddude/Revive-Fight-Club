@@ -103,10 +103,10 @@ export function Header() {
 
   // Get initials for avatar
   const getInitials = (name: string | null, email: string) => {
-    if (name) {
-      return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    if (name?.trim()) {
+      return name.trim().split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
     }
-    return email[0].toUpperCase()
+    return email ? email[0].toUpperCase() : 'U'
   }
 
   return (

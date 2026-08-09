@@ -32,7 +32,7 @@ export default async function ProgramsPage() {
 
   const levelLabel = (level: string | null | undefined) => {
     if (!level) return null
-    return level.replace('_', ' ')
+    return level.replaceAll('_', ' ')
   }
 
   return (

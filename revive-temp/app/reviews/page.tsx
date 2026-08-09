@@ -141,7 +141,7 @@ export default async function ReviewsPage() {
                           color: isAccent ? '#fff' : '#6a6460',
                         }}
                       >
-                        {review.reviewer_name.charAt(0).toUpperCase()}
+                        {(review.reviewer_name ?? 'M').charAt(0).toUpperCase()}
                       </div>
                       <div>
                         <p className="font-[family-name:var(--font-inter)] text-[12px] font-bold text-[#d8d4cf] leading-tight">
@@ -152,11 +152,14 @@ export default async function ReviewsPage() {
                             {review.reviewer_role}
                           </p>
                         )}
-                        {review.review_date && (
-                          <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#3a3835] mt-0.5">
-                            {new Date(review.review_date).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
-                          </p>
-                        )}
+                        {review.review_date && (() => {
+                          const d = new Date(review.review_date!)
+                          return isNaN(d.getTime()) ? null : (
+                            <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#3a3835] mt-0.5">
+                              {d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                            </p>
+                          )
+                        })()}
                       </div>
                     </div>
                   </div>

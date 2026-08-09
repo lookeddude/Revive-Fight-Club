@@ -22,7 +22,7 @@ interface HomeReviewsProps {
 }
 
 export function HomeReviews({ reviews }: HomeReviewsProps) {
-  if (reviews.length === 0) return null
+  if (!reviews || reviews.length === 0) return null
 
   return (
     <section
@@ -126,7 +126,7 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                       color: isAccent ? '#fff' : '#5a5652',
                     }}
                   >
-                    {review.reviewer_name.charAt(0).toUpperCase()}
+                    {(review.reviewer_name ?? 'M').charAt(0).toUpperCase()}
                   </div>
                   <div>
                     <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold text-[#c8c4bf] leading-tight">

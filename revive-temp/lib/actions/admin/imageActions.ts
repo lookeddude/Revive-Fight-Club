@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { uploadImage } from '@/lib/actions/admin/uploadActions'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type ActionResult =
   | { success: true; message: string; id?: string; url?: string }
@@ -17,9 +18,8 @@ export async function assignImageToSlot(
 ): Promise<ActionResult> {
   try {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return { success: false, error: 'Not authenticated.' }
-
+    const profile = await requireAdmin()
+    const userId = profile.id
     // Get current slot state for history
     const { data: slot } = await supabase
       .from('image_slots')
@@ -35,7 +35,7 @@ export async function assignImageToSlot(
       previous_url: slot.current_url,
       new_url: imageUrl,
       media_id: mediaId,
-      changed_by: user.id,
+      changed_by: userId,
     })
 
     // Update slot
@@ -46,7 +46,7 @@ export async function assignImageToSlot(
         current_media_id: mediaId,
         alt_text: altText ?? null,
         updated_at: new Date().toISOString(),
-        updated_by: user.id,
+        updated_by: userId,
       })
       .eq('slot_key', slotKey)
 
@@ -103,9 +103,8 @@ export async function uploadToMediaLibrary(
 ): Promise<ActionResult & { url?: string; mediaId?: string }> {
   try {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return { success: false, error: 'Not authenticated.' }
-
+    const profile = await requireAdmin()
+    const userId = profile.id
     const file = formData.get('file') as File | null
     if (!file) return { success: false, error: 'No file provided.' }
 
@@ -124,7 +123,7 @@ export async function uploadToMediaLibrary(
         mime_type: file.type,
         file_size: file.size,
         alt_text: altText || null,
-        created_by: user.id,
+        created_by: userId,
       })
       .select('id')
       .single()
@@ -191,7 +190,7 @@ export async function registerGalleryImageInMediaLibrary(
 ): Promise<string | null> {
   try {
     const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const profile = await requireAdmin()
 
     const { data } = await supabase
       .from('media_assets')
@@ -202,7 +201,7 @@ export async function registerGalleryImageInMediaLibrary(
         public_url: publicUrl,
         mime_type: mimeType,
         file_size: fileSize,
-        created_by: user?.id ?? null,
+        created_by: profile.id,
       })
       .select('id')
       .single()
@@ -212,6 +211,7 @@ export async function registerGalleryImageInMediaLibrary(
     return null
   }
 }
+
 
 // ── Update slot alt text ──────────────────────────────────────────────────────
 export async function updateSlotAltText(

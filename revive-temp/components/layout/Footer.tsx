@@ -114,7 +114,7 @@ export async function Footer() {
               {/* Dynamic tagline with live program names */}
               <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] leading-relaxed -mt-3 max-w-[260px]">
                 Bengaluru&apos;s premier combat sports gym.{' '}
-                {programs.length > 0 && (
+                {(programs ?? []).length > 0 && (
                   <>
                     {programs.slice(0, -1).map(p => p.name).join(', ')}
                     {programs.length > 1 ? ` & ${programs[programs.length - 1].name}` : programs[0].name}.

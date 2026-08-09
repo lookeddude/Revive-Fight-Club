@@ -94,7 +94,7 @@ export default async function MembershipPage() {
                       )}
                     </div>
 
-                    {plan.features && plan.features.length > 0 && (
+                    {Array.isArray(plan.features) && plan.features.length > 0 && (
                       <ul className="flex flex-col gap-3 flex-1">
                         {plan.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-3 font-[family-name:var(--font-inter)] text-sm text-[#a09890]">

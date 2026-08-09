@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContactEnquiryStatus } from '@/types/database'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 export type ActionResult =
   | { success: true; message: string }
@@ -14,15 +15,24 @@ export async function updateEnquiryStatus(
   adminNotes?: string | null
 ): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
+
+    const updatePayload: {
+      status: ContactEnquiryStatus
+      updated_at: string
+      admin_notes?: string | null
+    } = {
+      status,
+      updated_at: new Date().toISOString(),
+    }
+    if (adminNotes !== undefined) {
+      updatePayload.admin_notes = adminNotes ?? null
+    }
 
     const { error } = await supabase
       .from('contact_enquiries')
-      .update({
-        status,
-        admin_notes: adminNotes !== undefined ? adminNotes : undefined,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', id)
 
     if (error) {
@@ -43,6 +53,7 @@ export async function updateEnquiryNotes(
   adminNotes: string
 ): Promise<ActionResult> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
 
     const { error } = await supabase
