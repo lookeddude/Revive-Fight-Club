@@ -67,7 +67,7 @@ export function BookTrialForm({
   // Track values to preserve them on error
   const [values, setValues] = useState({
     name: '',
-    phone: '',
+    phone: '+91 ',
     email: '',
     program_id: preselectedProgramId ?? '',
     preferred_date: '',
@@ -94,7 +94,7 @@ export function BookTrialForm({
     return {
       name: validateName(values.name),
       phone: validatePhone(values.phone),
-      email: validateEmail(values.email, false), // email optional for trial
+      email: validateEmail(values.email, true), // email required for trial
       program_id: !values.program_id ? 'Please select a program' : null,
       preferred_date: validateDate(values.preferred_date),
       preferred_time: validateTime(values.preferred_time),
@@ -130,7 +130,7 @@ export function BookTrialForm({
       const result = await submitTrialRequest({
         name: values.name.trim(),
         phone: values.phone.trim(),
-        email: values.email.trim() || undefined,
+        email: values.email.trim(),
         program_id: values.program_id || null,
         preferred_date: values.preferred_date || null,
         preferred_time: values.preferred_time ? timeSlotToHH(values.preferred_time) : null,
@@ -303,7 +303,7 @@ export function BookTrialForm({
 
       {/* Row 2 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <FormField id="email" label="Email Address" error={errors.email} optional>
+        <FormField id="email" label="Email Address" error={errors.email} required>
           <input
             id="email"
             name="email"
@@ -313,6 +313,7 @@ export function BookTrialForm({
             value={values.email}
             onChange={handleChange('email')}
             className={inputClass(!!errors.email)}
+            aria-required="true"
             aria-invalid={!!errors.email}
             disabled={isPending}
           />
