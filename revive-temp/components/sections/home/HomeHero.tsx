@@ -139,53 +139,27 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
       </div>
 
 
-      {/* ── Floating Badge — centered in upper image area ────────────── */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-20 flex items-center" style={{ top: '28%' }}>
-        <div
-          className="flex items-center gap-2.5 px-4 py-2 whitespace-nowrap"
-          style={{
-            background: 'rgba(6,5,4,0.6)',
-            border: '1px solid rgba(255,87,26,0.45)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            boxShadow: '0 0 24px rgba(255,87,26,0.2), inset 0 1px 0 rgba(255,255,255,0.04)',
-          }}
-        >
-          {/* Pulsing dot */}
-          <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{
-              background: '#ff571a',
-              boxShadow: '0 0 6px #ff571a',
-              animation: 'pulse 2s infinite',
-            }}
-            aria-hidden="true"
-          />
-          <span
-            className="font-[family-name:var(--font-inter)] font-black uppercase"
-            style={{
-              fontSize: '10px',
-              letterSpacing: '0.24em',
-              color: '#ff7a45',
-            }}
-          >
-            Bengaluru&apos;s Elite Combat Gym
-          </span>
-          {/* Right accent line */}
-          <span
-            className="w-4 h-px flex-shrink-0"
-            style={{ background: 'rgba(255,87,26,0.5)' }}
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-
       {/* ── Spacer — pushes main content to bottom ───────────────────── */}
       <div className="flex-1" />
 
 
       {/* ── Main Content — anchored to bottom ───────────────────────── */}
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
+
+        {/* Location badge — inline, above discipline tags */}
+        <div className="flex items-center gap-2 mb-4">
+          <span
+            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ background: '#ff571a', boxShadow: '0 0 5px rgba(255,87,26,0.7)' }}
+            aria-hidden="true"
+          />
+          <span
+            className="font-[family-name:var(--font-inter)] font-bold uppercase"
+            style={{ fontSize: '10px', letterSpacing: '0.2em', color: 'rgba(255,87,26,0.75)' }}
+          >
+            Bengaluru&apos;s Elite Combat Gym
+          </span>
+        </div>
 
         {/* Discipline tags — horizontal row with subtle pill styling */}
         <div className="flex flex-wrap items-center gap-2 mb-6">
