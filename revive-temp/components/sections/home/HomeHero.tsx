@@ -146,20 +146,6 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
       {/* ── Main Content — anchored to bottom ───────────────────────── */}
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
-        {/* Location badge — inline, above discipline tags */}
-        <div className="flex items-center gap-2 mb-2">
-          <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{ background: '#ff571a', boxShadow: '0 0 5px rgba(255,87,26,0.7)' }}
-            aria-hidden="true"
-          />
-          <span
-            className="font-[family-name:var(--font-inter)] font-bold uppercase"
-            style={{ fontSize: '10px', letterSpacing: '0.2em', color: 'rgba(255,87,26,0.75)' }}
-          >
-            Bengaluru&apos;s Elite Combat Gym
-          </span>
-        </div>
 
         {/* Discipline tags — horizontal row with subtle pill styling */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -205,10 +191,10 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
           {/* Left: Location + tagline */}
           <div className="flex flex-col gap-1">
             <p
-              className="font-[family-name:var(--font-inter)] font-medium text-[#f5f2ed]/90"
-              style={{ fontSize: 'clamp(13px, 1.4vw, 16px)' }}
+              className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-[0.06em]"
+              style={{ fontSize: 'clamp(13px, 1.4vw, 16px)', color: '#e8e3dc' }}
             >
-              Frazer Town, Bengaluru
+              Bengaluru&apos;s Elite Combat Gym
             </p>
             <p
               className="font-[family-name:var(--font-inter)] text-[#9a9088]"
