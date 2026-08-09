@@ -10,17 +10,6 @@ import { getProgramSlides } from '@/lib/data/programSlides'
 
 export const revalidate = 300
 
-const FALLBACK_IMAGES: Record<string, string> = {
-  mma: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1200&q=85&fit=crop',
-  kickboxing: 'https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=1200&q=85&fit=crop',
-  boxing: 'https://images.unsplash.com/photo-1593359677879-a4bb92f4834b?w=1200&q=85&fit=crop',
-  'muay-thai': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=85&fit=crop',
-  'jiu-jitsu': 'https://images.unsplash.com/photo-1549476464-37392f717541?w=1200&q=85&fit=crop',
-  'strength-conditioning': 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=1200&q=85&fit=crop',
-  bodybuilding: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=85&fit=crop',
-  'weight-loss': 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&q=85&fit=crop',
-  default: 'https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?w=1200&q=85&fit=crop',
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -45,13 +34,14 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
   // Fetch slides with the real program id
   const programSlides = await getProgramSlides(program.id)
 
-  // Image priority: DB slides → slot image → program image_path → Unsplash fallback
+  // Image priority: DB slides → slot image → program image_path (no fallback)
   const slotImage = slotImages[`program.${slug}`]
   const slideUrls = programSlides.map(s => s.image_url)
-  const mainImage = slotImage ?? program.image_path ?? FALLBACK_IMAGES[slug] ?? FALLBACK_IMAGES.default
+  // Only use real images — no Unsplash fallbacks
+  const realImage = slotImage ?? program.image_path ?? null
   const allImages = slideUrls.length > 0
     ? (slotImage && !slideUrls.includes(slotImage) ? [slotImage, ...slideUrls] : slideUrls)
-    : [mainImage]
+    : (realImage ? [realImage] : [])
 
   const levelLabel = program.level?.replace('_', ' ') ?? 'All Levels'
 
