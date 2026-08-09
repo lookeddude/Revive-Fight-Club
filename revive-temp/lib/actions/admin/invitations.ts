@@ -187,17 +187,80 @@ export async function revokeInvitation(id: string): Promise<{ success: boolean; 
   }
 }
 
-/** Toggle a staff member active/inactive */
-export async function updateStaffStatus(profileId: string, isActive: boolean): Promise<{ success: boolean; error?: string }> {
+/** Toggle a staff member active/inactive.
+ * Superadmin can toggle anyone except themselves.
+ * Admin can toggle admin/receptionist but NOT superadmin.
+ */
+export async function updateStaffStatus(
+  profileId: string,
+  isActive: boolean,
+): Promise<{ success: boolean; error?: string }> {
   try {
-    const profile = await requireAdmin()
-    if (!canInvite(profile.role)) return { success: false, error: 'No permission.' }
-    if (profileId === profile.id) return { success: false, error: 'Cannot change your own status.' }
+    const actor = await requireAdmin()
+    if (!canInvite(actor.role)) return { success: false, error: 'No permission.' }
+    if (profileId === actor.id) return { success: false, error: 'Cannot change your own status.' }
 
     const adminClient = createAdminClient()
+
+    // Fetch target's role to enforce hierarchy
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (adminClient as any).from('profiles').update({ is_active: isActive }).eq('id', profileId)
+    const { data: target } = await (adminClient as any)
+      .from('profiles').select('role').eq('id', profileId).maybeSingle()
+
+    if (!target) return { success: false, error: 'User not found.' }
+
+    // Admin cannot touch superadmin
+    if (actor.role !== 'superadmin' && target.role === 'superadmin') {
+      return { success: false, error: 'Only a superadmin can modify another superadmin.' }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (adminClient as any)
+      .from('profiles').update({ is_active: isActive }).eq('id', profileId)
     if (error) return { success: false, error: error.message }
+
+    revalidatePath('/admin/users')
+    return { success: true }
+  } catch {
+    return { success: false, error: 'Unexpected error.' }
+  }
+}
+
+/** Delete a staff member.
+ * - Removes their profile row (removes admin access).
+ * - Also deletes their Supabase auth account entirely.
+ * - Superadmin can delete anyone (except themselves).
+ * - Admin can delete admin/receptionist but NOT superadmin.
+ */
+export async function deleteStaffMember(
+  profileId: string,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const actor = await requireAdmin()
+    if (!canInvite(actor.role)) return { success: false, error: 'No permission.' }
+    if (profileId === actor.id) return { success: false, error: 'Cannot delete yourself.' }
+
+    const adminClient = createAdminClient()
+
+    // Fetch target's role to enforce hierarchy
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: target } = await (adminClient as any)
+      .from('profiles').select('role').eq('id', profileId).maybeSingle()
+
+    if (!target) return { success: false, error: 'User not found.' }
+
+    // Admin cannot delete a superadmin
+    if (actor.role !== 'superadmin' && target.role === 'superadmin') {
+      return { success: false, error: 'Only a superadmin can delete another superadmin.' }
+    }
+
+    // Delete profile row (removes admin access)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (adminClient as any).from('profiles').delete().eq('id', profileId)
+
+    // Also delete the Supabase auth user so they can re-register cleanly if needed
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (adminClient as any).auth.admin.deleteUser(profileId)
 
     revalidatePath('/admin/users')
     return { success: true }
