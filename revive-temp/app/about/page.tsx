@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { getBusinessSettings, getActivePrograms } from '@/lib/data/content'
+import { getFirstProgramSlides } from '@/lib/data/programSlides'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { DirectionsCTA } from '@/components/ui/DirectionsCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
@@ -19,6 +21,8 @@ export default async function AboutPage() {
     getBusinessSettings(),
     getActivePrograms(),
   ])
+
+  const slideImages = await getFirstProgramSlides(programs.map(p => p.id))
 
   return (
     <>
@@ -133,21 +137,49 @@ export default async function AboutPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {programs.map((p, i) => (
-                <Link
-                  key={p.id}
-                  href={`/programs/${p.slug}`}
-                  className="group p-5 flex flex-col gap-3 transition-all duration-300"
-                  style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderTop: i === 0 ? '2px solid #ff571a' : '1px solid rgba(255,255,255,0.05)' }}
-                >
-                  <span className="font-[family-name:var(--font-outfit)] font-black text-[#2a2825] text-4xl leading-none">{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <p className="font-[family-name:var(--font-outfit)] font-black text-[#e2e3e1] text-lg uppercase tracking-tight group-hover:text-[#ff571a] transition-colors">{p.name}</p>
-                    {p.short_description && <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#4a4540] mt-1 leading-relaxed line-clamp-2">{p.short_description}</p>}
-                  </div>
-                  <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-8 transition-all duration-300 mt-auto" aria-hidden="true" />
-                </Link>
-              ))}
+              {programs.map((p, i) => {
+                const img = slideImages[p.id] ?? p.image_path ?? null
+                return (
+                  <Link
+                    key={p.id}
+                    href={`/programs/${p.slug}`}
+                    className="group relative overflow-hidden flex flex-col justify-end transition-all duration-300"
+                    style={{ height: '260px', border: '1px solid rgba(255,255,255,0.06)' }}
+                    aria-label={`View ${p.name} program`}
+                  >
+                    {/* Background image */}
+                    {img ? (
+                      <Image
+                        src={img}
+                        alt={p.name}
+                        fill
+                        className="object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.02)' }} />
+                    )}
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.98) 0%, rgba(13,12,11,0.5) 50%, transparent 100%)' }} />
+                    {/* Orange hover tint */}
+                    <div className="absolute inset-0 bg-[#ff571a]/0 group-hover:bg-[#ff571a]/5 transition-all duration-500" />
+
+                    {/* Number */}
+                    <span className="absolute top-4 right-4 font-[family-name:var(--font-outfit)] font-black text-3xl" style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }} aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+
+                    {/* Content */}
+                    <div className="relative z-10 p-5">
+                      <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-lg uppercase tracking-tight group-hover:text-[#ff571a] transition-colors leading-tight mb-1">{p.name}</p>
+                      {p.short_description && (
+                        <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] leading-snug line-clamp-2 group-hover:text-[#7a7470] transition-colors">{p.short_description}</p>
+                      )}
+                      <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-8 transition-all duration-300 mt-3" aria-hidden="true" />
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>
