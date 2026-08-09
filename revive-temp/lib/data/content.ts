@@ -35,9 +35,8 @@ export async function getFeaturedPrograms(): Promise<ProgramCard[]> {
     .from('programs')
     .select('id, slug, name, short_description, image_path, level, category, is_featured, sort_order')
     .eq('is_active', true)
-    .eq('is_featured', true)
     .order('sort_order', { ascending: true })
-    .limit(6)
+    .limit(4)
 
   if (error) {
     console.error('[getFeaturedPrograms]', error.message)
