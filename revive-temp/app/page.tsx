@@ -49,6 +49,7 @@ export default async function HomePage() {
           whatsappNumber={settings?.whatsapp_number ?? null}
           slides={heroSlides}
           settings={heroSettings}
+          programNames={programs.map(p => p.name)}
         />
         <HomeStats />
         <HomePhilosophy />

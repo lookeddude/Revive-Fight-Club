@@ -12,6 +12,7 @@ interface HomeHeroProps {
   whatsappNumber?: string | null
   slides?: HeroSlide[]
   settings?: HeroSettings
+  programNames?: string[]
 }
 
 type ScreenSize = 'mobile' | 'tablet' | 'desktop'
@@ -28,9 +29,8 @@ function getSlideImage(slide: HeroSlide, size: ScreenSize): string {
   return slide.desktop_url
 }
 
-const DISCIPLINES = ['MMA', 'MUAY THAI', 'BOXING', 'BJJ']
 
-export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProps) {
+export function HomeHero({ whatsappNumber, slides = [], settings, programNames = [] }: HomeHeroProps) {
   const whatsappUrl = buildWhatsAppUrl(whatsappNumber ?? null, WHATSAPP_MESSAGES.general)
   const activeSlides = slides.filter(s => s.is_active)
   const intervalMs = (settings?.interval_seconds ?? 5) * 1000
@@ -149,7 +149,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
 
         {/* Discipline tags — horizontal row with subtle pill styling */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          {DISCIPLINES.map((d, i) => (
+          {(programNames.length > 0 ? programNames : ['MMA', 'BOXING', 'BJJ']).map((d, i, arr) => (
             <span key={d} className="flex items-center gap-2">
               <span
                 className="font-[family-name:var(--font-inter)] text-[10px] md:text-[11px] font-black uppercase tracking-[0.22em]"
@@ -157,7 +157,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
               >
                 {d}
               </span>
-              {i < DISCIPLINES.length - 1 && (
+              {i < arr.length - 1 && (
                 <span
                   className="w-[3px] h-[3px] rounded-full"
                   style={{ background: 'rgba(255,87,26,0.35)' }}
