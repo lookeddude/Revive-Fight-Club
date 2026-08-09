@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useOptimistic } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import Link from 'next/link'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { reorderProgram } from '@/lib/actions/admin/programs'
@@ -16,43 +16,59 @@ type Program = {
   sort_order: number
 }
 
+function sortByOrder(list: Program[]) {
+  return [...list].sort((a, b) => a.sort_order - b.sort_order)
+}
+
 export function ProgramsTable({ programs }: { programs: Program[] }) {
   const [search, setSearch] = useState('')
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
   const [error, setError] = useState('')
+  const [movingId, setMovingId] = useState<string | null>(null)
 
-  // Optimistic list — updates instantly on click, then syncs with server
-  const [optimisticList, setOptimistic] = useOptimistic(
-    [...programs].sort((a, b) => a.sort_order - b.sort_order),
-    (state, { id, direction }: { id: string; direction: 'up' | 'down' }) => {
-      const list = [...state]
-      const idx = list.findIndex(p => p.id === id)
-      const swapIdx = direction === 'up' ? idx - 1 : idx + 1
-      if (idx === -1 || swapIdx < 0 || swapIdx >= list.length) return state
-      // Swap sort_order values
-      const tmp = list[idx].sort_order
-      list[idx] = { ...list[idx], sort_order: list[swapIdx].sort_order }
-      list[swapIdx] = { ...list[swapIdx], sort_order: tmp }
-      return [...list].sort((a, b) => a.sort_order - b.sort_order)
-    }
-  )
+  // Local list — moves instantly on click, syncs when server re-renders parent
+  const [localList, setLocalList] = useState<Program[]>(() => sortByOrder(programs))
+
+  // Sync when server revalidates and passes fresh props
+  useEffect(() => {
+    setLocalList(sortByOrder(programs))
+  }, [programs])
 
   const isSearching = search.length > 0
 
   const displayed = isSearching
-    ? optimisticList.filter(p =>
+    ? localList.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         (p.slug ?? '').toLowerCase().includes(search.toLowerCase()) ||
         (p.category ?? '').toLowerCase().includes(search.toLowerCase())
       )
-    : optimisticList
+    : localList
 
   function move(id: string, direction: 'up' | 'down') {
     setError('')
+    setMovingId(id)
+
+    // 1. Move instantly in local state
+    setLocalList(prev => {
+      const list = [...prev]
+      const idx = list.findIndex(p => p.id === id)
+      const swapIdx = direction === 'up' ? idx - 1 : idx + 1
+      if (idx === -1 || swapIdx < 0 || swapIdx >= list.length) return prev
+      const tmp = list[idx].sort_order
+      list[idx] = { ...list[idx], sort_order: list[swapIdx].sort_order }
+      list[swapIdx] = { ...list[swapIdx], sort_order: tmp }
+      return sortByOrder(list)
+    })
+
+    // 2. Persist to server in background
     startTransition(async () => {
-      setOptimistic({ id, direction })
       const result = await reorderProgram(id, direction)
-      if (!result.success) setError(result.error ?? 'Failed to reorder.')
+      setMovingId(null)
+      if (!result.success) {
+        setError(result.error ?? 'Failed to reorder.')
+        // Revert to server data on failure
+        setLocalList(sortByOrder(programs))
+      }
     })
   }
 
@@ -69,8 +85,11 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       </div>
 
       {error && (
-        <div className="p-3 border border-red-500/30 bg-red-500/10 text-red-400 text-xs font-[family-name:var(--font-inter)]">
-          {error}
+        <div className="flex items-center justify-between p-3 border border-red-500/30 bg-red-500/10">
+          <span className="font-[family-name:var(--font-inter)] text-xs text-red-400">{error}</span>
+          <button onClick={() => setError('')} className="text-red-400 hover:text-[#ff571a] ml-3">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
         </div>
       )}
 
@@ -111,20 +130,19 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
               <tbody>
                 {displayed.map((p, displayIdx) => {
                   const trueIdx = isSearching
-                    ? optimisticList.findIndex(s => s.id === p.id)
+                    ? localList.findIndex(s => s.id === p.id)
                     : displayIdx
                   const isFeatured = trueIdx < 4 && p.is_active
                   const isFirst = !isSearching && displayIdx === 0
                   const isLast = !isSearching && displayIdx === displayed.length - 1
+                  const isMoving = movingId === p.id
 
                   return (
                     <tr
                       key={p.id}
-                      className={`border-b border-white/[0.04] transition-all duration-200 ${
-                        isFeatured
-                          ? 'bg-[#ff571a]/[0.03] hover:bg-[#ff571a]/[0.06]'
-                          : 'hover:bg-white/[0.02]'
-                      } ${isPending ? 'opacity-70' : 'opacity-100'}`}
+                      className={`border-b border-white/[0.04] transition-all duration-150 ${
+                        isFeatured ? 'bg-[#ff571a]/[0.03] hover:bg-[#ff571a]/[0.05]' : 'hover:bg-white/[0.02]'
+                      } ${isMoving ? 'opacity-60' : 'opacity-100'}`}
                     >
                       {/* Position */}
                       <td className="px-4 py-3">
@@ -153,7 +171,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                       {/* Status */}
                       <td className="px-4 py-3"><StatusBadge status={p.is_active ? 'active' : 'inactive'} /></td>
 
-                      {/* Featured */}
+                      {/* Featured badge */}
                       <td className="px-4 py-3">
                         {isFeatured ? (
                           <span className="inline-flex items-center gap-1 font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">
@@ -165,25 +183,25 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                         )}
                       </td>
 
-                      {/* Up/Down */}
+                      {/* Up / Down buttons — only disabled for the row currently saving */}
                       <td className="px-4 py-3">
                         {!isSearching && (
                           <div className="flex items-center gap-1">
                             <button
-                              onClick={() => move(p.id, 'up')}
-                              disabled={isPending || isFirst}
+                              onClick={() => !isMoving && !isFirst && move(p.id, 'up')}
+                              disabled={isMoving || isFirst}
                               title="Move up"
-                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 active:scale-95 transition-all disabled:opacity-25 disabled:cursor-not-allowed"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2.5} d="M5 15l7-7 7 7" />
                               </svg>
                             </button>
                             <button
-                              onClick={() => move(p.id, 'down')}
-                              disabled={isPending || isLast}
+                              onClick={() => !isMoving && !isLast && move(p.id, 'down')}
+                              disabled={isMoving || isLast}
                               title="Move down"
-                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 active:scale-95 transition-all disabled:opacity-25 disabled:cursor-not-allowed"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
