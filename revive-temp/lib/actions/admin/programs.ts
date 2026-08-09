@@ -4,10 +4,13 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth/getAdminSession'
 import { revalidatePath } from 'next/cache'
 
+type ProgramRow = { id: string; sort_order: number }
+
 /**
- * Move a program up or down in sort_order by swapping with its neighbour.
- * The top 4 active programs (by sort_order) are automatically shown as
- * featured on the public website.
+ * Move a program up or down.
+ * Instead of swapping two rows (race-prone), we fetch the full ordered list,
+ * move the target item, then reassign clean sequential sort_order values
+ * (1, 2, 3 …) to ALL programs in one upsert. Completely atomic, no conflicts.
  */
 export async function reorderProgram(
   programId: string,
@@ -15,45 +18,53 @@ export async function reorderProgram(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     await requireAdmin()
-    const supabase = createAdminClient()
-
-    // Fetch ALL programs ordered by sort_order (not just active)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: programs, error: fetchError } = await (supabase as any)
+    const supabase = createAdminClient() as any
+
+    // 1. Fetch all programs sorted by current sort_order
+    const { data, error: fetchError } = await supabase
       .from('programs')
       .select('id, sort_order')
       .order('sort_order', { ascending: true })
 
-    if (fetchError || !programs) return { success: false, error: 'Failed to load programs.' }
+    if (fetchError || !data) {
+      return { success: false, error: 'Could not load programs.' }
+    }
 
-    const idx = programs.findIndex((p: { id: string; sort_order: number }) => p.id === programId)
+    const list: ProgramRow[] = data as ProgramRow[]
+
+    // 2. Find the target and its neighbour
+    const idx = list.findIndex((p) => p.id === programId)
     if (idx === -1) return { success: false, error: 'Program not found.' }
 
     const swapIdx = direction === 'up' ? idx - 1 : idx + 1
-    if (swapIdx < 0 || swapIdx >= programs.length) return { success: false, error: 'Already at boundary.' }
+    if (swapIdx < 0 || swapIdx >= list.length) {
+      return { success: false, error: 'Already at boundary.' }
+    }
 
-    const current = programs[idx]
-    const neighbour = programs[swapIdx]
+    // 3. Swap positions in the array
+    const reordered = [...list]
+    const tmp = reordered[idx]
+    reordered[idx] = reordered[swapIdx]
+    reordered[swapIdx] = tmp
 
-    // Swap sort_order values
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error: e1 } = await (supabase as any)
+    // 4. Build clean sequential sort_order values (1, 2, 3, …)
+    const updates = reordered.map((p, i) => ({ id: p.id, sort_order: i + 1 }))
+
+    // 5. Upsert ALL programs in one call — atomic, no conflicts
+    const { error: upsertError } = await supabase
       .from('programs')
-      .update({ sort_order: neighbour.sort_order })
-      .eq('id', current.id)
+      .upsert(updates, { onConflict: 'id' })
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error: e2 } = await (supabase as any)
-      .from('programs')
-      .update({ sort_order: current.sort_order })
-      .eq('id', neighbour.id)
-
-    if (e1 || e2) return { success: false, error: 'Failed to reorder.' }
+    if (upsertError) {
+      return { success: false, error: `Save failed: ${upsertError.message}` }
+    }
 
     revalidatePath('/admin/programs')
     revalidatePath('/')
     return { success: true }
-  } catch {
+  } catch (err) {
+    console.error('[reorderProgram]', err)
     return { success: false, error: 'Unexpected error.' }
   }
 }
