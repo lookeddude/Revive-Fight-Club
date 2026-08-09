@@ -20,7 +20,7 @@ import { getFirstProgramSlides } from '@/lib/data/programSlides'
 export const metadata: Metadata = {
   title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
   description:
-    'Elite MMA, Muay Thai, BJJ and fitness training in Frazer Town, Bengaluru. World-class coaches. Premium facilities. Book your trial class today.',
+    'Elite MMA, Kickboxing, Bodybuilding and Weight Loss training in Frazer Town, Bengaluru. World-class coaches. Premium facilities. Book your free trial class today.',
   alternates: {
     canonical: 'https://revivefightclub.com',
   },
