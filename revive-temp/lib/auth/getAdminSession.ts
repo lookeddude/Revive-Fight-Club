@@ -25,23 +25,25 @@ export const ADMIN_ROLES: AdminRole[] = ['superadmin', 'admin', 'manager']
 /**
  * Get the current admin session + profile.
  *
- * Logic:
- * 1. User is authenticated via Supabase Auth.
- * 2. If they already have an active staff profile → return it immediately.
- * 3. If no valid staff profile → check staff_invitations by email.
- *    If a non-expired pending invite exists → auto-apply role, mark accepted.
- * 4. Otherwise → return null (not authorised).
+ * Flow:
+ * 1. Get authenticated Supabase user.
+ * 2. If they have a valid active staff profile → return immediately.
+ * 3. If not → look up staff_invitations by email (non-expired, pending).
+ * 4. If invite found → assign the role (persist with admin client), return profile.
+ * 5. Otherwise → return null (not authorised).
  *
- * This means invited users just log in normally — no invite link required.
+ * Invited users just log in normally — no invite link needed.
+ * Works with email/password AND Google OAuth.
  */
 export async function getAdminSession(): Promise<AdminProfile | null> {
   try {
     const supabase = await createClient()
 
+    // ── Get authenticated user ──────────────────────────────────────────────
     const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) return null
+    if (authError || !user || !user.email) return null
 
-    // ── 1. Check existing profile ─────────────────────────────────────────────
+    // ── Check existing staff profile ────────────────────────────────────────
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: profile } = await (supabase as any)
       .from('profiles')
@@ -49,23 +51,21 @@ export async function getAdminSession(): Promise<AdminProfile | null> {
       .eq('id', user.id)
       .maybeSingle()
 
-    // Valid active staff profile → done
     if (profile && profile.is_active && ALL_STAFF_ROLES.includes(profile.role as AdminRole)) {
+      // Already a valid staff member — done
       return {
         id: user.id,
         full_name: profile.full_name,
         role: profile.role as AdminRole,
         is_active: true,
-        email: user.email ?? '',
+        email: user.email,
       }
     }
 
-    // ── 2. No valid staff profile → check for pending invitation by email ─────
-    if (!user.email) return null
-
-    const adminClient = createAdminClient()
+    // ── Check for pending invitation by email ───────────────────────────────
+    // Use regular client — the RLS policy allows any authenticated user to read.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: invite } = await (adminClient as any)
+    const { data: invite } = await (supabase as any)
       .from('staff_invitations')
       .select('id, role, expires_at')
       .eq('email', user.email.toLowerCase())
@@ -73,34 +73,44 @@ export async function getAdminSession(): Promise<AdminProfile | null> {
       .gt('expires_at', new Date().toISOString())
       .maybeSingle()
 
-    if (!invite) return null
+    if (!invite) return null // No pending invite → not authorised
 
-    // ── 3. Invitation matched → apply role & mark accepted ────────────────────
+    // ── Invitation matched — build the return profile ────────────────────────
+    const assignedRole = invite.role as AdminRole
     const displayName: string =
       (profile?.full_name as string | null) ??
-      ((user.user_metadata as Record<string, unknown>)?.full_name as string | undefined) ??
+      ((user.user_metadata as Record<string, unknown>)?.full_name as string) ??
       user.email.split('@')[0]
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (adminClient as any)
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        full_name: displayName,
-        role: invite.role,
-        is_active: true,
-      })
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (adminClient as any)
-      .from('staff_invitations')
-      .update({ status: 'accepted', accepted_at: new Date().toISOString() })
-      .eq('id', invite.id)
+    // ── Persist role assignment (best-effort — must not block login) ─────────
+    // Uses service-role client to bypass RLS. If the service key isn't available
+    // this try-catch ensures the user still gets access this session.
+    try {
+      const adminClient = createAdminClient()
+      await Promise.all([
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (adminClient as any).from('profiles').upsert({
+          id: user.id,
+          full_name: displayName,
+          role: assignedRole,
+          is_active: true,
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (adminClient as any)
+          .from('staff_invitations')
+          .update({ status: 'accepted', accepted_at: new Date().toISOString() })
+          .eq('id', invite.id),
+      ])
+    } catch (writeErr) {
+      // Write failed (e.g. service key missing) — role applied for this session only.
+      // Next login will retry. Log for debugging.
+      console.error('[getAdminSession] Could not persist invite role assignment:', writeErr)
+    }
 
     return {
       id: user.id,
       full_name: displayName,
-      role: invite.role as AdminRole,
+      role: assignedRole,
       is_active: true,
       email: user.email,
     }
