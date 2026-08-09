@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import type { AdminRole } from '@/lib/auth/roles'
 
 type NavItem = {
   label: string
@@ -12,6 +13,8 @@ type NavItem = {
 
 type NavSection = {
   title: string
+  /** If undefined, all roles can see this section */
+  roles?: AdminRole[]
   items: NavItem[]
 }
 
@@ -86,6 +89,12 @@ const ImageMgmtIcon = () => (
     <circle cx="9" cy="9" r="1.5"/><polyline points="20 14 15 9 9 14"/>
   </svg>
 )
+const UsersIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+)
 
 const NAV_SECTIONS: NavSection[] = [
   {
@@ -103,6 +112,7 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Content',
+    roles: ['superadmin', 'admin', 'manager'],
     items: [
       { label: 'Programs', href: '/admin/programs', icon: <ProgramIcon /> },
       { label: 'Trainers', href: '/admin/trainers', icon: <TrainerIcon /> },
@@ -117,8 +127,16 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Settings',
+    roles: ['superadmin', 'admin', 'manager'],
     items: [
       { label: 'Business Info', href: '/admin/settings', icon: <SettingsIcon /> },
+    ],
+  },
+  {
+    title: 'Team',
+    roles: ['superadmin', 'admin'],
+    items: [
+      { label: 'User Management', href: '/admin/users', icon: <UsersIcon /> },
     ],
   },
 ]
@@ -126,9 +144,10 @@ const NAV_SECTIONS: NavSection[] = [
 interface AdminSidebarProps {
   isOpen: boolean
   onClose: () => void
+  role: AdminRole
 }
 
-export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
+export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
   const pathname = usePathname()
 
   const isActive = (href: string) => {
@@ -173,7 +192,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-4 px-3">
-          {NAV_SECTIONS.map((section, si) => (
+          {NAV_SECTIONS.filter(section => !section.roles || section.roles.includes(role)).map((section, si) => (
             <div key={si} className={si > 0 ? 'mt-6' : ''}>
               {section.title && (
                 <p className="px-2 mb-2 text-[10px] font-bold tracking-[0.12em] uppercase text-[#4b5563] font-[family-name:var(--font-inter)]">

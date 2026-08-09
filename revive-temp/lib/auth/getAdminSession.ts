@@ -1,18 +1,29 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import {
+  type AdminRole,
+  ALL_STAFF_ROLES,
+  invitableRoles,
+  canInvite,
+} from '@/lib/auth/roles'
+
+export type { AdminRole } from '@/lib/auth/roles'
+export { invitableRoles, canInvite, ALL_STAFF_ROLES } from '@/lib/auth/roles'
 
 export type AdminProfile = {
   id: string
   full_name: string | null
-  role: 'admin' | 'manager'
+  role: AdminRole
   is_active: boolean
   email: string
 }
 
+/** Roles that can access the full admin panel */
+export const ADMIN_ROLES: AdminRole[] = ['superadmin', 'admin', 'manager']
+
 /**
  * Get the current admin session + profile.
  * Returns null if not authenticated or no valid profile.
- * Does NOT redirect — use requireAdmin() for that.
  */
 export async function getAdminSession(): Promise<AdminProfile | null> {
   try {
@@ -29,11 +40,12 @@ export async function getAdminSession(): Promise<AdminProfile | null> {
       .single()
 
     if (profileError || !profile || !profile.is_active) return null
+    if (!ALL_STAFF_ROLES.includes(profile.role as AdminRole)) return null
 
     return {
       id: user.id,
       full_name: profile.full_name,
-      role: profile.role as 'admin' | 'manager',
+      role: profile.role as AdminRole,
       is_active: profile.is_active,
       email: user.email ?? '',
     }
@@ -43,7 +55,7 @@ export async function getAdminSession(): Promise<AdminProfile | null> {
 }
 
 /**
- * Require an authenticated admin/manager session.
+ * Require any authenticated staff session (all roles).
  * Redirects to /admin/login if no valid session.
  */
 export async function requireAdmin(): Promise<AdminProfile> {
@@ -55,12 +67,35 @@ export async function requireAdmin(): Promise<AdminProfile> {
 }
 
 /**
- * Require admin role specifically (not manager).
- * Redirects to /admin if manager tries to access admin-only pages.
+ * Require superadmin or admin role.
+ * Receptionist trying to access management pages gets redirected.
+ */
+export async function requireSuperAdminOrAdmin(): Promise<AdminProfile> {
+  const session = await requireAdmin()
+  if (session.role !== 'superadmin' && session.role !== 'admin') {
+    redirect('/admin')
+  }
+  return session
+}
+
+/**
+ * Require superadmin role only.
+ */
+export async function requireSuperAdmin(): Promise<AdminProfile> {
+  const session = await requireAdmin()
+  if (session.role !== 'superadmin') {
+    redirect('/admin')
+  }
+  return session
+}
+
+/**
+ * Require admin role specifically (not manager / receptionist).
+ * Redirects to /admin if lower role tries to access admin-only pages.
  */
 export async function requireAdminRole(): Promise<AdminProfile> {
   const session = await requireAdmin()
-  if (session.role !== 'admin') {
+  if (session.role !== 'admin' && session.role !== 'superadmin') {
     redirect('/admin')
   }
   return session
