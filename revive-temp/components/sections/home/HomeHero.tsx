@@ -148,19 +148,19 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
 
-        {/* Discipline tags — horizontal row with subtle pill styling */}
-        <div className="flex flex-wrap items-center gap-2 mb-3">
+        {/* Discipline tags — single row, no wrap */}
+        <div className="flex flex-nowrap items-center gap-1 md:gap-2 mb-3 overflow-hidden">
           {(programNames.length > 0 ? programNames : ['MMA', 'BOXING', 'BJJ']).map((d, i, arr) => (
-            <span key={d} className="flex items-center gap-2">
+            <span key={d} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
               <span
-                className="font-[family-name:var(--font-inter)] text-[10px] md:text-[11px] font-black uppercase tracking-[0.22em]"
-                style={{ color: 'rgba(255,87,26,0.95)', letterSpacing: '0.22em' }}
+                className="font-[family-name:var(--font-inter)] text-[9px] md:text-[11px] font-black uppercase"
+                style={{ color: 'rgba(255,87,26,0.95)', letterSpacing: '0.1em' }}
               >
                 {d}
               </span>
               {i < arr.length - 1 && (
                 <span
-                  className="w-[3px] h-[3px] rounded-full"
+                  className="w-[3px] h-[3px] rounded-full flex-shrink-0"
                   style={{ background: 'rgba(255,87,26,0.35)' }}
                   aria-hidden="true"
                 />
