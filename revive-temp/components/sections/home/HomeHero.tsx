@@ -147,7 +147,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
         {/* Location badge — inline, above discipline tags */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-2">
           <span
             className="w-1.5 h-1.5 rounded-full flex-shrink-0"
             style={{ background: '#ff571a', boxShadow: '0 0 5px rgba(255,87,26,0.7)' }}
@@ -162,7 +162,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings }: HomeHeroProp
         </div>
 
         {/* Discipline tags — horizontal row with subtle pill styling */}
-        <div className="flex flex-wrap items-center gap-2 mb-6">
+        <div className="flex flex-wrap items-center gap-2 mb-3">
           {DISCIPLINES.map((d, i) => (
             <span key={d} className="flex items-center gap-2">
               <span
