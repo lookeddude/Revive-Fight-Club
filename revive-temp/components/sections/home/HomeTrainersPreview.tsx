@@ -16,7 +16,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
 
   return (
     <section
-      className="py-24 md:py-32 relative overflow-hidden"
+      className="py-14 md:py-24 relative overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #0d0c0b 0%, #111210 50%, #0d0c0b 100%)' }}
     >
       {/* Top separator */}

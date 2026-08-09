@@ -27,7 +27,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
 
   return (
     <section
-      className="py-24 md:py-32 relative overflow-hidden section-divider"
+      className="py-14 md:py-24 relative overflow-hidden section-divider"
       style={{ background: '#0d0c0b' }}
     >
       {/* Subtle dot grid background texture */}

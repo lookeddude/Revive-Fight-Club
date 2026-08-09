@@ -34,7 +34,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 py-28 md:py-36 text-center">
+      <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 py-16 md:py-28 text-center">
         {/* Section label */}
         <div className="flex items-center justify-center gap-3 mb-10">
           <div className="w-12 h-px bg-[#ff571a]" aria-hidden="true" />
