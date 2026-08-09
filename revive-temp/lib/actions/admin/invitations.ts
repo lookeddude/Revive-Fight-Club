@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin, invitableRoles, canInvite, type AdminRole } from '@/lib/auth/getAdminSession'
 import { revalidatePath } from 'next/cache'
+import { logActivity } from '@/lib/actions/admin/activityLog'
 
 export type Invitation = {
   id: string
@@ -158,10 +159,18 @@ export async function createInvitation(
         .eq('token', token)
 
       revalidatePath('/admin/users')
+      // Log immediate role assignment
+      void logActivity(profile.id, profile.email, profile.role, 'invite_sent',
+        `Invited ${normalizedEmail} as ${role} (account already existed — role applied immediately)`,
+        { actionTarget: normalizedEmail, metadata: { role, alreadyExisted: true } })
       return { success: true, token, alreadyExisted: true }
     }
 
     revalidatePath('/admin/users')
+    // Log invitation creation
+    void logActivity(profile.id, profile.email, profile.role, 'invite_sent',
+      `Invited ${normalizedEmail} as ${role}`,
+      { actionTarget: normalizedEmail, metadata: { role, token } })
     return { success: true, token, alreadyExisted: false }
   } catch (err) {
     console.error('[createInvitation]', err)
@@ -181,6 +190,9 @@ export async function revokeInvitation(id: string): Promise<{ success: boolean; 
     if (error) return { success: false, error: error.message }
 
     revalidatePath('/admin/users')
+    void logActivity(profile.id, profile.email, profile.role, 'invite_revoked',
+      `Revoked invitation (id: ${id})`,
+      { actionTarget: id })
     return { success: true }
   } catch {
     return { success: false, error: 'Unexpected error.' }
@@ -220,6 +232,10 @@ export async function updateStaffStatus(
     if (error) return { success: false, error: error.message }
 
     revalidatePath('/admin/users')
+    void logActivity(actor.id, actor.email, actor.role,
+      isActive ? 'user_activated' : 'user_deactivated',
+      `${isActive ? 'Activated' : 'Deactivated'} user (id: ${profileId}) [role: ${target.role}]`,
+      { actionTarget: profileId, metadata: { targetRole: target.role, newStatus: isActive } })
     return { success: true }
   } catch {
     return { success: false, error: 'Unexpected error.' }
@@ -263,6 +279,9 @@ export async function deleteStaffMember(
     await (adminClient as any).auth.admin.deleteUser(profileId)
 
     revalidatePath('/admin/users')
+    void logActivity(actor.id, actor.email, actor.role, 'user_deleted',
+      `Permanently deleted user (id: ${profileId}) [role: ${target.role}]`,
+      { actionTarget: profileId, metadata: { deletedRole: target.role } })
     return { success: true }
   } catch {
     return { success: false, error: 'Unexpected error.' }

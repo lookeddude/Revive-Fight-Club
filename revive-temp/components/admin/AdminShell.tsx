@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AdminSidebar } from './AdminSidebar'
 import { AdminTopbar } from './AdminTopbar'
+import { ActivityLogger } from './ActivityLogger'
 import type { AdminProfile } from '@/lib/auth/getAdminSession'
 
 interface AdminShellProps {
@@ -24,6 +25,7 @@ export function AdminShell({ title, profile, children }: AdminShellProps) {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-h-screen lg:ml-60">
+        <ActivityLogger />
         <AdminTopbar
           title={title}
           profile={profile}
