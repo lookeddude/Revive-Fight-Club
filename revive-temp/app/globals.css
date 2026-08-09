@@ -419,7 +419,7 @@ body {
    dark ceiling is hidden. Desktop keeps center top. */
 @media (max-width: 767px) {
   .hero-bg-img {
-    object-position: center 40% !important;
+    object-position: center 55% !important;
   }
 }
 
