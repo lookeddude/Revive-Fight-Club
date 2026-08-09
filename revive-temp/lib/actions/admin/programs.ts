@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth/getAdminSession'
 import { revalidatePath } from 'next/cache'
 
@@ -15,17 +15,18 @@ export async function reorderProgram(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     await requireAdmin()
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
-    // Fetch all active programs ordered by sort_order
-    const { data: programs, error: fetchError } = await supabase
+    // Fetch ALL programs ordered by sort_order (not just active)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: programs, error: fetchError } = await (supabase as any)
       .from('programs')
       .select('id, sort_order')
       .order('sort_order', { ascending: true })
 
     if (fetchError || !programs) return { success: false, error: 'Failed to load programs.' }
 
-    const idx = programs.findIndex(p => p.id === programId)
+    const idx = programs.findIndex((p: { id: string; sort_order: number }) => p.id === programId)
     if (idx === -1) return { success: false, error: 'Program not found.' }
 
     const swapIdx = direction === 'up' ? idx - 1 : idx + 1
@@ -35,12 +36,14 @@ export async function reorderProgram(
     const neighbour = programs[swapIdx]
 
     // Swap sort_order values
-    const { error: e1 } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: e1 } = await (supabase as any)
       .from('programs')
       .update({ sort_order: neighbour.sort_order })
       .eq('id', current.id)
 
-    const { error: e2 } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: e2 } = await (supabase as any)
       .from('programs')
       .update({ sort_order: current.sort_order })
       .eq('id', neighbour.id)

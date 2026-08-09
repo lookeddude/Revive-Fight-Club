@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useOptimistic } from 'react'
 import Link from 'next/link'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { reorderProgram } from '@/lib/actions/admin/programs'
@@ -21,20 +21,36 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
 
-  // Sort by sort_order for display
-  const sorted = [...programs].sort((a, b) => a.sort_order - b.sort_order)
-
-  const filtered = sorted.filter(p =>
-    p.name.toLowerCase().includes(search.toLowerCase()) ||
-    (p.slug ?? '').toLowerCase().includes(search.toLowerCase()) ||
-    (p.category ?? '').toLowerCase().includes(search.toLowerCase())
+  // Optimistic list — updates instantly on click, then syncs with server
+  const [optimisticList, setOptimistic] = useOptimistic(
+    [...programs].sort((a, b) => a.sort_order - b.sort_order),
+    (state, { id, direction }: { id: string; direction: 'up' | 'down' }) => {
+      const list = [...state]
+      const idx = list.findIndex(p => p.id === id)
+      const swapIdx = direction === 'up' ? idx - 1 : idx + 1
+      if (idx === -1 || swapIdx < 0 || swapIdx >= list.length) return state
+      // Swap sort_order values
+      const tmp = list[idx].sort_order
+      list[idx] = { ...list[idx], sort_order: list[swapIdx].sort_order }
+      list[swapIdx] = { ...list[swapIdx], sort_order: tmp }
+      return [...list].sort((a, b) => a.sort_order - b.sort_order)
+    }
   )
 
   const isSearching = search.length > 0
 
+  const displayed = isSearching
+    ? optimisticList.filter(p =>
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        (p.slug ?? '').toLowerCase().includes(search.toLowerCase()) ||
+        (p.category ?? '').toLowerCase().includes(search.toLowerCase())
+      )
+    : optimisticList
+
   function move(id: string, direction: 'up' | 'down') {
     setError('')
     startTransition(async () => {
+      setOptimistic({ id, direction })
       const result = await reorderProgram(id, direction)
       if (!result.success) setError(result.error ?? 'Failed to reorder.')
     })
@@ -42,13 +58,13 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
 
   return (
     <div className="space-y-3">
-      {/* Header note */}
+      {/* Info banner */}
       <div className="flex items-center gap-3 p-3 border border-[#ff571a]/20 bg-[#ff571a]/5">
         <svg className="w-4 h-4 text-[#ff571a] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="square" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <p className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">
-          <strong>Top 4 programs</strong> by position are automatically shown as featured on the website. Use ↑↓ to reorder.
+          <strong>Top 4 programs</strong> by position are automatically shown as featured on the website. Use &#8593;&#8595; to reorder.
         </p>
       </div>
 
@@ -78,7 +94,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       </div>
 
       <div className="bg-[#111312] border border-white/[0.07]">
-        {filtered.length === 0 ? (
+        {displayed.length === 0 ? (
           <div className="text-center py-12">
             <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563]">No programs match &quot;{search}&quot;</p>
           </div>
@@ -87,32 +103,33 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  {['Position', 'Name', 'Level', 'Category', 'Status', 'Website', 'Order', ''].map(h => (
+                  {['Pos', 'Name', 'Level', 'Category', 'Status', 'Website', 'Order', ''].map(h => (
                     <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#4b5563]">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((p, displayIdx) => {
-                  // When not searching, use the true sorted index for position
-                  const trueIdx = isSearching ? sorted.findIndex(s => s.id === p.id) : displayIdx
+                {displayed.map((p, displayIdx) => {
+                  const trueIdx = isSearching
+                    ? optimisticList.findIndex(s => s.id === p.id)
+                    : displayIdx
                   const isFeatured = trueIdx < 4 && p.is_active
                   const isFirst = !isSearching && displayIdx === 0
-                  const isLast = !isSearching && displayIdx === filtered.length - 1
+                  const isLast = !isSearching && displayIdx === displayed.length - 1
 
                   return (
                     <tr
                       key={p.id}
-                      className={`border-b border-white/[0.04] transition-colors ${
-                        isFeatured ? 'bg-[#ff571a]/[0.03] hover:bg-[#ff571a]/[0.06]' : 'hover:bg-white/[0.02]'
-                      }`}
+                      className={`border-b border-white/[0.04] transition-all duration-200 ${
+                        isFeatured
+                          ? 'bg-[#ff571a]/[0.03] hover:bg-[#ff571a]/[0.06]'
+                          : 'hover:bg-white/[0.02]'
+                      } ${isPending ? 'opacity-70' : 'opacity-100'}`}
                     >
-                      {/* Position number */}
+                      {/* Position */}
                       <td className="px-4 py-3">
-                        <div className={`w-7 h-7 flex items-center justify-center font-[family-name:var(--font-outfit)] font-bold text-sm ${
-                          isFeatured
-                            ? 'bg-[#ff571a] text-black'
-                            : 'bg-white/[0.06] text-[#6b7280]'
+                        <div className={`w-7 h-7 flex items-center justify-center font-[family-name:var(--font-outfit)] font-bold text-sm transition-colors ${
+                          isFeatured ? 'bg-[#ff571a] text-black' : 'bg-white/[0.06] text-[#6b7280]'
                         }`}>
                           {trueIdx + 1}
                         </div>
@@ -125,18 +142,18 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
 
                       {/* Level */}
                       <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] capitalize">
-                        {p.level?.replace('_', ' ') ?? '—'}
+                        {p.level?.replace('_', ' ') ?? '\u2014'}
                       </td>
 
                       {/* Category */}
                       <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#9ca3af]">
-                        {p.category ?? '—'}
+                        {p.category ?? '\u2014'}
                       </td>
 
                       {/* Status */}
                       <td className="px-4 py-3"><StatusBadge status={p.is_active ? 'active' : 'inactive'} /></td>
 
-                      {/* Featured on website */}
+                      {/* Featured */}
                       <td className="px-4 py-3">
                         {isFeatured ? (
                           <span className="inline-flex items-center gap-1 font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">
@@ -148,7 +165,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                         )}
                       </td>
 
-                      {/* Up / Down buttons */}
+                      {/* Up/Down */}
                       <td className="px-4 py-3">
                         {!isSearching && (
                           <div className="flex items-center gap-1">
@@ -156,7 +173,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                               onClick={() => move(p.id, 'up')}
                               disabled={isPending || isFirst}
                               title="Move up"
-                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-[#e2e3e1] hover:border-white/20 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2.5} d="M5 15l7-7 7 7" />
@@ -166,7 +183,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                               onClick={() => move(p.id, 'down')}
                               disabled={isPending || isLast}
                               title="Move down"
-                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-[#e2e3e1] hover:border-white/20 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+                              className="w-7 h-7 flex items-center justify-center border border-white/[0.08] text-[#6b7280] hover:text-white hover:border-[#ff571a]/50 hover:bg-[#ff571a]/10 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="square" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -178,7 +195,12 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
 
                       {/* Edit */}
                       <td className="px-4 py-3">
-                        <Link href={`/admin/programs/${p.id}`} className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</Link>
+                        <Link
+                          href={`/admin/programs/${p.id}`}
+                          className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"
+                        >
+                          Edit
+                        </Link>
                       </td>
                     </tr>
                   )
@@ -195,17 +217,17 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
           <div className="w-5 h-5 bg-[#ff571a] flex items-center justify-center">
             <span className="font-[family-name:var(--font-outfit)] font-bold text-black text-[10px]">1</span>
           </div>
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">= Featured on website</span>
+          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Positions 1&#8211;4 = featured on website</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-white/[0.06] flex items-center justify-center">
             <span className="font-[family-name:var(--font-outfit)] font-bold text-[#6b7280] text-[10px]">5</span>
           </div>
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">= Not featured</span>
+          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Position 5+ = not shown</span>
         </div>
         {search && (
           <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] ml-auto">
-            {filtered.length} of {programs.length} programs
+            {displayed.length} of {programs.length} programs
           </span>
         )}
       </div>
