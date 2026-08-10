@@ -109,9 +109,9 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                 >
                   {program.name}
                 </h3>
-                {/* Reveal description on hover */}
+                {/* Description - always visible on mobile, reveal on hover on desktop */}
                 {program.short_description && (
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c4bf] leading-relaxed mb-3 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-400 max-h-0 group-hover:max-h-12 overflow-hidden">
+                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c4bf] leading-relaxed mb-3 line-clamp-2 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-400">
                     {program.short_description}
                   </p>
                 )}

@@ -35,6 +35,7 @@ export async function getFeaturedPrograms(): Promise<ProgramCard[]> {
     .from('programs')
     .select('id, slug, name, short_description, image_path, level, category, is_featured, sort_order')
     .eq('is_active', true)
+    .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
     .limit(4)
 
@@ -139,9 +140,11 @@ export async function getPublishedReviews(limit = 9): Promise<ReviewCard[]> {
   return (data ?? []) as ReviewCard[]
 }
 
-export async function getFeaturedReviews(limit = 3): Promise<ReviewCard[]> {
+export async function getFeaturedReviews(limit = 10): Promise<ReviewCard[]> {
   const supabase = await createClient()
-  const { data, error } = await supabase
+
+  // First try featured reviews
+  const { data: featured, error: err1 } = await supabase
     .from('reviews')
     .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
     .eq('is_published', true)
@@ -149,11 +152,23 @@ export async function getFeaturedReviews(limit = 3): Promise<ReviewCard[]> {
     .order('sort_order', { ascending: true })
     .limit(limit)
 
-  if (error) {
-    console.error('[getFeaturedReviews]', error.message)
+  if (!err1 && featured && featured.length > 0) {
+    return featured as ReviewCard[]
+  }
+
+  // Fallback: return any published reviews
+  const { data: all, error: err2 } = await supabase
+    .from('reviews')
+    .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
+    .eq('is_published', true)
+    .order('sort_order', { ascending: true })
+    .limit(limit)
+
+  if (err2) {
+    console.error('[getFeaturedReviews]', err2.message)
     return []
   }
-  return (data ?? []) as ReviewCard[]
+  return (all ?? []) as ReviewCard[]
 }
 
 // ── FAQs ──────────────────────────────────────────────────────────

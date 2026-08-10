@@ -136,51 +136,60 @@ export default async function AboutPage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {programs.map((p, i) => {
-                const img = slideImages[p.id] ?? p.image_path ?? null
-                return (
-                  <Link
-                    key={p.id}
-                    href={`/programs/${p.slug}`}
-                    className="group relative overflow-hidden flex flex-col justify-end transition-all duration-300"
-                    style={{ height: '260px', border: '1px solid rgba(255,255,255,0.06)' }}
-                    aria-label={`View ${p.name} program`}
-                  >
-                    {/* Background image */}
-                    {img ? (
-                      <Image
-                        src={img}
-                        alt={p.name}
-                        fill
-                        className="object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      />
-                    ) : (
-                      <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.02)' }} />
-                    )}
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.98) 0%, rgba(13,12,11,0.5) 50%, transparent 100%)' }} />
-                    {/* Orange hover tint */}
-                    <div className="absolute inset-0 bg-[#ff571a]/0 group-hover:bg-[#ff571a]/5 transition-all duration-500" />
-
-                    {/* Number */}
-                    <span className="absolute top-4 right-4 font-[family-name:var(--font-outfit)] font-black text-3xl" style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }} aria-hidden="true">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-
-                    {/* Content */}
-                    <div className="relative z-10 p-5">
-                      <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-lg uppercase tracking-tight group-hover:text-[#ff571a] transition-colors leading-tight mb-1">{p.name}</p>
-                      {p.short_description && (
-                        <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] leading-snug line-clamp-2 group-hover:text-[#7a7470] transition-colors">{p.short_description}</p>
+            {programs.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {programs.map((p, i) => {
+                  const img = slideImages[p.id] ?? p.image_path ?? null
+                  return (
+                    <Link
+                      key={p.id}
+                      href={`/programs/${p.slug}`}
+                      className="group relative overflow-hidden flex flex-col justify-end transition-all duration-300"
+                      style={{ height: '260px', border: '1px solid rgba(255,255,255,0.06)' }}
+                      aria-label={`View ${p.name} program`}
+                    >
+                      {/* Background image or branded fallback */}
+                      {img ? (
+                        <Image
+                          src={img}
+                          alt={p.name}
+                          fill
+                          className="object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1a1208 0%, #0d0c0b 100%)' }} />
                       )}
-                      <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-8 transition-all duration-300 mt-3" aria-hidden="true" />
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.97) 0%, rgba(13,12,11,0.4) 55%, transparent 100%)' }} />
+                      {/* Orange hover tint */}
+                      <div className="absolute inset-0 bg-[#ff571a]/0 group-hover:bg-[#ff571a]/5 transition-all duration-500" />
+
+                      {/* Number */}
+                      <span className="absolute top-4 right-4 font-[family-name:var(--font-outfit)] font-black text-3xl" style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }} aria-hidden="true">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+
+                      {/* Content */}
+                      <div className="relative z-10 p-5">
+                        <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-lg uppercase tracking-tight group-hover:text-[#ff571a] transition-colors leading-tight mb-1">{p.name}</p>
+                        {p.short_description && (
+                          <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#8a8078] leading-snug line-clamp-2 group-hover:text-[#aaa09a] transition-colors">{p.short_description}</p>
+                        )}
+                        <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-8 transition-all duration-300 mt-3" aria-hidden="true" />
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className="py-10 text-center">
+                <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm text-[#ff571a] hover:text-[#ff8a5a] transition-colors">
+                  View Our Programs
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </Link>
+              </div>
+            )}
           </div>
         </section>
 
