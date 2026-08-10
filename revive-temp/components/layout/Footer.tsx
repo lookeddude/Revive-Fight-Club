@@ -46,42 +46,6 @@ export async function Footer() {
   return (
     <footer className="relative overflow-hidden" style={{ background: '#080706' }}>
 
-      {/* ── Top CTA Banner ─────────────────────────────────── */}
-      <div
-        className="relative py-10 md:py-14 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.12) 0%, rgba(8,7,6,1) 60%)', borderTop: '1px solid rgba(255,87,26,0.2)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-      >
-        {/* Decorative large text */}
-        <span
-          className="absolute -right-4 top-1/2 -translate-y-1/2 font-[family-name:var(--font-outfit)] font-black uppercase select-none pointer-events-none hidden md:block"
-          style={{ fontSize: '120px', lineHeight: 1, color: 'transparent', WebkitTextStroke: '1px rgba(255,87,26,0.08)', letterSpacing: '-0.04em' }}
-          aria-hidden="true"
-        >RFC</span>
-
-        <div className="max-w-[1280px] mx-auto px-5 md:px-16 flex flex-col md:flex-row items-center md:items-end justify-between gap-6">
-          <div>
-            <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.2em] uppercase text-[#ff571a] mb-2">
-              Start Today
-            </p>
-            <h2
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}
-            >
-              READY TO <span className="text-[#ff571a]">FIGHT</span>?
-            </h2>
-          </div>
-          <Link
-            href="/book-trial"
-            className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.16em] uppercase px-8 py-4 text-black transition-all duration-300 hover:scale-[1.03] active:scale-95 flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            BOOK A FREE TRIAL
-          </Link>
-        </div>
-      </div>
 
       {/* ── Main Footer Body ───────────────────────────────── */}
       <div className="relative">
