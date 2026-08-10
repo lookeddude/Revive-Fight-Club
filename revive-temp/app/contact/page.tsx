@@ -138,7 +138,7 @@ export default async function ContactPage() {
                     </dl>
                   ) : (
                     <div className="flex items-center justify-between">
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">Monday – Sunday</p>
+                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">Monday – Saturday</p>
                       <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">6 AM – 11 PM</p>
                     </div>
                   )}
