@@ -94,10 +94,10 @@ export function BookTrialForm({
     return {
       name: validateName(values.name),
       phone: validatePhone(values.phone),
-      email: validateEmail(values.email, true), // email required for trial
-      program_id: !values.program_id ? 'Please select a program' : null,
-      preferred_date: validateDate(values.preferred_date),
-      preferred_time: validateTime(values.preferred_time),
+      email: validateEmail(values.email, false), // email optional
+      program_id: null, // optional — gym follows up
+      preferred_date: values.preferred_date ? validateDate(values.preferred_date) : null,
+      preferred_time: null, // optional
       message: validateMessage(values.message),
     }
   }
@@ -303,7 +303,7 @@ export function BookTrialForm({
 
       {/* Row 2 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <FormField id="email" label="Email Address" error={errors.email} required>
+        <FormField id="email" label="Email Address" error={errors.email} optional>
           <input
             id="email"
             name="email"
@@ -313,7 +313,7 @@ export function BookTrialForm({
             value={values.email}
             onChange={handleChange('email')}
             className={inputClass(!!errors.email)}
-            aria-required="true"
+            aria-required="false"
             aria-invalid={!!errors.email}
             disabled={isPending}
           />
@@ -352,7 +352,7 @@ export function BookTrialForm({
 
       {/* Row 3 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <FormField id="preferred_date" label="Preferred Date" error={errors.preferred_date} required>
+        <FormField id="preferred_date" label="Preferred Date" error={errors.preferred_date} optional>
           <input
             id="preferred_date"
             name="preferred_date"
@@ -362,24 +362,24 @@ export function BookTrialForm({
             min={getTodayDateString()}
             max={getMaxDateString()}
             className={`${inputClass(!!errors.preferred_date)} [color-scheme:dark]`}
-            aria-required="true"
+            aria-required="false"
             aria-invalid={!!errors.preferred_date}
             disabled={isPending}
           />
         </FormField>
 
-        <FormField id="preferred_time" label="Preferred Time" error={errors.preferred_time} required>
+        <FormField id="preferred_time" label="Preferred Time" error={errors.preferred_time} optional>
           <select
             id="preferred_time"
             name="preferred_time"
             value={values.preferred_time}
             onChange={handleChange('preferred_time')}
             className={`${inputClass(!!errors.preferred_time)} appearance-none`}
-            aria-required="true"
+            aria-required="false"
             aria-invalid={!!errors.preferred_time}
             disabled={isPending}
           >
-            <option value="" className="bg-[#1e201f] text-[#c8c6c5]">Select a time</option>
+            <option value="" className="bg-[#1e201f] text-[#c8c6c5]">Any time (gym will confirm)</option>
             {TIME_SLOTS.map((slot) => (
               <option key={slot} value={slot} className="bg-[#1e201f]">
                 {slot}
