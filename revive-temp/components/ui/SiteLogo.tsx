@@ -9,9 +9,9 @@ interface SiteLogoProps {
 }
 
 const SIZES = {
-  sm:  { w: 100, h: 40 },
-  md:  { w: 150, h: 60 },
-  lg:  { w: 200, h: 80 },
+  sm:  { w: 120, h: 48 },
+  md:  { w: 180, h: 72 },
+  lg:  { w: 220, h: 88 },
 }
 
 export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: SiteLogoProps) {
