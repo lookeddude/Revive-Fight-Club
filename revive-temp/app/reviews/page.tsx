@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getPublishedReviews } from '@/lib/data/content'
 
@@ -34,7 +34,7 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* Breadcrumb */}

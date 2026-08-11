@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
@@ -100,7 +100,7 @@ export default function TermsOfServicePage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* Hero */}

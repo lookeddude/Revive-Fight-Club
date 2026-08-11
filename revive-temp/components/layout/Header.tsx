@@ -23,7 +23,7 @@ type AuthUser = {
   isAdmin: boolean
 }
 
-export function Header() {
+export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
   const pathname = usePathname()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -33,7 +33,6 @@ export function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const [logoUrl, setLogoUrl] = useState<string | null>(null)
 
   // Scroll detection
   useEffect(() => {
@@ -65,10 +64,6 @@ export function Header() {
     const supabase = createClient()
 
     const checkSession = async () => {
-      // Fetch logo
-      const { data: settings } = await supabase.from('business_settings').select('logo_url').eq('id', 1).single()
-      setLogoUrl(settings?.logo_url ?? null)
-
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         // Check if they have an active admin profile

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActiveMembershipPlans } from '@/lib/data/listings'
 import { getBusinessSettings } from '@/lib/data/content'
@@ -21,7 +21,7 @@ export default async function MembershipPage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
         <section className="py-16 md:py-20 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>

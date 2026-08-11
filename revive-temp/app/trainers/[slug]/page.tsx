@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { createClient } from '@/lib/supabase/server'
 import { getBusinessSettings } from '@/lib/data/content'
@@ -51,7 +51,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* Breadcrumb */}

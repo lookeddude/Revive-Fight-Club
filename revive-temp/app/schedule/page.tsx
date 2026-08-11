@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActiveSchedule } from '@/lib/data/listings'
 import { getBusinessSettings } from '@/lib/data/content'
@@ -40,7 +40,7 @@ export default async function SchedulePage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20">
         <section className="py-16 md:py-24 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">

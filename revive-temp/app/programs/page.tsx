@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActivePrograms, getBusinessSettings } from '@/lib/data/content'
 import { getSlotImages } from '@/lib/data/images'
@@ -37,7 +37,7 @@ export default async function ProgramsPage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
         <section className="py-16 md:py-20 border-b border-white/10">

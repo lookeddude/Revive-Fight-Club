@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { HomeHero } from '@/components/sections/home/HomeHero'
 import { HomePhilosophy } from '@/components/sections/home/HomePhilosophy'
@@ -43,7 +43,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main>
         <HomeHero
           whatsappNumber={settings?.whatsapp_number ?? null}

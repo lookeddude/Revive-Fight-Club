@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActiveTrainers, getBusinessSettings } from '@/lib/data/content'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
@@ -28,7 +28,7 @@ export default async function TrainersPage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20">
         <section className="py-16 md:py-24 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">

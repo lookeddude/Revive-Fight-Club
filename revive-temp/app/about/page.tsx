@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Header } from '@/components/layout/Header'
+import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getBusinessSettings, getActivePrograms } from '@/lib/data/content'
 import { getFirstProgramSlides } from '@/lib/data/programSlides'
@@ -26,7 +26,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* ── HERO ─────────────────────────────────────────────── */}
