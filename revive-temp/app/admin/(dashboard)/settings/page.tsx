@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { SettingsForm } from './SettingsForm'
 
+import { LogoUploadSection } from '@/components/admin/LogoUploadSection'
+
 export const metadata: Metadata = { title: 'Business Settings' }
 
 export default async function AdminSettingsPage() {
@@ -14,6 +16,7 @@ export default async function AdminSettingsPage() {
         <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Business Settings</h2>
         <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-1">Changes here update the public website in real-time.</p>
       </div>
+      <LogoUploadSection currentLogoUrl={settings?.logo_url} />
       <SettingsForm settings={settings} />
     </div>
   )

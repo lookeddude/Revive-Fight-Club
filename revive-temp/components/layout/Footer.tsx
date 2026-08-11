@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getBusinessSettings, getActivePrograms } from '@/lib/data/content'
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
+import { SiteLogo } from '@/components/ui/SiteLogo'
 
 const navLinks = [
   { href: '/programs', label: 'Programs' },
@@ -65,15 +66,7 @@ export async function Footer() {
             <div className="md:col-span-4 flex flex-col gap-6">
 
               {/* Logo */}
-              <Link
-                href="/"
-                className="font-[family-name:var(--font-outfit)] font-black uppercase block hover:opacity-80 transition-opacity w-fit"
-                style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', letterSpacing: '-0.04em' }}
-              >
-                <span className="text-[#f5f2ed]">REVIVE </span>
-                <span className="text-[#ff571a]">FIGHT </span>
-                <span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(245,242,237,0.35)' }}>CLUB</span>
-              </Link>
+              <SiteLogo logoUrl={settings?.logo_url} size="md" />
 
               {/* Dynamic tagline with live program names */}
               <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] leading-relaxed -mt-3 max-w-[260px]">

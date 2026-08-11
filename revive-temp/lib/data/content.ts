@@ -5,7 +5,7 @@ type ProgramRow = Database['public']['Tables']['programs']['Row']
 type TrainerRow = Database['public']['Tables']['trainers']['Row']
 type ReviewRow = Database['public']['Tables']['reviews']['Row']
 type FAQRow = Database['public']['Tables']['faqs']['Row']
-type BusinessSettingsRow = Database['public']['Tables']['business_settings']['Row']
+type BusinessSettingsRow = Database['public']['Tables']['business_settings']['Row'] & { logo_url?: string | null }
 
 // ── Programs ──────────────────────────────────────────────────────
 
@@ -196,7 +196,7 @@ export async function getBusinessSettings(): Promise<BusinessSettingsRow | null>
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('business_settings')
-    .select('*')
+    .select('*, logo_url')
     .eq('id', 1)
     .single()
 

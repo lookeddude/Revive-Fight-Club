@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import type { AdminRole } from '@/lib/auth/roles'
+import Image from 'next/image'
 
 type NavItem = {
   label: string
@@ -200,12 +201,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
           className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
         >
-          <div
-            className="w-8 h-8 flex items-center justify-center flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #ff571a, #d94418)' }}
-          >
-            <span className="text-black font-[family-name:var(--font-outfit)] font-black text-[11px] tracking-tight">RFC</span>
-          </div>
+          <Image src="/images/rfc-logo.png" alt="RFC" width={90} height={36} className="object-contain" />
           <div>
             <p className="font-[family-name:var(--font-outfit)] font-black text-[#e8e4df] text-sm uppercase tracking-tight leading-none">
               Revive FC

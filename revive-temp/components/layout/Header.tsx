@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { MobileNav } from './MobileNav'
+import { SiteLogo } from '@/components/ui/SiteLogo'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -31,6 +32,8 @@ export function Header() {
   const [authLoading, setAuthLoading] = useState(true)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
 
   // Scroll detection
   useEffect(() => {
@@ -62,6 +65,10 @@ export function Header() {
     const supabase = createClient()
 
     const checkSession = async () => {
+      // Fetch logo
+      const { data: settings } = await supabase.from('business_settings').select('logo_url').eq('id', 1).single()
+      setLogoUrl(settings?.logo_url ?? null)
+
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         // Check if they have an active admin profile
@@ -119,23 +126,7 @@ export function Header() {
         <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-4 md:px-16">
 
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 group shrink-0 whitespace-nowrap active:scale-95 transition-transform"
-            aria-label="Revive Fight Club - Home"
-          >
-            {/* Orange slash accent */}
-            <div className="flex flex-col gap-[3px] shrink-0">
-              <div className="w-[3px] h-3 bg-[#ff571a]" style={{ transform: 'skewY(-20deg)' }} />
-              <div className="w-[3px] h-3 bg-[#ff571a]/40" style={{ transform: 'skewY(-20deg)' }} />
-            </div>
-            {/* Brand name */}
-            <span className="font-[family-name:var(--font-outfit)] font-black uppercase tracking-tight leading-none" style={{ fontSize: 'clamp(17px,1.8vw,24px)' }}>
-              <span className="text-[#f5f2ed] italic">REVIVE{' '}</span>
-              <span className="text-[#ff571a] italic">FIGHT{' '}</span>
-              <span style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(245,242,237,0.55)', fontStyle: 'normal' }}>CLUB</span>
-            </span>
-          </Link>
+          <SiteLogo logoUrl={logoUrl} size="md" />
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-4 ml-8" aria-label="Main navigation">

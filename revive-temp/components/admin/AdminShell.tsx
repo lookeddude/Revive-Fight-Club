@@ -5,6 +5,7 @@ import { AdminSidebar } from './AdminSidebar'
 import { AdminTopbar } from './AdminTopbar'
 import { ActivityLogger } from './ActivityLogger'
 import type { AdminProfile } from '@/lib/auth/getAdminSession'
+import Image from 'next/image'
 
 interface AdminShellProps {
   title: string
