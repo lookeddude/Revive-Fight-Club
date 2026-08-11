@@ -9,22 +9,21 @@ interface SiteLogoProps {
 }
 
 const SIZES = {
-  sm: { w: 72, h: 29, px: 'px-1.5 py-0.5' },
-  md: { w: 100, h: 40, px: 'px-2 py-1' },
-  lg: { w: 130, h: 52, px: 'px-3 py-1.5' },
+  sm: { w: 80,  h: 32 },
+  md: { w: 120, h: 48 },
+  lg: { w: 160, h: 64 },
 }
 
 export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: SiteLogoProps) {
-  const { w, h, px } = SIZES[size]
+  const { w, h } = SIZES[size]
   const src = logoUrl ?? '/images/rfc-logo.png'
 
   const img = (
-    <div className={`inline-flex flex-shrink-0 items-center justify-center bg-white rounded-sm ${px} ${className}`}>
+    <div className={`relative flex-shrink-0 ${className}`} style={{ width: w, height: h }}>
       <Image
         src={src}
         alt="Revive Fight Club"
-        width={w}
-        height={h}
+        fill
         className="object-contain"
         priority
         unoptimized={src.startsWith('http')}

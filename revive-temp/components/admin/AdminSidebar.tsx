@@ -201,10 +201,8 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
           className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
         >
-          {/* Logo in white container so white-bg PNG looks clean on dark sidebar */}
-          <div className="bg-white px-2 py-1 rounded-sm flex items-center justify-center" style={{ minWidth: 72 }}>
-            <Image src="/images/rfc-logo.png" alt="RFC" width={72} height={29} className="object-contain" />
-          </div>
+          {/* Logo — transparent PNG renders cleanly on dark bg */}
+          <Image src="/images/rfc-logo.png" alt="RFC" width={96} height={38} className="object-contain" />
           <div>
             <p className="font-[family-name:var(--font-outfit)] font-black text-[#e8e4df] text-sm uppercase tracking-tight leading-none">
               Admin Panel
