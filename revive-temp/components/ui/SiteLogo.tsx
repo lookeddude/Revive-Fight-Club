@@ -31,6 +31,7 @@ export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: S
         src={src}
         alt="Revive Fight Club"
         fill
+        sizes="(max-width: 768px) 120px, 180px"
         className="object-contain"
         priority
         unoptimized={src.startsWith('http')}
