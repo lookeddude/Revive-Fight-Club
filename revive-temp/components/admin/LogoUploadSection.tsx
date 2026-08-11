@@ -50,7 +50,7 @@ export function LogoUploadSection({ currentLogoUrl }: { currentLogoUrl?: string 
           {preview ? (
             <Image src={preview} alt="Logo preview" fill className="object-contain p-1" unoptimized />
           ) : (
-            <Image src="/images/rfc-logo.png" alt="Logo" fill className="object-contain p-1" />
+            <Image src="/images/rfc-logo-dark.png" alt="Logo" fill className="object-contain p-1" />
           )}
         </div>
         <div>

@@ -16,7 +16,7 @@ const SIZES = {
 
 export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: SiteLogoProps) {
   const { w, h } = SIZES[size]
-  const src = logoUrl ?? '/images/rfc-logo.png'
+  const src = logoUrl ?? '/images/rfc-logo-dark.png'
 
   const img = (
     <div

@@ -203,7 +203,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
         >
           {/* Logo with red glow for premium dark-bg look */}
           <Image
-            src="/images/rfc-logo.png"
+            src="/images/rfc-logo-dark.png"
             alt="RFC"
             width={110}
             height={44}
