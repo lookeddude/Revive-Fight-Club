@@ -201,8 +201,15 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
           className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
         >
-          {/* Logo — transparent PNG renders cleanly on dark bg */}
-          <Image src="/images/rfc-logo.png" alt="RFC" width={96} height={38} className="object-contain" />
+          {/* Logo with red glow for premium dark-bg look */}
+          <Image
+            src="/images/rfc-logo.png"
+            alt="RFC"
+            width={110}
+            height={44}
+            className="object-contain"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(255,60,0,0.5)) drop-shadow(0 0 2px rgba(255,60,0,0.3))' }}
+          />
           <div>
             <p className="font-[family-name:var(--font-outfit)] font-black text-[#e8e4df] text-sm uppercase tracking-tight leading-none">
               Admin Panel

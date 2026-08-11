@@ -9,9 +9,9 @@ interface SiteLogoProps {
 }
 
 const SIZES = {
-  sm: { w: 80,  h: 32 },
-  md: { w: 120, h: 48 },
-  lg: { w: 160, h: 64 },
+  sm:  { w: 100, h: 40 },
+  md:  { w: 150, h: 60 },
+  lg:  { w: 200, h: 80 },
 }
 
 export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: SiteLogoProps) {
@@ -19,7 +19,14 @@ export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: S
   const src = logoUrl ?? '/images/rfc-logo.png'
 
   const img = (
-    <div className={`relative flex-shrink-0 ${className}`} style={{ width: w, height: h }}>
+    <div
+      className={`relative flex-shrink-0 ${className}`}
+      style={{
+        width: w,
+        height: h,
+        filter: 'drop-shadow(0 0 10px rgba(255,60,0,0.45)) drop-shadow(0 0 3px rgba(255,60,0,0.25))',
+      }}
+    >
       <Image
         src={src}
         alt="Revive Fight Club"

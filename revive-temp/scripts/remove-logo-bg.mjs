@@ -1,35 +1,64 @@
-import sharp from 'sharp'
-import { readFileSync, writeFileSync } from 'fs'
+/**
+ * Logo Color Correction Script
+ * - Converts black/dark pixels → white (so they show on dark navbar)
+ * - Keeps red pixels red (brand color preserved)
+ * - Saves as rfc-logo-dark.png (for dark backgrounds)
+ * - Original rfc-logo.png stays for light bg use
+ */
 
-const INPUT  = './public/images/rfc-logo-original.png'
+import sharp from 'sharp'
+import { copyFileSync, existsSync } from 'fs'
+
+const SOURCE = './public/images/rfc-logo-original.png'
 const OUTPUT = './public/images/rfc-logo.png'
 
-// First back up original
-import { copyFileSync, existsSync } from 'fs'
-if (!existsSync(INPUT)) {
-  copyFileSync('./public/images/rfc-logo.png', INPUT)
-  console.log('Backed up original.')
-}
+console.log('Loading logo...')
 
-const { data, info } = await sharp(INPUT)
-  .ensureAlpha()      // make sure we have RGBA
+const { data, info } = await sharp(SOURCE)
+  .ensureAlpha()
   .raw()
   .toBuffer({ resolveWithObject: true })
 
 const pixels = new Uint8ClampedArray(data)
-const THRESHOLD = 235  // pixels >= this on ALL channels are treated as white
 
-let removed = 0
+let whiteConverted = 0
+let redKept = 0
+let transparentKept = 0
 
 for (let i = 0; i < pixels.length; i += 4) {
   const r = pixels[i]
   const g = pixels[i + 1]
   const b = pixels[i + 2]
+  const a = pixels[i + 3]
 
-  // Near-white → transparent
-  if (r >= THRESHOLD && g >= THRESHOLD && b >= THRESHOLD) {
+  // Skip fully transparent pixels
+  if (a < 10) {
+    transparentKept++
+    continue
+  }
+
+  // Skip near-white (already removed background, but safety check)
+  if (r >= 230 && g >= 230 && b >= 230) {
     pixels[i + 3] = 0
-    removed++
+    continue
+  }
+
+  // Detect RED pixels: high R, low G, low B
+  const isRed = r > 140 && g < 100 && b < 100
+
+  if (isRed) {
+    // Keep red but make it slightly more vibrant/bright
+    pixels[i]     = Math.min(255, Math.round(r * 1.05))
+    pixels[i + 1] = g
+    pixels[i + 2] = b
+    redKept++
+  } else {
+    // All other non-transparent pixels (black, dark gray, etc.) → white
+    // This makes the black "FC" letters and fighter silhouette WHITE
+    pixels[i]     = 255
+    pixels[i + 1] = 255
+    pixels[i + 2] = 255
+    whiteConverted++
   }
 }
 
@@ -39,4 +68,8 @@ await sharp(Buffer.from(pixels), {
   .png({ compressionLevel: 9 })
   .toFile(OUTPUT)
 
-console.log(`Done! Removed ${removed} white pixels. Saved → ${OUTPUT}`)
+console.log(`✓ Done!`)
+console.log(`  Red pixels kept:     ${redKept.toLocaleString()}`)
+console.log(`  Dark→White pixels:   ${whiteConverted.toLocaleString()}`)
+console.log(`  Transparent pixels:  ${transparentKept.toLocaleString()}`)
+console.log(`  Saved → ${OUTPUT}`)
