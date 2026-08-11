@@ -1,6 +1,5 @@
 import { requireSuperAdmin } from '@/lib/auth/getAdminSession'
 import { getActivityLogs } from '@/lib/actions/admin/activityLog'
-import { AdminShell } from '@/components/admin/AdminShell'
 import { LogsClient } from '@/components/admin/LogsClient'
 import type { ActionType } from '@/lib/actions/admin/activityLog'
 
@@ -42,43 +41,41 @@ export default async function ActivityLogsPage() {
   const statTypes: ActionType[] = ['login', 'user_deleted', 'invite_sent', 'content_updated']
 
   return (
-    <AdminShell title="Activity Logs" profile={profile}>
-      <div className="max-w-5xl">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase tracking-tight">
-              Activity Logs
-            </h1>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-1">
-              Full audit trail. Visible to superadmin only.
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">
-              {logs.length} recent entries
-            </p>
-            <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563] mt-0.5">
-              Times shown in IST (UTC+5:30)
-            </p>
-          </div>
+    <div className="max-w-5xl">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase tracking-tight">
+            Activity Logs
+          </h1>
+          <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-1">
+            Full audit trail. Visible to superadmin only.
+          </p>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          {statTypes.map((type) => {
-            const count = logs.filter(l => l.action_type === type).length
-            return (
-              <div key={type} className="border border-white/[0.08] p-4 bg-white/[0.01]">
-                <p className={`text-[10px] font-bold tracking-[0.12em] uppercase font-[family-name:var(--font-inter)] mb-1 ${ACTION_STAT_COLORS[type]}`}>
-                  {ACTION_LABELS[type]}
-                </p>
-                <p className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl">{count}</p>
-              </div>
-            )
-          })}
+        <div className="text-right">
+          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">
+            {logs.length} recent entries
+          </p>
+          <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563] mt-0.5">
+            Times shown in IST (UTC+5:30)
+          </p>
         </div>
-
-        <LogsClient logs={logs} />
       </div>
-    </AdminShell>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        {statTypes.map((type) => {
+          const count = logs.filter(l => l.action_type === type).length
+          return (
+            <div key={type} className="border border-white/[0.08] p-4 bg-white/[0.01]">
+              <p className={`text-[10px] font-bold tracking-[0.12em] uppercase font-[family-name:var(--font-inter)] mb-1 ${ACTION_STAT_COLORS[type]}`}>
+                {ACTION_LABELS[type]}
+              </p>
+              <p className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl">{count}</p>
+            </div>
+          )
+        })}
+      </div>
+
+      <LogsClient logs={logs} />
+    </div>
   )
 }
