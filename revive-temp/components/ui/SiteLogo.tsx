@@ -9,9 +9,9 @@ interface SiteLogoProps {
 }
 
 const SIZES = {
-  sm:  { w: 120, h: 48 },
-  md:  { w: 180, h: 72 },
-  lg:  { w: 220, h: 88 },
+  sm:  { w: 160, h: 56 },
+  md:  { w: 240, h: 80 },
+  lg:  { w: 300, h: 100 },
 }
 
 export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: SiteLogoProps) {
@@ -31,7 +31,7 @@ export function SiteLogo({ logoUrl, size = 'md', href = '/', className = '' }: S
         src={src}
         alt="Revive Fight Club"
         fill
-        sizes="(max-width: 768px) 120px, 180px"
+        sizes="(max-width: 768px) 160px, 240px"
         className="object-contain"
         priority
         unoptimized={src.startsWith('http')}
