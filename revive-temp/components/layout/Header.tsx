@@ -118,10 +118,10 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           scrolled ? 'bg-[#0d0c0b]/98 backdrop-blur-sm' : 'bg-[#0d0c0b]'
         } border-b border-white/10`}
       >
-        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto pl-2 pr-4 md:pl-6 md:pr-16">
+        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto pl-4 pr-4 md:pl-8 md:pr-16">
 
-          {/* Logo — nudged left for edge-anchored brand feel */}
-          <SiteLogo logoUrl={logoUrl} size="md" className="-ml-1 md:-ml-2" />
+          {/* Logo */}
+          <SiteLogo logoUrl={logoUrl} size="md" />
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-4 ml-8" aria-label="Main navigation">
