@@ -9,7 +9,7 @@ interface SiteLogoProps {
 }
 
 const SIZES = {
-  sm:  { w: 160, h: 56 },
+  sm:  { w: 150, h: 50 },
   md:  { w: 240, h: 80 },
   lg:  { w: 300, h: 100 },
 }
