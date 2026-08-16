@@ -728,6 +728,9 @@ export type Database = {
           bio: string | null
           created_at: string
           id: string
+          image_desktop_path: string | null
+          image_mobile_path: string | null
+          image_tablet_path: string | null
           is_active: boolean
           is_featured: boolean
           name: string
@@ -744,6 +747,9 @@ export type Database = {
           bio?: string | null
           created_at?: string
           id?: string
+          image_desktop_path?: string | null
+          image_mobile_path?: string | null
+          image_tablet_path?: string | null
           is_active?: boolean
           is_featured?: boolean
           name: string
@@ -760,6 +766,9 @@ export type Database = {
           bio?: string | null
           created_at?: string
           id?: string
+          image_desktop_path?: string | null
+          image_mobile_path?: string | null
+          image_tablet_path?: string | null
           is_active?: boolean
           is_featured?: boolean
           name?: string

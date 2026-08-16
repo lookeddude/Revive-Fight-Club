@@ -79,6 +79,9 @@ type TrainerInput = {
   specialties?: string[] | null
   years_experience?: number | null
   profile_image_path?: string | null
+  image_desktop_path?: string | null
+  image_tablet_path?: string | null
+  image_mobile_path?: string | null
   is_active?: boolean
   is_featured?: boolean
   sort_order?: number

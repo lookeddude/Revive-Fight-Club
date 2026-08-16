@@ -11,13 +11,37 @@ import Link from 'next/link'
 
 interface TrainerFormProps {
   mode: 'create' | 'edit'
-  trainer?: Trainer
+  trainer?: Trainer & {
+    image_desktop_path?: string | null
+    image_tablet_path?: string | null
+    image_mobile_path?: string | null
+  }
+}
+
+type DeviceSlot = 'desktop' | 'tablet' | 'mobile'
+
+const DEVICE_CONFIG: Record<DeviceSlot, { label: string; note: string; icon: string }> = {
+  desktop: {
+    label: 'Desktop Image',
+    note: 'Best size: 800 × 1000 px (portrait 4:5). Displayed on screens ≥ 1024 px.',
+    icon: '🖥️',
+  },
+  tablet: {
+    label: 'Tablet Image',
+    note: 'Best size: 600 × 750 px (portrait 4:5). Displayed on screens 768 px – 1023 px.',
+    icon: '📱',
+  },
+  mobile: {
+    label: 'Mobile Image',
+    note: 'Best size: 400 × 500 px (portrait 4:5). Displayed on screens < 768 px.',
+    icon: '📲',
+  },
 }
 
 export function TrainerForm({ mode, trainer }: TrainerFormProps) {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
-  const [uploading, setUploading] = useState(false)
+  const [uploading, setUploading] = useState<DeviceSlot | 'main' | null>(null)
   const [showArchive, setShowArchive] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
@@ -28,11 +52,21 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
   const [bio, setBio] = useState(trainer?.bio ?? '')
   const [specialties, setSpecialties] = useState((trainer?.specialties ?? []).join(', '))
   const [yearsExp, setYearsExp] = useState(String(trainer?.years_experience ?? ''))
-  const [imagePath, setImagePath] = useState(trainer?.profile_image_path ?? '')
-  const [imagePreview, setImagePreview] = useState(trainer?.profile_image_path ?? '')
   const [isActive, setIsActive] = useState(trainer?.is_active ?? true)
   const [isFeatured, setIsFeatured] = useState(trainer?.is_featured ?? false)
   const [sortOrder, setSortOrder] = useState(String(trainer?.sort_order ?? 0))
+
+  // Main profile image
+  const [imagePath, setImagePath] = useState(trainer?.profile_image_path ?? '')
+  const [imagePreview, setImagePreview] = useState(trainer?.profile_image_path ?? '')
+
+  // Responsive images
+  const [desktopPath, setDesktopPath] = useState(trainer?.image_desktop_path ?? '')
+  const [desktopPreview, setDesktopPreview] = useState(trainer?.image_desktop_path ?? '')
+  const [tabletPath, setTabletPath] = useState(trainer?.image_tablet_path ?? '')
+  const [tabletPreview, setTabletPreview] = useState(trainer?.image_tablet_path ?? '')
+  const [mobilePath, setMobilePath] = useState(trainer?.image_mobile_path ?? '')
+  const [mobilePreview, setMobilePreview] = useState(trainer?.image_mobile_path ?? '')
 
   const autoSlug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
@@ -41,18 +75,35 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     if (mode === 'create') setSlug(autoSlug(v))
   }
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMainUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    setUploading(true)
+    setUploading('main')
     const formData = new FormData()
     formData.append('file', file)
     const result = await uploadImage(formData, 'revive-trainers', trainer?.id ?? 'new')
-    setUploading(false)
+    setUploading(null)
     if (result.success) {
-      setImagePath(result.path)
-      setImagePreview(result.url)
-      setToast({ message: 'Image uploaded.', type: 'success' })
+      setImagePath(result.path); setImagePreview(result.url)
+      setToast({ message: 'Profile image uploaded.', type: 'success' })
+    } else {
+      setToast({ message: result.error, type: 'error' })
+    }
+  }
+
+  const handleDeviceUpload = async (device: DeviceSlot, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(device)
+    const formData = new FormData()
+    formData.append('file', file)
+    const result = await uploadImage(formData, 'revive-trainers', `${trainer?.id ?? 'new'}-${device}`)
+    setUploading(null)
+    if (result.success) {
+      if (device === 'desktop') { setDesktopPath(result.path); setDesktopPreview(result.url) }
+      if (device === 'tablet')  { setTabletPath(result.path);  setTabletPreview(result.url) }
+      if (device === 'mobile')  { setMobilePath(result.path);  setMobilePreview(result.url) }
+      setToast({ message: `${DEVICE_CONFIG[device].label} uploaded.`, type: 'success' })
     } else {
       setToast({ message: result.error, type: 'error' })
     }
@@ -64,10 +115,14 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     setSaving(true)
     const input = {
       name: name.trim(), slug: slug.trim(), role: role.trim(),
-      short_bio: shortBio.trim() || null, bio: bio.trim() || null,
+      short_bio: shortBio.trim() || null,
+      bio: bio.trim() || null,
       specialties: specialties ? specialties.split(',').map((s: string) => s.trim()).filter(Boolean) : null,
       years_experience: yearsExp ? parseInt(yearsExp) : null,
       profile_image_path: imagePath || null,
+      image_desktop_path: desktopPath || null,
+      image_tablet_path: tabletPath || null,
+      image_mobile_path: mobilePath || null,
       is_active: isActive, is_featured: isFeatured,
       sort_order: parseInt(sortOrder) || 0,
     }
@@ -101,6 +156,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <ConfirmDialog open={showArchive} title="Archive this trainer?" description="The trainer will be deactivated but historical data is preserved." confirmLabel="Archive" destructive onConfirm={handleArchive} onCancel={() => setShowArchive(false)} />
 
+      {/* ── Basic Information ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
         <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -116,16 +172,69 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
         <div><label className={lc}>Full Bio</label><textarea value={bio} onChange={e => setBio(e.target.value)} rows={4} className={`${ic} resize-none`} placeholder="Full bio for trainer profile" /></div>
       </div>
 
+      {/* ── Profile Image (main fallback) ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
         <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Profile Image</h3>
-        {imagePreview && <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover border border-white/[0.08]" />}
+        <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#4b5563] leading-relaxed">
+          Main fallback image used when device-specific images below are not uploaded.
+        </p>
+        {imagePreview && <img src={imagePreview} alt="Preview" className="w-28 h-28 object-cover border border-white/[0.08]" />}
         <label className="flex flex-col gap-1.5">
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload (JPEG/PNG/WebP, max 5MB)</span>
-          <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
-          {uploading && <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Uploading…</span>}
+          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
+          <input type="file" accept="image/*" onChange={handleMainUpload} disabled={!!uploading} className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
+          {uploading === 'main' && <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading…</span>}
         </label>
       </div>
 
+      {/* ── Responsive Device Images ── */}
+      <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-5">
+        <div>
+          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Responsive Device Images</h3>
+          <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#4b5563] mt-1 leading-relaxed">
+            Upload separate crops optimised for each screen size. Falls back to the Profile Image above if left empty.
+          </p>
+        </div>
+
+        {(Object.entries(DEVICE_CONFIG) as [DeviceSlot, (typeof DEVICE_CONFIG)[DeviceSlot]][]).map(([device, cfg]) => {
+          const preview = device === 'desktop' ? desktopPreview : device === 'tablet' ? tabletPreview : mobilePreview
+          const isUp = uploading === device
+          return (
+            <div key={device} className="border border-white/[0.05] p-4 space-y-3">
+              {/* Header */}
+              <div className="flex items-center gap-2">
+                <span className="text-base leading-none">{cfg.icon}</span>
+                <span className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#e2e3e1]">{cfg.label}</span>
+              </div>
+
+              {/* Size note */}
+              <div className="flex items-start gap-2 bg-[#ff571a]/5 border border-[#ff571a]/15 px-3 py-2">
+                <svg className="w-3.5 h-3.5 text-[#ff571a] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#9ca3af] leading-relaxed">{cfg.note}</p>
+              </div>
+
+              {/* Preview */}
+              {preview && <img src={preview} alt={`${cfg.label} preview`} className="h-24 w-auto object-cover border border-white/[0.08]" />}
+
+              {/* Upload input */}
+              <label className="flex flex-col gap-1.5">
+                <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={e => handleDeviceUpload(device, e)}
+                  disabled={!!uploading}
+                  className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1a1f1e] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#ff571a] hover:file:text-black file:transition-colors file:border file:border-white/10"
+                />
+                {isUp && <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading…</span>}
+              </label>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* ── Settings ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
         <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Settings</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -139,7 +248,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
         <div>{mode === 'edit' && <button type="button" onClick={() => setShowArchive(true)} className="border border-red-500/20 text-red-400 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-red-500/10 transition-colors">Archive</button>}</div>
         <div className="flex gap-3">
           <Link href="/admin/trainers" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">Cancel</Link>
-          <button type="submit" disabled={saving || uploading} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : mode === 'create' ? 'Create Trainer' : 'Save Changes'}</button>
+          <button type="submit" disabled={saving || !!uploading} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : mode === 'create' ? 'Create Trainer' : 'Save Changes'}</button>
         </div>
       </div>
     </form>
