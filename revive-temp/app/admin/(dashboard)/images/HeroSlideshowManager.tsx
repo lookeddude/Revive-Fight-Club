@@ -112,9 +112,9 @@ function SlideCard({
   }, [slide.id, slide.alt_text, onOptimisticUpdate])
 
   const deviceConfigs = [
-    { device: 'desktop' as const, label: 'Desktop', icon: '🖥', url: slide.desktop_url, required: true },
-    { device: 'tablet' as const, label: 'Tablet (768–1024px)', icon: '📱', url: slide.tablet_url, required: false },
-    { device: 'mobile' as const, label: 'Mobile (<768px)', icon: '📲', url: slide.mobile_url, required: false },
+    { device: 'desktop' as const, label: 'Desktop', icon: '🖥', url: slide.desktop_url, required: true,  note: 'Recommended: 1920 × 1080 px' },
+    { device: 'tablet'  as const, label: 'Tablet',  icon: '📱', url: slide.tablet_url,  required: false, note: 'Recommended: 1024 × 768 px' },
+    { device: 'mobile'  as const, label: 'Mobile',  icon: '📲', url: slide.mobile_url,  required: false, note: 'Recommended: 640 × 960 px' },
   ]
 
   return (
@@ -194,11 +194,12 @@ function SlideCard({
 
       {/* ── Device image grid ──────────────────────────── */}
       <div className="grid grid-cols-3 gap-4 p-4">
-        {deviceConfigs.map(({ device, label, icon, url, required }) => (
+        {deviceConfigs.map(({ device, label, icon, url, required, note }) => (
           <div key={device} className="flex flex-col gap-2">
+            {/* Label row */}
             <div className="flex items-center gap-1.5">
               <span className="text-sm">{icon}</span>
-              <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold text-[#6b6059] uppercase tracking-wider truncate">
+              <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold text-[#6b6059] uppercase tracking-wider">
                 {label}
               </span>
               {required && (
@@ -207,6 +208,14 @@ function SlideCard({
                   Required
                 </span>
               )}
+            </div>
+
+            {/* Recommended size note */}
+            <div className="flex items-center gap-1.5 px-2 py-1.5" style={{ background: 'rgba(255,87,26,0.05)', border: '1px solid rgba(255,87,26,0.12)' }}>
+              <svg className="w-3 h-3 shrink-0 text-[#ff571a]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <span className="font-[family-name:var(--font-inter)] text-[9px] font-bold text-[#ff571a] whitespace-nowrap">{note}</span>
             </div>
 
             {/* Image preview / upload target */}
