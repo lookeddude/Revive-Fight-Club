@@ -118,7 +118,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           scrolled ? 'bg-[#0d0c0b]/98 backdrop-blur-sm' : 'bg-[#0d0c0b]'
         } border-b border-white/10`}
       >
-        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto px-4 md:pl-8 md:pr-16">
+        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto pl-1.5 pr-4 md:pl-8 md:pr-16">
 
           {/* Logo — sm on mobile (h-14=56px), md on desktop (h-20=80px) */}
           <span className="block md:hidden">
