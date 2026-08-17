@@ -182,7 +182,7 @@ export default async function ReviewsPage() {
               style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.35)' }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-              BOOK A FREE TRIAL
+              BOOK TRIAL
             </Link>
           </div>
         </section>

@@ -120,7 +120,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  BOOK FREE TRIAL
+                  BOOK TRIAL
                 </Link>
                 <Link
                   href="/programs"
@@ -174,14 +174,14 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
               READY TO START <span className="text-[#ff571a]">{program.name}?</span>
             </h2>
             <p className="font-[family-name:var(--font-inter)] text-[#8a8079] mb-8 max-w-md mx-auto">
-              Book your free trial class today — no experience needed.
+              Book your trial class today — no experience needed.
             </p>
             <Link
               href={`/book-trial?program=${program.id}`}
               className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-12 py-5 transition-all duration-300 active:scale-95"
               style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 32px rgba(255,87,26,0.3)' }}
             >
-              BOOK FREE TRIAL
+              BOOK TRIAL
             </Link>
           </div>
         </section>

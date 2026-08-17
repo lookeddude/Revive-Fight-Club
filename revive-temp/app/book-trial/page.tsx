@@ -8,7 +8,7 @@ import { getActivePrograms, getBusinessSettings } from '@/lib/data/content'
 export const metadata: Metadata = {
   title: 'Book a Trial Class | Revive Fight Club',
   description:
-    'Book your free trial class at Revive Fight Club. Experience world-class MMA, Muay Thai, and BJJ training in Frazer Town, Bengaluru.',
+    'Book your trial class at Revive Fight Club. Experience world-class MMA, Muay Thai, and BJJ training in Frazer Town, Bengaluru.',
   robots: { index: false, follow: false }, // Form pages don't need indexing
 }
 

@@ -384,7 +384,7 @@ export default async function AboutPage() {
                     className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.14em] uppercase px-7 py-3.5 text-black transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.3)' }}
                   >
-                    BOOK A FREE TRIAL
+                    BOOK TRIAL
                   </Link>
                 </div>
               </div>
@@ -410,7 +410,7 @@ export default async function AboutPage() {
                 style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                BOOK A FREE TRIAL
+                BOOK TRIAL
               </Link>
               <Link
                 href="/programs"

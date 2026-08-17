@@ -32,7 +32,7 @@ export default function TermsOfServicePage() {
       title: '3. Payments & Refunds',
       content: [
         'All membership fees are payable in advance and are non-refundable unless otherwise agreed in writing.',
-        'Free trial classes are offered at our discretion and are limited to one per person.',
+        'trial classes are offered at our discretion and are limited to one per person.',
         'In the event of a class cancellation by us, alternative sessions or credits will be offered.',
         'Chargebacks or payment disputes must be raised with us directly before contacting your bank.',
       ],

@@ -87,7 +87,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
             <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            BOOK FREE TRIAL
+            BOOK TRIAL
           </Link>
           <WhatsAppCTA
             whatsappNumber={whatsappNumber ?? null}

@@ -161,7 +161,7 @@ export default async function ProgramsPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/book-trial" className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-300" style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)' }}>
-                BOOK A FREE TRIAL
+                BOOK TRIAL
               </Link>
               <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />
             </div>
