@@ -456,6 +456,7 @@ export type Database = {
       }
       membership_plans: {
         Row: {
+          batch_category: string | null
           billing_period: Database["public"]["Enums"]["billing_period"]
           created_at: string
           description: string | null
@@ -466,10 +467,12 @@ export type Database = {
           name: string
           price: number | null
           slug: string
+          sort_label: string | null
           sort_order: number
           updated_at: string
         }
         Insert: {
+          batch_category?: string | null
           billing_period?: Database["public"]["Enums"]["billing_period"]
           created_at?: string
           description?: string | null
@@ -480,10 +483,12 @@ export type Database = {
           name: string
           price?: number | null
           slug: string
+          sort_label?: string | null
           sort_order?: number
           updated_at?: string
         }
         Update: {
+          batch_category?: string | null
           billing_period?: Database["public"]["Enums"]["billing_period"]
           created_at?: string
           description?: string | null
@@ -494,6 +499,7 @@ export type Database = {
           name?: string
           price?: number | null
           slug?: string
+          sort_label?: string | null
           sort_order?: number
           updated_at?: string
         }
@@ -866,7 +872,7 @@ export type Database = {
       }
     }
     Enums: {
-      billing_period: "monthly" | "quarterly" | "annually"
+      billing_period: "monthly" | "quarterly" | "semiannual" | "annually"
       contact_enquiry_status: "new" | "contacted" | "resolved" | "spam"
       gallery_category: "training" | "gym" | "coaches" | "community" | "events"
       program_level: "beginner" | "intermediate" | "advanced" | "all_levels"

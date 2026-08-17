@@ -191,7 +191,9 @@ type MembershipInput = {
   slug: string
   description?: string | null
   price?: number | null
-  billing_period?: 'monthly' | 'quarterly' | 'annually'
+  billing_period?: 'monthly' | 'quarterly' | 'semiannual' | 'annually'
+  batch_category?: string | null
+  sort_label?: string | null
   features?: string[] | null
   is_active?: boolean
   is_featured?: boolean
