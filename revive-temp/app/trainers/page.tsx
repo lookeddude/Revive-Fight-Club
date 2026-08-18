@@ -92,7 +92,7 @@ export default async function TrainersPage() {
                         />
                         <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, #111210)' }} />
                         {trainer.is_featured && (
-                          <div className="absolute top-3 left-3">
+                          <div className="absolute bottom-3 right-3">
                             <span className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.15em] px-2 py-1" style={{ background: '#ff571a', color: '#000' }}>
                               HEAD COACH
                             </span>
