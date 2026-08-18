@@ -66,14 +66,14 @@ export async function getProgramBySlug(slug: string): Promise<ProgramRow | null>
 
 export type TrainerCard = Pick<
   TrainerRow,
-  'id' | 'slug' | 'name' | 'role' | 'short_bio' | 'profile_image_path' | 'specialties' | 'is_featured' | 'sort_order'
+  'id' | 'slug' | 'name' | 'role' | 'short_bio' | 'profile_image_path' | 'specialties' | 'is_featured' | 'sort_order' | 'years_experience'
 >
 
 export async function getActiveTrainers(): Promise<TrainerCard[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('trainers')
-    .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order')
+    .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order, years_experience')
     .eq('is_active', true)
     .order('sort_order', { ascending: true })
 
@@ -88,7 +88,7 @@ export async function getFeaturedTrainers(): Promise<TrainerCard[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('trainers')
-    .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order')
+    .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order, years_experience')
     .eq('is_active', true)
     .eq('is_featured', true)
     .order('sort_order', { ascending: true })

@@ -11,8 +11,8 @@ import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 export const revalidate = 300
 
 const FALLBACK_IMAGES = [
-  'https://images.unsplash.com/photo-1564415315949-7a0c4c73aab4?w=800&q=80&fit=crop',
-  'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1544919982-b61976f0ba43?w=900&q=85&fit=crop',
+  'https://images.unsplash.com/photo-1549476464-37392f717541?w=900&q=85&fit=crop',
 ]
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .single()
   if (!trainer) return { title: 'Trainer Not Found' }
   return {
-    title: `${trainer.name} | Revive Fight Club`,
+    title: `${trainer.name} — ${trainer.role} | Revive Fight Club`,
     description: trainer.short_bio ?? `${trainer.name} — ${trainer.role} at Revive Fight Club, Bengaluru.`,
   }
 }
@@ -48,136 +48,244 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
   if (!trainerRes.data) notFound()
   const trainer = trainerRes.data
   const image = trainer.profile_image_path ?? FALLBACK_IMAGES[0]
+  const specialties: string[] = Array.isArray(trainer.specialties) ? trainer.specialties as string[] : []
 
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
+      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0a0b0a' }}>
 
-        {/* Breadcrumb */}
-        <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-6">
-          <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
-            <Link href="/" className="text-[#6b6059] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)]">Home</Link>
-            <span className="text-[#3a3530]">/</span>
-            <Link href="/trainers" className="text-[#6b6059] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)]">Trainers</Link>
-            <span className="text-[#3a3530]">/</span>
-            <span className="text-[#f0ede8] font-[family-name:var(--font-inter)] font-semibold">{trainer.name}</span>
-          </nav>
+        {/* ── Breadcrumb ─────────────────────────────────── */}
+        <div
+          className="border-b"
+          style={{ background: '#0d0c0b', borderColor: 'rgba(255,255,255,0.06)' }}
+        >
+          <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-4">
+            <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+              <Link href="/" className="font-[family-name:var(--font-inter)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Home</Link>
+              <span className="text-[#2a2520]">/</span>
+              <Link href="/trainers" className="font-[family-name:var(--font-inter)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Trainers</Link>
+              <span className="text-[#2a2520]">/</span>
+              <span className="font-[family-name:var(--font-inter)] text-[#e2e3e1] text-xs uppercase tracking-wider">{trainer.name}</span>
+            </nav>
+          </div>
         </div>
 
-        {/* Hero */}
-        <section className="max-w-[1280px] mx-auto px-5 md:px-16 pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        {/* ── Hero — Full width photo + overlay ────────────── */}
+        <section className="relative overflow-hidden" style={{ minHeight: '75vh' }}>
+          {/* Background photo */}
+          <div className="absolute inset-0">
+            <Image
+              src={image}
+              alt={trainer.name}
+              fill
+              priority
+              className="object-cover object-top"
+              sizes="100vw"
+              unoptimized={image.startsWith('http')}
+            />
+            {/* Multi-layer gradient */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to right, rgba(10,11,10,0.97) 0%, rgba(10,11,10,0.85) 40%, rgba(10,11,10,0.5) 70%, rgba(10,11,10,0.2) 100%)' }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to top, rgba(10,11,10,1) 0%, transparent 40%)' }}
+            />
+          </div>
 
-            {/* Image */}
-            <div className="lg:col-span-5">
-              <div className="sticky top-24">
-                <div className="relative aspect-[3/4] overflow-hidden" style={{ background: '#111' }}>
-                  <Image
-                    src={image}
-                    alt={trainer.name}
-                    fill
-                    priority
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 41vw"
-                  />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.8) 0%, transparent 50%)' }} />
-                  {trainer.is_featured && (
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider px-3 py-1">
-                        Head Coach
-                      </span>
-                    </div>
-                  )}
+          {/* Content */}
+          <div className="relative max-w-[1280px] mx-auto px-5 md:px-16 py-20 md:py-28 flex flex-col justify-end" style={{ minHeight: '75vh' }}>
+            <div className="max-w-2xl">
+              {/* Featured badge */}
+              {trainer.is_featured && (
+                <div className="mb-4">
+                  <span
+                    className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.18em] px-3 py-1.5"
+                    style={{ background: '#ff571a', color: '#000' }}
+                  >
+                    ★ HEAD COACH
+                  </span>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Content */}
-            <div className="lg:col-span-7 flex flex-col gap-6 lg:pt-4">
-              <div>
-                <span className="font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.15em] uppercase text-[#ff571a]">
-                  {trainer.role}
-                </span>
-                <h1 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] text-[clamp(40px,6vw,72px)] mt-2">
-                  {trainer.name}
-                </h1>
-              </div>
+              {/* Role */}
+              <p className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-[0.2em] text-[#ff571a] mb-3">
+                {trainer.role}
+              </p>
+
+              {/* Name */}
+              <h1
+                className="font-[family-name:var(--font-outfit)] font-black text-white uppercase leading-[0.88] tracking-[-0.03em] mb-6"
+                style={{ fontSize: 'clamp(52px, 8vw, 96px)' }}
+              >
+                {trainer.name}
+              </h1>
 
               {/* Stats row */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {trainer.years_experience && (
-                  <div className="px-4 py-2.5 text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                    <p className="font-[family-name:var(--font-outfit)] font-bold text-[#f0ede8] text-xl">{trainer.years_experience}+</p>
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider mt-0.5">Yrs Experience</p>
+                  <div
+                    className="px-5 py-3"
+                    style={{ background: 'rgba(255,87,26,0.12)', border: '1px solid rgba(255,87,26,0.3)', backdropFilter: 'blur(8px)' }}
+                  >
+                    <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-2xl leading-none">{trainer.years_experience}+</p>
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#ff571a]/70 uppercase tracking-wider mt-0.5">Years Experience</p>
                   </div>
                 )}
+                {specialties.length > 0 && (
+                  <div
+                    className="px-5 py-3"
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
+                  >
+                    <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">{specialties.length}</p>
+                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#9ca3af] uppercase tracking-wider mt-0.5">Disciplines</p>
+                  </div>
+                )}
+                <div
+                  className="px-5 py-3"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
+                >
+                  <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">PRO</p>
+                  <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#9ca3af] uppercase tracking-wider mt-0.5">Fighter</p>
+                </div>
               </div>
 
               {/* Short bio */}
               {trainer.short_bio && (
-                <p className="font-[family-name:var(--font-inter)] text-lg leading-relaxed text-[#a09890]"
-                  style={{ borderLeft: '2px solid rgba(255,87,26,0.4)', paddingLeft: '1.25rem' }}>
+                <p
+                  className="font-[family-name:var(--font-inter)] text-base text-[#a09890] leading-relaxed mb-8 max-w-lg"
+                  style={{ borderLeft: '2px solid rgba(255,87,26,0.5)', paddingLeft: '1rem' }}
+                >
                   {trainer.short_bio}
                 </p>
               )}
 
-              {/* Specialties */}
-              {trainer.specialties && trainer.specialties.length > 0 && (
-                <div>
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.15em] uppercase text-[#6b6059] mb-3">Specialties</p>
-                  <div className="flex flex-wrap gap-2">
-                    {trainer.specialties.map((s: string) => (
-                      <span key={s} className="px-3 py-1.5 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#e2e3e1]" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.03)' }}>
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/book-trial"
-                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 active:scale-95"
-                  style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.35)' }}
+                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-200 hover:bg-white"
+                  style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
                   BOOK A TRIAL
                 </Link>
-                <WhatsAppCTA
-                  whatsappNumber={settings?.whatsapp_number ?? null}
-                  context="general"
-                  variant="secondary"
-                />
+                <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Full Bio */}
-        {trainer.bio && (
-          <section className="py-16" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.015)' }}>
+        {/* ── Areas of Expertise ───────────────────────────── */}
+        {specialties.length > 0 && (
+          <section
+            className="py-16 md:py-20"
+            style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.05)' }}
+          >
             <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-              <div className="max-w-3xl">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-8 h-px bg-[#ff571a]" />
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">About {trainer.name}</p>
-                </div>
-                <p className="font-[family-name:var(--font-inter)] text-lg leading-[1.9] text-[#8a8079] whitespace-pre-line">{trainer.bio}</p>
+              <div className="flex items-center gap-3 mb-10">
+                <div className="w-8 h-px bg-[#ff571a]" />
+                <h2 className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.2em] text-[#ff571a]">Areas of Expertise</h2>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {specialties.map((s, i) => (
+                  <div
+                    key={s}
+                    className="flex items-center gap-2.5 px-4 py-2.5"
+                    style={{
+                      background: i < 3 ? 'rgba(255,87,26,0.08)' : 'rgba(255,255,255,0.03)',
+                      border: i < 3 ? '1px solid rgba(255,87,26,0.25)' : '1px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{ background: i < 3 ? '#ff571a' : 'rgba(255,255,255,0.2)' }}
+                    />
+                    <span
+                      className="font-[family-name:var(--font-inter)] text-sm font-semibold"
+                      style={{ color: i < 3 ? '#f0ede8' : '#9ca3af' }}
+                    >
+                      {s}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
         )}
 
-        {/* Back nav */}
-        <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-12">
-          <Link href="/trainers" className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold uppercase tracking-wider text-[#6b6059] hover:text-[#f0ede8] transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            All Trainers
-          </Link>
-        </div>
+        {/* ── Full Bio ─────────────────────────────────────── */}
+        {trainer.bio && (
+          <section
+            className="py-16 md:py-20"
+            style={{ background: '#111210', borderTop: '1px solid rgba(255,255,255,0.05)' }}
+          >
+            <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-3">
+                  <div className="flex items-center gap-3 mb-2 lg:mb-0">
+                    <div className="w-8 h-px bg-[#ff571a]" />
+                    <h2 className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.2em] text-[#ff571a]">About</h2>
+                  </div>
+                  <h3
+                    className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-none tracking-[-0.02em] mt-4 lg:mt-6"
+                    style={{ fontSize: 'clamp(24px, 3vw, 36px)' }}
+                  >
+                    {trainer.name}
+                  </h3>
+                </div>
+                <div className="lg:col-span-9">
+                  <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[2] text-[#8a8079]">
+                    {trainer.bio}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── Bottom CTA ───────────────────────────────────── */}
+        <section
+          className="py-16 md:py-20"
+          style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.05)' }}
+        >
+          <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <h3
+                  className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-none tracking-[-0.02em] mb-2"
+                  style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
+                >
+                  TRAIN WITH {trainer.name.toUpperCase()}
+                </h3>
+                <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b6059]">
+                  Book a trial class and experience expert coaching first-hand.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 shrink-0">
+                <Link
+                  href="/book-trial"
+                  className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 transition-all duration-200 hover:bg-white"
+                  style={{ background: '#ff571a' }}
+                >
+                  BOOK A TRIAL
+                </Link>
+                <Link
+                  href="/trainers"
+                  className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] font-bold text-sm uppercase tracking-[0.1em] px-6 py-4 transition-all duration-200"
+                  style={{ border: '1px solid rgba(255,255,255,0.1)', color: '#9ca3af' }}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                  All Trainers
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </main>
       <Footer />
