@@ -29,13 +29,13 @@ export default async function AdminImagesPage() {
             <h1 className="font-[family-name:var(--font-outfit)] text-2xl font-black text-[#f0ede8] uppercase tracking-tight">
               Image Management
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563] mt-1">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563] mt-1">
               Control every visual on your website from one place.
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">Live — changes publish instantly</span>
+            <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">Live — changes publish instantly</span>
           </div>
         </div>
       </div>

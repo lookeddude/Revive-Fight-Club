@@ -55,7 +55,7 @@ export function HomePhilosophy() {
                       {num}
                     </span>
                     <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,87,26,0.2), transparent)' }} aria-hidden="true" />
-                    <span className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#c8bfb8] group-hover:text-[#f0ede8] transition-colors">
+                    <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#c8bfb8] group-hover:text-[#f0ede8] transition-colors">
                       {label}
                     </span>
                   </div>
@@ -74,14 +74,14 @@ export function HomePhilosophy() {
                 aria-hidden="true"
               />
 
-              <p className="font-[family-name:var(--font-inter)] leading-[1.9] text-[#8a8079] mb-6" style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}>
+              <p className="font-[family-name:var(--font-body)] leading-[1.9] text-[#c8c4bf] mb-6" style={{ fontSize: 'clamp(16px, 1.5vw, 20px)' }}>
                 We reject the superficial. Revive Fight Club is built on the foundations of{' '}
                 <strong className="text-[#c8bfb8] font-semibold">technical mastery</strong>,{' '}
                 <strong className="text-[#c8bfb8] font-semibold">physical conditioning</strong>, and{' '}
                 <strong className="text-[#c8bfb8] font-semibold">mental resilience</strong>.
               </p>
 
-              <p className="font-[family-name:var(--font-inter)] text-base leading-[1.85] text-[#5a5249] mb-10">
+              <p className="font-[family-name:var(--font-body)] text-base leading-[1.85] text-[#5a5249] mb-10">
                 Our facility is a sanctuary for those dedicated to the craft of combat sports and elite
                 fitness. Every session, every round, every rep — it all counts here.
               </p>
@@ -105,7 +105,7 @@ export function HomePhilosophy() {
                   Train like a fighter.{' '}
                   <span className="text-[#ff571a]">Perform</span> like a champion.
                 </p>
-                <p className="font-[family-name:var(--font-inter)] text-xs text-[#5a5249] mt-2 tracking-[0.12em] uppercase">
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#5a5249] mt-2 tracking-[0.12em] uppercase">
                   — Revive Fight Club
                 </p>
               </div>

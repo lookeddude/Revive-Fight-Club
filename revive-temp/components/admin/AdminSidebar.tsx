@@ -214,7 +214,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
             <p className="font-[family-name:var(--font-outfit)] font-black text-[#e8e4df] text-sm uppercase tracking-tight leading-none">
               Admin Panel
             </p>
-            <p className="font-[family-name:var(--font-inter)] text-[9px] font-bold tracking-[0.18em] uppercase mt-0.5" style={{ color: 'rgba(255,87,26,0.7)' }}>
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase mt-0.5" style={{ color: 'rgba(255,87,26,0.7)' }}>
               Revive Fight Club
             </p>
           </div>
@@ -226,7 +226,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
             <div key={si} className={si > 0 ? 'mt-5' : ''}>
               {section.title && (
                 <p
-                  className="px-3 mb-1.5 font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.2em] uppercase"
+                  className="px-3 mb-1.5 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase"
                   style={{ color: 'rgba(255,255,255,0.2)' }}
                 >
                   {section.title}
@@ -242,7 +242,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
                         onClick={onClose}
                         className={cn(
                           'group flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium transition-all duration-150 relative',
-                          'font-[family-name:var(--font-inter)]',
+                          'font-[family-name:var(--font-body)]',
                         )}
                         style={active ? {
                           background: 'linear-gradient(90deg, rgba(255,87,26,0.12) 0%, rgba(255,87,26,0.04) 100%)',
@@ -301,7 +301,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
             rel="noopener noreferrer"
             className="group flex items-center gap-2 w-full"
           >
-            <span className="font-[family-name:var(--font-inter)] text-[11px] transition-colors group-hover:text-[#e2e3e1]" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <span className="font-[family-name:var(--font-body)] text-sm transition-colors group-hover:text-[#e2e3e1]" style={{ color: 'rgba(255,255,255,0.2)' }}>
               View website
             </span>
             <svg className="w-3 h-3 transition-colors" style={{ color: 'rgba(255,255,255,0.15)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

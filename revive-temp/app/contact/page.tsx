@@ -41,7 +41,7 @@ export default async function ContactPage() {
             <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,4vw,64px)] max-w-2xl mb-6">
               CONTACT REVIVE FIGHT CLUB
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-lg text-[#bab8b7] max-w-xl leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-lg text-[#bab8b7] max-w-xl leading-relaxed">
               Have a question? Want to visit? Looking to join? We&apos;re here to help.
             </p>
           </div>
@@ -110,7 +110,7 @@ export default async function ContactPage() {
                     className="group inline-flex items-start gap-2.5 hover:opacity-100 transition-all duration-200"
                     style={{ opacity: 0.75 }}
                   >
-                    <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
+                    <span className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
                       3rd floor, 157, MM Road,<br />
                       above Indian Overseas Bank,<br />
                       Fraser Town, Bengaluru,<br />
@@ -131,15 +131,15 @@ export default async function ContactPage() {
                     <dl className="flex flex-col gap-1.5">
                       {Object.entries(openingHours).map(([day, hours]) => (
                         <div key={day} className="flex justify-between">
-                          <dt className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">{day}</dt>
-                          <dd className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">{hours}</dd>
+                          <dt className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5]">{day}</dt>
+                          <dd className="font-[family-name:var(--font-body)] text-sm font-semibold text-[#e2e3e1]">{hours}</dd>
                         </div>
                       ))}
                     </dl>
                   ) : (
                     <div className="flex items-center justify-between">
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">Monday – Saturday</p>
-                      <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">6 AM – 11 PM</p>
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5]">Monday – Saturday</p>
+                      <p className="font-[family-name:var(--font-body)] text-sm font-semibold text-[#e2e3e1]">6 AM – 11 PM</p>
                     </div>
                   )}
                 </div>
@@ -156,7 +156,7 @@ export default async function ContactPage() {
                           href={settings.instagram_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
+                          className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
                           aria-label="Revive Fight Club on Instagram"
                         >
                           Instagram
@@ -167,7 +167,7 @@ export default async function ContactPage() {
                           href={settings.facebook_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
+                          className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
                           aria-label="Revive Fight Club on Facebook"
                         >
                           Facebook
@@ -178,7 +178,7 @@ export default async function ContactPage() {
                           href={settings.youtube_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
+                          className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors"
                           aria-label="Revive Fight Club on YouTube"
                         >
                           YouTube
@@ -190,7 +190,7 @@ export default async function ContactPage() {
 
                 {/* Book trial prompt */}
                 <div className="border-t border-white/10 pt-8">
-                  <p className="font-[family-name:var(--font-inter)] text-sm text-[#bab8b7] mb-4 leading-relaxed">
+                  <p className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7] mb-4 leading-relaxed">
                     Ready to start training? Skip the enquiry and book a trial class directly.
                   </p>
                   <Link

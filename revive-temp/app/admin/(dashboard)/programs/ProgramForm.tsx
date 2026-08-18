@@ -161,75 +161,75 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
 
       {/* Basic Info */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Name *</label>
-            <input value={name} onChange={e => handleNameChange(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)]" placeholder="e.g. Mixed Martial Arts" />
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Name *</label>
+            <input value={name} onChange={e => handleNameChange(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="e.g. Mixed Martial Arts" />
           </div>
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Slug *</label>
-            <input value={slug} onChange={e => setSlug(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] font-mono" placeholder="e.g. mma" />
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Slug *</label>
+            <input value={slug} onChange={e => setSlug(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] font-mono" placeholder="e.g. mma" />
           </div>
         </div>
 
         <div>
-          <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Short Description</label>
-          <textarea value={shortDesc} onChange={e => setShortDesc(e.target.value)} rows={2} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] resize-none" placeholder="Brief 1-2 line description" />
+          <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Short Description</label>
+          <textarea value={shortDesc} onChange={e => setShortDesc(e.target.value)} rows={2} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] resize-none" placeholder="Brief 1-2 line description" />
         </div>
 
         <div>
-          <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Full Description</label>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] resize-none" placeholder="Detailed program description shown on the program detail page" />
+          <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Full Description</label>
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] resize-none" placeholder="Detailed program description shown on the program detail page" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Category</label>
-            <input value={category} onChange={e => setCategory(e.target.value)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)]" placeholder="e.g. Combat Sports" />
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Category</label>
+            <input value={category} onChange={e => setCategory(e.target.value)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="e.g. Combat Sports" />
           </div>
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Level</label>
-            <select value={level} onChange={e => setLevel(e.target.value as typeof level)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)]">
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Level</label>
+            <select value={level} onChange={e => setLevel(e.target.value as typeof level)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]">
               {LEVELS.map(l => <option key={l} value={l}>{l.replace('_', ' ')}</option>)}
             </select>
           </div>
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Duration (minutes)</label>
-            <input type="number" value={duration} onChange={e => setDuration(e.target.value)} min="1" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)]" placeholder="60" />
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Duration (minutes)</label>
+            <input type="number" value={duration} onChange={e => setDuration(e.target.value)} min="1" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="60" />
           </div>
         </div>
       </div>
 
       {/* Cover Image */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Cover Image</h3>
-        <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Main image shown on program cards and as the first slideshow photo.</p>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Cover Image</h3>
+        <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Main image shown on program cards and as the first slideshow photo.</p>
         {imagePreview && (
           <img src={imagePreview} alt="Preview" className="w-full max-w-xs h-40 object-cover border border-white/[0.08]" />
         )}
         <label className="flex flex-col gap-1.5">
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload image (JPEG/PNG/WebP, max 5MB)</span>
-          <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
-          {uploading && <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Uploading…</span>}
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Upload image (JPEG/PNG/WebP, max 5MB)</span>
+          <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
+          {uploading && <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Uploading…</span>}
         </label>
       </div>
 
       {/* Gallery Images — Slideshow */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
         <div>
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">
+          <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">
             Photo Gallery — Slideshow
           </h3>
-          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] mt-1">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-1">
             Upload multiple photos. They will display as an auto-advancing slideshow on the program detail page. Drag to reorder.
           </p>
         </div>
 
         {/* Upload multiple */}
         <label className="flex flex-col gap-1.5">
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">
             Select multiple photos (hold Ctrl/Cmd to select multiple)
           </span>
           <input
@@ -238,12 +238,12 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
             multiple
             onChange={handleGalleryUpload}
             disabled={uploadingGallery}
-            className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1e201f] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#282a29] file:transition-colors file:border file:border-white/10"
+            className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1e201f] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#282a29] file:transition-colors file:border file:border-white/10"
           />
           {uploadingGallery && (
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
-              <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading photos…</span>
+              <span className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]">Uploading photos…</span>
             </div>
           )}
         </label>
@@ -257,7 +257,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
 
                 {/* Order badge */}
                 <div className="absolute top-1.5 left-1.5 w-5 h-5 bg-[#ff571a] flex items-center justify-center">
-                  <span className="text-black text-[10px] font-black">{i + 1}</span>
+                  <span className="text-black text-xs font-black">{i + 1}</span>
                 </div>
 
                 {/* Overlay controls */}
@@ -289,7 +289,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
                   <button
                     type="button"
                     onClick={() => removeGalleryImage(url)}
-                    className="px-2 py-1 bg-red-500/80 hover:bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider transition-colors"
+                    className="px-2 py-1 bg-red-500/80 hover:bg-red-500 text-white text-xs font-bold uppercase tracking-wider transition-colors"
                   >
                     Remove
                   </button>
@@ -299,14 +299,14 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
           </div>
         ) : (
           <div className="border border-dashed border-white/10 p-8 text-center">
-            <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+            <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
               No gallery photos yet. Upload photos above to create a slideshow.
             </p>
           </div>
         )}
 
         {galleryImages.length > 0 && (
-          <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
             {galleryImages.length} photo{galleryImages.length !== 1 ? 's' : ''} · Hover a photo to reorder or remove · First photo shows first in slideshow
           </p>
         )}
@@ -314,19 +314,19 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
 
       {/* Settings */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Settings</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Settings</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <label className="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" />
-            <span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Active (visible on site)</span>
+            <span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Active (visible on site)</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
             <input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" />
-            <span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Featured (shown on homepage)</span>
+            <span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Featured (shown on homepage)</span>
           </label>
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Sort Order</label>
-            <input type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} min="0" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)]" />
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Sort Order</label>
+            <input type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} min="0" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" />
           </div>
         </div>
       </div>
@@ -335,16 +335,16 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
       <div className="flex items-center justify-between gap-4">
         <div>
           {mode === 'edit' && (
-            <button type="button" onClick={() => setShowArchive(true)} className="border border-red-500/20 text-red-400 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-red-500/10 transition-colors">
+            <button type="button" onClick={() => setShowArchive(true)} className="border border-red-500/20 text-red-400 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-red-500/10 transition-colors">
               Archive Program
             </button>
           )}
         </div>
         <div className="flex gap-3">
-          <Link href="/admin/programs" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">
+          <Link href="/admin/programs" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">
             Cancel
           </Link>
-          <button type="submit" disabled={saving || uploading || uploadingGallery} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
+          <button type="submit" disabled={saving || uploading || uploadingGallery} className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : mode === 'create' ? 'Create Program' : 'Save Changes'}
           </button>
         </div>

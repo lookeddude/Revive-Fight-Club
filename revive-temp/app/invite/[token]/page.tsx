@@ -75,19 +75,19 @@ export default async function InvitePage({ params }: PageProps) {
             </svg>
           </div>
           <div>
-            <p className="text-xs font-bold tracking-[0.15em] uppercase text-amber-400 font-[family-name:var(--font-inter)]">Wrong Account</p>
+            <p className="text-xs font-bold  uppercase text-amber-400 font-[family-name:var(--font-body)]">Wrong Account</p>
             <h1 className="text-2xl font-bold text-[#e2e3e1] font-[family-name:var(--font-outfit)] uppercase">Different Email</h1>
           </div>
         </div>
-        <p className="text-[#bab8b7] font-[family-name:var(--font-inter)] text-sm leading-relaxed mb-6">
+        <p className="text-[#bab8b7] font-[family-name:var(--font-body)] text-sm leading-relaxed mb-6">
           You are currently signed in as <strong className="text-[#e2e3e1]">{user.email}</strong>, but this invitation was sent to <strong className="text-[#ff571a]">{invite.email}</strong>.
         </p>
-        <p className="text-[#bab8b7] font-[family-name:var(--font-inter)] text-sm mb-8">
+        <p className="text-[#bab8b7] font-[family-name:var(--font-body)] text-sm mb-8">
           Please sign out and sign in with the correct account to accept this invitation.
         </p>
         <Link
           href="/admin/login"
-          className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
+          className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
         >
           SIGN IN WITH CORRECT ACCOUNT
         </Link>
@@ -115,7 +115,7 @@ export default async function InvitePage({ params }: PageProps) {
           </svg>
         </div>
         <div>
-          <p className="text-xs font-bold tracking-[0.15em] uppercase text-[#ff571a] font-[family-name:var(--font-inter)]">You&apos;ve been invited</p>
+          <p className="text-xs font-bold  uppercase text-[#ff571a] font-[family-name:var(--font-body)]">You&apos;ve been invited</p>
           <h1 className="text-2xl font-bold text-[#e2e3e1] font-[family-name:var(--font-outfit)] uppercase">Join Revive FC</h1>
         </div>
       </div>
@@ -123,33 +123,33 @@ export default async function InvitePage({ params }: PageProps) {
       <div className="border border-white/10 bg-white/[0.03] p-5 mb-8">
         <dl className="flex flex-col gap-3">
           <div className="flex justify-between items-center">
-            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-inter)]">Email</dt>
-            <dd className="text-sm text-[#e2e3e1] font-[family-name:var(--font-inter)]">{invite.email}</dd>
+            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</dt>
+            <dd className="text-sm text-[#e2e3e1] font-[family-name:var(--font-body)]">{invite.email}</dd>
           </div>
           <div className="flex justify-between items-center">
-            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-inter)]">Role</dt>
+            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</dt>
             <dd>
-              <span className="text-xs font-bold tracking-[0.1em] uppercase px-2 py-1 bg-[#ff571a]/20 text-[#ff571a] font-[family-name:var(--font-inter)]">
+              <span className="text-xs font-bold tracking-[0.1em] uppercase px-2 py-1 bg-[#ff571a]/20 text-[#ff571a] font-[family-name:var(--font-body)]">
                 {roleLabels[invite.role] ?? invite.role}
               </span>
             </dd>
           </div>
           <div className="flex justify-between items-center">
-            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-inter)]">Expires</dt>
-            <dd className="text-sm text-[#bab8b7] font-[family-name:var(--font-inter)]">
+            <dt className="text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Expires</dt>
+            <dd className="text-sm text-[#bab8b7] font-[family-name:var(--font-body)]">
               {new Date(invite.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
             </dd>
           </div>
         </dl>
       </div>
 
-      <p className="text-sm text-[#bab8b7] font-[family-name:var(--font-inter)] mb-6 leading-relaxed">
+      <p className="text-sm text-[#bab8b7] font-[family-name:var(--font-body)] mb-6 leading-relaxed">
         Sign in or create an account using the email address above to accept this invitation and access the Revive Fight Club admin panel.
       </p>
 
       <Link
         href={`/admin/login?invite=${token}&email=${encodeURIComponent(invite.email)}`}
-        className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
+        className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
       >
         SIGN IN TO ACCEPT
       </Link>
@@ -183,11 +183,11 @@ function ErrorPage({ title, message, cta }: { title: string; message: string; ct
         </div>
         <h1 className="text-2xl font-bold text-[#e2e3e1] font-[family-name:var(--font-outfit)] uppercase">{title}</h1>
       </div>
-      <p className="text-[#bab8b7] font-[family-name:var(--font-inter)] text-sm leading-relaxed mb-8">{message}</p>
+      <p className="text-[#bab8b7] font-[family-name:var(--font-body)] text-sm leading-relaxed mb-8">{message}</p>
       {cta && (
         <Link
           href={cta.href}
-          className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
+          className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-3 hover:bg-white transition-colors"
         >
           {cta.label}
         </Link>

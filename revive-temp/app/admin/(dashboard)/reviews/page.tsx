@@ -12,7 +12,7 @@ export default async function AdminReviewsPage() {
     <div className="max-w-5xl space-y-5">
       <div>
         <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Reviews</h2>
-        <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-0.5">{reviews?.length ?? 0} total</p>
+        <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-0.5">{reviews?.length ?? 0} total</p>
       </div>
       <ReviewsManager reviews={reviews ?? []} />
     </div>

@@ -44,14 +44,14 @@ export default async function ProgramsPage() {
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
+              <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
                 Training Programs
               </p>
             </div>
             <h1 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,72px)] max-w-2xl mb-4">
               ELITE PROGRAMS
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-base text-[#8a8079] max-w-xl leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-base text-[#c8c4bf] max-w-xl leading-relaxed">
               World-class combat sports and fitness training for every level — from first-timers to competitive fighters.
             </p>
           </div>
@@ -79,19 +79,19 @@ export default async function ProgramsPage() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <span className="font-[family-name:var(--font-inter)] text-xs text-[#3a3530] uppercase tracking-wider">No Image</span>
+                            <span className="font-[family-name:var(--font-body)] text-xs text-[#3a3530] uppercase tracking-wider">No Image</span>
                           </div>
                         )}
                         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(15,14,13,1) 0%, rgba(15,14,13,0.3) 50%, transparent 100%)' }} />
                         {/* Badges */}
                         <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
                           {program.category && (
-                            <span className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.1em] uppercase px-2.5 py-1">
+                            <span className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-black tracking-[0.1em] uppercase px-2.5 py-1">
                               {program.category}
                             </span>
                           )}
                           {level && (
-                            <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1" style={{ background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.15)', color: '#d4cfc9' }}>
+                            <span className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase px-2.5 py-1" style={{ background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.15)', color: '#d4cfc9' }}>
                               {level}
                             </span>
                           )}
@@ -104,7 +104,7 @@ export default async function ProgramsPage() {
                           {program.name}
                         </h2>
                         {program.short_description ? (
-                          <p className="font-[family-name:var(--font-inter)] text-sm text-[#8a8079] leading-relaxed mb-5 flex-1">
+                          <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c4bf] leading-relaxed mb-5 flex-1">
                             {program.short_description}
                           </p>
                         ) : (
@@ -114,7 +114,7 @@ export default async function ProgramsPage() {
                         <div className="flex gap-3 flex-wrap">
                           <Link
                             href={`/book-trial?program=${program.id}`}
-                            className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.12em] uppercase px-5 py-3 transition-all duration-300 active:scale-95"
+                            className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] text-xs font-black tracking-[0.12em] uppercase px-5 py-3 transition-all duration-300 active:scale-95"
                             style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)' }}
                           >
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -122,7 +122,7 @@ export default async function ProgramsPage() {
                           </Link>
                           <Link
                             href={`/programs/${program.slug}`}
-                            className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase px-5 py-3 transition-all duration-300 hover:border-white/30 text-[#f0ede8]"
+                            className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase px-5 py-3 transition-all duration-300 hover:border-white/30 text-[#f0ede8]"
                             style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
                           >
                             VIEW MORE
@@ -136,11 +136,11 @@ export default async function ProgramsPage() {
               </div>
             ) : (
               <div className="text-center py-24">
-                <p className="font-[family-name:var(--font-inter)] text-[#8a8079] mb-8">
+                <p className="font-[family-name:var(--font-body)] text-[#c8c4bf] mb-8">
                   Program details coming soon. Contact us to find out more.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <Link href="/book-trial" className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300">
+                  <Link href="/book-trial" className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300">
                     BOOK A TRIAL
                   </Link>
                   <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />
@@ -156,11 +156,11 @@ export default async function ProgramsPage() {
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-[clamp(24px,3vw,36px)] tracking-[-0.02em] mb-4">
               NOT SURE WHERE TO START?
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-[#8a8079] mb-8 max-w-md mx-auto">
+            <p className="font-[family-name:var(--font-body)] text-[#c8c4bf] mb-8 max-w-md mx-auto">
               Book a trial class and our coaches will help you find the right program.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/book-trial" className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-300" style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)' }}>
+              <Link href="/book-trial" className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-300" style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)' }}>
                 BOOK TRIAL
               </Link>
               <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />

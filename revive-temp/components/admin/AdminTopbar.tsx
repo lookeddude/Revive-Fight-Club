@@ -50,14 +50,14 @@ export function AdminTopbar({ title, profile, onMenuToggle }: AdminTopbarProps) 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2">
           <span
-            className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-[0.15em]"
+            className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.15em]"
             style={{ color: 'rgba(255,87,26,0.7)' }}
           >
             RFC
           </span>
           <span style={{ color: 'rgba(255,255,255,0.12)' }} aria-hidden="true">/</span>
           <h1
-            className="font-[family-name:var(--font-inter)] font-semibold text-sm"
+            className="font-[family-name:var(--font-body)] font-semibold text-sm"
             style={{ color: 'rgba(255,255,255,0.75)' }}
           >
             {title}
@@ -75,7 +75,7 @@ export function AdminTopbar({ title, profile, onMenuToggle }: AdminTopbarProps) 
             aria-hidden="true"
           />
           <span
-            className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em]"
+            className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-[0.15em]"
             style={{ color: dotColor, opacity: 0.8 }}
           >
             {profile.role}
@@ -88,13 +88,13 @@ export function AdminTopbar({ title, profile, onMenuToggle }: AdminTopbarProps) 
         {/* User */}
         <div className="hidden sm:flex flex-col items-end gap-0">
           <span
-            className="font-[family-name:var(--font-inter)] text-[12px] font-semibold leading-none"
+            className="font-[family-name:var(--font-body)] text-[12px] font-semibold leading-none"
             style={{ color: 'rgba(255,255,255,0.75)' }}
           >
             {profile.full_name ?? profile.email.split('@')[0]}
           </span>
           <span
-            className="font-[family-name:var(--font-inter)] text-[10px] leading-none mt-0.5"
+            className="font-[family-name:var(--font-body)] text-xs leading-none mt-0.5"
             style={{ color: 'rgba(255,255,255,0.25)' }}
           >
             {profile.email}
@@ -110,7 +110,7 @@ export function AdminTopbar({ title, profile, onMenuToggle }: AdminTopbarProps) 
           }}
           aria-hidden="true"
         >
-          <span className="font-[family-name:var(--font-inter)] text-[11px] font-black text-[#ff571a]">
+          <span className="font-[family-name:var(--font-body)] text-sm font-black text-[#ff571a]">
             {initials}
           </span>
         </div>
@@ -131,7 +131,7 @@ export function AdminTopbar({ title, profile, onMenuToggle }: AdminTopbarProps) 
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            <span className="hidden md:block font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider group-hover:text-[#e2e3e1] transition-colors">
+            <span className="hidden md:block font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-wider group-hover:text-[#e2e3e1] transition-colors">
               Logout
             </span>
           </button>

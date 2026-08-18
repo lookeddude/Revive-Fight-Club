@@ -81,13 +81,13 @@ export function ConfirmDialog({
 
         <h2
           id="confirm-title"
-          className="font-[family-name:var(--font-inter)] font-bold text-base mb-2"
+          className="font-[family-name:var(--font-body)] font-bold text-base mb-2"
           style={{ color: 'rgba(255,255,255,0.9)' }}
         >
           {title}
         </h2>
         <p
-          className="font-[family-name:var(--font-inter)] text-sm mb-6 leading-relaxed"
+          className="font-[family-name:var(--font-body)] text-sm mb-6 leading-relaxed"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >
           {description}
@@ -96,7 +96,7 @@ export function ConfirmDialog({
         <div className="flex gap-3 justify-end">
           <button
             onClick={onCancel}
-            className="px-4 py-2 font-[family-name:var(--font-inter)] text-sm font-medium transition-colors"
+            className="px-4 py-2 font-[family-name:var(--font-body)] text-sm font-medium transition-colors"
             style={{
               color: 'rgba(255,255,255,0.4)',
               border: '1px solid rgba(255,255,255,0.08)',
@@ -106,7 +106,7 @@ export function ConfirmDialog({
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 font-[family-name:var(--font-inter)] text-sm font-bold transition-colors"
+            className="px-4 py-2 font-[family-name:var(--font-body)] text-sm font-bold transition-colors"
             style={{
               background: destructive
                 ? 'linear-gradient(135deg, #ef4444, #dc2626)'

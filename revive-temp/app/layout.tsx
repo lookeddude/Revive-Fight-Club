@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Outfit, Inter } from 'next/font/google'
+import { Outfit, Barlow } from 'next/font/google'
 import './globals.css'
 
 // Preload only needed weights — faster font load
@@ -11,10 +11,10 @@ const outfit = Outfit({
   preload: true,
 })
 
-const inter = Inter({
+const barlow = Barlow({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-inter',
+  variable: '--font-body',
   display: 'swap',
   preload: true,
 })
@@ -71,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${barlow.variable}`}>
       <head>
         {/* Preconnect to Supabase for faster API + image loads */}
         <link rel="preconnect" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
@@ -79,7 +79,7 @@ export default function RootLayout({
         {/* Preconnect to Google Fonts CDN */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-inter)] antialiased">
+      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
         {children}
       </body>
     </html>

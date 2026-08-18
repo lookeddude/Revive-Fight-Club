@@ -79,14 +79,14 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
         <svg className="w-4 h-4 text-[#ff571a] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="square" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">
+        <p className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]">
           <strong>Top 4 programs</strong> by position are automatically shown as featured on the website. Use &#8593;&#8595; to reorder.
         </p>
       </div>
 
       {error && (
         <div className="flex items-center justify-between p-3 border border-red-500/30 bg-red-500/10">
-          <span className="font-[family-name:var(--font-inter)] text-xs text-red-400">{error}</span>
+          <span className="font-[family-name:var(--font-body)] text-xs text-red-400">{error}</span>
           <button onClick={() => setError('')} className="text-red-400 hover:text-[#ff571a] ml-3">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
@@ -103,7 +103,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
           placeholder="Search programs..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 bg-[#111312] border border-white/[0.07] font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] placeholder:text-[#4b5563] focus:outline-none focus:border-[#ff571a]/40 transition-colors"
+          className="w-full pl-9 pr-4 py-2.5 bg-[#111312] border border-white/[0.07] font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] placeholder:text-[#4b5563] focus:outline-none focus:border-[#ff571a]/40 transition-colors"
         />
         {search && (
           <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#4b5563] hover:text-[#e2e3e1] transition-colors">
@@ -115,7 +115,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       <div className="bg-[#111312] border border-white/[0.07]">
         {displayed.length === 0 ? (
           <div className="text-center py-12">
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563]">No programs match &quot;{search}&quot;</p>
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563]">No programs match &quot;{search}&quot;</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -123,7 +123,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
               <thead>
                 <tr className="border-b border-white/[0.06]">
                   {['Pos', 'Name', 'Level', 'Category', 'Status', 'Website', 'Order', ''].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#4b5563]">{h}</th>
+                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563]">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -155,16 +155,16 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
 
                       {/* Name */}
                       <td className="px-4 py-3">
-                        <span className="font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{p.name}</span>
+                        <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{p.name}</span>
                       </td>
 
                       {/* Level */}
-                      <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] capitalize">
+                      <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#9ca3af] capitalize">
                         {p.level?.replace('_', ' ') ?? '\u2014'}
                       </td>
 
                       {/* Category */}
-                      <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#9ca3af]">
+                      <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#9ca3af]">
                         {p.category ?? '\u2014'}
                       </td>
 
@@ -174,12 +174,12 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                       {/* Featured badge */}
                       <td className="px-4 py-3">
                         {isFeatured ? (
-                          <span className="inline-flex items-center gap-1 font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">
+                          <span className="inline-flex items-center gap-1 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">
                             <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
                             Featured
                           </span>
                         ) : (
-                          <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563]">Not shown</span>
+                          <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">Not shown</span>
                         )}
                       </td>
 
@@ -215,7 +215,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                       <td className="px-4 py-3">
                         <Link
                           href={`/admin/programs/${p.id}`}
-                          className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"
+                          className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"
                         >
                           Edit
                         </Link>
@@ -233,18 +233,18 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-[#ff571a] flex items-center justify-center">
-            <span className="font-[family-name:var(--font-outfit)] font-bold text-black text-[10px]">1</span>
+            <span className="font-[family-name:var(--font-outfit)] font-bold text-black text-xs">1</span>
           </div>
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Positions 1&#8211;4 = featured on website</span>
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Positions 1&#8211;4 = featured on website</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 bg-white/[0.06] flex items-center justify-center">
-            <span className="font-[family-name:var(--font-outfit)] font-bold text-[#6b7280] text-[10px]">5</span>
+            <span className="font-[family-name:var(--font-outfit)] font-bold text-[#6b7280] text-xs">5</span>
           </div>
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Position 5+ = not shown</span>
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Position 5+ = not shown</span>
         </div>
         {search && (
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] ml-auto">
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] ml-auto">
             {displayed.length} of {programs.length} programs
           </span>
         )}

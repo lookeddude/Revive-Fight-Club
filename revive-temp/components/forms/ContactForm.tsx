@@ -113,7 +113,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             </svg>
           </div>
           <div>
-            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
               Message Sent
             </p>
             <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl uppercase tracking-tight">
@@ -123,7 +123,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
         </div>
 
         <div className="border border-white/10 p-6 bg-[#1a1c1b]">
-          <p className="font-[family-name:var(--font-inter)] text-base text-[#bab8b7] leading-relaxed">
+          <p className="font-[family-name:var(--font-body)] text-base text-[#bab8b7] leading-relaxed">
             Thanks for contacting Revive Fight Club. We&apos;ve received your message and will get back to you soon.
           </p>
         </div>
@@ -155,7 +155,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase">
               SOMETHING WENT WRONG
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] mt-1">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] mt-1">
               Please try again or reach us directly.
             </p>
           </div>
@@ -164,7 +164,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
         <div className="flex flex-wrap gap-4">
           <button
             onClick={() => setFormState('idle')}
-            className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
+            className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
           >
             TRY AGAIN
           </button>
@@ -271,7 +271,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
           aria-invalid={!!errors.message}
           disabled={isPending}
         />
-        <p className="mt-1 text-right font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]/40">
+        <p className="mt-1 text-right font-[family-name:var(--font-body)] text-xs text-[#c8c6c5]/40">
           {values.message.length}/5000
         </p>
       </FormField>
@@ -280,7 +280,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px]"
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px]"
           aria-live="polite"
         >
           {isPending ? (

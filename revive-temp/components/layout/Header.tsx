@@ -135,7 +135,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 ${
+                  className={`font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 ${
                     isActive
                       ? 'text-[#ffb59e] border-b border-[#ffb59e] pb-1'
                       : 'text-[#f0ede8] hover:text-[#ff571a]'
@@ -153,7 +153,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
             {/* Book Trial CTA — skewed parallelogram with glow */}
             <Link
               href="/book-trial"
-              className="relative inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-[11px] font-black tracking-[0.14em] uppercase transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 group"
+              className="relative inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 group"
               style={{
                 background: 'linear-gradient(135deg, #ff571a 0%, #d94418 100%)',
                 color: '#000',
@@ -184,7 +184,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 >
                   {/* Avatar */}
                   <div className="w-9 h-9 rounded-full bg-[#ff571a] flex items-center justify-center relative">
-                    <span className="font-[family-name:var(--font-inter)] text-xs font-bold text-black">
+                    <span className="font-[family-name:var(--font-body)] text-xs font-bold text-black">
                       {getInitials(authUser.name, authUser.email)}
                     </span>
                     {/* Admin indicator dot */}
@@ -205,10 +205,10 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   <div className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50">
                     {/* User info */}
                     <div className="px-4 py-3 border-b border-white/8">
-                      <p className="font-[family-name:var(--font-inter)] text-sm font-bold text-[#e2e3e1] truncate">
+                      <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#e2e3e1] truncate">
                         {authUser.name ?? 'My Account'}
                       </p>
-                      <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] truncate mt-0.5">
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] truncate mt-0.5">
                         {authUser.email}
                       </p>
                     </div>
@@ -225,7 +225,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                           </svg>
-                          <span className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.08em] uppercase">
+                          <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.08em] uppercase">
                             Admin Panel
                           </span>
                         </Link>
@@ -242,7 +242,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" y1="12" x2="9" y2="12"/>
                       </svg>
-                      <span className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.08em] uppercase">
+                      <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.08em] uppercase">
                         Sign Out
                       </span>
                     </button>
@@ -253,7 +253,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
               /* Not logged in */
               <Link
                 href="/login"
-                className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors px-3 py-3"
+                className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors px-3 py-3"
               >
                 LOGIN
               </Link>

@@ -56,7 +56,7 @@ export function AdminLoginForm() {
     <div className="flex flex-col gap-4">
       {error && (
         <div className="p-3 bg-red-500/10 border border-red-500/20">
-          <p className="font-[family-name:var(--font-inter)] text-sm text-red-400">{error}</p>
+          <p className="font-[family-name:var(--font-body)] text-sm text-red-400">{error}</p>
         </div>
       )}
 
@@ -65,7 +65,7 @@ export function AdminLoginForm() {
         type="button"
         onClick={handleGoogleSignIn}
         disabled={googleLoading || loading}
-        className="w-full flex items-center justify-center gap-3 bg-white text-[#111] font-[family-name:var(--font-inter)] text-sm font-semibold py-3 hover:bg-[#f0ede8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-3 bg-white text-[#111] font-[family-name:var(--font-body)] text-sm font-semibold py-3 hover:bg-[#f0ede8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {googleLoading ? (
           <div className="w-4 h-4 border-2 border-[#111] border-t-transparent rounded-full animate-spin" />
@@ -83,7 +83,7 @@ export function AdminLoginForm() {
       {/* Divider */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-white/10" />
-        <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] uppercase tracking-wider">or</span>
+        <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] uppercase tracking-wider">or</span>
         <div className="flex-1 h-px bg-white/10" />
       </div>
 
@@ -92,7 +92,7 @@ export function AdminLoginForm() {
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor="admin-email"
-            className="font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider"
+            className="font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider"
           >
             Email address
           </label>
@@ -112,7 +112,7 @@ export function AdminLoginForm() {
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor="admin-password"
-            className="font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider"
+            className="font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider"
           >
             Password
           </label>
@@ -132,7 +132,7 @@ export function AdminLoginForm() {
         <button
           type="submit"
           disabled={loading || !email || !password}
-          className="w-full bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.08em] uppercase py-3 hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+          className="w-full bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.08em] uppercase py-3 hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
         >
           {loading ? 'Signing in…' : 'Sign in'}
         </button>

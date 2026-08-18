@@ -48,7 +48,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
           </div>
           <Link
             href="/programs"
-            className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#6b6059] hover:text-[#ff571a] transition-colors self-end"
+            className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-end"
           >
             VIEW ALL
             <span className="flex items-center justify-center w-8 h-8 border border-white/10 group-hover:border-[#ff571a]/40 group-hover:bg-[#ff571a]/08 transition-all duration-300">
@@ -109,9 +109,9 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                 >
                   {program.name}
                 </h3>
-                {/* Description - always visible on mobile, reveal on hover on desktop */}
+                {/* Description - always visible on mobile and desktop */}
                 {program.short_description && (
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c4bf] leading-relaxed mb-3 line-clamp-2 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-400">
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf] leading-relaxed mb-3 line-clamp-2">
                     {program.short_description}
                   </p>
                 )}

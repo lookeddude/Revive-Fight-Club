@@ -62,11 +62,11 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
         >
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-4">
             <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
-              <Link href="/" className="font-[family-name:var(--font-inter)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Home</Link>
+              <Link href="/" className="font-[family-name:var(--font-body)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Home</Link>
               <span className="text-[#2a2520]">/</span>
-              <Link href="/trainers" className="font-[family-name:var(--font-inter)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Trainers</Link>
+              <Link href="/trainers" className="font-[family-name:var(--font-body)] text-[#4b5563] hover:text-[#ff571a] transition-colors text-xs uppercase tracking-wider">Trainers</Link>
               <span className="text-[#2a2520]">/</span>
-              <span className="font-[family-name:var(--font-inter)] text-[#e2e3e1] text-xs uppercase tracking-wider">{trainer.name}</span>
+              <span className="font-[family-name:var(--font-body)] text-[#e2e3e1] text-xs uppercase tracking-wider">{trainer.name}</span>
             </nav>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
               {trainer.is_featured && (
                 <div className="mb-4">
                   <span
-                    className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.18em] px-3 py-1.5"
+                    className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.18em] px-3 py-1.5"
                     style={{ background: '#ff571a', color: '#000' }}
                   >
                     ★ HEAD COACH
@@ -111,7 +111,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
               )}
 
               {/* Role */}
-              <p className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-[0.2em] text-[#ff571a] mb-3">
+              <p className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.2em] text-[#ff571a] mb-3">
                 {trainer.role}
               </p>
 
@@ -131,7 +131,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                     style={{ background: 'rgba(255,87,26,0.12)', border: '1px solid rgba(255,87,26,0.3)', backdropFilter: 'blur(8px)' }}
                   >
                     <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-2xl leading-none">{trainer.years_experience}+</p>
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#ff571a]/70 uppercase tracking-wider mt-0.5">Years Experience</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]/70 uppercase tracking-wider mt-0.5">Years Experience</p>
                   </div>
                 )}
                 {specialties.length > 0 && (
@@ -140,7 +140,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                     style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
                   >
                     <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">{specialties.length}</p>
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#9ca3af] uppercase tracking-wider mt-0.5">Disciplines</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Disciplines</p>
                   </div>
                 )}
                 <div
@@ -148,14 +148,14 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                   style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
                 >
                   <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">PRO</p>
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#9ca3af] uppercase tracking-wider mt-0.5">Fighter</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Fighter</p>
                 </div>
               </div>
 
               {/* Short bio */}
               {trainer.short_bio && (
                 <p
-                  className="font-[family-name:var(--font-inter)] text-base text-[#a09890] leading-relaxed mb-8 max-w-lg"
+                  className="font-[family-name:var(--font-body)] text-base text-[#a09890] leading-relaxed mb-8 max-w-lg"
                   style={{ borderLeft: '2px solid rgba(255,87,26,0.5)', paddingLeft: '1rem' }}
                 >
                   {trainer.short_bio}
@@ -166,7 +166,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/book-trial"
-                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-200 hover:bg-white"
+                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-200 hover:bg-white"
                   style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -189,7 +189,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
             <div className="max-w-[1280px] mx-auto px-5 md:px-16">
               <div className="flex items-center gap-3 mb-10">
                 <div className="w-8 h-px bg-[#ff571a]" />
-                <h2 className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.2em] text-[#ff571a]">Areas of Expertise</h2>
+                <h2 className="font-[family-name:var(--font-body)] text-sm font-black uppercase tracking-[0.2em] text-[#ff571a]">Areas of Expertise</h2>
               </div>
               <div className="flex flex-wrap gap-3">
                 {specialties.map((s, i) => (
@@ -206,7 +206,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                       style={{ background: i < 3 ? '#ff571a' : 'rgba(255,255,255,0.2)' }}
                     />
                     <span
-                      className="font-[family-name:var(--font-inter)] text-sm font-semibold"
+                      className="font-[family-name:var(--font-body)] text-sm font-semibold"
                       style={{ color: i < 3 ? '#f0ede8' : '#9ca3af' }}
                     >
                       {s}
@@ -229,7 +229,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                 <div className="lg:col-span-3">
                   <div className="flex items-center gap-3 mb-2 lg:mb-0">
                     <div className="w-8 h-px bg-[#ff571a]" />
-                    <h2 className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.2em] text-[#ff571a]">About</h2>
+                    <h2 className="font-[family-name:var(--font-body)] text-sm font-black uppercase tracking-[0.2em] text-[#ff571a]">About</h2>
                   </div>
                   <h3
                     className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-none tracking-[-0.02em] mt-4 lg:mt-6"
@@ -239,7 +239,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                   </h3>
                 </div>
                 <div className="lg:col-span-9">
-                  <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[2] text-[#8a8079]">
+                  <p className="font-[family-name:var(--font-body)] text-[15px] leading-[2] text-[#c8c4bf]">
                     {trainer.bio}
                   </p>
                 </div>
@@ -262,21 +262,21 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                 >
                   TRAIN WITH {trainer.name.toUpperCase()}
                 </h3>
-                <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b6059]">
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">
                   Book a trial class and experience expert coaching first-hand.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 shrink-0">
                 <Link
                   href="/book-trial"
-                  className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 transition-all duration-200 hover:bg-white"
+                  className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 transition-all duration-200 hover:bg-white"
                   style={{ background: '#ff571a' }}
                 >
                   BOOK A TRIAL
                 </Link>
                 <Link
                   href="/trainers"
-                  className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] font-bold text-sm uppercase tracking-[0.1em] px-6 py-4 transition-all duration-200"
+                  className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] font-bold text-sm uppercase tracking-[0.1em] px-6 py-4 transition-all duration-200"
                   style={{ border: '1px solid rgba(255,255,255,0.1)', color: '#9ca3af' }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" /></svg>

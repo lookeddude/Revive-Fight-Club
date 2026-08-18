@@ -108,17 +108,17 @@ export default function TermsOfServicePage() {
           <div className="max-w-[900px] mx-auto px-5 md:px-16">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
+              <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
                 Legal
               </p>
             </div>
             <h1 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,5vw,56px)] mb-4">
               Terms of Service
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563]">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563]">
               Last updated: {lastUpdated}
             </p>
-            <p className="font-[family-name:var(--font-inter)] text-base text-[#8a8079] mt-4 max-w-xl leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-base text-[#c8c4bf] mt-4 max-w-xl leading-relaxed">
               Please read these terms carefully before using our facilities or services. These terms apply to all members, visitors, and users of the Revive Fight Club website.
             </p>
           </div>
@@ -136,7 +136,7 @@ export default function TermsOfServicePage() {
                   {section.content.map((item, i) => (
                     <li key={i} className="flex gap-3 items-start">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#ff571a]/60 mt-2 shrink-0" />
-                      <p className="font-[family-name:var(--font-inter)] text-[#8a8079] leading-relaxed text-sm md:text-base">{item}</p>
+                      <p className="font-[family-name:var(--font-body)] text-[#c8c4bf] leading-relaxed text-sm md:text-base">{item}</p>
                     </li>
                   ))}
                 </ul>

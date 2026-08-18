@@ -63,7 +63,7 @@ export default function AdminLoginPage() {
           >
             Revive Fight Club
           </h2>
-          <p className="font-[family-name:var(--font-inter)] text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <p className="font-[family-name:var(--font-body)] text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.3)' }}>
             Bengaluru&apos;s elite combat sports and performance training facility.
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
               <p className="font-[family-name:var(--font-outfit)] font-black text-[#e8e4df] text-sm uppercase tracking-tight leading-none">
                 Revive Fight Club
               </p>
-              <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.18em] uppercase mt-0.5" style={{ color: 'rgba(255,87,26,0.7)' }}>
+              <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase mt-0.5" style={{ color: 'rgba(255,87,26,0.7)' }}>
                 Staff Portal
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
           {/* Heading */}
           <div className="mb-8">
             <p
-              className="font-[family-name:var(--font-inter)] text-[11px] font-bold tracking-[0.2em] uppercase mb-2"
+              className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.2em] uppercase mb-2"
               style={{ color: 'rgba(255,87,26,0.8)' }}
             >
               Staff Portal
@@ -114,7 +114,7 @@ export default function AdminLoginPage() {
               Sign In
             </h1>
             <p
-              className="font-[family-name:var(--font-inter)] text-sm mt-3"
+              className="font-[family-name:var(--font-body)] text-sm mt-3"
               style={{ color: 'rgba(255,255,255,0.35)' }}
             >
               Access the Revive Fight Club management dashboard.
@@ -126,7 +126,7 @@ export default function AdminLoginPage() {
 
           {/* Footer */}
           <p
-            className="font-[family-name:var(--font-inter)] text-[11px] mt-8 text-center"
+            className="font-[family-name:var(--font-body)] text-sm mt-8 text-center"
             style={{ color: 'rgba(255,255,255,0.2)' }}
           >
             Not staff?{' '}

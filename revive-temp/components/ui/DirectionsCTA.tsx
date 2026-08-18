@@ -19,7 +19,7 @@ export function DirectionsCTA({
   if (!googleMapsUrl) return null
 
   const baseStyles =
-    'inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase transition-all duration-300 active:scale-95'
+    'inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase transition-all duration-300 active:scale-95'
 
   const variantStyles = {
     primary: 'bg-[#ff571a] text-black px-8 py-4 hover:bg-white',

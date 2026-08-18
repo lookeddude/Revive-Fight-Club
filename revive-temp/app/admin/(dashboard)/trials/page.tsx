@@ -31,7 +31,7 @@ export default async function TrialsPage({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Trial Requests</h2>
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-0.5">{count} total request{count !== 1 ? 's' : ''}</p>
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-0.5">{count} total request{count !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export default async function TrialsPage({
               <thead>
                 <tr className="border-b border-white/[0.06]">
                   {['Name', 'Phone', 'Program', 'Preferred Date', 'Status', 'Submitted', ''].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
+                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -58,16 +58,16 @@ export default async function TrialsPage({
                 {trials.map(trial => (
                   <tr key={trial.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
                     <td className="px-4 py-3">
-                      <span className="font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{trial.name}</span>
+                      <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{trial.name}</span>
                     </td>
                     <td className="px-4 py-3">
-                      <a href={`tel:${trial.phone}`} className="font-[family-name:var(--font-inter)] text-sm text-[#9ca3af] hover:text-[#ff571a] transition-colors">{trial.phone}</a>
+                      <a href={`tel:${trial.phone}`} className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] hover:text-[#ff571a] transition-colors">{trial.phone}</a>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="font-[family-name:var(--font-inter)] text-sm text-[#9ca3af]">{trial.programs?.name ?? '—'}</span>
+                      <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">{trial.programs?.name ?? '—'}</span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="font-[family-name:var(--font-inter)] text-sm text-[#9ca3af]">
+                      <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">
                         {trial.preferred_date ? formatDate(trial.preferred_date) : '—'}
                       </span>
                     </td>
@@ -75,12 +75,12 @@ export default async function TrialsPage({
                       <StatusBadge status={trial.status} />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">{formatDate(trial.created_at)}</span>
+                      <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">{formatDate(trial.created_at)}</span>
                     </td>
                     <td className="px-4 py-3">
                       <Link
                         href={`/admin/trials/${trial.id}`}
-                        className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"
+                        className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"
                       >
                         View
                       </Link>
@@ -96,12 +96,12 @@ export default async function TrialsPage({
             {trials.map(trial => (
               <Link key={trial.id} href={`/admin/trials/${trial.id}`} className="block p-4 hover:bg-white/[0.02] transition-colors">
                 <div className="flex items-start justify-between mb-2">
-                  <span className="font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{trial.name}</span>
+                  <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{trial.name}</span>
                   <StatusBadge status={trial.status} />
                 </div>
-                <p className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af]">{trial.phone}</p>
-                {trial.programs?.name && <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] mt-1">{trial.programs.name}</p>}
-                <p className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] mt-1">{formatDate(trial.created_at)}</p>
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af]">{trial.phone}</p>
+                {trial.programs?.name && <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-1">{trial.programs.name}</p>}
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] mt-1">{formatDate(trial.created_at)}</p>
               </Link>
             ))}
           </div>

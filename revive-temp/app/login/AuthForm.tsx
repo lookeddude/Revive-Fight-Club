@@ -129,7 +129,7 @@ export function AuthForm() {
             <h1 className="font-[family-name:var(--font-outfit)] text-2xl font-bold text-[#e2e3e1] tracking-tight">
               {titles[mode]}
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-1">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-1">
               {subtitles[mode]}
             </p>
           </div>
@@ -140,7 +140,7 @@ export function AuthForm() {
               <svg className="w-5 h-5 text-[#22c55e] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="font-[family-name:var(--font-inter)] text-sm text-[#22c55e]">{success}</p>
+              <p className="font-[family-name:var(--font-body)] text-sm text-[#22c55e]">{success}</p>
             </div>
           )}
 
@@ -150,7 +150,7 @@ export function AuthForm() {
               <svg className="w-5 h-5 text-[#ef4444] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="font-[family-name:var(--font-inter)] text-sm text-[#ef4444]">{error}</p>
+              <p className="font-[family-name:var(--font-body)] text-sm text-[#ef4444]">{error}</p>
             </div>
           )}
 
@@ -161,7 +161,7 @@ export function AuthForm() {
                 type="button"
                 onClick={handleGoogleSignIn}
                 disabled={googleLoading || loading}
-                className="w-full flex items-center justify-center gap-3 bg-white text-[#111] font-[family-name:var(--font-inter)] text-sm font-semibold py-3 hover:bg-[#f0ede8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-5"
+                className="w-full flex items-center justify-center gap-3 bg-white text-[#111] font-[family-name:var(--font-body)] text-sm font-semibold py-3 hover:bg-[#f0ede8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-5"
               >
                 {googleLoading ? (
                   <div className="w-4 h-4 border-2 border-[#111] border-t-transparent rounded-full animate-spin" />
@@ -179,7 +179,7 @@ export function AuthForm() {
               {/* Divider */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="flex-1 h-px bg-white/10" />
-                <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563] uppercase tracking-wider">or</span>
+                <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] uppercase tracking-wider">or</span>
                 <div className="flex-1 h-px bg-white/10" />
               </div>
             </>
@@ -192,7 +192,7 @@ export function AuthForm() {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="fullName"
-                  className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
+                  className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
                 >
                   Full Name
                 </label>
@@ -204,7 +204,7 @@ export function AuthForm() {
                   placeholder="Your full name"
                   required
                   autoComplete="name"
-                  className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm px-4 py-3 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
+                  className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] text-sm px-4 py-3 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
                 />
               </div>
             )}
@@ -213,7 +213,7 @@ export function AuthForm() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="email"
-                className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
+                className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
               >
                 Email Address
               </label>
@@ -225,7 +225,7 @@ export function AuthForm() {
                 placeholder="you@example.com"
                 required
                 autoComplete="email"
-                className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm px-4 py-3 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
+                className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] text-sm px-4 py-3 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
               />
             </div>
 
@@ -235,7 +235,7 @@ export function AuthForm() {
                 <div className="flex justify-between items-center">
                   <label
                     htmlFor="password"
-                    className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
+                    className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af]"
                   >
                     Password
                   </label>
@@ -243,7 +243,7 @@ export function AuthForm() {
                     <button
                       type="button"
                       onClick={() => { setMode('forgot'); setError(null); setSuccess(null) }}
-                      className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] hover:text-[#ff571a] transition-colors"
+                      className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] hover:text-[#ff571a] transition-colors"
                     >
                       Forgot password?
                     </button>
@@ -258,7 +258,7 @@ export function AuthForm() {
                     placeholder={mode === 'signup' ? 'Min. 6 characters' : '••••••••'}
                     required
                     autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                    className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm px-4 py-3 pr-12 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
+                    className="w-full bg-[#1a1c1b] border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] text-sm px-4 py-3 pr-12 focus:outline-none focus:border-[#ff571a] transition-colors placeholder:text-[#4b5563]"
                   />
                   <button
                     type="button"
@@ -285,7 +285,7 @@ export function AuthForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 mt-2"
+              className="w-full bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 mt-2"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -304,7 +304,7 @@ export function AuthForm() {
           {/* Mode switcher */}
           <div className="mt-6 pt-6 border-t border-white/8 text-center">
             {mode === 'login' && (
-              <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280]">
+              <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">
                 New to Revive?{' '}
                 <button
                   onClick={() => { setMode('signup'); setError(null); setSuccess(null) }}
@@ -315,7 +315,7 @@ export function AuthForm() {
               </p>
             )}
             {mode === 'signup' && (
-              <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280]">
+              <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">
                 Already have an account?{' '}
                 <button
                   onClick={() => { setMode('login'); setError(null); setSuccess(null) }}
@@ -328,7 +328,7 @@ export function AuthForm() {
             {mode === 'forgot' && (
               <button
                 onClick={() => { setMode('login'); setError(null); setSuccess(null) }}
-                className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] hover:text-[#ff571a] transition-colors flex items-center gap-1 mx-auto"
+                className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] hover:text-[#ff571a] transition-colors flex items-center gap-1 mx-auto"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -340,7 +340,7 @@ export function AuthForm() {
         </div>
 
         {/* Back to site */}
-        <p className="text-center mt-6 font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">
+        <p className="text-center mt-6 font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
           <Link href="/" className="hover:text-[#6b7280] transition-colors">
             ← Back to website
           </Link>

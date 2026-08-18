@@ -43,7 +43,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
           </div>
           <Link
             href="/trainers"
-            className="group flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase text-[#6b6059] hover:text-[#ff571a] transition-colors self-start md:self-end"
+            className="group flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-start md:self-end"
           >
             VIEW ALL TRAINERS
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -80,7 +80,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                   </div>
                   {/* Content */}
                   <div className="flex flex-col justify-center px-5 py-4 flex-1" style={{ background: 'rgba(22,20,18,0.5)' }}>
-                    <span className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.18em] uppercase text-[#ff571a] mb-1 block">
+                    <span className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase text-[#ff571a] mb-1 block">
                       {trainer.role}
                     </span>
                     <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase tracking-[-0.02em] leading-tight mb-2" style={{ fontSize: '20px' }}>
@@ -91,7 +91,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                         {trainer.specialties.slice(0, 2).map((specialty) => (
                           <span
                             key={specialty}
-                            className="px-2 py-0.5 font-[family-name:var(--font-inter)] text-[9px] font-bold tracking-[0.08em] uppercase text-[#8a7e76]"
+                            className="px-2 py-0.5 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase text-[#8a7e76]"
                             style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
                           >
                             {specialty}
@@ -99,7 +99,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                         ))}
                       </div>
                     )}
-                    <div className="mt-3 flex items-center gap-1.5 font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#ff571a]">
+                    <div className="mt-3 flex items-center gap-1.5 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#ff571a]">
                       VIEW PROFILE
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
@@ -134,7 +134,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                     }`}
                     style={{ background: 'rgba(22,20,18,0.5)' }}
                   >
-                    <span className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a] mb-3 block">
+                    <span className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a] mb-3 block">
                       {trainer.role}
                     </span>
                     <h3
@@ -144,7 +144,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                       {trainer.name}
                     </h3>
                     {trainer.short_bio && (
-                      <p className="font-[family-name:var(--font-inter)] text-[15px] leading-[1.8] text-[#7a7068] mb-6">
+                      <p className="font-[family-name:var(--font-body)] text-[15px] leading-[1.8] text-[#7a7068] mb-6">
                         {trainer.short_bio}
                       </p>
                     )}
@@ -153,7 +153,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                         {trainer.specialties.map((specialty) => (
                           <span
                             key={specialty}
-                            className="px-3 py-1 font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.1em] uppercase text-[#8a7e76]"
+                            className="px-3 py-1 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#8a7e76]"
                             style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
                           >
                             {specialty}
@@ -161,7 +161,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                         ))}
                       </div>
                     )}
-                    <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.12em] uppercase text-[#ff571a] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="mt-6 flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#ff571a] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       VIEW PROFILE
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
@@ -178,7 +178,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
         <div className="flex justify-center mt-8 md:hidden">
           <Link
             href="/trainers"
-            className="flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.14em] uppercase text-[#f0ede8] px-6 py-3 transition-colors"
+            className="flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.14em] uppercase text-[#f0ede8] px-6 py-3 transition-colors"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
           >
             VIEW ALL TRAINERS

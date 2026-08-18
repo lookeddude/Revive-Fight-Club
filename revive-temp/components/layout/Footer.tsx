@@ -63,7 +63,7 @@ export async function Footer() {
         {/* ── MOBILE: Logo + tagline centered (hidden on md+) ── */}
         <div className="flex flex-col items-center text-center mb-8 md:hidden">
           <SiteLogo logoUrl={settings?.logo_url} size="sm" href="/" />
-          <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#4a4440] leading-relaxed mt-3 max-w-[240px]">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#4a4440] leading-relaxed mt-3 max-w-[240px]">
             Bengaluru&apos;s premier combat sports gym.{' '}
             {(programs ?? []).length > 0 && (
               <>
@@ -87,7 +87,7 @@ export async function Footer() {
           {/* ── Brand (desktop only) ─── col-span-4 */}
           <div className="hidden md:flex md:col-span-4 flex-col gap-6">
             <SiteLogo logoUrl={settings?.logo_url} size="md" />
-            <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] leading-relaxed -mt-3 max-w-[260px]">
+            <p className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-relaxed -mt-3 max-w-[260px]">
               Bengaluru&apos;s premier combat sports gym.{' '}
               {(programs ?? []).length > 0 && (
                 <>
@@ -100,7 +100,7 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-5 h-px bg-[#ff571a]" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Location</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Location</p>
               </div>
               <a
                 href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
@@ -111,14 +111,14 @@ export async function Footer() {
                 <svg className="w-3.5 h-3.5 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
-                <span className="font-[family-name:var(--font-inter)] text-[12px] text-[#6a6460] leading-snug group-hover:text-[#a8a49f] transition-colors">
+                <span className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-snug group-hover:text-[#a8a49f] transition-colors">
                   3rd floor, 157, MM Road,<br />Fraser Town, Bengaluru,<br />Karnataka 560005
                 </span>
               </a>
               {settings?.phone && (
                 <a
                   href={`tel:${settings.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-2 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors w-fit"
+                  className="flex items-center gap-2 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors w-fit"
                   aria-label={`Call ${settings.phone}`}
                 >
                   <svg className="w-3 h-3 text-[#ff571a]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -134,14 +134,14 @@ export async function Footer() {
           <div className="col-span-1 md:col-span-3 md:col-start-6">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-              <h4 className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Navigation</h4>
+              <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Navigation</h4>
             </div>
             <ul className="flex flex-col gap-0">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors"
+                    className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors"
                   >
                     <span className="w-0 h-px bg-[#ff571a] group-hover:w-3 transition-all duration-300 flex-shrink-0" aria-hidden="true" />
                     {link.label}
@@ -158,18 +158,18 @@ export async function Footer() {
             <div className="md:hidden">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
               </div>
               <a href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 mb-2">
                 <svg className="w-3 h-3 text-[#ff571a] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
-                <span className="font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] leading-snug group-hover:text-[#9a9490] transition-colors">
+                <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-snug group-hover:text-[#9a9490] transition-colors">
                   3rd floor, 157,<br />MM Road, Fraser Town,<br />Bengaluru 560005
                 </span>
               </a>
               {settings?.phone && (
-                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors mt-1">
+                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 font-[family-name:var(--font-body)] text-sm text-[#9ca3af] hover:text-[#e2e3e1] transition-colors mt-1">
                   <svg className="w-3 h-3 text-[#ff571a]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                   {settings.phone}
                 </a>
@@ -180,7 +180,7 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <h4 className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Connect</h4>
+                <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Connect</h4>
               </div>
               {socialLinks.length > 0 ? (
                 <div className="flex flex-col gap-3">
@@ -188,7 +188,7 @@ export async function Footer() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="group flex items-center gap-2.5 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors w-fit"
+                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors w-fit"
                       target="_blank" rel="noopener noreferrer"
                       aria-label={`Revive Fight Club on ${link.label}`}
                     >
@@ -201,7 +201,7 @@ export async function Footer() {
                   {whatsappUrl && (
                     <a
                       href={whatsappUrl}
-                      className="group flex items-center gap-2.5 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#25D366] transition-colors w-fit"
+                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#25D366] transition-colors w-fit"
                       target="_blank" rel="noopener noreferrer"
                       aria-label="Revive Fight Club on WhatsApp"
                     >
@@ -213,7 +213,7 @@ export async function Footer() {
                   )}
                 </div>
               ) : (
-                <p className="font-[family-name:var(--font-inter)] text-sm text-[#3a3530]">Coming soon</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#3a3530]">Coming soon</p>
               )}
             </div>
 
@@ -221,14 +221,14 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <h4 className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Legal</h4>
+                <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Legal</h4>
               </div>
               <ul className="flex flex-col gap-2">
                 {legalLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-[family-name:var(--font-inter)] text-[11px] text-[#3a3835] hover:text-[#8a8079] transition-colors"
+                      className="font-[family-name:var(--font-body)] text-sm text-[#3a3835] hover:text-[#c8c4bf] transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -244,21 +244,21 @@ export async function Footer() {
       {/* ── Bottom Bar ─────────────────────────────────────── */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#2a2825] tracking-[0.1em] uppercase text-center sm:text-left">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#2a2825] tracking-[0.1em] uppercase text-center sm:text-left">
             © {new Date().getFullYear()} Revive Fight Club. All rights reserved.
           </p>
           <div className="flex items-center gap-3">
             {settings?.email && (
               <a
                 href={`mailto:${settings.email}`}
-                className="font-[family-name:var(--font-inter)] text-[10px] text-[#2a2825] hover:text-[#6b6059] transition-colors tracking-[0.08em]"
+                className="font-[family-name:var(--font-body)] text-xs text-[#2a2825] hover:text-[#9ca3af] transition-colors tracking-[0.08em]"
                 aria-label={`Email us at ${settings.email}`}
               >
                 {settings.email}
               </a>
             )}
-            <span className="text-[#1a1815] text-[10px]">·</span>
-            <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#1e1c1a]">Bengaluru, Karnataka</span>
+            <span className="text-[#1a1815] text-xs">·</span>
+            <span className="font-[family-name:var(--font-body)] text-xs text-[#1e1c1a]">Bengaluru, Karnataka</span>
           </div>
         </div>
       </div>

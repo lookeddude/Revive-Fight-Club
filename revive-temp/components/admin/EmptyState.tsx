@@ -32,7 +32,7 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
       </div>
 
       <h3
-        className="font-[family-name:var(--font-inter)] text-sm font-semibold mb-2"
+        className="font-[family-name:var(--font-body)] text-sm font-semibold mb-2"
         style={{ color: 'rgba(255,255,255,0.75)' }}
       >
         {title}
@@ -40,7 +40,7 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
 
       {description && (
         <p
-          className="font-[family-name:var(--font-inter)] text-sm max-w-sm mb-6 leading-relaxed"
+          className="font-[family-name:var(--font-body)] text-sm max-w-sm mb-6 leading-relaxed"
           style={{ color: 'rgba(255,255,255,0.3)' }}
         >
           {description}

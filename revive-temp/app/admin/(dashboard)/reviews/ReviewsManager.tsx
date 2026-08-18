@@ -52,8 +52,8 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
     setToast({ message: result.success ? result.message : result.error, type: result.success ? 'success' : 'error' })
   }
 
-  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] placeholder:text-[#4b5563]'
-  const lc = 'block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
+  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] placeholder:text-[#4b5563]'
+  const lc = 'block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
 
   return (
     <div className="space-y-5">
@@ -62,14 +62,14 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
 
       <div className="flex justify-end">
         <button onClick={() => { if (showAdd) { setShowAdd(false); setEditItem(null); resetForm() } else setShowAdd(true) }}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">
           {showAdd ? 'Cancel' : '+ New Review'}
         </button>
       </div>
 
       {showAdd && (
         <form onSubmit={handleSubmit} className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{editItem ? 'Edit Review' : 'New Review'}</h3>
+          <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{editItem ? 'Edit Review' : 'New Review'}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div><label className={lc}>Reviewer Name *</label><input value={reviewerName} onChange={e => setReviewerName(e.target.value)} required className={ic} /></div>
             <div><label className={lc}>Reviewer Role</label><input value={reviewerRole} onChange={e => setReviewerRole(e.target.value)} className={ic} placeholder="e.g. MMA Student" /></div>
@@ -78,11 +78,11 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
           </div>
           <div><label className={lc}>Review Text *</label><textarea value={reviewText} onChange={e => setReviewText(e.target.value)} required rows={4} className={`${ic} resize-none`} /></div>
           <div className="flex gap-6">
-            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isPublished} onChange={e => setIsPublished(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Published</span></label>
-            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Featured</span></label>
+            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isPublished} onChange={e => setIsPublished(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Published</span></label>
+            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Featured</span></label>
           </div>
           <div className="flex justify-end">
-            <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : editItem ? 'Update' : 'Create'}</button>
+            <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : editItem ? 'Update' : 'Create'}</button>
           </div>
         </form>
       )}
@@ -94,17 +94,17 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{r.reviewer_name}</span>
-                    {r.reviewer_role && <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">• {r.reviewer_role}</span>}
-                    <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">★ {r.rating}</span>
+                    <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{r.reviewer_name}</span>
+                    {r.reviewer_role && <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">• {r.reviewer_role}</span>}
+                    <span className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]">★ {r.rating}</span>
                     <StatusBadge status={r.is_published ? 'published' : 'draft'} />
-                    {r.is_featured && <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">Featured</span>}
+                    {r.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">Featured</span>}
                   </div>
-                  <p className="font-[family-name:var(--font-inter)] text-sm text-[#9ca3af] line-clamp-2">{r.review_text}</p>
+                  <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] line-clamp-2">{r.review_text}</p>
                 </div>
                 <div className="flex gap-3 flex-shrink-0">
-                  <button onClick={() => handleEdit(r)} className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button>
-                  <button onClick={() => setArchiveTarget(r.id)} className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-red-500/60 hover:text-red-400 transition-colors">Unpublish</button>
+                  <button onClick={() => handleEdit(r)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button>
+                  <button onClick={() => setArchiveTarget(r.id)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-red-500/60 hover:text-red-400 transition-colors">Unpublish</button>
                 </div>
               </div>
             </div>

@@ -36,7 +36,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <span
       className={cn(
         'inline-flex items-center px-2 py-0.5',
-        'font-[family-name:var(--font-inter)] text-[11px] font-semibold uppercase tracking-wider',
+        'font-[family-name:var(--font-body)] text-sm font-semibold uppercase tracking-wider',
         config.classes,
         className
       )}

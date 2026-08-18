@@ -77,7 +77,7 @@ export default async function MembershipPage() {
           <div className="relative max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <div className="inline-flex items-center gap-3 mb-6">
               <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-[0.2em] text-[#ff571a]">Price List</p>
+              <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Price List</p>
               <div className="w-8 h-px bg-[#ff571a]" />
             </div>
             <h1
@@ -92,7 +92,7 @@ export default async function MembershipPage() {
             >
               PLANS
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-base text-[#6b6059] max-w-xl mx-auto leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl mx-auto leading-relaxed">
               Transparent pricing for every batch. No hidden fees — just dedicated training.
             </p>
           </div>
@@ -143,12 +143,12 @@ export default async function MembershipPage() {
                           >
                             {meta.title}
                           </h2>
-                          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059] mt-0.5">{meta.subtitle}</p>
+                          <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] mt-0.5">{meta.subtitle}</p>
                         </div>
                       </div>
                       {meta.accent && (
                         <span
-                          className="inline-flex items-center font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.15em] px-3 py-1"
+                          className="inline-flex items-center font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.15em] px-3 py-1"
                           style={{ background: 'rgba(255,87,26,0.15)', color: '#ff571a', border: '1px solid rgba(255,87,26,0.3)' }}
                         >
                           ★ RECOMMENDED
@@ -177,7 +177,7 @@ export default async function MembershipPage() {
                                 style={{ background: isHighlight ? '#ff571a' : 'rgba(255,255,255,0.2)' }}
                               />
                               <span
-                                className="font-[family-name:var(--font-inter)] font-semibold"
+                                className="font-[family-name:var(--font-body)] font-semibold"
                                 style={{
                                   fontSize: 'clamp(13px, 1.5vw, 15px)',
                                   color: isHighlight ? '#f0ede8' : '#9ca3af',
@@ -187,7 +187,7 @@ export default async function MembershipPage() {
                               </span>
                               {isHighlight && (
                                 <span
-                                  className="hidden sm:inline font-[family-name:var(--font-inter)] text-[9px] font-black uppercase tracking-wider px-2 py-0.5"
+                                  className="hidden sm:inline font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider px-2 py-0.5"
                                   style={{ background: 'rgba(255,87,26,0.15)', color: '#ff571a' }}
                                 >
                                   Best Value
@@ -206,7 +206,7 @@ export default async function MembershipPage() {
                               >
                                 ₹{plan.price?.toLocaleString('en-IN')}
                               </span>
-                              <span className="font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">/-</span>
+                              <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">/-</span>
                             </div>
                           </div>
                         )
@@ -232,7 +232,7 @@ export default async function MembershipPage() {
                   <div key={plan.id} className="bg-[#111210] border border-white/[0.07] p-6">
                     <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#e2e3e1] text-xl uppercase mb-2">{plan.name}</h3>
                     <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-3xl">₹{plan.price?.toLocaleString('en-IN')}</p>
-                    <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] mt-1 capitalize">{plan.billing_period}</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-1 capitalize">{plan.billing_period}</p>
                   </div>
                 ))}
               </div>
@@ -266,7 +266,7 @@ export default async function MembershipPage() {
                 ].map((note, i) => (
                   <li key={i} className="flex items-start gap-2.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#ff571a] shrink-0 mt-[6px]" />
-                    <span className="font-[family-name:var(--font-inter)] text-sm text-[#9ca3af] leading-relaxed">{note}</span>
+                    <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-relaxed">{note}</span>
                   </li>
                 ))}
               </ul>
@@ -285,7 +285,7 @@ export default async function MembershipPage() {
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <div className="inline-flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-[0.2em] text-[#ff571a]">Try Before You Commit</p>
+              <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Try Before You Commit</p>
               <div className="w-8 h-px bg-[#ff571a]" />
             </div>
             <h2
@@ -294,11 +294,11 @@ export default async function MembershipPage() {
             >
               NOT READY TO COMMIT?
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-[#6b6059] mb-8">Start with a trial class. ₹1,000 per session — no pressure, no commitment.</p>
+            <p className="font-[family-name:var(--font-body)] text-[#9ca3af] mb-8">Start with a trial class. ₹1,000 per session — no pressure, no commitment.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/book-trial"
-                className="inline-flex items-center gap-2 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 hover:bg-white transition-colors duration-200"
+                className="inline-flex items-center gap-2 bg-[#ff571a] text-black font-[family-name:var(--font-body)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 hover:bg-white transition-colors duration-200"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -307,7 +307,7 @@ export default async function MembershipPage() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] font-bold text-sm uppercase tracking-[0.1em] px-8 py-4 hover:border-white/30 hover:bg-white/5 transition-all duration-200"
+                className="inline-flex items-center gap-2 border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] font-bold text-sm uppercase tracking-[0.1em] px-8 py-4 hover:border-white/30 hover:bg-white/5 transition-all duration-200"
               >
                 CONTACT US
               </Link>

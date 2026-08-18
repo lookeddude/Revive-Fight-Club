@@ -67,7 +67,7 @@ export function Toast({ message, type = 'success', onClose, duration = 3500 }: T
 
       {/* Message */}
       <div className="flex-1 py-3 pr-2">
-        <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] leading-snug">{message}</p>
+        <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] leading-snug">{message}</p>
       </div>
 
       {/* Close */}

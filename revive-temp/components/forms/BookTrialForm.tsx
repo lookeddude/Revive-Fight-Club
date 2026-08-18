@@ -162,7 +162,7 @@ export function BookTrialForm({
             </svg>
           </div>
           <div>
-            <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
               Request Received
             </p>
             <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl uppercase tracking-tight">
@@ -172,14 +172,14 @@ export function BookTrialForm({
         </div>
 
         <div className="border border-white/10 p-6 bg-[#1a1c1b]">
-          <p className="font-[family-name:var(--font-inter)] text-base text-[#bab8b7] leading-relaxed">
+          <p className="font-[family-name:var(--font-body)] text-base text-[#bab8b7] leading-relaxed">
             Your trial request has been received. The Revive Fight Club team will contact you within 
             24 hours to confirm your session details.
           </p>
         </div>
 
         <div className="border-l-2 border-[#ff571a] pl-4">
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5]">
             Want to confirm faster? Reach us directly on WhatsApp or call us now.
           </p>
         </div>
@@ -195,13 +195,13 @@ export function BookTrialForm({
           <PhoneCTA phone={phone ?? null} variant="secondary" label="CALL NOW" />
           <Link
             href="/programs"
-            className="inline-flex items-center gap-2 border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-[#383a38] transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-[#383a38] transition-all duration-300"
           >
             BACK TO PROGRAMS
           </Link>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-[#c8c6c5] font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase hover:text-[#e2e3e1] transition-colors py-4"
+            className="inline-flex items-center gap-2 text-[#c8c6c5] font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase hover:text-[#e2e3e1] transition-colors py-4"
           >
             BACK TO HOME
           </Link>
@@ -209,7 +209,7 @@ export function BookTrialForm({
 
         {/* Reference */}
         {submittedId && (
-          <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]/40">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c6c5]/40">
             Ref: {submittedId.slice(0, 8).toUpperCase()}
           </p>
         )}
@@ -231,7 +231,7 @@ export function BookTrialForm({
             <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase">
               SOMETHING WENT WRONG
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] mt-1">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] mt-1">
               Please try again or contact us directly.
             </p>
           </div>
@@ -240,7 +240,7 @@ export function BookTrialForm({
         <div className="flex flex-wrap gap-4">
           <button
             onClick={() => setFormState('idle')}
-            className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
+            className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
           >
             TRY AGAIN
           </button>
@@ -402,13 +402,13 @@ export function BookTrialForm({
           maxLength={2000}
           disabled={isPending}
         />
-        <p className="mt-1 text-right font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]/40">
+        <p className="mt-1 text-right font-[family-name:var(--font-body)] text-xs text-[#c8c6c5]/40">
           {values.message.length}/2000
         </p>
       </FormField>
 
       {/* Notice */}
-      <p className="font-[family-name:var(--font-inter)] text-xs text-[#c8c6c5]/60 leading-relaxed">
+      <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c6c5]/60 leading-relaxed">
         * This is a trial request — not an automatic booking. Revive Fight Club will confirm your 
         session by phone or WhatsApp within 24 hours.
       </p>
@@ -418,7 +418,7 @@ export function BookTrialForm({
         <button
           type="submit"
           disabled={isPending}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
           aria-live="polite"
         >
           {isPending ? (

@@ -39,7 +39,7 @@ export default async function AboutPage() {
           <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-px bg-[#ff571a]" aria-hidden="true" />
-              <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Our Story</p>
+              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Our Story</p>
             </div>
 
             <h1
@@ -51,7 +51,7 @@ export default async function AboutPage() {
               FOR MORE
             </h1>
 
-            <p className="font-[family-name:var(--font-inter)] text-lg md:text-xl text-[#8a8079] max-w-2xl leading-relaxed" style={{ borderLeft: '3px solid rgba(255,87,26,0.5)', paddingLeft: '1.5rem' }}>
+            <p className="font-[family-name:var(--font-body)] text-lg md:text-xl text-[#c8c4bf] max-w-2xl leading-relaxed" style={{ borderLeft: '3px solid rgba(255,87,26,0.5)', paddingLeft: '1.5rem' }}>
               Revive Fight Club is Bengaluru&apos;s premier destination for combat sports and transformative fitness training — where beginners find their footing and champions are forged.
             </p>
 
@@ -65,7 +65,7 @@ export default async function AboutPage() {
               ].map(stat => (
                 <div key={stat.label} className="flex flex-col" style={{ borderLeft: `2px solid ${stat.accent ? '#ff571a' : 'rgba(255,255,255,0.08)'}`, paddingLeft: '1rem' }}>
                   <span className="font-[family-name:var(--font-outfit)] font-black leading-none" style={{ fontSize: '32px', color: stat.accent ? '#ff571a' : '#f0ede8' }}>{stat.value}</span>
-                  <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#4a4540] uppercase tracking-[0.15em] mt-1">{stat.label}</span>
+                  <span className="font-[family-name:var(--font-body)] text-xs text-[#4a4540] uppercase tracking-[0.15em] mt-1">{stat.label}</span>
                 </div>
               ))}
             </div>
@@ -79,13 +79,13 @@ export default async function AboutPage() {
               <div>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Who We Are</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Who We Are</p>
                 </div>
                 <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-6" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
                   MORE THAN A GYM.<br />
                   <span className="text-[#ff571a]">A COMMUNITY.</span>
                 </h2>
-                <div className="flex flex-col gap-4 font-[family-name:var(--font-inter)] text-[15px] text-[#7a7470] leading-[1.85]">
+                <div className="flex flex-col gap-4 font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-[1.85]">
                   <p>
                     Revive Fight Club was founded with one clear purpose — to bring world-class combat sports training to Bengaluru. Located on the 3rd floor of 157, MM Road in Frazer Town, we are more than just a gym. We are a place where discipline is built, limits are broken, and real transformation happens.
                   </p>
@@ -108,8 +108,8 @@ export default async function AboutPage() {
                 ].map(v => (
                   <div key={v.title} className="p-5" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <span className="text-2xl mb-3 block">{v.icon}</span>
-                    <p className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.15em] text-[#f0ede8] mb-2">{v.title}</p>
-                    <p className="font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] leading-relaxed">{v.desc}</p>
+                    <p className="font-[family-name:var(--font-body)] text-sm font-black uppercase  text-[#f0ede8] mb-2">{v.title}</p>
+                    <p className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-relaxed">{v.desc}</p>
                   </div>
                 ))}
               </div>
@@ -124,13 +124,13 @@ export default async function AboutPage() {
               <div>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a]">What We Offer</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">What We Offer</p>
                 </div>
                 <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em]" style={{ fontSize: 'clamp(26px, 4vw, 44px)' }}>
                   WORLD-CLASS <span className="text-[#ff571a]">PROGRAMS</span>
                 </h2>
               </div>
-              <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.15em] uppercase text-[#ff571a] hover:text-[#ff8a5a] transition-colors flex-shrink-0">
+              <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.15em] uppercase text-[#ff571a] hover:text-[#ff8a5a] transition-colors flex-shrink-0">
                 View All Programs
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" /></svg>
               </Link>
@@ -174,7 +174,7 @@ export default async function AboutPage() {
                       <div className="relative z-10 p-5">
                         <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-lg uppercase tracking-tight group-hover:text-[#ff571a] transition-colors leading-tight mb-1">{p.name}</p>
                         {p.short_description && (
-                          <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#8a8078] leading-snug line-clamp-2 group-hover:text-[#aaa09a] transition-colors">{p.short_description}</p>
+                          <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c4bf] leading-snug line-clamp-2 group-hover:text-[#aaa09a] transition-colors">{p.short_description}</p>
                         )}
                         <div className="w-0 h-0.5 bg-[#ff571a] group-hover:w-8 transition-all duration-300 mt-3" aria-hidden="true" />
                       </div>
@@ -184,7 +184,7 @@ export default async function AboutPage() {
               </div>
             ) : (
               <div className="py-10 text-center">
-                <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm text-[#ff571a] hover:text-[#ff8a5a] transition-colors">
+                <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm text-[#ff571a] hover:text-[#ff8a5a] transition-colors">
                   View Our Programs
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </Link>
@@ -200,21 +200,21 @@ export default async function AboutPage() {
 
               {/* Mission */}
               <div className="lg:col-span-2 p-8 md:p-10" style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.06) 0%, rgba(12,10,8,1) 70%)', border: '1px solid rgba(255,87,26,0.15)', borderLeft: '3px solid #ff571a' }}>
-                <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Our Mission</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Our Mission</p>
                 <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-6" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}>
                   TRAIN HARD.<br />FIGHT SMART.<br /><span className="text-[#ff571a]">LIVE BETTER.</span>
                 </h2>
-                <p className="font-[family-name:var(--font-inter)] text-[15px] text-[#7a7470] leading-[1.85] mb-4">
+                <p className="font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-[1.85] mb-4">
                   Our mission is simple — make elite-level combat sports and fitness training accessible to everyone. Whether you want to lose weight, build muscle, learn self-defence, or compete professionally, Revive Fight Club has a program designed for your goal.
                 </p>
-                <p className="font-[family-name:var(--font-inter)] text-[15px] text-[#7a7470] leading-[1.85]">
+                <p className="font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-[1.85]">
                   We believe that the discipline you build on the mat translates directly into every area of your life — your career, your mindset, your confidence. That is why we do not just train bodies here. We build complete athletes and stronger people.
                 </p>
               </div>
 
               {/* Why us bullets */}
               <div className="flex flex-col gap-3">
-                <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a] mb-2">Why Choose Us</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-2">Why Choose Us</p>
                 {[
                   'Small batch training for personalised attention',
                   'Structured beginner-to-advanced curricula',
@@ -226,7 +226,7 @@ export default async function AboutPage() {
                 ].map((point, i) => (
                   <div key={i} className="flex items-start gap-3 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                     <div className="w-1.5 h-1.5 rounded-full bg-[#ff571a] flex-shrink-0 mt-1.5" aria-hidden="true" />
-                    <p className="font-[family-name:var(--font-inter)] text-[13px] text-[#6a6460] leading-snug">{point}</p>
+                    <p className="font-[family-name:var(--font-body)] text-[13px] text-[#9ca3af] leading-snug">{point}</p>
                   </div>
                 ))}
               </div>
@@ -246,22 +246,22 @@ export default async function AboutPage() {
                     <svg key={i} className="w-5 h-5 fill-[#f5a623]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   ))}
                 </div>
-                <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6a6460] uppercase tracking-[0.15em]">Google Rating</p>
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase ">Google Rating</p>
               </div>
 
               {/* Review text */}
               <div className="flex-1">
-                <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#f5a623] mb-3">What Our Members Say</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#f5a623] mb-3">What Our Members Say</p>
                 <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-tight tracking-tight mb-4" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
                   RATED BENGALURU&apos;S BEST<br /><span className="text-[#f5a623]">COMBAT SPORTS GYM</span>
                 </h3>
-                <p className="font-[family-name:var(--font-inter)] text-[14px] text-[#6a6460] leading-relaxed mb-5">
+                <p className="font-[family-name:var(--font-body)] text-[14px] text-[#9ca3af] leading-relaxed mb-5">
                   Our members don&apos;t just train here — they transform here. Across every program, members consistently rate Revive Fight Club 5 stars for coaching quality, facility standards, and the results they achieve. Read their stories and see why Revive Fight Club is Bengaluru&apos;s top-rated gym.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link
                     href="/reviews"
-                    className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.14em] uppercase px-6 py-3 text-black transition-all duration-300"
+                    className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.14em] uppercase px-6 py-3 text-black transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #f5a623, #e09010)' }}
                   >
                     Read All Reviews
@@ -282,7 +282,7 @@ export default async function AboutPage() {
               <div>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Find Us</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Find Us</p>
                 </div>
                 <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-8" style={{ fontSize: 'clamp(26px, 4vw, 44px)' }}>
                   COME TRAIN<br /><span className="text-[#ff571a]">WITH US</span>
@@ -291,7 +291,7 @@ export default async function AboutPage() {
                 {/* Address */}
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                  <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
                 </div>
                 <a
                   href={settings?.google_maps_url ?? 'https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac'}
@@ -303,7 +303,7 @@ export default async function AboutPage() {
                   <svg className="w-5 h-5 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                   </svg>
-                  <address className="not-italic font-[family-name:var(--font-inter)] text-[15px] text-[#7a7470] leading-relaxed group-hover:text-[#c8c6c5] transition-colors">
+                  <address className="not-italic font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-relaxed group-hover:text-[#c8c6c5] transition-colors">
                     {settings?.address
                       ? <>{settings.address}<br />{settings.city}{settings.state ? `, ${settings.state}` : ''}{settings.postal_code ? ` – ${settings.postal_code}` : ''}</>
                       : <>3rd floor, 157, MM Road,<br />Frazer Town, Bengaluru,<br />Karnataka 560005</>
@@ -316,13 +316,13 @@ export default async function AboutPage() {
                   <div className="mb-7">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                      <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.2em] uppercase text-[#ff571a]">Opening Hours</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase text-[#ff571a]">Opening Hours</p>
                     </div>
                     <dl className="flex flex-col gap-1.5">
                       {Object.entries(settings.opening_hours as Record<string, string>).map(([day, hours]) => (
                         <div key={day} className="flex justify-between max-w-xs py-1.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                          <dt className="font-[family-name:var(--font-inter)] text-[13px] text-[#7a7470]">{day}</dt>
-                          <dd className="font-[family-name:var(--font-inter)] text-[13px] text-[#e2e3e1] font-semibold">{hours}</dd>
+                          <dt className="font-[family-name:var(--font-body)] text-[13px] text-[#c8c4bf]">{day}</dt>
+                          <dd className="font-[family-name:var(--font-body)] text-[13px] text-[#e2e3e1] font-semibold">{hours}</dd>
                         </div>
                       ))}
                     </dl>
@@ -340,7 +340,7 @@ export default async function AboutPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Revive Fight Club on Instagram"
-                      className="group inline-flex items-center gap-3 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#e2e3e1] transition-all duration-300 px-5 py-3 hover:border-white/20"
+                      className="group inline-flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase text-[#e2e3e1] transition-all duration-300 px-5 py-3 hover:border-white/20"
                       style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
                     >
                       <svg className="w-4 h-4 text-[#E1306C] group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -355,8 +355,8 @@ export default async function AboutPage() {
               {/* Right: Mission card */}
               <div className="flex flex-col gap-5">
                 <div className="p-7 flex-1" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Getting Here</p>
-                  <p className="font-[family-name:var(--font-inter)] text-[14px] text-[#6a6460] leading-relaxed mb-5">
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Getting Here</p>
+                  <p className="font-[family-name:var(--font-body)] text-[14px] text-[#9ca3af] leading-relaxed mb-5">
                     We are located on the 3rd floor of 157, MM Road, Frazer Town — one of Bengaluru&apos;s most well-connected neighbourhoods. Easily accessible by auto, cab, or personal vehicle. Street parking is available nearby.
                   </p>
                   <ul className="flex flex-col gap-3">
@@ -366,7 +366,7 @@ export default async function AboutPage() {
                       'Auto & cab friendly location',
                       'Street parking available',
                     ].map((tip, i) => (
-                      <li key={i} className="flex items-center gap-3 font-[family-name:var(--font-inter)] text-[13px] text-[#5a5450]">
+                      <li key={i} className="flex items-center gap-3 font-[family-name:var(--font-body)] text-[13px] text-[#9ca3af]">
                         <div className="w-1 h-1 rounded-full bg-[#ff571a] flex-shrink-0" aria-hidden="true" />
                         {tip}
                       </li>
@@ -376,12 +376,12 @@ export default async function AboutPage() {
 
                 {/* Mini CTA */}
                 <div className="p-6 text-center" style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.08) 0%, rgba(10,8,6,1) 100%)', border: '1px solid rgba(255,87,26,0.15)' }}>
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.2em] uppercase text-[#ff571a] mb-2">First Class Free</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase text-[#ff571a] mb-2">First Class Free</p>
                   <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-xl mb-4">TRY BEFORE YOU JOIN</p>
-                  <p className="font-[family-name:var(--font-inter)] text-[13px] text-[#5a5450] mb-5">No commitment. No pressure. Just come in, try a class, and see for yourself.</p>
+                  <p className="font-[family-name:var(--font-body)] text-[13px] text-[#9ca3af] mb-5">No commitment. No pressure. Just come in, try a class, and see for yourself.</p>
                   <Link
                     href="/book-trial"
-                    className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.14em] uppercase px-7 py-3.5 text-black transition-all duration-300"
+                    className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.14em] uppercase px-7 py-3.5 text-black transition-all duration-300"
                     style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.3)' }}
                   >
                     BOOK TRIAL
@@ -396,17 +396,17 @@ export default async function AboutPage() {
         <section className="py-20 md:py-28 text-center relative overflow-hidden" style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 50%, rgba(255,87,26,0.07) 0%, transparent 60%)' }} aria-hidden="true" />
           <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
-            <p className="font-[family-name:var(--font-inter)] text-[10px] font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Your Journey Starts Here</p>
+            <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Your Journey Starts Here</p>
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.04em] mb-6" style={{ fontSize: 'clamp(32px, 5vw, 64px)' }}>
               STOP WAITING.<br />START <span className="text-[#ff571a]">FIGHTING.</span>
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-[15px] text-[#6a6460] max-w-lg mx-auto leading-relaxed mb-10">
+            <p className="font-[family-name:var(--font-body)] text-[15px] text-[#9ca3af] max-w-lg mx-auto leading-relaxed mb-10">
               Join hundreds of members who chose Revive Fight Club and never looked back. Your first class is free — come see what all the 5-star reviews are about.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/book-trial"
-                className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 text-black transition-all duration-300 hover:scale-[1.03]"
+                className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 text-black transition-all duration-300 hover:scale-[1.03]"
                 style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -414,7 +414,7 @@ export default async function AboutPage() {
               </Link>
               <Link
                 href="/programs"
-                className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.12em] uppercase px-8 py-4 text-[#e2e3e1] transition-all duration-300 hover:border-white/25"
+                className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase px-8 py-4 text-[#e2e3e1] transition-all duration-300 hover:border-white/25"
                 style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.03)' }}
               >
                 EXPLORE PROGRAMS

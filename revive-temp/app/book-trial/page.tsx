@@ -52,7 +52,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                 {/* Breadcrumb */}
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors mb-10"
+                  className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase text-[#c8c6c5] hover:text-[#e2e3e1] transition-colors mb-10"
                   aria-label="Return to homepage"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -61,7 +61,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                   RETURN TO SITE
                 </Link>
 
-                <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
+                <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
                   First Step
                 </p>
                 <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(28px,4vw,48px)] mb-4">
@@ -69,13 +69,13 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                 </h1>
 
                 {preselectedProgram ? (
-                  <p className="font-[family-name:var(--font-inter)] text-base text-[#bab8b7] mb-10 leading-relaxed">
+                  <p className="font-[family-name:var(--font-body)] text-base text-[#bab8b7] mb-10 leading-relaxed">
                     You&apos;re enquiring about{' '}
                     <span className="text-[#ff571a] font-semibold">{preselectedProgram.name}</span>.
                     Fill in your details and our team will contact you within 24 hours.
                   </p>
                 ) : (
-                  <p className="font-[family-name:var(--font-inter)] text-base text-[#bab8b7] mb-10 leading-relaxed">
+                  <p className="font-[family-name:var(--font-body)] text-base text-[#bab8b7] mb-10 leading-relaxed">
                     Fill in your details and our team will get back to you within 24 hours to 
                     confirm your first session.
                   </p>
@@ -93,7 +93,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
               <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-12 flex flex-col gap-8">
                 {/* What to expect */}
                 <div>
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
                     What to Expect
                   </p>
                   <ul className="flex flex-col gap-4">
@@ -107,7 +107,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                         <span className="font-[family-name:var(--font-outfit)] text-lg font-bold text-[#ff571a] flex-shrink-0 leading-none mt-0.5">
                           {step}
                         </span>
-                        <p className="font-[family-name:var(--font-inter)] text-sm text-[#bab8b7] leading-relaxed">
+                        <p className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7] leading-relaxed">
                           {text}
                         </p>
                       </li>
@@ -117,7 +117,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
 
                 {/* Direct Contact */}
                 <div className="border-t border-white/10 pt-8">
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-4">
                     Prefer to talk directly?
                   </p>
                   <div className="flex flex-col gap-3">
@@ -126,7 +126,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                         href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent("Hi Revive Fight Club, I'd like to enquire about a trial session.")}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 text-[#25D366] hover:text-white transition-colors font-[family-name:var(--font-inter)] text-sm font-bold"
+                        className="inline-flex items-center gap-3 text-[#25D366] hover:text-white transition-colors font-[family-name:var(--font-body)] text-sm font-bold"
                         aria-label="Chat on WhatsApp"
                       >
                         <svg className="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -138,7 +138,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                     {settings?.phone && (
                       <a
                         href={`tel:${settings.phone.replace(/\s/g, '')}`}
-                        className="inline-flex items-center gap-3 text-[#e2e3e1] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)] text-sm font-bold"
+                        className="inline-flex items-center gap-3 text-[#e2e3e1] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-body)] text-sm font-bold"
                         aria-label={`Call us at ${settings.phone}`}
                       >
                         <svg className="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -154,7 +154,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-4 h-px bg-[#ff571a]" />
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                    <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.2em] uppercase text-[#ff571a]">
                       Our Location
                     </p>
                   </div>
@@ -172,7 +172,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                     >
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     </svg>
-                    <span className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
+                    <span className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5] leading-snug group-hover:text-[#f0ede8] transition-colors">
                       3rd floor, 157, MM Road,<br />
                       above Indian Overseas Bank,<br />
                       Fraser Town, Bengaluru,<br />
@@ -185,15 +185,15 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-4 h-px bg-[#ff571a]" />
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#ff571a]">
+                    <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.2em] uppercase text-[#ff571a]">
                       Opening Days &amp; Time
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="font-[family-name:var(--font-inter)] text-sm text-[#c8c6c5]">
+                    <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c6c5]">
                       Monday – Sunday
                     </p>
-                    <p className="font-[family-name:var(--font-inter)] text-sm font-semibold text-[#e2e3e1]">
+                    <p className="font-[family-name:var(--font-body)] text-sm font-semibold text-[#e2e3e1]">
                       6 AM – 11 PM
                     </p>
                   </div>

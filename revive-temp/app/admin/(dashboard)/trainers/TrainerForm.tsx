@@ -148,8 +148,8 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     }
   }
 
-  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] placeholder:text-[#4b5563]'
-  const lc = 'block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
+  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] placeholder:text-[#4b5563]'
+  const lc = 'block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -158,7 +158,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
 
       {/* ── Basic Information ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div><label className={lc}>Name *</label><input value={name} onChange={e => handleNameChange(e.target.value)} required className={ic} placeholder="e.g. John Silva" /></div>
           <div><label className={lc}>Slug *</label><input value={slug} onChange={e => setSlug(e.target.value)} required className={`${ic} font-mono`} placeholder="e.g. john-silva" /></div>
@@ -174,23 +174,23 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
 
       {/* ── Profile Image (main fallback) ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Profile Image</h3>
-        <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#4b5563] leading-relaxed">
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Profile Image</h3>
+        <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563] leading-relaxed">
           Main fallback image used when device-specific images below are not uploaded.
         </p>
         {imagePreview && <img src={imagePreview} alt="Preview" className="w-28 h-28 object-cover border border-white/[0.08]" />}
         <label className="flex flex-col gap-1.5">
-          <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
-          <input type="file" accept="image/*" onChange={handleMainUpload} disabled={!!uploading} className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
-          {uploading === 'main' && <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading…</span>}
+          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
+          <input type="file" accept="image/*" onChange={handleMainUpload} disabled={!!uploading} className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#ff571a] file:text-black file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-white file:transition-colors" />
+          {uploading === 'main' && <span className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]">Uploading…</span>}
         </label>
       </div>
 
       {/* ── Responsive Device Images ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-5">
         <div>
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Responsive Device Images</h3>
-          <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#4b5563] mt-1 leading-relaxed">
+          <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Responsive Device Images</h3>
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563] mt-1 leading-relaxed">
             Upload separate crops optimised for each screen size. Falls back to the Profile Image above if left empty.
           </p>
         </div>
@@ -203,7 +203,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
               {/* Header */}
               <div className="flex items-center gap-2">
                 <span className="text-base leading-none">{cfg.icon}</span>
-                <span className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#e2e3e1]">{cfg.label}</span>
+                <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#e2e3e1]">{cfg.label}</span>
               </div>
 
               {/* Size note */}
@@ -211,7 +211,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
                 <svg className="w-3.5 h-3.5 text-[#ff571a] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
-                <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#9ca3af] leading-relaxed">{cfg.note}</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-relaxed">{cfg.note}</p>
               </div>
 
               {/* Preview */}
@@ -219,15 +219,15 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
 
               {/* Upload input */}
               <label className="flex flex-col gap-1.5">
-                <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
+                <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Upload (JPEG / PNG / WebP, max 5 MB)</span>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={e => handleDeviceUpload(device, e)}
                   disabled={!!uploading}
-                  className="font-[family-name:var(--font-inter)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1a1f1e] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#ff571a] hover:file:text-black file:transition-colors file:border file:border-white/10"
+                  className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1a1f1e] file:text-[#e2e3e1] file:font-bold file:text-xs file:uppercase file:tracking-wider hover:file:bg-[#ff571a] hover:file:text-black file:transition-colors file:border file:border-white/10"
                 />
-                {isUp && <span className="font-[family-name:var(--font-inter)] text-xs text-[#ff571a]">Uploading…</span>}
+                {isUp && <span className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]">Uploading…</span>}
               </label>
             </div>
           )
@@ -236,19 +236,19 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
 
       {/* ── Settings ── */}
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Settings</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Settings</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Active</span></label>
-          <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Featured</span></label>
+          <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Active</span></label>
+          <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Featured</span></label>
           <div><label className={lc}>Sort Order</label><input type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} min="0" className={ic} /></div>
         </div>
       </div>
 
       <div className="flex items-center justify-between gap-4">
-        <div>{mode === 'edit' && <button type="button" onClick={() => setShowArchive(true)} className="border border-red-500/20 text-red-400 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-red-500/10 transition-colors">Archive</button>}</div>
+        <div>{mode === 'edit' && <button type="button" onClick={() => setShowArchive(true)} className="border border-red-500/20 text-red-400 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-red-500/10 transition-colors">Archive</button>}</div>
         <div className="flex gap-3">
-          <Link href="/admin/trainers" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">Cancel</Link>
-          <button type="submit" disabled={saving || !!uploading} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : mode === 'create' ? 'Create Trainer' : 'Save Changes'}</button>
+          <Link href="/admin/trainers" className="border border-white/[0.08] text-[#6b7280] font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:border-white/20 hover:text-[#9ca3af] transition-colors">Cancel</Link>
+          <button type="submit" disabled={saving || !!uploading} className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">{saving ? 'Saving…' : mode === 'create' ? 'Create Trainer' : 'Save Changes'}</button>
         </div>
       </div>
     </form>

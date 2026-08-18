@@ -110,7 +110,7 @@ export function LogsClient({ logs }: Props) {
     <>
       {logs.length === 0 ? (
         <div className="border border-white/[0.08] p-12 text-center">
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280]">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">
             No activity recorded yet.
           </p>
         </div>
@@ -120,11 +120,11 @@ export function LogsClient({ logs }: Props) {
             <div key={date}>
               {/* Date header */}
               <div className="flex items-center gap-3 mb-3">
-                <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.15em] uppercase text-[#6b7280]">
+                <span className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.15em] uppercase text-[#6b7280]">
                   {date}
                 </span>
                 <div className="flex-1 h-px bg-white/[0.06]" />
-                <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563]">
+                <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
                   {dayLogs.length} {dayLogs.length === 1 ? 'event' : 'events'}
                 </span>
               </div>
@@ -139,15 +139,15 @@ export function LogsClient({ logs }: Props) {
                   >
                     {/* Time (IST) */}
                     <div className="shrink-0 w-[95px]">
-                      <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] tabular-nums">
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] tabular-nums">
                         {formatTime(log.created_at)}
                       </p>
-                      <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563] mt-0.5">IST</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] mt-0.5">IST</p>
                     </div>
 
                     {/* Action badge */}
                     <div className="shrink-0 w-[130px] pt-0.5">
-                      <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase border font-[family-name:var(--font-inter)] ${
+                      <span className={`inline-flex items-center px-2 py-0.5 text-xs font-bold tracking-[0.08em] uppercase border font-[family-name:var(--font-body)] ${
                         ACTION_COLORS[log.action_type] ?? 'bg-gray-500/20 text-gray-400 border-gray-500/30'
                       }`}>
                         {ACTION_LABELS[log.action_type] ?? log.action_type}
@@ -156,14 +156,14 @@ export function LogsClient({ logs }: Props) {
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] leading-relaxed">
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] leading-relaxed">
                         {log.description}
                       </p>
                       {/* Device pill for login */}
                       {log.action_type === 'login' && meta(log).browser && (
                         <div className="flex items-center gap-1.5 mt-1">
                           <span className="text-[#6b7280]"><DeviceIcon deviceType={meta(log).deviceType} /></span>
-                          <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b7280]">
+                          <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">
                             {meta(log).browser} on {meta(log).os} ({meta(log).deviceType})
                           </span>
                         </div>
@@ -172,12 +172,12 @@ export function LogsClient({ logs }: Props) {
 
                     {/* Actor + open arrow */}
                     <div className="shrink-0 text-right hidden md:flex flex-col items-end gap-1">
-                      <p className={`font-[family-name:var(--font-inter)] text-xs font-bold ${
+                      <p className={`font-[family-name:var(--font-body)] text-xs font-bold ${
                         ROLE_COLORS[log.actor_role] ?? 'text-[#9ca3af]'
                       }`}>
                         {log.actor_role.toUpperCase()}
                       </p>
-                      <p className="font-[family-name:var(--font-inter)] text-[11px] text-[#6b7280] max-w-[180px] truncate">
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] max-w-[180px] truncate">
                         {log.actor_email}
                       </p>
                     </div>
@@ -209,7 +209,7 @@ export function LogsClient({ logs }: Props) {
             {/* Modal header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-white/[0.02]">
               <div className="flex items-center gap-3">
-                <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase border font-[family-name:var(--font-inter)] ${
+                <span className={`inline-flex items-center px-2 py-0.5 text-xs font-bold tracking-[0.08em] uppercase border font-[family-name:var(--font-body)] ${
                   ACTION_COLORS[selected.action_type] ?? 'bg-gray-500/20 text-gray-400 border-gray-500/30'
                 }`}>
                   {ACTION_LABELS[selected.action_type] ?? selected.action_type}
@@ -233,8 +233,8 @@ export function LogsClient({ logs }: Props) {
 
               {/* Full timestamp */}
               <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Date &amp; Time (IST)</p>
-                <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] font-medium">
+                <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Date &amp; Time (IST)</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] font-medium">
                   {formatFull(selected.created_at)}
                 </p>
               </div>
@@ -242,12 +242,12 @@ export function LogsClient({ logs }: Props) {
               {/* Actor */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Performed By</p>
-                  <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] break-all">{selected.actor_email}</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Performed By</p>
+                  <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] break-all">{selected.actor_email}</p>
                 </div>
                 <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Role</p>
-                  <p className={`font-[family-name:var(--font-inter)] text-sm font-bold uppercase ${ROLE_COLORS[selected.actor_role] ?? 'text-[#9ca3af]'}`}>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Role</p>
+                  <p className={`font-[family-name:var(--font-body)] text-sm font-bold uppercase ${ROLE_COLORS[selected.actor_role] ?? 'text-[#9ca3af]'}`}>
                     {selected.actor_role}
                   </p>
                 </div>
@@ -255,31 +255,31 @@ export function LogsClient({ logs }: Props) {
 
               {/* Description */}
               <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Description</p>
-                <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">{selected.description}</p>
+                <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-1">Description</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">{selected.description}</p>
                 {selected.action_target && (
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280] mt-1">Target: {selected.action_target}</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-1">Target: {selected.action_target}</p>
                 )}
               </div>
 
               {/* Device info (login events) */}
               {selected.action_type === 'login' && meta(selected).browser && (
                 <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-3">Device Info</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-3">Device Info</p>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b7280] mb-0.5">Browser</p>
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] font-medium">{meta(selected).browser ?? '—'}</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mb-0.5">Browser</p>
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] font-medium">{meta(selected).browser ?? '—'}</p>
                     </div>
                     <div>
-                      <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b7280] mb-0.5">OS</p>
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] font-medium">{meta(selected).os ?? '—'}</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mb-0.5">OS</p>
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] font-medium">{meta(selected).os ?? '—'}</p>
                     </div>
                     <div>
-                      <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b7280] mb-0.5">Device</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mb-0.5">Device</p>
                       <div className="flex items-center gap-1.5">
                         <span className="text-[#9ca3af]"><DeviceIcon deviceType={meta(selected).deviceType} /></span>
-                        <p className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1] font-medium">{meta(selected).deviceType ?? '—'}</p>
+                        <p className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1] font-medium">{meta(selected).deviceType ?? '—'}</p>
                       </div>
                     </div>
                   </div>
@@ -289,7 +289,7 @@ export function LogsClient({ logs }: Props) {
               {/* Additional metadata */}
               {Object.keys(selected.metadata ?? {}).filter(k => !['browser','os','deviceType','userAgent'].includes(k)).length > 0 && (
                 <div className="bg-white/[0.02] border border-white/[0.06] p-4">
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-2">Additional Info</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.12em] uppercase text-[#6b7280] mb-2">Additional Info</p>
                   <pre className="font-mono text-xs text-[#9ca3af] whitespace-pre-wrap break-all">
                     {JSON.stringify(
                       Object.fromEntries(
@@ -307,7 +307,7 @@ export function LogsClient({ logs }: Props) {
             <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.01]">
               <button
                 onClick={() => setSelected(null)}
-                className="w-full border border-white/10 text-[#9ca3af] font-[family-name:var(--font-inter)] text-sm font-bold uppercase py-2 hover:text-[#e2e3e1] hover:border-white/20 transition-colors"
+                className="w-full border border-white/10 text-[#9ca3af] font-[family-name:var(--font-body)] text-sm font-bold uppercase py-2 hover:text-[#e2e3e1] hover:border-white/20 transition-colors"
               >
                 Close
               </button>

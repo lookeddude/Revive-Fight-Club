@@ -153,7 +153,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
           {(programNames.length > 0 ? programNames : ['MMA', 'BOXING', 'BJJ']).map((d, i, arr) => (
             <span key={d} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
               <span
-                className="font-[family-name:var(--font-inter)] text-[9px] md:text-[11px] font-black uppercase"
+                className="font-[family-name:var(--font-body)] text-xs md:text-sm font-black uppercase"
                 style={{ color: 'rgba(255,87,26,0.95)', letterSpacing: '0.1em' }}
               >
                 {d}
@@ -198,7 +198,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
               Bengaluru&apos;s Elite Combat Gym
             </p>
             <p
-              className="font-[family-name:var(--font-inter)] text-[#9a9088]"
+              className="font-[family-name:var(--font-body)] text-[#9a9088]"
               style={{ fontSize: 'clamp(11px, 1.1vw, 13px)' }}
             >
               Precision &nbsp;·&nbsp; Discipline &nbsp;·&nbsp; Transformation
@@ -209,7 +209,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
           <div className="flex items-center gap-3">
             <Link
               href="/book-trial"
-              className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] font-black uppercase tracking-[0.12em] transition-all duration-200 active:scale-95"
+              className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] font-black uppercase tracking-[0.12em] transition-all duration-200 active:scale-95"
               style={{
                 background: 'linear-gradient(135deg, #ff571a, #d94418)',
                 color: '#000',
@@ -230,7 +230,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contact on WhatsApp"
-                className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] font-bold uppercase tracking-[0.1em] transition-all duration-200 active:scale-95 hover:border-[#25d366] hover:text-[#25d366]"
+                className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] font-bold uppercase tracking-[0.1em] transition-all duration-200 active:scale-95 hover:border-[#25d366] hover:text-[#25d366]"
                 style={{
                   border: '1px solid rgba(255,255,255,0.18)',
                   color: 'rgba(245,242,237,0.85)',
@@ -248,7 +248,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
             ) : (
               <Link
                 href="/contact"
-                className="inline-flex items-center font-[family-name:var(--font-inter)] font-bold uppercase tracking-[0.1em] transition-all duration-200"
+                className="inline-flex items-center font-[family-name:var(--font-body)] font-bold uppercase tracking-[0.1em] transition-all duration-200"
                 style={{
                   border: '1px solid rgba(255,255,255,0.18)',
                   color: 'rgba(245,242,237,0.85)',

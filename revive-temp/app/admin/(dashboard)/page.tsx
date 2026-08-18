@@ -23,9 +23,9 @@ function AlertCard({ label, value, href, note }: { label: string; value: number;
             style={{ background: '#ff571a' }}
             aria-hidden="true"
           />
-          <p className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.15em] text-[#ff571a]">{label}</p>
+          <p className="font-[family-name:var(--font-body)] text-sm font-black uppercase  text-[#ff571a]">{label}</p>
         </div>
-        {note && <p className="font-[family-name:var(--font-inter)] text-[10px] mt-0.5" style={{ color: 'rgba(255,87,26,0.5)' }}>{note}</p>}
+        {note && <p className="font-[family-name:var(--font-body)] text-xs mt-0.5" style={{ color: 'rgba(255,87,26,0.5)' }}>{note}</p>}
       </div>
       <div className="flex items-center gap-3">
         <span
@@ -57,7 +57,7 @@ function StatCard({ label, value, href, sub }: { label: string; value: number; h
       }}
     >
       <span
-        className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em]"
+        className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-[0.15em]"
         style={{ color: 'rgba(255,255,255,0.25)' }}
       >
         {label}
@@ -70,7 +70,7 @@ function StatCard({ label, value, href, sub }: { label: string; value: number; h
       </span>
       {sub && (
         <span
-          className="font-[family-name:var(--font-inter)] text-[10px]"
+          className="font-[family-name:var(--font-body)] text-xs"
           style={{ color: 'rgba(255,255,255,0.2)' }}
         >
           {sub}
@@ -96,7 +96,7 @@ function SectionHeading({ children, href, linkLabel }: { children: React.ReactNo
       <div className="flex items-center gap-3">
         <div className="w-px h-4" style={{ background: 'rgba(255,87,26,0.5)' }} aria-hidden="true" />
         <h3
-          className="font-[family-name:var(--font-inter)] text-[11px] font-black uppercase tracking-[0.15em]"
+          className="font-[family-name:var(--font-body)] text-sm font-black uppercase tracking-[0.15em]"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >
           {children}
@@ -105,7 +105,7 @@ function SectionHeading({ children, href, linkLabel }: { children: React.ReactNo
       {href && (
         <Link
           href={href}
-          className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider transition-colors hover:text-white"
+          className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-wider transition-colors hover:text-white"
           style={{ color: 'rgba(255,87,26,0.7)' }}
         >
           {linkLabel ?? 'View all →'}
@@ -127,7 +127,7 @@ export default async function AdminDashboard() {
       <div className="flex items-end justify-between">
         <div>
           <p
-            className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.22em] mb-1"
+            className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.22em] mb-1"
             style={{ color: 'rgba(255,87,26,0.7)' }}
           >
             Overview
@@ -147,7 +147,7 @@ export default async function AdminDashboard() {
             aria-hidden="true"
           />
           <span
-            className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-[0.15em]"
+            className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-[0.15em]"
             style={{ color: 'rgba(255,255,255,0.25)' }}
           >
             Live
@@ -238,7 +238,7 @@ export default async function AdminDashboard() {
             <Link
               key={link.href}
               href={link.href}
-              className="group font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-wider px-4 py-2 transition-all duration-200"
+              className="group font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-wider px-4 py-2 transition-all duration-200"
               style={{
                 color: 'rgba(255,255,255,0.35)',
                 border: '1px solid rgba(255,255,255,0.06)',

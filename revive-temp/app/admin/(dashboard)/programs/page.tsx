@@ -18,14 +18,14 @@ export default async function AdminProgramsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Programs</h2>
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-0.5">{programs?.length ?? 0} total</p>
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-0.5">{programs?.length ?? 0} total</p>
         </div>
-        <Link href="/admin/programs/new" className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">+ New Program</Link>
+        <Link href="/admin/programs/new" className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">+ New Program</Link>
       </div>
 
       {!programs || programs.length === 0 ? (
         <EmptyState title="No programs yet" description="Create your first program to get started." action={
-          <Link href="/admin/programs/new" className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">+ New Program</Link>
+          <Link href="/admin/programs/new" className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">+ New Program</Link>
         } />
       ) : (
         <ProgramsTable programs={programs} />

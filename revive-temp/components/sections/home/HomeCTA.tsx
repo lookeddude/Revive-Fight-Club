@@ -38,7 +38,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
         {/* Section label */}
         <div className="flex items-center justify-center gap-3 mb-10">
           <div className="w-12 h-px bg-[#ff571a]" aria-hidden="true" />
-          <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.22em] uppercase text-[#ff571a]">
+          <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.22em] uppercase text-[#ff571a]">
             Take the first step
           </p>
           <div className="w-12 h-px bg-[#ff571a]" aria-hidden="true" />
@@ -56,7 +56,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
           YOUR PERFORMANCE?
         </h2>
 
-        <p className="font-[family-name:var(--font-inter)] text-lg leading-relaxed text-[#6b6059] max-w-lg mx-auto mb-12">
+        <p className="font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#9ca3af] max-w-lg mx-auto mb-12">
           Book your trial class and experience what elite combat sports training truly feels like.
           First session is on us.
         </p>
@@ -70,7 +70,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
           ].map(({ icon, label }) => (
             <div key={label} className="flex items-center gap-2.5">
               <span className="text-[#ff571a] text-base" aria-hidden="true">{icon}</span>
-              <span className="font-[family-name:var(--font-inter)] text-sm text-[#8a7e76] tracking-[0.1em] uppercase font-bold">
+              <span className="font-[family-name:var(--font-body)] text-sm text-[#8a7e76] tracking-[0.1em] uppercase font-bold">
                 {label}
               </span>
             </div>

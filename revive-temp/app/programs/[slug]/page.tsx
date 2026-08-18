@@ -53,11 +53,11 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
         {/* ── Breadcrumb ─────────────────────────────────── */}
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-6">
           <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
-            <Link href="/" className="text-[#6b6059] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)]">Home</Link>
+            <Link href="/" className="text-[#9ca3af] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-body)]">Home</Link>
             <span className="text-[#3a3530]">/</span>
-            <Link href="/programs" className="text-[#6b6059] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)]">Programs</Link>
+            <Link href="/programs" className="text-[#9ca3af] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-body)]">Programs</Link>
             <span className="text-[#3a3530]">/</span>
-            <span className="text-[#f0ede8] font-[family-name:var(--font-inter)] font-semibold">{program.name}</span>
+            <span className="text-[#f0ede8] font-[family-name:var(--font-body)] font-semibold">{program.name}</span>
           </nav>
         </div>
 
@@ -78,19 +78,19 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
               {/* Tags */}
               <div className="flex items-center gap-2 flex-wrap">
                 {program.category && (
-                  <span className="font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.15em] uppercase text-[#ff571a]">
+                  <span className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.15em] uppercase text-[#ff571a]">
                     {program.category}
                   </span>
                 )}
                 <span className="text-[#3a3530]">·</span>
-                <span className="px-2.5 py-1 text-xs font-bold uppercase tracking-wider font-[family-name:var(--font-inter)]"
+                <span className="px-2.5 py-1 text-xs font-bold uppercase tracking-wider font-[family-name:var(--font-body)]"
                   style={{ background: 'rgba(255,87,26,0.12)', border: '1px solid rgba(255,87,26,0.25)', color: '#ff571a' }}>
                   {levelLabel}
                 </span>
                 {program.duration_minutes && (
                   <>
                     <span className="text-[#3a3530]">·</span>
-                    <span className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059]">
+                    <span className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af]">
                       {program.duration_minutes} min / session
                     </span>
                   </>
@@ -104,7 +104,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
 
               {/* Short desc */}
               {program.short_description && (
-                <p className="font-[family-name:var(--font-inter)] text-lg leading-relaxed text-[#a09890]"
+                <p className="font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#a09890]"
                   style={{ borderLeft: '2px solid rgba(255,87,26,0.4)', paddingLeft: '1.25rem' }}>
                   {program.short_description}
                 </p>
@@ -114,7 +114,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Link
                   href={`/book-trial?program=${program.id}`}
-                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 active:scale-95"
                   style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.35)' }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,7 +124,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                 </Link>
                 <Link
                   href="/programs"
-                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase text-[#6b6059] hover:text-[#f0ede8] transition-colors"
+                  className="inline-flex items-center gap-1.5 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase text-[#9ca3af] hover:text-[#f0ede8] transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M19 12H5M12 19l-7-7 7-7" /></svg>
                   All Programs
@@ -140,7 +140,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                 ].map(({ label, value }) => (
                   <div key={label} className="p-3 text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                     <p className="font-[family-name:var(--font-outfit)] font-bold text-[#f0ede8] text-base uppercase">{value}</p>
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider mt-0.5">{label}</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">{label}</p>
                   </div>
                 ))}
               </div>
@@ -155,11 +155,11 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
               <div className="max-w-3xl">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-8 h-px bg-[#ff571a]" />
-                  <p className="font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
+                  <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
                     About This Program
                   </p>
                 </div>
-                <p className="font-[family-name:var(--font-inter)] text-lg leading-[1.9] text-[#8a8079] whitespace-pre-line">
+                <p className="font-[family-name:var(--font-body)] text-lg leading-[1.9] text-[#c8c4bf] whitespace-pre-line">
                   {program.description}
                 </p>
               </div>
@@ -173,12 +173,12 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-[clamp(28px,4vw,48px)] tracking-[-0.02em] mb-4">
               READY TO START <span className="text-[#ff571a]">{program.name}?</span>
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-[#8a8079] mb-8 max-w-md mx-auto">
+            <p className="font-[family-name:var(--font-body)] text-[#c8c4bf] mb-8 max-w-md mx-auto">
               Book your trial class today — no experience needed.
             </p>
             <Link
               href={`/book-trial?program=${program.id}`}
-              className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-12 py-5 transition-all duration-300 active:scale-95"
+              className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-12 py-5 transition-all duration-300 active:scale-95"
               style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 32px rgba(255,87,26,0.3)' }}
             >
               BOOK TRIAL

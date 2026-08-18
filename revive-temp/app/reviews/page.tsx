@@ -40,9 +40,9 @@ export default async function ReviewsPage() {
         {/* Breadcrumb */}
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-6">
           <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
-            <Link href="/" className="text-[#6b6059] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-inter)]">Home</Link>
+            <Link href="/" className="text-[#9ca3af] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-body)]">Home</Link>
             <span className="text-[#3a3530]">/</span>
-            <span className="text-[#f0ede8] font-[family-name:var(--font-inter)] font-semibold">Reviews</span>
+            <span className="text-[#f0ede8] font-[family-name:var(--font-body)] font-semibold">Reviews</span>
           </nav>
         </div>
 
@@ -50,7 +50,7 @@ export default async function ReviewsPage() {
         <section className="max-w-[1280px] mx-auto px-5 md:px-16 pb-12">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
             <div>
-              <p className="font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.18em] uppercase mb-3" style={{ color: '#f5a623' }}>
+              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase mb-3" style={{ color: '#f5a623' }}>
                 <span style={{ display: 'inline-block', width: '24px', height: '1px', background: '#f5a623', marginRight: '10px', verticalAlign: 'middle' }} />
                 Member Reviews
               </p>
@@ -71,15 +71,15 @@ export default async function ReviewsPage() {
                 <div className="flex justify-center gap-0.5 my-1">
                   {[1,2,3,4,5].map(i => <svg key={i} className="w-3.5 h-3.5 fill-[#f5a623]" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>)}
                 </div>
-                <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#7a6e68] tracking-[0.15em] uppercase">Average Rating</p>
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf]  uppercase">Average Rating</p>
               </div>
               <div className="px-6 py-4 text-center" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8]" style={{ fontSize: '40px', lineHeight: 1, letterSpacing: '-0.05em' }}>{reviews.length}</p>
-                <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#7a6e68] tracking-[0.15em] uppercase mt-2">Total Reviews</p>
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf]  uppercase mt-2">Total Reviews</p>
               </div>
               <div className="px-6 py-4 text-center" style={{ background: 'rgba(66,133,244,0.05)', border: '1px solid rgba(66,133,244,0.15)' }}>
                 <p className="font-[family-name:var(--font-outfit)] font-black text-[#4285f4]" style={{ fontSize: '40px', lineHeight: 1, letterSpacing: '-0.05em' }}>{googleCount}</p>
-                <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#7a6e68] tracking-[0.15em] uppercase mt-2">Google Reviews</p>
+                <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf]  uppercase mt-2">Google Reviews</p>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default async function ReviewsPage() {
           {/* Reviews Grid */}
           {reviews.length === 0 ? (
             <div className="py-24 text-center">
-              <p className="font-[family-name:var(--font-inter)] text-[#3a3530] text-sm uppercase tracking-widest">No reviews yet</p>
+              <p className="font-[family-name:var(--font-body)] text-[#3a3530] text-sm uppercase ">No reviews yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -116,7 +116,7 @@ export default async function ReviewsPage() {
                     <div className="flex items-center justify-between">
                       <StarRating rating={review.rating} />
                       <span
-                        className="font-[family-name:var(--font-inter)] text-[8px] font-black uppercase tracking-[0.18em] px-1.5 py-0.5"
+                        className="font-[family-name:var(--font-body)] text-[8px] font-black uppercase tracking-[0.18em] px-1.5 py-0.5"
                         style={{
                           background: review.source === 'google' ? 'rgba(66,133,244,0.1)' : 'rgba(255,87,26,0.12)',
                           color: review.source === 'google' ? '#5a9ff5' : '#ff571a',
@@ -128,34 +128,34 @@ export default async function ReviewsPage() {
                     </div>
 
                     {/* Review text */}
-                    <p className="font-[family-name:var(--font-inter)] text-[13px] leading-[1.75] text-[#8a8480] flex-1">
+                    <p className="font-[family-name:var(--font-body)] text-[13px] leading-[1.75] text-[#8a8480] flex-1">
                       &ldquo;{review.review_text}&rdquo;
                     </p>
 
                     {/* Author */}
                     <div className="flex items-center gap-2.5 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                       <div
-                        className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-black text-[11px]"
+                        className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-black text-sm"
                         style={{
                           background: isAccent ? 'linear-gradient(135deg, #ff571a, #c02010)' : 'linear-gradient(135deg, #2e2b28, #1e1c1a)',
-                          color: isAccent ? '#fff' : '#6a6460',
+                          color: isAccent ? '#fff' : '#9ca3af',
                         }}
                       >
                         {(review.reviewer_name ?? 'M').charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-[family-name:var(--font-inter)] text-[12px] font-bold text-[#d8d4cf] leading-tight">
+                        <p className="font-[family-name:var(--font-body)] text-[12px] font-bold text-[#d8d4cf] leading-tight">
                           {review.reviewer_name}
                         </p>
                         {review.reviewer_role && (
-                          <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#4a4541] tracking-[0.12em] uppercase mt-0.5">
+                          <p className="font-[family-name:var(--font-body)] text-xs text-[#4a4541] tracking-[0.12em] uppercase mt-0.5">
                             {review.reviewer_role}
                           </p>
                         )}
                         {review.review_date && (() => {
                           const d = new Date(review.review_date!)
                           return isNaN(d.getTime()) ? null : (
-                            <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#3a3835] mt-0.5">
+                            <p className="font-[family-name:var(--font-body)] text-xs text-[#3a3835] mt-0.5">
                               {d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
                             </p>
                           )
@@ -172,13 +172,13 @@ export default async function ReviewsPage() {
         {/* CTA */}
         <section className="py-16" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
-            <p className="font-[family-name:var(--font-inter)] text-xs font-black tracking-[0.18em] uppercase text-[#ff571a] mb-3">Join the Community</p>
+            <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase text-[#ff571a] mb-3">Join the Community</p>
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-3xl md:text-5xl leading-tight tracking-tight mb-6">
               BECOME OUR NEXT<br /><span className="text-[#ff571a]">SUCCESS STORY</span>
             </h2>
             <Link
               href="/book-trial"
-              className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 active:scale-95"
+              className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 active:scale-95"
               style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 20px rgba(255,87,26,0.35)' }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>

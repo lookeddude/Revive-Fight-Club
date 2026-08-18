@@ -17,7 +17,7 @@ export function FormField({ id, label, error, required, optional, children }: Fo
     <div>
       <label
         htmlFor={id}
-        className="block font-[family-name:var(--font-inter)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
+        className="block font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#e2e3e1] mb-3"
       >
         {label}
         {optional && (
@@ -35,7 +35,7 @@ export function FormField({ id, label, error, required, optional, children }: Fo
         <p
           id={errorId}
           role="alert"
-          className="mt-2 font-[family-name:var(--font-inter)] text-xs text-[#ff8c6b] flex items-center gap-1"
+          className="mt-2 font-[family-name:var(--font-body)] text-xs text-[#ff8c6b] flex items-center gap-1"
         >
           <svg className="w-3 h-3 fill-current flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
@@ -49,7 +49,7 @@ export function FormField({ id, label, error, required, optional, children }: Fo
 
 /** Shared input class — combines input-underline with error state */
 export function inputClass(hasError: boolean): string {
-  return `input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-inter)] text-base bg-transparent${
+  return `input-underline w-full py-3 text-[#e2e3e1] placeholder-white/20 font-[family-name:var(--font-body)] text-base bg-transparent${
     hasError ? ' border-b-[#ff8c6b]' : ''
   }`
 }

@@ -48,7 +48,7 @@ export default async function TrainersPage() {
           <div className="relative max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-[0.2em] text-[#ff571a]">Our Coaches</p>
+              <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Our Coaches</p>
             </div>
             <h1
               className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em] mb-4"
@@ -57,7 +57,7 @@ export default async function TrainersPage() {
               WORLD-CLASS<br />
               <span style={{ color: '#ff571a' }}>TRAINERS</span>
             </h1>
-            <p className="font-[family-name:var(--font-inter)] text-base text-[#6b6059] max-w-xl leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl leading-relaxed">
               Professional fighters and experienced coaches dedicated to your development — from complete beginners to competitive athletes.
             </p>
           </div>
@@ -93,7 +93,7 @@ export default async function TrainersPage() {
                         <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, #111210)' }} />
                         {trainer.is_featured && (
                           <div className="absolute top-3 left-3">
-                            <span className="font-[family-name:var(--font-inter)] text-[9px] font-black uppercase tracking-[0.15em] px-2 py-1" style={{ background: '#ff571a', color: '#000' }}>
+                            <span className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.15em] px-2 py-1" style={{ background: '#ff571a', color: '#000' }}>
                               HEAD COACH
                             </span>
                           </div>
@@ -103,7 +103,7 @@ export default async function TrainersPage() {
                       {/* Content */}
                       <div className="flex flex-col justify-center px-6 py-5 flex-1 min-w-0">
                         {/* Role */}
-                        <p className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.2em] text-[#ff571a] mb-1">
+                        <p className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.2em] text-[#ff571a] mb-1">
                           {trainer.role}
                         </p>
                         {/* Name */}
@@ -118,20 +118,20 @@ export default async function TrainersPage() {
                           {trainer.years_experience && (
                             <div className="flex items-center gap-1.5">
                               <span className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-lg leading-none">{trainer.years_experience}+</span>
-                              <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider">Yrs Exp</span>
+                              <span className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider">Yrs Exp</span>
                             </div>
                           )}
                           <div className="w-px h-4 bg-white/10" />
                           <div className="flex items-center gap-1.5">
                             <span className="font-[family-name:var(--font-outfit)] font-black text-white text-lg leading-none">{(trainer.specialties as string[])?.length ?? 0}</span>
-                            <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider">Disciplines</span>
+                            <span className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider">Disciplines</span>
                           </div>
                           <div className="w-px h-4 bg-white/10" />
-                          <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#4b5563]">Pro Fighter</span>
+                          <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563]">Pro Fighter</span>
                         </div>
                         {/* Short bio */}
                         {trainer.short_bio && (
-                          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059] leading-relaxed mb-4 line-clamp-2 max-w-xl">
+                          <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] leading-relaxed mb-4 line-clamp-2 max-w-xl">
                             {trainer.short_bio}
                           </p>
                         )}
@@ -139,19 +139,19 @@ export default async function TrainersPage() {
                         {trainer.specialties && (trainer.specialties as string[]).length > 0 && (
                           <div className="flex flex-wrap gap-1.5 mb-4">
                             {(trainer.specialties as string[]).slice(0, 5).map((s: string) => (
-                              <span key={s} className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,255,255,0.04)', color: '#6b7280', border: '1px solid rgba(255,255,255,0.07)' }}>
+                              <span key={s} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,255,255,0.04)', color: '#6b7280', border: '1px solid rgba(255,255,255,0.07)' }}>
                                 {s}
                               </span>
                             ))}
                             {(trainer.specialties as string[]).length > 5 && (
-                              <span className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,87,26,0.1)', color: '#ff571a', border: '1px solid rgba(255,87,26,0.2)' }}>
+                              <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,87,26,0.1)', color: '#ff571a', border: '1px solid rgba(255,87,26,0.2)' }}>
                                 +{(trainer.specialties as string[]).length - 5} more
                               </span>
                             )}
                           </div>
                         )}
                         {/* View profile */}
-                        <div className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider text-[#ff571a] opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider text-[#ff571a] opacity-70 group-hover:opacity-100 transition-opacity duration-200">
                           View Full Profile
                           <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
@@ -167,8 +167,8 @@ export default async function TrainersPage() {
               </div>
             ) : (
               <div className="text-center py-24">
-                <p className="font-[family-name:var(--font-inter)] text-[#6b7280] mb-8">Trainer profiles coming soon.</p>
-                <Link href="/book-trial" className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300">
+                <p className="font-[family-name:var(--font-body)] text-[#6b7280] mb-8">Trainer profiles coming soon.</p>
+                <Link href="/book-trial" className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300">
                   BOOK A TRIAL
                 </Link>
               </div>
@@ -195,7 +195,7 @@ export default async function TrainersPage() {
                   >
                     {stat.val}
                   </p>
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059] uppercase tracking-wider">{stat.label}</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -210,7 +210,7 @@ export default async function TrainersPage() {
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <div className="inline-flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold uppercase tracking-[0.2em] text-[#ff571a]">Train With The Best</p>
+              <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Train With The Best</p>
               <div className="w-8 h-px bg-[#ff571a]" />
             </div>
             <h2
@@ -219,13 +219,13 @@ export default async function TrainersPage() {
             >
               READY TO START?
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-[#6b6059] mb-8 max-w-md mx-auto leading-relaxed">
+            <p className="font-[family-name:var(--font-body)] text-[#9ca3af] mb-8 max-w-md mx-auto leading-relaxed">
               Book a trial session and experience world-class coaching first-hand.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/book-trial"
-                className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-inter)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 transition-all duration-200 hover:bg-white"
+                className="inline-flex items-center gap-2 text-black font-[family-name:var(--font-body)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 transition-all duration-200 hover:bg-white"
                 style={{ background: '#ff571a' }}
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

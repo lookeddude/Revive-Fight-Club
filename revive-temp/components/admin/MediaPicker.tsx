@@ -95,11 +95,11 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
             <h2 className="font-[family-name:var(--font-outfit)] text-lg font-bold text-[#f0ede8] uppercase">
               Change Image
             </h2>
-            <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059] mt-0.5">
+            <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] mt-0.5">
               {slot.section} → {slot.title}
             </p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center text-[#6b6059] hover:text-[#f0ede8] transition-colors">
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center text-[#9ca3af] hover:text-[#f0ede8] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -119,10 +119,10 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
                 <button
                   key={t.id}
                   onClick={() => setTab(t.id as typeof tab)}
-                  className={`px-5 py-3 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider transition-colors border-b-2 ${
+                  className={`px-5 py-3 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider transition-colors border-b-2 ${
                     tab === t.id
                       ? 'text-[#ff571a] border-[#ff571a]'
-                      : 'text-[#6b6059] border-transparent hover:text-[#f0ede8]'
+                      : 'text-[#9ca3af] border-transparent hover:text-[#f0ede8]'
                   }`}
                 >
                   {t.label}
@@ -138,11 +138,11 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search images..."
-                    className="w-full bg-[#0d0c0b] border border-white/[0.08] px-3 py-2 text-sm text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 mb-4 font-[family-name:var(--font-inter)]"
+                    className="w-full bg-[#0d0c0b] border border-white/[0.08] px-3 py-2 text-sm text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 mb-4 font-[family-name:var(--font-body)]"
                   />
                   {filtered.length === 0 ? (
                     <div className="text-center py-12">
-                      <p className="font-[family-name:var(--font-inter)] text-sm text-[#4b5563]">
+                      <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563]">
                         No images in media library yet.
                       </p>
                       <button
@@ -193,15 +193,15 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
                     {uploading ? (
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-8 h-8 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
-                        <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b6059]">Uploading...</p>
+                        <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">Uploading...</p>
                       </div>
                     ) : (
                       <>
                         <svg className="w-10 h-10 text-[#3a3530] mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b6059]">Click to upload</p>
-                        <p className="font-[family-name:var(--font-inter)] text-xs text-[#3a3530] mt-1">JPG, PNG, WebP — max 5MB</p>
+                        <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">Click to upload</p>
+                        <p className="font-[family-name:var(--font-body)] text-xs text-[#3a3530] mt-1">JPG, PNG, WebP — max 5MB</p>
                       </>
                     )}
                   </div>
@@ -213,17 +213,17 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
               {tab === 'external' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Image URL</label>
+                    <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Image URL</label>
                     <input
                       value={externalUrl}
                       onChange={e => { setExternalUrl(e.target.value); setExternalPreview(false) }}
                       placeholder="https://example.com/image.jpg"
-                      className="w-full bg-[#0d0c0b] border border-white/[0.08] px-3 py-2 text-sm text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 font-[family-name:var(--font-inter)]"
+                      className="w-full bg-[#0d0c0b] border border-white/[0.08] px-3 py-2 text-sm text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 font-[family-name:var(--font-body)]"
                     />
                   </div>
                   <button
                     onClick={() => setExternalPreview(true)}
-                    className="text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:underline font-[family-name:var(--font-inter)]"
+                    className="text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:underline font-[family-name:var(--font-body)]"
                   >
                     Preview →
                   </button>
@@ -232,7 +232,7 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
                       <img src={externalUrl} alt="Preview" className="w-full h-full object-cover" />
                     </div>
                   )}
-                  <p className="font-[family-name:var(--font-inter)] text-xs text-[#3a3530]">
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#3a3530]">
                     Tip: Use Gallery upload for best performance and control.
                   </p>
                 </div>
@@ -243,21 +243,21 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
           {/* Right: preview + alt text */}
           <div className="w-64 border-l border-white/[0.08] flex flex-col">
             <div className="p-4 border-b border-white/[0.08]">
-              <p className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b6059] mb-2">Preview</p>
+              <p className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Preview</p>
               <div className="aspect-video w-full bg-[#0d0c0b] border border-white/[0.06] overflow-hidden">
                 {previewUrl ? (
                   <img src={previewUrl} alt="preview" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#3a3530]">No image selected</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#3a3530]">No image selected</p>
                   </div>
                 )}
               </div>
               {selected && (
                 <div className="mt-2">
-                  <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] truncate">{selected.file_name}</p>
+                  <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] truncate">{selected.file_name}</p>
                   {selected.file_size && (
-                    <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#3a3530]">
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#3a3530]">
                       {(selected.file_size / 1024).toFixed(0)} KB
                     </p>
                   )}
@@ -266,19 +266,19 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
             </div>
 
             <div className="p-4 flex-1">
-              <label className="block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Alt Text (SEO)</label>
+              <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Alt Text (SEO)</label>
               <textarea
                 value={altText}
                 onChange={e => setAltText(e.target.value)}
                 rows={3}
                 placeholder="Describe the image..."
-                className="w-full bg-[#0d0c0b] border border-white/[0.08] px-2 py-1.5 text-xs text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 font-[family-name:var(--font-inter)] resize-none"
+                className="w-full bg-[#0d0c0b] border border-white/[0.08] px-2 py-1.5 text-xs text-[#f0ede8] focus:outline-none focus:border-[#ff571a]/50 font-[family-name:var(--font-body)] resize-none"
               />
             </div>
 
             {/* Toast */}
             {toast && (
-              <div className="mx-4 mb-4 px-3 py-2 bg-[#1a1208] border border-[#ff571a]/20 text-xs text-[#ff571a] font-[family-name:var(--font-inter)]">
+              <div className="mx-4 mb-4 px-3 py-2 bg-[#1a1208] border border-[#ff571a]/20 text-xs text-[#ff571a] font-[family-name:var(--font-body)]">
                 {toast}
               </div>
             )}
@@ -288,13 +288,13 @@ export function MediaPicker({ slot, mediaAssets, onClose, onSuccess }: MediaPick
               <button
                 onClick={handleSave}
                 disabled={saving || (!selected && tab !== 'external') || (tab === 'external' && !externalUrl)}
-                className="w-full py-2.5 bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider hover:bg-white transition-colors disabled:opacity-40"
+                className="w-full py-2.5 bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider hover:bg-white transition-colors disabled:opacity-40"
               >
                 {saving ? 'Publishing...' : 'Use This Image'}
               </button>
               <button
                 onClick={onClose}
-                className="w-full py-2 border border-white/[0.08] text-[#6b6059] font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider hover:text-[#f0ede8] transition-colors"
+                className="w-full py-2 border border-white/[0.08] text-[#9ca3af] font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider hover:text-[#f0ede8] transition-colors"
               >
                 Cancel
               </button>

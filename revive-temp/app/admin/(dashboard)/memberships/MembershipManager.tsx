@@ -94,8 +94,8 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
     if (result.success) { resetForm(); setShowAdd(false); setEditId(null) }
   }
 
-  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] placeholder:text-[#4b5563]'
-  const lc = 'block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
+  const ic = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] placeholder:text-[#4b5563]'
+  const lc = 'block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
 
   // Group plans by batch_category
   const grouped = BATCH_ORDER.reduce<Record<string, MembershipPlan[]>>((acc, cat) => {
@@ -110,10 +110,10 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
 
       {/* ── Top bar ── */}
       <div className="flex items-center justify-between">
-        <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">{plans.length} plans across {BATCH_ORDER.filter(c => grouped[c]?.length > 0).length} batches</p>
+        <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">{plans.length} plans across {BATCH_ORDER.filter(c => grouped[c]?.length > 0).length} batches</p>
         <button
           onClick={() => { if (showAdd) { setShowAdd(false); setEditId(null); resetForm() } else setShowAdd(true) }}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors"
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors"
         >
           {showAdd ? '✕ Cancel' : '+ New Plan'}
         </button>
@@ -122,7 +122,7 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
       {/* ── Add/Edit Form ── */}
       {showAdd && (
         <form onSubmit={handleSubmit} className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-          <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{editId ? 'Edit Plan' : 'New Plan'}</h3>
+          <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{editId ? 'Edit Plan' : 'New Plan'}</h3>
 
           {/* Row 1: Name + Slug */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -179,12 +179,12 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
           </div>
 
           <div className="flex gap-6">
-            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Active</span></label>
-            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-inter)] text-sm text-[#e2e3e1]">Featured / Recommended</span></label>
+            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Active</span></label>
+            <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-4 h-4 accent-[#ff571a]" /><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Featured / Recommended</span></label>
           </div>
 
           <div className="flex justify-end">
-            <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors disabled:opacity-50">
               {saving ? 'Saving…' : editId ? 'Update Plan' : 'Create Plan'}
             </button>
           </div>
@@ -193,32 +193,32 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
 
       {/* ── Plans grouped by batch ── */}
       {plans.length === 0 && !showAdd && (
-        <div className="text-center py-16"><p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280]">No membership plans yet. Click "+ New Plan" to add one.</p></div>
+        <div className="text-center py-16"><p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">No membership plans yet. Click "+ New Plan" to add one.</p></div>
       )}
 
       {BATCH_ORDER.filter(cat => grouped[cat]?.length > 0).map(cat => (
         <div key={cat} className="bg-[#111312] border border-white/[0.08] overflow-hidden">
           {/* Batch header */}
           <div className="px-4 py-3 flex items-center gap-2" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <span className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a]">{BATCH_LABELS[cat]}</span>
-            <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563]">({grouped[cat].length} plans)</span>
+            <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a]">{BATCH_LABELS[cat]}</span>
+            <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">({grouped[cat].length} plans)</span>
           </div>
           <table className="w-full">
             <thead><tr className="border-b border-white/[0.06]">
               {['Display Label', 'Billing', 'Price', 'Sort', 'Status', 'Featured', ''].map(h => (
-                <th key={h} className="px-4 py-2.5 text-left font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
+                <th key={h} className="px-4 py-2.5 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
               ))}
             </tr></thead>
             <tbody>
               {grouped[cat].map(plan => (
                 <tr key={plan.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{(plan as any).sort_label ?? plan.name}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#4b5563]">{plan.sort_order}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{(plan as any).sort_label ?? plan.name}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#4b5563]">{plan.sort_order}</td>
                   <td className="px-4 py-3"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
-                  <td className="px-4 py-3">{plan.is_featured && <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">★</span>}</td>
-                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
+                  <td className="px-4 py-3">{plan.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">★</span>}</td>
+                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
                 </tr>
               ))}
             </tbody>
@@ -230,22 +230,22 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
       {ungrouped.length > 0 && (
         <div className="bg-[#111312] border border-white/[0.08] overflow-hidden">
           <div className="px-4 py-3" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <span className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">Other Plans</span>
+            <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">Other Plans</span>
           </div>
           <table className="w-full">
             <thead><tr className="border-b border-white/[0.06]">
               {['Name', 'Billing', 'Price', 'Status', ''].map(h => (
-                <th key={h} className="px-4 py-2.5 text-left font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
+                <th key={h} className="px-4 py-2.5 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
               ))}
             </tr></thead>
             <tbody>
               {ungrouped.map(plan => (
                 <tr key={plan.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-sm font-medium text-[#e2e3e1]">{plan.name}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-inter)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{plan.name}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
+                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
                   <td className="px-4 py-3"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
-                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
+                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
                 </tr>
               ))}
             </tbody>

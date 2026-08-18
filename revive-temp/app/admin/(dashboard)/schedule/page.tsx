@@ -16,7 +16,7 @@ export default async function AdminSchedulePage() {
     <div className="max-w-6xl space-y-5">
       <div>
         <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Schedule</h2>
-        <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-0.5">{items?.length ?? 0} class sessions</p>
+        <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-0.5">{items?.length ?? 0} class sessions</p>
       </div>
       <ScheduleManager
         items={items ?? []}

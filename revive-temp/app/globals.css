@@ -43,7 +43,7 @@
 
   /* ── Typography ──────────────────────────────────────────── */
   --font-outfit: 'Outfit', sans-serif;
-  --font-inter: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
 
   /* Font Sizes */
   --text-display-lg: 80px;

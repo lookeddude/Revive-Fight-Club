@@ -133,7 +133,7 @@ function SlideCard({
             Slide {index + 1}
           </span>
           {!slide.is_active && (
-            <span className="px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider"
+            <span className="px-1.5 py-0.5 text-xs font-black uppercase tracking-wider"
               style={{ background: 'rgba(255,255,255,0.04)', color: '#4b5563' }}>
               DISABLED
             </span>
@@ -166,7 +166,7 @@ function SlideCard({
           {/* Toggle active */}
           <button
             onClick={() => onToggle(slide.id, !slide.is_active)}
-            className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-wider transition-colors ${
+            className={`px-2.5 py-1 text-xs font-black uppercase tracking-wider transition-colors ${
               slide.is_active
                 ? 'hover:bg-red-500/10 hover:text-red-400 text-green-400'
                 : 'text-[#4b5563] hover:text-green-400'
@@ -199,7 +199,7 @@ function SlideCard({
             {/* Label row */}
             <div className="flex items-center gap-1.5">
               <span className="text-sm">{icon}</span>
-              <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold text-[#6b6059] uppercase tracking-wider">
+              <span className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">
                 {label}
               </span>
               {required && (
@@ -215,7 +215,7 @@ function SlideCard({
               <svg className="w-3 h-3 shrink-0 text-[#ff571a]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
-              <span className="font-[family-name:var(--font-inter)] text-[9px] font-bold text-[#ff571a] whitespace-nowrap">{note}</span>
+              <span className="font-[family-name:var(--font-body)] text-xs font-bold text-[#ff571a] whitespace-nowrap">{note}</span>
             </div>
 
             {/* Image preview / upload target */}
@@ -249,7 +249,7 @@ function SlideCard({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                     </svg>
                   </div>
-                  <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#3a3530] uppercase tracking-wider">
+                  <span className="font-[family-name:var(--font-body)] text-xs text-[#3a3530] uppercase tracking-wider">
                     Click to upload
                   </span>
                 </div>
@@ -260,7 +260,7 @@ function SlideCard({
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2"
                   style={{ background: 'rgba(10,11,10,0.85)' }}>
                   <div className="w-6 h-6 border-2 border-[#ff571a] border-t-transparent rounded-full animate-spin" />
-                  <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#ff571a] uppercase tracking-wider">
+                  <span className="font-[family-name:var(--font-body)] text-xs text-[#ff571a] uppercase tracking-wider">
                     Uploading…
                   </span>
                 </div>
@@ -274,7 +274,7 @@ function SlideCard({
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
-                    <span className="font-[family-name:var(--font-inter)] text-[9px] text-white uppercase tracking-wider">
+                    <span className="font-[family-name:var(--font-body)] text-xs text-white uppercase tracking-wider">
                       {url ? 'Change' : 'Upload'}
                     </span>
                   </div>
@@ -299,7 +299,7 @@ function SlideCard({
                   onOptimisticUpdate(slide.id, { [field]: null })
                   updateHeroSlide(slide.id, { [field]: null })
                 }}
-                className="font-[family-name:var(--font-inter)] text-[9px] text-[#4b5563] hover:text-red-400 transition-colors uppercase tracking-wider text-center"
+                className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] hover:text-red-400 transition-colors uppercase tracking-wider text-center"
               >
                 ✕ Remove
               </button>
@@ -315,7 +315,7 @@ function SlideCard({
           defaultValue={slide.alt_text ?? ''}
           onBlur={e => handleAltSave(e.target.value)}
           placeholder="Alt text for SEO & accessibility..."
-          className="flex-1 px-3 py-2 text-xs text-[#f0ede8] font-[family-name:var(--font-inter)] focus:outline-none placeholder:text-[#3a3530]"
+          className="flex-1 px-3 py-2 text-xs text-[#f0ede8] font-[family-name:var(--font-body)] focus:outline-none placeholder:text-[#3a3530]"
           style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.05)' }}
         />
         {savingAlt && <div className="w-3 h-3 border border-[#ff571a] border-t-transparent rounded-full animate-spin shrink-0" />}
@@ -453,7 +453,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
       {/* Toast notification */}
       {toast && (
         <div
-          className="fixed bottom-6 right-6 z-50 px-5 py-3 text-sm font-[family-name:var(--font-inter)] font-medium shadow-2xl transition-all duration-300"
+          className="fixed bottom-6 right-6 z-50 px-5 py-3 text-sm font-[family-name:var(--font-body)] font-medium shadow-2xl transition-all duration-300"
           style={{
             background: toast.ok ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)',
             border: `1px solid ${toast.ok ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`,
@@ -472,7 +472,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
           <h2 className="font-[family-name:var(--font-outfit)] text-xl font-black text-[#f0ede8] uppercase tracking-tight">
             Hero Slideshow
           </h2>
-          <p className="font-[family-name:var(--font-inter)] text-xs mt-1" style={{ color: '#4b5563' }}>
+          <p className="font-[family-name:var(--font-body)] text-xs mt-1" style={{ color: '#4b5563' }}>
             {slides.length}/{MAX_SLIDES} slides · {activeCount} active
             {activeCount === 0 && (
               <span style={{ color: '#ef4444' }}> — Enable at least 1 slide to show on homepage</span>
@@ -484,7 +484,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
           <button
             onClick={() => addFileRef.current?.click()}
             disabled={slides.length >= MAX_SLIDES || addingSlide}
-            className="px-5 py-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-40"
+            className="px-5 py-2 font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-40"
             style={{ background: '#ff571a', color: '#000' }}
           >
             {addingSlide ? (
@@ -497,7 +497,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
             )}
           </button>
           {slides.length >= MAX_SLIDES && (
-            <span className="font-[family-name:var(--font-inter)] text-[9px] text-[#4b5563]">
+            <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
               Max {MAX_SLIDES} slides reached
             </span>
           )}
@@ -514,8 +514,8 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
 
       {/* ── Settings Panel ───────────────────────────────────────────────── */}
       <div className="p-5 space-y-5" style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.06)' }}>
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider"
-          style={{ color: '#6b6059' }}>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider"
+          style={{ color: '#9ca3af' }}>
           Slideshow Settings
         </h3>
 
@@ -523,7 +523,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
           {/* Interval */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <label className="font-[family-name:var(--font-inter)] text-xs font-medium uppercase tracking-wider"
+              <label className="font-[family-name:var(--font-body)] text-xs font-medium uppercase tracking-wider"
                 style={{ color: '#9ca3af' }}>
                 Auto-advance every
               </label>
@@ -541,14 +541,14 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
               className="w-full h-1.5 accent-[#ff571a] cursor-pointer"
             />
             <div className="flex justify-between mt-1.5">
-              <span className="font-[family-name:var(--font-inter)] text-[10px]" style={{ color: '#3a3530' }}>3s — fast</span>
-              <span className="font-[family-name:var(--font-inter)] text-[10px]" style={{ color: '#3a3530' }}>15s — slow</span>
+              <span className="font-[family-name:var(--font-body)] text-xs" style={{ color: '#3a3530' }}>3s — fast</span>
+              <span className="font-[family-name:var(--font-body)] text-xs" style={{ color: '#3a3530' }}>15s — slow</span>
             </div>
           </div>
 
           {/* Transition */}
           <div>
-            <label className="block font-[family-name:var(--font-inter)] text-xs font-medium uppercase tracking-wider mb-3"
+            <label className="block font-[family-name:var(--font-body)] text-xs font-medium uppercase tracking-wider mb-3"
               style={{ color: '#9ca3af' }}>
               Transition effect
             </label>
@@ -560,10 +560,10 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
                 <button
                   key={t.id}
                   onClick={() => setTransitionType(t.id)}
-                  className="flex-1 py-2.5 font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                  className="flex-1 py-2.5 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider transition-all duration-200"
                   style={{
                     background: transitionType === t.id ? '#ff571a' : 'rgba(255,255,255,0.03)',
-                    color: transitionType === t.id ? '#000' : '#6b6059',
+                    color: transitionType === t.id ? '#000' : '#9ca3af',
                     border: `1px solid ${transitionType === t.id ? '#ff571a' : 'rgba(255,255,255,0.07)'}`,
                   }}
                 >
@@ -577,7 +577,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
         <button
           onClick={handleSaveSettings}
           disabled={savingSettings}
-          className="px-6 py-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-50"
+          className="px-6 py-2 font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider transition-colors disabled:opacity-50"
           style={{ background: '#ff571a', color: '#000' }}
         >
           {savingSettings ? 'Saving…' : 'Save Settings'}
@@ -585,7 +585,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
       </div>
 
       {/* ── Device legend ─────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-[family-name:var(--font-inter)]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-[family-name:var(--font-body)]">
         {[
           { icon: '🖥', label: 'Desktop', desc: '> 1024px · Required' },
           { icon: '📱', label: 'Tablet', desc: '768–1024px · Optional (falls back to desktop)' },
@@ -596,7 +596,7 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
             style={{ background: '#0a0b0a', border: '1px solid rgba(255,255,255,0.04)' }}>
             <span className="mt-0.5">{item.icon}</span>
             <div>
-              <div className="font-bold" style={{ color: '#6b6059' }}>{item.label}</div>
+              <div className="font-bold" style={{ color: '#9ca3af' }}>{item.label}</div>
               <div style={{ color: '#3a3530' }}>{item.desc}</div>
             </div>
           </div>
@@ -607,13 +607,13 @@ export function HeroSlideshowManager({ initialSlides, initialSettings }: Props) 
       {slides.length === 0 ? (
         <div className="py-20 text-center"
           style={{ border: '1px dashed rgba(255,255,255,0.06)' }}>
-          <div className="font-[family-name:var(--font-inter)] text-sm mb-3" style={{ color: '#4b5563' }}>
+          <div className="font-[family-name:var(--font-body)] text-sm mb-3" style={{ color: '#4b5563' }}>
             No slides yet
           </div>
           <button
             onClick={() => addFileRef.current?.click()}
             disabled={addingSlide}
-            className="font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider"
+            className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-wider"
             style={{ color: '#ff571a' }}
           >
             Upload your first hero slide →

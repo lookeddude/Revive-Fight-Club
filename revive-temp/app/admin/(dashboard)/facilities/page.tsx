@@ -12,7 +12,7 @@ export default async function AdminFacilitiesPage() {
     <div className="max-w-5xl space-y-5">
       <div>
         <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-xl uppercase tracking-tight">Facilities</h2>
-        <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-0.5">{facilities?.length ?? 0} facilities</p>
+        <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-0.5">{facilities?.length ?? 0} facilities</p>
       </div>
       <FacilitiesManager facilities={facilities ?? []} />
     </div>

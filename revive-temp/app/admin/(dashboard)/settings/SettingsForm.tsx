@@ -46,15 +46,15 @@ export function SettingsForm({ settings }: { settings: BusinessSettings | null }
     setToast({ message: result.success ? result.message : result.error, type: result.success ? 'success' : 'error' })
   }
 
-  const inputClass = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-inter)] placeholder:text-[#4b5563]'
-  const labelClass = 'block font-[family-name:var(--font-inter)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
+  const inputClass = 'bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] placeholder:text-[#4b5563]'
+  const labelClass = 'block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Identity</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Identity</h3>
         <div>
           <label className={labelClass}>Business Name</label>
           <input value={businessName} onChange={e => setBusinessName(e.target.value)} className={inputClass} placeholder="Revive Fight Club" />
@@ -66,8 +66,8 @@ export function SettingsForm({ settings }: { settings: BusinessSettings | null }
       </div>
 
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Contact
-          <span className="ml-2 font-normal text-[#ef4444] text-[10px] normal-case">Changes update all WhatsApp + Call CTAs on the public site</span>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Contact
+          <span className="ml-2 font-normal text-[#ef4444] text-xs normal-case">Changes update all WhatsApp + Call CTAs on the public site</span>
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -88,7 +88,7 @@ export function SettingsForm({ settings }: { settings: BusinessSettings | null }
       </div>
 
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Address</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Address</h3>
         <div>
           <label className={labelClass}>Street Address</label>
           <input value={address} onChange={e => setAddress(e.target.value)} className={inputClass} placeholder="123 Frazer Town Road" />
@@ -114,7 +114,7 @@ export function SettingsForm({ settings }: { settings: BusinessSettings | null }
       </div>
 
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
-        <h3 className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Social Media</h3>
+        <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Social Media</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className={labelClass}>Instagram URL</label>
@@ -132,7 +132,7 @@ export function SettingsForm({ settings }: { settings: BusinessSettings | null }
       </div>
 
       <div className="flex justify-end">
-        <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-wider px-6 py-2.5 hover:bg-white transition-colors disabled:opacity-50">
+        <button type="submit" disabled={saving} className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-6 py-2.5 hover:bg-white transition-colors disabled:opacity-50">
           {saving ? 'Saving…' : 'Save Settings'}
         </button>
       </div>

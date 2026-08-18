@@ -46,7 +46,7 @@ export function HomeStats() {
               </div>
 
               {/* Label */}
-              <span className="font-[family-name:var(--font-inter)] text-[11px] font-bold tracking-[0.18em] uppercase text-[#6b6059] group-hover:text-[#9ca3a0] transition-colors duration-300">
+              <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.18em] uppercase text-[#9ca3af] group-hover:text-[#9ca3a0] transition-colors duration-300">
                 {stat.label}
               </span>
 

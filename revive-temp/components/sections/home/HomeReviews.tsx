@@ -65,11 +65,11 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                   </svg>
                 ))}
               </div>
-              <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#7a6e68] tracking-[0.15em] uppercase">Google Reviews</p>
+              <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf]  uppercase">Google Reviews</p>
             </div>
             <div className="pl-4" style={{ borderLeft: '1px solid rgba(245,166,35,0.2)' }}>
               <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8]" style={{ fontSize: '36px', lineHeight: 1, letterSpacing: '-0.05em' }}>5.0</p>
-              <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#7a6e68] tracking-[0.1em] uppercase">Rating</p>
+              <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf] tracking-[0.1em] uppercase">Rating</p>
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                 <div className="flex items-center justify-between">
                   <StarRating rating={review.rating} />
                   <span
-                    className="font-[family-name:var(--font-inter)] text-[8px] font-black uppercase tracking-[0.18em] px-1.5 py-0.5"
+                    className="font-[family-name:var(--font-body)] text-[8px] font-black uppercase tracking-[0.18em] px-1.5 py-0.5"
                     style={{
                       background: review.source === 'google' ? 'rgba(66,133,244,0.1)' : 'rgba(255,87,26,0.12)',
                       color: review.source === 'google' ? '#5a9ff5' : '#ff571a',
@@ -113,14 +113,14 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                 </div>
 
                 {/* Review text */}
-                <p className="font-[family-name:var(--font-inter)] text-[12px] leading-[1.7] text-[#7a7470] flex-1">
+                <p className="font-[family-name:var(--font-body)] text-[12px] leading-[1.7] text-[#c8c4bf] flex-1">
                   &ldquo;{review.review_text}&rdquo;
                 </p>
 
                 {/* Author row */}
                 <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                   <div
-                    className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-black text-[10px]"
+                    className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-black text-xs"
                     style={{
                       background: isAccent ? 'linear-gradient(135deg, #ff571a, #c02010)' : 'linear-gradient(135deg, #2a2825, #1a1816)',
                       color: isAccent ? '#fff' : '#5a5652',
@@ -129,11 +129,11 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                     {(review.reviewer_name ?? 'M').charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-[family-name:var(--font-inter)] text-[11px] font-bold text-[#c8c4bf] leading-tight">
+                    <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#c8c4bf] leading-tight">
                       {review.reviewer_name}
                     </p>
                     {review.reviewer_role && (
-                      <p className="font-[family-name:var(--font-inter)] text-[8px] text-[#3a3835] tracking-[0.12em] uppercase mt-0.5">
+                      <p className="font-[family-name:var(--font-body)] text-[8px] text-[#3a3835] tracking-[0.12em] uppercase mt-0.5">
                         {review.reviewer_role}
                       </p>
                     )}

@@ -47,15 +47,15 @@ export default async function ActivityLogsPage() {
           <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl uppercase tracking-tight">
             Activity Logs
           </h1>
-          <p className="font-[family-name:var(--font-inter)] text-sm text-[#6b7280] mt-1">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-1">
             Full audit trail. Visible to superadmin only.
           </p>
         </div>
         <div className="text-right">
-          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b7280]">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">
             {logs.length} recent entries
           </p>
-          <p className="font-[family-name:var(--font-inter)] text-[10px] text-[#4b5563] mt-0.5">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] mt-0.5">
             Times shown in IST (UTC+5:30)
           </p>
         </div>
@@ -66,7 +66,7 @@ export default async function ActivityLogsPage() {
           const count = logs.filter(l => l.action_type === type).length
           return (
             <div key={type} className="border border-white/[0.08] p-4 bg-white/[0.01]">
-              <p className={`text-[10px] font-bold tracking-[0.12em] uppercase font-[family-name:var(--font-inter)] mb-1 ${ACTION_STAT_COLORS[type]}`}>
+              <p className={`text-xs font-bold tracking-[0.12em] uppercase font-[family-name:var(--font-body)] mb-1 ${ACTION_STAT_COLORS[type]}`}>
                 {ACTION_LABELS[type]}
               </p>
               <p className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-2xl">{count}</p>
