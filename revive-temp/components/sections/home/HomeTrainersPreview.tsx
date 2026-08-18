@@ -22,12 +22,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
       {/* Top separator */}
       <div className="sep-subtle" aria-hidden="true" />
 
-      {/* Warm right-side glow */}
-      <div
-        className="absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 100% 50%, rgba(255,87,26,0.04) 0%, transparent 60%)' }}
-        aria-hidden="true"
-      />
+
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
         {/* Section Header */}
@@ -123,7 +118,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                       src={image}
                       alt={`${trainer.name}, ${trainer.role}`}
                       fill
-                      className="object-cover trainer-img group-hover:scale-104 transition-transform duration-600"
+                      className="object-cover trainer-img group-hover:scale-105 transition-transform duration-600"
                       sizes="58vw"
                     />
                   </div>

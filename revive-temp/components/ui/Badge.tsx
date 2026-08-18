@@ -11,7 +11,7 @@ export function Badge({ children, variant = 'orange', className }: BadgeProps) {
     <span
       className={cn(
         'inline-block font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase px-3 py-1',
-        variant === 'orange' ? 'bg-[#ff571a] text-black' : 'bg-white text-black',
+        variant === 'orange' ? 'bg-[var(--color-primary)] text-[var(--color-on-primary)]' : 'bg-[var(--color-on-background)] text-[var(--color-background)]',
         className
       )}
     >

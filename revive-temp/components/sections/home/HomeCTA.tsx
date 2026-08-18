@@ -7,32 +7,9 @@ interface HomeCTAProps {
 
 export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
   return (
-    <section
-      className="relative overflow-hidden grain-overlay"
-      style={{ background: 'linear-gradient(135deg, #1a0d06 0%, #0d0c0b 45%, #160a04 100%)' }}
-    >
-      {/* Top orange radial glow */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top, rgba(255,87,26,0.16) 0%, transparent 65%)' }}
-        aria-hidden="true"
-      />
-
-      {/* Diagonal line accents */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 left-0 right-0 sep-orange" />
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute top-0 bottom-0 w-px"
-            style={{
-              left: `${(i + 1) * 12.5}%`,
-              background: 'linear-gradient(to bottom, transparent, rgba(255,87,26,0.03), transparent)',
-              transform: 'skewX(-15deg)',
-            }}
-          />
-        ))}
-      </div>
+    <section className="relative overflow-hidden bg-[var(--color-surface)]">
+      {/* Top line separator */}
+      <div className="absolute top-0 left-0 right-0 sep-orange" aria-hidden="true" />
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 py-16 md:py-28 text-center">
         {/* Section label */}
@@ -81,8 +58,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/book-trial"
-            className="btn-primary justify-center"
-            style={{ padding: '16px 40px', fontSize: '13px' }}
+            className="inline-flex items-center justify-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)]"
           >
             <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />

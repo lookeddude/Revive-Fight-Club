@@ -47,15 +47,8 @@ export async function Footer() {
   return (
     <footer className="relative overflow-hidden" style={{ background: '#080706' }}>
 
-      {/* ── Top orange accent line ─────────────────────────── */}
-      <div className="h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, #ff571a 40%, #ff571a 60%, transparent 100%)' }} />
-
-      {/* ── Glow background ───────────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 20% 60%, rgba(255,87,26,0.04) 0%, transparent 70%)' }}
-        aria-hidden="true"
-      />
+      {/* ── Top separator ─────────────────────────── */}
+      <div className="h-px w-full bg-[var(--color-outline-variant)]" />
 
       {/* ── Main Footer Body ───────────────────────────────── */}
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 pt-12 pb-10">

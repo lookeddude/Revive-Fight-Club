@@ -4,28 +4,14 @@ export function HomePhilosophy() {
       className="py-14 md:py-24 relative overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #0d0c0b 0%, #111210 50%, #0d0c0b 100%)' }}
     >
-      {/* Background radial warm glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 75% 50%, rgba(255,87,26,0.05) 0%, transparent 55%)' }}
-        aria-hidden="true"
-      />
-      {/* Subtle dot grid */}
-      <div className="absolute inset-0 bg-dots-subtle opacity-40 pointer-events-none" aria-hidden="true" />
+
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
 
           {/* Left: Headline + pillars */}
           <div className="md:col-span-5 relative">
-            {/* RFC watermark */}
-            <div
-              className="absolute -top-8 -left-4 font-[family-name:var(--font-outfit)] font-black leading-none select-none pointer-events-none watermark-text"
-              style={{ fontSize: 'clamp(100px, 14vw, 180px)', letterSpacing: '-0.05em' }}
-              aria-hidden="true"
-            >
-              RFC
-            </div>
+
 
             <div className="relative z-10">
               <p className="section-label mb-6">Our Philosophy</p>
@@ -88,10 +74,10 @@ export function HomePhilosophy() {
 
               {/* Quote callout */}
               <div
-                className="p-6 relative overflow-hidden"
+                className="p-6 relative"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255,87,26,0.06) 0%, rgba(255,87,26,0.02) 100%)',
-                  border: '1px solid rgba(255,87,26,0.15)',
+                  background: 'var(--color-surface-container)',
+                  border: '1px solid var(--color-surface-container-high)',
                 }}
               >
                 {/* Large quote mark */}

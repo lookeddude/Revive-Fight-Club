@@ -150,23 +150,11 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-3">
 
-            {/* Book Trial CTA — skewed parallelogram with glow */}
+            {/* Book Trial CTA */}
             <Link
               href="/book-trial"
-              className="relative inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase transition-all duration-200 active:scale-95 whitespace-nowrap shrink-0 group"
-              style={{
-                background: 'linear-gradient(135deg, #ff571a 0%, #d94418 100%)',
-                color: '#000',
-                padding: '10px 22px',
-                clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)',
-                boxShadow: '0 0 18px rgba(255,87,26,0.45), 0 0 36px rgba(255,87,26,0.2)',
-                animation: 'navGlow 2.5s ease-in-out infinite',
-              }}
+              className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-5 py-2.5 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)] shrink-0"
             >
-              {/* Lightning bolt icon */}
-              <svg className="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
               BOOK A TRIAL
             </Link>
 

@@ -30,11 +30,7 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
       style={{ background: 'linear-gradient(180deg, #0a0908 0%, #0d0c0b 100%)' }}
     >
       <div className="sep-orange" aria-hidden="true" />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(255,87,26,0.06) 0%, transparent 55%)' }}
-        aria-hidden="true"
-      />
+
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
@@ -76,27 +72,16 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
 
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {reviews.map((review, i) => {
-            const isAccent = i % 3 === 1
+          {reviews.map((review) => {
             return (
               <div
                 key={review.id}
-                className="flex flex-col gap-3 p-4 relative overflow-hidden group transition-all duration-300"
+                className="flex flex-col gap-3 p-4 relative group transition-all duration-300"
                 style={{
-                  background: isAccent
-                    ? 'linear-gradient(135deg, rgba(255,87,26,0.08) 0%, rgba(16,14,12,0.98) 100%)'
-                    : 'rgba(15,13,11,0.9)',
-                  border: isAccent ? '1px solid rgba(255,87,26,0.2)' : '1px solid rgba(255,255,255,0.05)',
-                  borderTop: isAccent ? '2px solid #ff571a' : '2px solid rgba(255,255,255,0.06)',
+                  background: 'var(--color-surface-container)',
+                  border: '1px solid var(--color-surface-container-high)',
                 }}
               >
-                {/* Big decorative quote */}
-                <span
-                  className="absolute -top-1 right-3 font-[family-name:var(--font-outfit)] font-black select-none pointer-events-none"
-                  style={{ fontSize: '44px', lineHeight: 1, color: isAccent ? 'rgba(255,87,26,0.15)' : 'rgba(255,255,255,0.04)' }}
-                  aria-hidden="true"
-                >&ldquo;</span>
-
                 {/* Stars + badge */}
                 <div className="flex items-center justify-between">
                   <StarRating rating={review.rating} />
@@ -113,17 +98,17 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                 </div>
 
                 {/* Review text */}
-                <p className="font-[family-name:var(--font-body)] text-[12px] leading-[1.7] text-[#c8c4bf] flex-1">
+                <p className="font-[family-name:var(--font-body)] text-[12px] leading-[1.7] text-[var(--color-on-background)] flex-1">
                   &ldquo;{review.review_text}&rdquo;
                 </p>
 
                 {/* Author row */}
-                <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid var(--color-outline-variant)' }}>
                   <div
                     className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center font-black text-xs"
                     style={{
-                      background: isAccent ? 'linear-gradient(135deg, #ff571a, #c02010)' : 'linear-gradient(135deg, #2a2825, #1a1816)',
-                      color: isAccent ? '#fff' : '#5a5652',
+                      background: 'var(--color-surface-container-highest)',
+                      color: 'var(--color-on-surface)',
                     }}
                   >
                     {(review.reviewer_name ?? 'M').charAt(0).toUpperCase()}

@@ -129,7 +129,7 @@ export default function TermsOfServicePage() {
           <div className="max-w-[900px] mx-auto px-5 md:px-16 space-y-12">
             {sections.map((section) => (
               <div key={section.title}>
-                <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-lg tracking-tight mb-5" style={{ borderLeft: '3px solid #ff571a', paddingLeft: '1rem' }}>
+                <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-lg tracking-tight mb-5" style={{ paddingLeft: '1rem' }}>
                   {section.title}
                 </h2>
                 <ul className="space-y-3">

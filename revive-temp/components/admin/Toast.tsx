@@ -51,7 +51,6 @@ export function Toast({ message, type = 'success', onClose, duration = 3500 }: T
       style={{
         background: '#161a18',
         border: '1px solid rgba(255,255,255,0.08)',
-        borderLeft: `3px solid ${config.bar}`,
         animation: 'toastSlideIn 0.25s ease',
       }}
       role="alert"

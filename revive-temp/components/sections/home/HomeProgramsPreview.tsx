@@ -30,8 +30,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
       className="py-14 md:py-24 relative overflow-hidden section-divider"
       style={{ background: '#0d0c0b' }}
     >
-      {/* Subtle dot grid background texture */}
-      <div className="absolute inset-0 bg-dots-subtle opacity-25 pointer-events-none" aria-hidden="true" />
+
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
@@ -75,7 +74,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                   src={getImage(program, slideImages)}
                   alt={program.name}
                   fill
-                  className="object-cover transition-all duration-700 group-hover:scale-107"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                   style={{ opacity: 0.72 }}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
@@ -116,7 +115,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                   </p>
                 )}
                 {/* Orange accent underline */}
-                <div className="w-0 h-[2px] bg-gradient-to-r from-[#ff571a] to-[#e03020] group-hover:w-12 transition-all duration-500" aria-hidden="true" />
+                <div className="w-0 h-[2px] bg-[var(--color-primary)] group-hover:w-12 transition-all duration-500" aria-hidden="true" />
               </div>
             </Link>
           ))}

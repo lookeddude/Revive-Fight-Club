@@ -51,7 +51,7 @@ export default async function AboutPage() {
               FOR MORE
             </h1>
 
-            <p className="font-[family-name:var(--font-body)] text-lg md:text-xl text-[#c8c4bf] max-w-2xl leading-relaxed" style={{ borderLeft: '3px solid rgba(255,87,26,0.5)', paddingLeft: '1.5rem' }}>
+            <p className="font-[family-name:var(--font-body)] text-lg md:text-xl text-[#c8c4bf] max-w-2xl leading-relaxed" style={{ paddingLeft: '1.5rem' }}>
               Revive Fight Club is Bengaluru&apos;s premier destination for combat sports and transformative fitness training — where beginners find their footing and champions are forged.
             </p>
 
@@ -63,7 +63,7 @@ export default async function AboutPage() {
                 { value: '3rd', label: 'Floor, MM Road', accent: false },
                 { value: '2024', label: 'Established', accent: false },
               ].map(stat => (
-                <div key={stat.label} className="flex flex-col" style={{ borderLeft: `2px solid ${stat.accent ? '#ff571a' : 'rgba(255,255,255,0.08)'}`, paddingLeft: '1rem' }}>
+                <div key={stat.label} className="flex flex-col" style={{ paddingLeft: '1rem' }}>
                   <span className="font-[family-name:var(--font-outfit)] font-black leading-none" style={{ fontSize: '32px', color: stat.accent ? '#ff571a' : '#f0ede8' }}>{stat.value}</span>
                   <span className="font-[family-name:var(--font-body)] text-xs text-[#4a4540] uppercase tracking-[0.15em] mt-1">{stat.label}</span>
                 </div>
@@ -199,7 +199,7 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
               {/* Mission */}
-              <div className="lg:col-span-2 p-8 md:p-10" style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.06) 0%, rgba(12,10,8,1) 70%)', border: '1px solid rgba(255,87,26,0.15)', borderLeft: '3px solid #ff571a' }}>
+              <div className="lg:col-span-2 p-8 md:p-10" style={{ background: 'linear-gradient(135deg, rgba(255,87,26,0.06) 0%, rgba(12,10,8,1) 70%)', border: '1px solid rgba(255,87,26,0.15)' }}>
                 <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Our Mission</p>
                 <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-6" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}>
                   TRAIN HARD.<br />FIGHT SMART.<br /><span className="text-[#ff571a]">LIVE BETTER.</span>

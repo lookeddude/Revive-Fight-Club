@@ -19,7 +19,7 @@ export function HomeStats() {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className="group relative flex flex-col items-center justify-center py-10 px-6 cursor-default"
+              className="relative flex flex-col items-center justify-center py-10 px-6"
             >
               {/* Vertical divider */}
               {i < stats.length - 1 && (
@@ -32,7 +32,7 @@ export function HomeStats() {
               {/* Number */}
               <div className="flex items-start gap-0.5 mb-3">
                 <span
-                  className="stat-number text-[clamp(52px,7vw,80px)] group-hover:text-[#ff571a] transition-colors duration-500"
+                  className="stat-number text-[clamp(52px,7vw,80px)]"
                   style={{ textShadow: 'none' }}
                 >
                   {stat.value}
@@ -46,12 +46,9 @@ export function HomeStats() {
               </div>
 
               {/* Label */}
-              <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.18em] uppercase text-[#9ca3af] group-hover:text-[#9ca3a0] transition-colors duration-300">
+              <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.18em] uppercase text-[#9ca3af]">
                 {stat.label}
               </span>
-
-              {/* Hover bottom accent */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-[#ff571a] group-hover:w-16 transition-all duration-500" aria-hidden="true" />
             </div>
           ))}
         </div>

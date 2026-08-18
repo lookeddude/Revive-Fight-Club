@@ -249,7 +249,6 @@ export default async function MembershipPage() {
               style={{
                 background: '#111210',
                 border: '1px solid rgba(255,87,26,0.15)',
-                borderLeft: '3px solid #ff571a',
               }}
             >
               <div className="flex items-start gap-3 mb-4">
