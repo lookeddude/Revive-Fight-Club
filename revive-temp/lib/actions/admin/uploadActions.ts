@@ -35,9 +35,12 @@ export async function uploadImage(
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
     const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
+    // Convert to ArrayBuffer first — more reliable across server action + Supabase storage
+    const bytes = await file.arrayBuffer()
+
     const { error: uploadError } = await supabase.storage
       .from(bucket)
-      .upload(filename, file, { contentType: file.type, upsert: false })
+      .upload(filename, bytes, { contentType: file.type, upsert: false })
 
     if (uploadError) {
       console.error('[uploadImage] Storage error:', uploadError.message)

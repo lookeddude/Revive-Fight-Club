@@ -23,17 +23,17 @@ type DeviceSlot = 'desktop' | 'tablet' | 'mobile'
 const DEVICE_CONFIG: Record<DeviceSlot, { label: string; note: string; icon: string }> = {
   desktop: {
     label: 'Desktop Image',
-    note: 'Best size: 800 × 1000 px (portrait 4:5). Displayed on screens ≥ 1024 px.',
+    note: 'Recommended: 1200 × 720 px (landscape 5:3). Shown in the wide editorial trainer card on screens ≥ 1024 px (card height ≈ 360 px, image spans ~58 vw).',
     icon: '🖥️',
   },
   tablet: {
     label: 'Tablet Image',
-    note: 'Best size: 600 × 750 px (portrait 4:5). Displayed on screens 768 px – 1023 px.',
+    note: 'Recommended: 800 × 600 px (landscape 4:3). Displayed on screens 768 px – 1023 px.',
     icon: '📱',
   },
   mobile: {
     label: 'Mobile Image',
-    note: 'Best size: 400 × 500 px (portrait 4:5). Displayed on screens < 768 px.',
+    note: 'Recommended: 400 × 400 px (square 1:1). Shown in compact horizontal card on screens < 768 px (image column ≈ 110 – 140 px wide, min height 140 px).',
     icon: '📲',
   },
 }
@@ -176,7 +176,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
       <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
         <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Profile Image</h3>
         <p className="font-[family-name:var(--font-body)] text-sm text-[#4b5563] leading-relaxed">
-          Main fallback image used when device-specific images below are not uploaded.
+          Primary image used everywhere — full-width background on the trainer detail page (100 vw) and square thumbnail in the listing card (220 × 220 px). Recommended: <strong className="text-[#9ca3af]">1200 × 900 px minimum</strong>. Square or near-square images crop best.
         </p>
         {imagePreview && <img src={imagePreview} alt="Preview" className="w-28 h-28 object-cover border border-white/[0.08]" />}
         <label className="flex flex-col gap-1.5">
