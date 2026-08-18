@@ -71,111 +71,110 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        {/* ── Hero — Full width photo + overlay ────────────── */}
-        <section className="relative overflow-hidden" style={{ minHeight: '75vh' }}>
-          {/* Background photo */}
-          <div className="absolute inset-0">
-            <Image
-              src={image}
-              alt={trainer.name}
-              fill
-              priority
-              className="object-cover object-top"
-              sizes="100vw"
-              unoptimized={image.startsWith('http')}
-            />
-            {/* Multi-layer gradient */}
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to right, rgba(10,11,10,0.97) 0%, rgba(10,11,10,0.85) 40%, rgba(10,11,10,0.5) 70%, rgba(10,11,10,0.2) 100%)' }}
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to top, rgba(10,11,10,1) 0%, transparent 40%)' }}
-            />
-          </div>
+        {/* ── Hero — Split Panel ─────────────────────────── */}
+        <section style={{ background: '#0d0c0b', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="max-w-[1280px] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2" style={{ minHeight: '72vh' }}>
 
-          {/* Content */}
-          <div className="relative max-w-[1280px] mx-auto px-5 md:px-16 py-20 md:py-28 flex flex-col justify-end" style={{ minHeight: '75vh' }}>
-            <div className="max-w-2xl">
-              {/* Featured badge */}
-              {trainer.is_featured && (
-                <div className="mb-4">
-                  <span
-                    className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.18em] px-3 py-1.5"
-                    style={{ background: '#ff571a', color: '#000' }}
-                  >
-                    ★ HEAD COACH
-                  </span>
-                </div>
-              )}
+              {/* ── LEFT: Text content ── */}
+              <div className="flex flex-col justify-center px-5 md:px-16 py-14 md:py-24 order-2 md:order-1">
 
-              {/* Role */}
-              <p className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.2em] text-[#ff571a] mb-3">
-                {trainer.role}
-              </p>
-
-              {/* Name */}
-              <h1
-                className="font-[family-name:var(--font-outfit)] font-black text-white uppercase leading-[0.88] tracking-[-0.03em] mb-6"
-                style={{ fontSize: 'clamp(52px, 8vw, 96px)' }}
-              >
-                {trainer.name}
-              </h1>
-
-              {/* Stats row */}
-              <div className="flex flex-wrap gap-3 mb-6">
-                {trainer.years_experience && (
-                  <div
-                    className="px-5 py-3"
-                    style={{ background: 'rgba(255,87,26,0.12)', border: '1px solid rgba(255,87,26,0.3)', backdropFilter: 'blur(8px)' }}
-                  >
-                    <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-2xl leading-none">{trainer.years_experience}+</p>
-                    <p className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]/70 uppercase tracking-wider mt-0.5">Years Experience</p>
+                {/* Featured badge */}
+                {trainer.is_featured && (
+                  <div className="mb-5">
+                    <span
+                      className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.18em] px-3 py-1.5"
+                      style={{ background: '#ff571a', color: '#000' }}
+                    >
+                      ★ HEAD COACH
+                    </span>
                   </div>
                 )}
-                {specialties.length > 0 && (
-                  <div
-                    className="px-5 py-3"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
-                  >
-                    <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">{specialties.length}</p>
-                    <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Disciplines</p>
-                  </div>
-                )}
-                <div
-                  className="px-5 py-3"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}
-                >
-                  <p className="font-[family-name:var(--font-outfit)] font-black text-white text-2xl leading-none">PRO</p>
-                  <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Fighter</p>
-                </div>
-              </div>
 
-              {/* Short bio */}
-              {trainer.short_bio && (
-                <p
-                  className="font-[family-name:var(--font-body)] text-base text-[#a09890] leading-relaxed mb-8 max-w-lg"
-                  style={{ borderLeft: '2px solid rgba(255,87,26,0.5)', paddingLeft: '1rem' }}
-                >
-                  {trainer.short_bio}
+                {/* Role */}
+                <p className="font-[family-name:var(--font-body)] text-xs font-black uppercase tracking-[0.22em] text-[#ff571a] mb-3">
+                  {trainer.role}
                 </p>
-              )}
 
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/book-trial"
-                  className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-all duration-200 hover:bg-white"
-                  style={{ background: 'linear-gradient(135deg, #ff571a, #e03020)', boxShadow: '0 4px 24px rgba(255,87,26,0.4)' }}
+                {/* Name */}
+                <h1
+                  className="font-[family-name:var(--font-outfit)] font-black text-white uppercase leading-[0.88] tracking-[-0.03em] mb-8"
+                  style={{ fontSize: 'clamp(44px, 6vw, 80px)' }}
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                  BOOK A TRIAL
-                </Link>
-                <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />
+                  {trainer.name}
+                </h1>
+
+                {/* Stats row */}
+                <div className="flex flex-wrap gap-3 mb-7">
+                  {trainer.years_experience && (
+                    <div className="px-4 py-3" style={{ background: 'rgba(255,87,26,0.1)', border: '1px solid rgba(255,87,26,0.25)' }}>
+                      <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-xl leading-none">{trainer.years_experience}+</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#ff571a]/60 uppercase tracking-wider mt-0.5">Yrs Exp</p>
+                    </div>
+                  )}
+                  {specialties.length > 0 && (
+                    <div className="px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <p className="font-[family-name:var(--font-outfit)] font-black text-white text-xl leading-none">{specialties.length}</p>
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Disciplines</p>
+                    </div>
+                  )}
+                  <div className="px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <p className="font-[family-name:var(--font-outfit)] font-black text-white text-xl leading-none">PRO</p>
+                    <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider mt-0.5">Fighter</p>
+                  </div>
+                </div>
+
+                {/* Short bio */}
+                {trainer.short_bio && (
+                  <p
+                    className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-relaxed mb-8 max-w-md"
+                    style={{ borderLeft: '2px solid rgba(255,87,26,0.4)', paddingLeft: '1rem' }}
+                  >
+                    {trainer.short_bio}
+                  </p>
+                )}
+
+                {/* CTAs */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/book-trial"
+                    className="inline-flex items-center justify-center gap-2 text-black font-[family-name:var(--font-body)] text-sm font-black tracking-[0.12em] uppercase px-8 py-4 transition-colors duration-200 hover:bg-white"
+                    style={{ background: '#ff571a' }}
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                    BOOK A TRIAL
+                  </Link>
+                  <WhatsAppCTA whatsappNumber={settings?.whatsapp_number ?? null} context="general" variant="secondary" />
+                </div>
               </div>
+
+              {/* ── RIGHT: Photo ── */}
+              <div className="relative overflow-hidden order-1 md:order-2" style={{ minHeight: '420px' }}>
+                <Image
+                  src={image}
+                  alt={trainer.name}
+                  fill
+                  priority
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized={image.startsWith('http')}
+                />
+                {/* Feather-edge blend — left only, very subtle */}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to right, rgba(13,12,11,0.55) 0%, transparent 35%)' }}
+                  aria-hidden="true"
+                />
+                {/* Bottom edge fade */}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.4) 0%, transparent 25%)' }}
+                  aria-hidden="true"
+                />
+              </div>
+
             </div>
           </div>
         </section>
