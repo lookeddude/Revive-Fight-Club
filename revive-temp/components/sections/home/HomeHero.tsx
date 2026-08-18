@@ -238,7 +238,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
       {/* ── Slider Controls ───────────────────────── */}
       {activeSlides.length > 1 && (
-        <div className="relative z-20 w-full flex justify-start px-6 md:px-14 pb-8">
+        <div className="relative z-20 w-full flex justify-center px-6 md:px-14 pb-8">
           <div className="flex gap-1.5">
             {activeSlides.map((_, i) => (
               <button
