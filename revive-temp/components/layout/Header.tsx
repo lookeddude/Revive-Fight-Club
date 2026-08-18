@@ -10,9 +10,8 @@ import { SiteLogo } from '@/components/ui/SiteLogo'
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/programs', label: 'Programs' },
-  { href: '/trainers', label: 'Trainers' },
-  { href: '/schedule', label: 'Schedule' },
   { href: '/membership', label: 'Membership' },
+  { href: '/trainers', label: 'Trainers' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
