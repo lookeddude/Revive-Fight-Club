@@ -81,7 +81,7 @@ export default async function TrainersPage() {
                       }}
                     >
                       {/* Photo */}
-                      <div className="relative overflow-hidden" style={{ aspectRatio: '4/5' }}>
+                      <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
                         <Image
                           src={imgSrc}
                           alt={trainer.name}
