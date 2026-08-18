@@ -238,16 +238,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
       {/* ── Slider Controls ───────────────────────── */}
       {activeSlides.length > 1 && (
-        <div className="relative z-20 w-full flex flex-col md:flex-row justify-between md:items-center px-6 md:px-14 pb-8 gap-4">
-          <div className="flex gap-2">
-            <button onClick={goPrev} className="w-10 h-10 flex items-center justify-center border border-[var(--color-outline-variant)] bg-[var(--color-surface)]/80 backdrop-blur-md text-white hover:bg-[var(--color-surface-container-high)] transition-colors" aria-label="Previous slide">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            </button>
-            <button onClick={goNext} className="w-10 h-10 flex items-center justify-center border border-[var(--color-outline-variant)] bg-[var(--color-surface)]/80 backdrop-blur-md text-white hover:bg-[var(--color-surface-container-high)] transition-colors" aria-label="Next slide">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </button>
-          </div>
-          <div className="flex gap-1.5 self-start md:self-auto">
+        <div className="relative z-20 w-full flex justify-start px-6 md:px-14 pb-8">
+          <div className="flex gap-1.5">
             {activeSlides.map((_, i) => (
               <button
                 key={i}
