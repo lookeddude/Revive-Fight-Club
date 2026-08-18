@@ -35,14 +35,13 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
 
         <p className="font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#9ca3af] max-w-lg mx-auto mb-12">
           Book your trial class and experience what elite combat sports training truly feels like.
-          First session is on us.
         </p>
 
         {/* Trust badges */}
         <div className="flex items-center justify-center gap-8 mb-14 flex-wrap">
           {[
             { icon: '⚡', label: 'No Experience Needed' },
-            { icon: '★', label: 'Free First Trial' },
+            { icon: '★', label: 'Book First Trial' },
             { icon: '✓', label: 'Expert Coaches' },
           ].map(({ icon, label }) => (
             <div key={label} className="flex items-center gap-2.5">
