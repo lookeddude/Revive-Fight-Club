@@ -145,7 +145,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
 
       {/* ── Main Content — anchored to bottom ───────────────────────── */}
-      <div className="relative z-10 w-full px-6 md:px-14 pb-5">
+      <div className="relative z-10 w-full px-6 md:px-14 pb-2">
 
 
         {/* Discipline tags */}
@@ -238,7 +238,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
       {/* ── Slider Controls ───────────────────────── */}
       {activeSlides.length > 1 && (
-        <div className="relative z-20 w-full flex justify-center px-6 md:px-14 pb-8">
+        <div className="relative z-20 w-full flex justify-center px-6 md:px-14 pb-3">
           <div className="flex gap-1.5">
             {activeSlides.map((_, i) => (
               <button
