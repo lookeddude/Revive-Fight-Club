@@ -67,112 +67,100 @@ export default async function TrainersPage() {
         <section className="py-16 md:py-24" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             {trainers.length > 0 ? (
-              <div className={`grid gap-6 md:gap-8 ${trainers.length === 1 ? 'grid-cols-1 max-w-lg mx-auto' : trainers.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+              <div className="flex flex-col gap-5">
                 {trainers.map((trainer, i) => {
                   const imgSrc = trainer.profile_image_path || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]
                   return (
                     <Link
                       key={trainer.id}
                       href={`/trainers/${trainer.slug}`}
-                      className="group relative block overflow-hidden"
+                      className="group flex flex-col sm:flex-row overflow-hidden transition-all duration-300"
                       style={{
                         background: '#111210',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.07)',
                       }}
                     >
-                      {/* Photo */}
-                      <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
+                      {/* Photo — fixed small square */}
+                      <div className="relative shrink-0 overflow-hidden" style={{ width: '100%', maxWidth: '220px', minHeight: '220px' }}>
                         <Image
                           src={imgSrc}
                           alt={trainer.name}
                           fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                          sizes="220px"
                           unoptimized={imgSrc.startsWith('http')}
                         />
-                        {/* Dark gradient overlay always */}
-                        <div
-                          className="absolute inset-0"
-                          style={{ background: 'linear-gradient(to top, rgba(10,11,10,0.92) 0%, rgba(10,11,10,0.4) 45%, rgba(10,11,10,0.1) 100%)' }}
-                        />
-                        {/* Featured badge */}
+                        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, #111210)' }} />
                         {trainer.is_featured && (
-                          <div className="absolute top-4 left-4">
-                            <span
-                              className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.15em] px-3 py-1"
-                              style={{ background: '#ff571a', color: '#000' }}
-                            >
+                          <div className="absolute top-3 left-3">
+                            <span className="font-[family-name:var(--font-inter)] text-[9px] font-black uppercase tracking-[0.15em] px-2 py-1" style={{ background: '#ff571a', color: '#000' }}>
                               HEAD COACH
                             </span>
                           </div>
                         )}
-                        {/* Experience badge */}
-                        {trainer.years_experience && (
-                          <div className="absolute top-4 right-4">
-                            <div
-                              className="text-center px-3 py-2"
-                              style={{ background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,87,26,0.3)', backdropFilter: 'blur(8px)' }}
-                            >
-                              <p className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-xl leading-none">{trainer.years_experience}+</p>
-                              <p className="font-[family-name:var(--font-inter)] text-[9px] text-[#9ca3af] uppercase tracking-wider mt-0.5">Yrs Exp</p>
-                            </div>
-                          </div>
-                        )}
+                      </div>
 
-                        {/* Bottom info overlay */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <p
-                            className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.15em] mb-2"
-                            style={{ color: '#ff571a' }}
-                          >
-                            {trainer.role}
-                          </p>
-                          <h2
-                            className="font-[family-name:var(--font-outfit)] font-black text-white uppercase leading-none tracking-[-0.02em] mb-3"
-                            style={{ fontSize: 'clamp(28px, 4vw, 42px)' }}
-                          >
-                            {trainer.name}
-                          </h2>
-                          {/* Specialty tags preview */}
-                          {trainer.specialties && trainer.specialties.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mb-4">
-                              {(trainer.specialties as string[]).slice(0, 4).map((s: string) => (
-                                <span
-                                  key={s}
-                                  className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1"
-                                  style={{ background: 'rgba(255,255,255,0.08)', color: '#9ca3af', border: '1px solid rgba(255,255,255,0.1)' }}
-                                >
-                                  {s}
-                                </span>
-                              ))}
-                              {(trainer.specialties as string[]).length > 4 && (
-                                <span
-                                  className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1"
-                                  style={{ background: 'rgba(255,87,26,0.15)', color: '#ff571a', border: '1px solid rgba(255,87,26,0.25)' }}
-                                >
-                                  +{(trainer.specialties as string[]).length - 4} more
-                                </span>
-                              )}
+                      {/* Content */}
+                      <div className="flex flex-col justify-center px-6 py-5 flex-1 min-w-0">
+                        {/* Role */}
+                        <p className="font-[family-name:var(--font-inter)] text-[10px] font-black uppercase tracking-[0.2em] text-[#ff571a] mb-1">
+                          {trainer.role}
+                        </p>
+                        {/* Name */}
+                        <h2
+                          className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-none tracking-[-0.02em] mb-3"
+                          style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
+                        >
+                          {trainer.name}
+                        </h2>
+                        {/* Stats */}
+                        <div className="flex items-center gap-4 mb-3">
+                          {trainer.years_experience && (
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-lg leading-none">{trainer.years_experience}+</span>
+                              <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider">Yrs Exp</span>
                             </div>
                           )}
-                          {/* View profile CTA */}
-                          <div
-                            className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider transition-all duration-200"
-                            style={{ color: '#ff571a' }}
-                          >
-                            View Profile
-                            <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
+                          <div className="w-px h-4 bg-white/10" />
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-[family-name:var(--font-outfit)] font-black text-white text-lg leading-none">{(trainer.specialties as string[])?.length ?? 0}</span>
+                            <span className="font-[family-name:var(--font-inter)] text-[10px] text-[#6b6059] uppercase tracking-wider">Disciplines</span>
                           </div>
+                          <div className="w-px h-4 bg-white/10" />
+                          <span className="font-[family-name:var(--font-inter)] text-[10px] font-bold uppercase tracking-wider text-[#4b5563]">Pro Fighter</span>
+                        </div>
+                        {/* Short bio */}
+                        {trainer.short_bio && (
+                          <p className="font-[family-name:var(--font-inter)] text-xs text-[#6b6059] leading-relaxed mb-4 line-clamp-2 max-w-xl">
+                            {trainer.short_bio}
+                          </p>
+                        )}
+                        {/* Specialty tags */}
+                        {trainer.specialties && (trainer.specialties as string[]).length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {(trainer.specialties as string[]).slice(0, 5).map((s: string) => (
+                              <span key={s} className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,255,255,0.04)', color: '#6b7280', border: '1px solid rgba(255,255,255,0.07)' }}>
+                                {s}
+                              </span>
+                            ))}
+                            {(trainer.specialties as string[]).length > 5 && (
+                              <span className="font-[family-name:var(--font-inter)] text-[9px] font-bold uppercase tracking-wider px-2 py-1" style={{ background: 'rgba(255,87,26,0.1)', color: '#ff571a', border: '1px solid rgba(255,87,26,0.2)' }}>
+                                +{(trainer.specialties as string[]).length - 5} more
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {/* View profile */}
+                        <div className="inline-flex items-center gap-2 font-[family-name:var(--font-inter)] text-xs font-black uppercase tracking-wider text-[#ff571a] opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                          View Full Profile
+                          <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
                         </div>
                       </div>
 
-                      {/* Border glow on hover */}
-                      <div
-                        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ boxShadow: 'inset 0 0 0 1px rgba(255,87,26,0.3)' }}
-                      />
+                      {/* Right orange accent line on hover */}
+                      <div className="w-0 group-hover:w-1 shrink-0 transition-all duration-300" style={{ background: '#ff571a' }} />
                     </Link>
                   )
                 })}
