@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { createFacility, updateFacility } from '@/lib/actions/admin/contentActions'
-import { uploadImage } from '@/lib/actions/admin/uploadActions'
 import { StatusBadge } from '@/components/admin/StatusBadge'
 import { Toast } from '@/components/admin/Toast'
 import type { Facility } from '@/types/database'
@@ -37,11 +36,22 @@ export function FacilitiesManager({ facilities }: { facilities: Facility[] }) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const fd = new FormData(); fd.append('file', file)
-    const result = await uploadImage(fd, 'revive-facilities', editItem?.id ?? 'new')
-    setUploading(false)
-    if (result.success) { setImagePath(result.path); setImagePreview(result.url); setToast({ message: 'Image uploaded.', type: 'success' }) }
-    else setToast({ message: result.error, type: 'error' })
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('bucket', 'revive-facilities')
+      fd.append('folder', editItem?.id ?? 'new')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload failed')
+      setImagePath(data.path)
+      setImagePreview(data.url)
+      setToast({ message: 'Image uploaded.', type: 'success' })
+    } catch (err) {
+      setToast({ message: err instanceof Error ? err.message : 'Upload failed. Please try again.', type: 'error' })
+    } finally {
+      setUploading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

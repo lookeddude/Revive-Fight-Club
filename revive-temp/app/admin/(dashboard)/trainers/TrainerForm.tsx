@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createTrainer, updateTrainer, deleteTrainer } from '@/lib/actions/admin/contentActions'
-import { uploadImage } from '@/lib/actions/admin/uploadActions'
 import { Toast } from '@/components/admin/Toast'
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog'
 import type { Trainer } from '@/types/database'
@@ -79,15 +78,21 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading('main')
-    const formData = new FormData()
-    formData.append('file', file)
-    const result = await uploadImage(formData, 'revive-trainers', trainer?.id ?? 'new')
-    setUploading(null)
-    if (result.success) {
-      setImagePath(result.path); setImagePreview(result.url)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('bucket', 'revive-trainers')
+      fd.append('folder', trainer?.id ?? 'new')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload failed')
+      setImagePath(data.path)
+      setImagePreview(data.url)
       setToast({ message: 'Profile image uploaded.', type: 'success' })
-    } else {
-      setToast({ message: result.error, type: 'error' })
+    } catch (err) {
+      setToast({ message: err instanceof Error ? err.message : 'Upload failed. Please try again.', type: 'error' })
+    } finally {
+      setUploading(null)
     }
   }
 
@@ -95,17 +100,22 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(device)
-    const formData = new FormData()
-    formData.append('file', file)
-    const result = await uploadImage(formData, 'revive-trainers', `${trainer?.id ?? 'new'}-${device}`)
-    setUploading(null)
-    if (result.success) {
-      if (device === 'desktop') { setDesktopPath(result.path); setDesktopPreview(result.url) }
-      if (device === 'tablet')  { setTabletPath(result.path);  setTabletPreview(result.url) }
-      if (device === 'mobile')  { setMobilePath(result.path);  setMobilePreview(result.url) }
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('bucket', 'revive-trainers')
+      fd.append('folder', `${trainer?.id ?? 'new'}-${device}`)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload failed')
+      if (device === 'desktop') { setDesktopPath(data.path); setDesktopPreview(data.url) }
+      if (device === 'tablet')  { setTabletPath(data.path);  setTabletPreview(data.url) }
+      if (device === 'mobile')  { setMobilePath(data.path);  setMobilePreview(data.url) }
       setToast({ message: `${DEVICE_CONFIG[device].label} uploaded.`, type: 'success' })
-    } else {
-      setToast({ message: result.error, type: 'error' })
+    } catch (err) {
+      setToast({ message: err instanceof Error ? err.message : 'Upload failed. Please try again.', type: 'error' })
+    } finally {
+      setUploading(null)
     }
   }
 

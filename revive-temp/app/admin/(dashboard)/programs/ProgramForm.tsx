@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createProgram, updateProgram, deleteProgram } from '@/lib/actions/admin/contentActions'
-import { uploadImage } from '@/lib/actions/admin/uploadActions'
 import { Toast } from '@/components/admin/Toast'
 import { ConfirmDialog } from '@/components/admin/ConfirmDialog'
 import type { Program } from '@/types/database'
@@ -53,16 +52,21 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const formData = new FormData()
-    formData.append('file', file)
-    const result = await uploadImage(formData, 'revive-programs', program?.id ?? 'new')
-    setUploading(false)
-    if (result.success) {
-      setImagePath(result.path)
-      setImagePreview(result.url)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('bucket', 'revive-programs')
+      fd.append('folder', program?.id ?? 'new')
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload failed')
+      setImagePath(data.path)
+      setImagePreview(data.url)
       setToast({ message: 'Cover image uploaded.', type: 'success' })
-    } else {
-      setToast({ message: result.error, type: 'error' })
+    } catch (err) {
+      setToast({ message: err instanceof Error ? err.message : 'Upload failed. Please try again.', type: 'error' })
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -73,16 +77,16 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
 
     const newUrls: string[] = []
     for (const file of files) {
-      const formData = new FormData()
-      formData.append('file', file)
-      const result = await uploadImage(
-        formData,
-        'revive-programs',
-        `${program?.id ?? 'new'}-gallery-${Date.now()}-${Math.random().toString(36).slice(2)}`
-      )
-      if (result.success) {
-        newUrls.push(result.url)
-      } else {
+      try {
+        const fd = new FormData()
+        fd.append('file', file)
+        fd.append('bucket', 'revive-programs')
+        fd.append('folder', `${program?.id ?? 'new'}-gallery-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+        const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Upload failed')
+        newUrls.push(data.url)
+      } catch {
         setToast({ message: `Failed to upload ${file.name}`, type: 'error' })
       }
     }
@@ -92,7 +96,6 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
     if (newUrls.length > 0) {
       setToast({ message: `${newUrls.length} photo(s) added to gallery.`, type: 'success' })
     }
-    // Reset input
     e.target.value = ''
   }
 
