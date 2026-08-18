@@ -199,7 +199,7 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
       {BATCH_ORDER.filter(cat => grouped[cat]?.length > 0).map(cat => (
         <div key={cat} className="bg-[#111312] border border-white/[0.08] overflow-hidden">
           {/* Batch header */}
-          <div className="px-4 py-3 flex items-center gap-2" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="px-4 py-2.5 flex items-center gap-2" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a]">{BATCH_LABELS[cat]}</span>
             <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">({grouped[cat].length} plans)</span>
           </div>
@@ -212,13 +212,13 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
             <tbody>
               {grouped[cat].map(plan => (
                 <tr key={plan.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{(plan as any).sort_label ?? plan.name}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#4b5563]">{plan.sort_order}</td>
-                  <td className="px-4 py-3"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
-                  <td className="px-4 py-3">{plan.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">★</span>}</td>
-                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{(plan as any).sort_label ?? plan.name}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs text-[#4b5563]">{plan.sort_order}</td>
+                  <td className="px-4 py-2.5"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
+                  <td className="px-4 py-2.5">{plan.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">★</span>}</td>
+                  <td className="px-4 py-2.5"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
                 </tr>
               ))}
             </tbody>
@@ -229,7 +229,7 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
       {/* Ungrouped plans (no batch_category) */}
       {ungrouped.length > 0 && (
         <div className="bg-[#111312] border border-white/[0.08] overflow-hidden">
-          <div className="px-4 py-3" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="px-4 py-2.5" style={{ background: '#131514', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">Other Plans</span>
           </div>
           <table className="w-full">
@@ -241,11 +241,11 @@ export function MembershipManager({ plans }: { plans: MembershipPlan[] }) {
             <tbody>
               {ungrouped.map(plan => (
                 <tr key={plan.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{plan.name}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
-                  <td className="px-4 py-3"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
-                  <td className="px-4 py-3"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{plan.name}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs text-[#6b7280] capitalize">{plan.billing_period}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm font-bold text-[#ff571a]">{plan.price != null ? `₹${plan.price.toLocaleString('en-IN')}` : '—'}</td>
+                  <td className="px-4 py-2.5"><StatusBadge status={plan.is_active ? 'active' : 'inactive'} /></td>
+                  <td className="px-4 py-2.5"><button onClick={() => handleEdit(plan)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
                 </tr>
               ))}
             </tbody>

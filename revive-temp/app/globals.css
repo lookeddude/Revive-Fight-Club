@@ -298,18 +298,18 @@ body {
 
 /* ── Accessibility: Reduced Motion ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .animate-fade-up,
   .animate-fade-in {
-    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
-  
-  .card-premium:hover,
-  .image-hover-scale,
-  .group:hover .image-hover-scale {
-    transform: none !important;
-  }
-
-  /* Note: Interactive state color/opacity changes are intentionally preserved */
 }

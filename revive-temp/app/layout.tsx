@@ -80,6 +80,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
+        <a 
+          href="#main" 
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#ff571a] focus:text-black focus:font-bold focus:uppercase focus:tracking-widest"
+        >
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

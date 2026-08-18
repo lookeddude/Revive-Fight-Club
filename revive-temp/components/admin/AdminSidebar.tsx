@@ -245,12 +245,12 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
                           'font-[family-name:var(--font-body)]',
                         )}
                         style={active ? {
-                          background: 'linear-gradient(90deg, rgba(255,87,26,0.12) 0%, rgba(255,87,26,0.04) 100%)',
+                          background: 'rgba(255,87,26,0.05)',
                           color: '#ff571a',
                           borderLeft: '2px solid #ff571a',
                           paddingLeft: '10px',
                         } : {
-                          color: 'rgba(255,255,255,0.38)',
+                          color: 'rgba(255,255,255,0.4)',
                           borderLeft: '2px solid transparent',
                           paddingLeft: '10px',
                         }}
@@ -273,14 +273,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
                         >
                           {item.label}
                         </span>
-                        {/* Active indicator dot */}
-                        {active && (
-                          <span
-                            className="relative z-10 ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0"
-                            style={{ background: '#ff571a' }}
-                            aria-hidden="true"
-                          />
-                        )}
+
                       </Link>
                     </li>
                   )

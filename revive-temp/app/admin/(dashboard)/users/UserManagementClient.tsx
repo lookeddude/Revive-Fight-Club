@@ -163,33 +163,33 @@ export function UserManagementClient({ currentProfile, staff, invitations }: Pro
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06] bg-white/[0.02]">
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Name</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Status</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Name</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Status</th>
                   {canInvite(currentProfile.role) && (
-                    <th className="px-4 py-3 text-right text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Actions</th>
+                    <th className="px-4 py-2.5 text-right text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Actions</th>
                   )}
                 </tr>
               </thead>
               <tbody>
                 {staff.map((member) => (
                   <tr key={member.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">
                         {member.full_name ?? '\u2014'}
                         {member.id === currentProfile.id && <span className="ml-2 text-xs text-[#6b7280]">(you)</span>}
                       </span>
                     </td>
-                    <td className="px-4 py-3"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{member.email || '\u2014'}</span></td>
-                    <td className="px-4 py-3"><RoleBadge role={member.role} /></td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{member.email || '\u2014'}</span></td>
+                    <td className="px-4 py-2.5"><RoleBadge role={member.role} /></td>
+                    <td className="px-4 py-2.5">
                       <span className={`inline-flex px-2 py-0.5 text-xs font-bold tracking-[0.1em] uppercase border font-[family-name:var(--font-body)] ${member.is_active ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'}`}>
                         {member.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     {canInvite(currentProfile.role) && (
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-4 py-2.5 text-right">
                         <div className="flex items-center justify-end gap-3">
                           {canToggle(member) && (
                             <button onClick={() => handleToggleStatus(member.id, member.is_active)} disabled={isPending} className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase text-[#6b7280] hover:text-[#e2e3e1] transition-colors disabled:opacity-40">
@@ -223,21 +223,21 @@ export function UserManagementClient({ currentProfile, staff, invitations }: Pro
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white/[0.06] bg-white/[0.02]">
-                    <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</th>
-                    <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</th>
-                    <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Expires</th>
-                    <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Status</th>
-                    <th className="px-4 py-3 text-right text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Actions</th>
+                    <th className="px-4 py-2.5 bg-white/[0.02] text-left text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af] font-[family-name:var(--font-body)]">Email</th>
+                    <th className="px-4 py-2.5 bg-white/[0.02] text-left text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af] font-[family-name:var(--font-body)]">Role</th>
+                    <th className="px-4 py-2.5 bg-white/[0.02] text-left text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af] font-[family-name:var(--font-body)]">Expires</th>
+                    <th className="px-4 py-2.5 bg-white/[0.02] text-left text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af] font-[family-name:var(--font-body)]">Status</th>
+                    <th className="px-4 py-2.5 bg-white/[0.02] text-right text-xs font-bold tracking-[0.1em] uppercase text-[#9ca3af] font-[family-name:var(--font-body)]">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {pendingInvites.map((inv) => (
                     <tr key={inv.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                      <td className="px-4 py-3"><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">{inv.email}</span></td>
-                      <td className="px-4 py-3"><RoleBadge role={inv.role} /></td>
-                      <td className="px-4 py-3"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{new Date(inv.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span></td>
-                      <td className="px-4 py-3"><StatusBadge status={inv.status} /></td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-4 py-2.5"><span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">{inv.email}</span></td>
+                      <td className="px-4 py-2.5"><RoleBadge role={inv.role} /></td>
+                      <td className="px-4 py-2.5"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{new Date(inv.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span></td>
+                      <td className="px-4 py-2.5"><StatusBadge status={inv.status} /></td>
+                      <td className="px-4 py-2.5 text-right">
                         <div className="flex items-center justify-end gap-3">
                           <button onClick={() => copyLink(inv.id)} className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase text-[#ff571a] hover:text-white transition-colors">Copy Link</button>
                           <button onClick={() => handleRevoke(inv.id)} disabled={isPending} className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase text-[#6b7280] hover:text-red-400 transition-colors disabled:opacity-40">Revoke</button>
@@ -260,19 +260,19 @@ export function UserManagementClient({ currentProfile, staff, invitations }: Pro
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06] bg-white/[0.02]">
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Date</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Email</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Role</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Status</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-bold tracking-[0.1em] uppercase text-[#6b7280] font-[family-name:var(--font-body)]">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {pastInvites.map((inv) => (
                   <tr key={inv.id} className="border-b border-white/[0.04]">
-                    <td className="px-4 py-3"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{inv.email}</span></td>
-                    <td className="px-4 py-3"><RoleBadge role={inv.role} /></td>
-                    <td className="px-4 py-3"><StatusBadge status={inv.status} /></td>
-                    <td className="px-4 py-3"><span className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">{new Date(inv.accepted_at ?? inv.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span></td>
+                    <td className="px-4 py-2.5"><span className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7]">{inv.email}</span></td>
+                    <td className="px-4 py-2.5"><RoleBadge role={inv.role} /></td>
+                    <td className="px-4 py-2.5"><StatusBadge status={inv.status} /></td>
+                    <td className="px-4 py-2.5"><span className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">{new Date(inv.accepted_at ?? inv.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span></td>
                   </tr>
                 ))}
               </tbody>

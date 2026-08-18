@@ -147,7 +147,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <ConfirmDialog
         open={showArchive}
@@ -160,44 +160,44 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
       />
 
       {/* Basic Info */}
-      <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-4">
+      <div className="bg-[#111312] border border-white/[0.08] p-5 space-y-3">
         <h3 className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">Basic Information</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Name *</label>
-            <input value={name} onChange={e => handleNameChange(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="e.g. Mixed Martial Arts" />
+            <input value={name} onChange={e => handleNameChange(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)]" placeholder="e.g. Mixed Martial Arts" />
           </div>
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Slug *</label>
-            <input value={slug} onChange={e => setSlug(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] font-mono" placeholder="e.g. mma" />
+            <input value={slug} onChange={e => setSlug(e.target.value)} required className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)] font-mono" placeholder="e.g. mma" />
           </div>
         </div>
 
         <div>
           <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Short Description</label>
-          <textarea value={shortDesc} onChange={e => setShortDesc(e.target.value)} rows={2} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] resize-none" placeholder="Brief 1-2 line description" />
+          <textarea value={shortDesc} onChange={e => setShortDesc(e.target.value)} rows={2} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)] resize-none" placeholder="Brief 1-2 line description" />
         </div>
 
         <div>
           <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Full Description</label>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)] resize-none" placeholder="Detailed program description shown on the program detail page" />
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)] resize-none" placeholder="Detailed program description shown on the program detail page" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Category</label>
-            <input value={category} onChange={e => setCategory(e.target.value)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="e.g. Combat Sports" />
+            <input value={category} onChange={e => setCategory(e.target.value)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)]" placeholder="e.g. Combat Sports" />
           </div>
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Level</label>
-            <select value={level} onChange={e => setLevel(e.target.value as typeof level)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]">
+            <select value={level} onChange={e => setLevel(e.target.value as typeof level)} className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)]">
               {LEVELS.map(l => <option key={l} value={l}>{l.replace('_', ' ')}</option>)}
             </select>
           </div>
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Duration (minutes)</label>
-            <input type="number" value={duration} onChange={e => setDuration(e.target.value)} min="1" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" placeholder="60" />
+            <input type="number" value={duration} onChange={e => setDuration(e.target.value)} min="1" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)]" placeholder="60" />
           </div>
         </div>
       </div>
@@ -326,7 +326,7 @@ export function ProgramForm({ mode, program }: ProgramFormProps) {
           </label>
           <div>
             <label className="block font-[family-name:var(--font-body)] text-xs font-medium text-[#9ca3af] uppercase tracking-wider mb-1.5">Sort Order</label>
-            <input type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} min="0" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:border-[#ff571a]/50 w-full font-[family-name:var(--font-body)]" />
+            <input type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} min="0" className="bg-[#0d0f0e] border border-white/[0.08] px-3 py-2 text-sm text-[#e2e3e1] focus:outline-none focus:ring-1 focus:ring-[#ff571a] focus:border-[#ff571a] w-full font-[family-name:var(--font-body)]" />
           </div>
         </div>
       </div>

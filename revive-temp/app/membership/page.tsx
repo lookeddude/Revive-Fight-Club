@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getBusinessSettings } from '@/lib/data/content'
 import { createClient } from '@/lib/supabase/server'
+import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 
 export const metadata: Metadata = {
@@ -57,7 +58,7 @@ export default async function MembershipPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
 
         {/* ── Hero ──────────────────────────────────────────── */}
         <section
@@ -295,21 +296,23 @@ export default async function MembershipPage() {
             </h2>
             <p className="font-[family-name:var(--font-body)] text-[#9ca3af] mb-8">Start with a trial class. ₹1,000 per session — no pressure, no commitment.</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link
+              <Button
                 href="/book-trial"
-                className="inline-flex items-center gap-2 bg-[#ff571a] text-black font-[family-name:var(--font-body)] font-black text-sm uppercase tracking-[0.1em] px-8 py-4 hover:bg-white transition-colors duration-200"
+                variant="primary"
+                className="inline-flex items-center"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
                 BOOK TRIAL
-              </Link>
-              <Link
+              </Button>
+              <Button
                 href="/contact"
-                className="inline-flex items-center gap-2 border border-white/10 text-[#e2e3e1] font-[family-name:var(--font-body)] font-bold text-sm uppercase tracking-[0.1em] px-8 py-4 hover:border-white/30 hover:bg-white/5 transition-all duration-200"
+                variant="secondary"
+                className="inline-flex items-center"
               >
                 CONTACT US
-              </Link>
+              </Button>
             </div>
           </div>
         </section>

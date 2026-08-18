@@ -44,7 +44,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main">
         <HomeHero
           whatsappNumber={settings?.whatsapp_number ?? null}
           slides={heroSlides}

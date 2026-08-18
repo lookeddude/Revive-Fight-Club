@@ -98,15 +98,15 @@ export function FacilitiesManager({ facilities }: { facilities: Facility[] }) {
       {facilities.length > 0 && (
         <div className="bg-[#111312] border border-white/[0.08] overflow-x-auto">
           <table className="w-full">
-            <thead><tr className="border-b border-white/[0.06]">{['Name', 'Slug', 'Status', 'Featured', ''].map(h => <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>)}</tr></thead>
+            <thead><tr className="border-b border-white/[0.06]">{['Name', 'Slug', 'Status', 'Featured', ''].map(h => <th key={h} className="px-4 py-2.5 bg-white/[0.02] text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{h}</th>)}</tr></thead>
             <tbody>
               {facilities.map(f => (
                 <tr key={f.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{f.name}</td>
-                  <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs font-mono text-[#6b7280]">{f.slug}</td>
-                  <td className="px-4 py-3"><StatusBadge status={f.is_active ? 'active' : 'inactive'} /></td>
-                  <td className="px-4 py-3">{f.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">Featured</span>}</td>
-                  <td className="px-4 py-3"><button onClick={() => handleEdit(f)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{f.name}</td>
+                  <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs font-mono text-[#6b7280]">{f.slug}</td>
+                  <td className="px-4 py-2.5"><StatusBadge status={f.is_active ? 'active' : 'inactive'} /></td>
+                  <td className="px-4 py-2.5">{f.is_featured && <span className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">Featured</span>}</td>
+                  <td className="px-4 py-2.5"><button onClick={() => handleEdit(f)} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">Edit</button></td>
                 </tr>
               ))}
             </tbody>

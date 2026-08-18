@@ -135,6 +135,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 <Link
                   key={link.href}
                   href={link.href}
+                  aria-current={isActive ? 'page' : undefined}
                   className={`font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 ${
                     isActive
                       ? 'text-[#ffb59e] border-b border-[#ffb59e] pb-1'

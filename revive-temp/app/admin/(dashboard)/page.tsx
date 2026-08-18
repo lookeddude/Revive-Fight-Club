@@ -11,15 +11,14 @@ function AlertCard({ label, value, href, note }: { label: string; value: number;
       href={href}
       className="group flex items-center justify-between p-4 transition-all duration-200"
       style={{
-        background: 'linear-gradient(135deg, rgba(255,87,26,0.1) 0%, rgba(22,26,24,0.9) 100%)',
-        border: '1px solid rgba(255,87,26,0.25)',
-        boxShadow: '0 0 20px rgba(255,87,26,0.06)',
+        background: '#1a110d',
+        border: '1px solid rgba(255,87,26,0.5)',
       }}
     >
       <div>
         <div className="flex items-center gap-2 mb-0.5">
           <span
-            className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0"
+            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
             style={{ background: '#ff571a' }}
             aria-hidden="true"
           />
@@ -50,7 +49,7 @@ function AlertCard({ label, value, href, note }: { label: string; value: number;
 function StatCard({ label, value, href, sub }: { label: string; value: number; href?: string; sub?: string }) {
   const inner = (
     <div
-      className="group p-4 flex flex-col gap-1.5 transition-all duration-200"
+      className="group p-4 flex flex-col gap-1.5 transition-colors duration-200 hover:bg-white/[0.02]"
       style={{
         background: '#111412',
         border: '1px solid rgba(255,255,255,0.05)',
@@ -76,14 +75,7 @@ function StatCard({ label, value, href, sub }: { label: string; value: number; h
           {sub}
         </span>
       )}
-      {/* Bottom accent line on hover */}
-      {href && (
-        <div
-          className="h-px w-0 group-hover:w-full transition-all duration-300 mt-1"
-          style={{ background: 'rgba(255,87,26,0.3)' }}
-          aria-hidden="true"
-        />
-      )}
+
     </div>
   )
   if (href) return <Link href={href} className="block">{inner}</Link>
@@ -142,8 +134,7 @@ export default async function AdminDashboard() {
         {/* Live indicator */}
         <div className="flex items-center gap-2">
           <span
-            className="w-2 h-2 rounded-full"
-            style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }}
+            className="w-1.5 h-1.5 rounded-full bg-[#22c55e]"
             aria-hidden="true"
           />
           <span

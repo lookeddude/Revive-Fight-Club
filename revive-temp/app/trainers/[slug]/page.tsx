@@ -53,7 +53,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0a0b0a' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0a0b0a' }}>
 
         {/* ── Breadcrumb ─────────────────────────────────── */}
         <div

@@ -35,7 +35,7 @@ export default async function ReviewsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* Breadcrumb */}
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-6">

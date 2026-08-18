@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'whatsapp'
@@ -29,8 +30,24 @@ export function Button({
   const styles = cn(variantStyles[variant], className)
 
   if (href) {
+    const isExternal = href.startsWith('http')
+    const isInternal = href.startsWith('/')
+    
+    if (isInternal) {
+      return (
+        <Link href={href} className={styles}>
+          {children}
+        </Link>
+      )
+    }
+
     return (
-      <a href={href} className={styles}>
+      <a 
+        href={href} 
+        className={styles}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
+      >
         {children}
       </a>
     )

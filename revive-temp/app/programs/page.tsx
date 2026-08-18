@@ -38,7 +38,7 @@ export default async function ProgramsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20">
+      <main id="main" className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
         <section className="py-16 md:py-20 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">

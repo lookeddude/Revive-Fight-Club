@@ -27,7 +27,7 @@ export default async function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* ── HERO ─────────────────────────────────────────────── */}
         <section className="relative py-20 md:py-32 overflow-hidden" style={{ background: 'linear-gradient(160deg, #0d0c0b 0%, #111009 100%)' }}>

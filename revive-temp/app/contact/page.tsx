@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ContactForm } from '@/components/forms/ContactForm'
+import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
 import { DirectionsCTA } from '@/components/ui/DirectionsCTA'
@@ -28,7 +29,7 @@ export default async function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20">
+      <main id="main" className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
         <section className="py-16 md:py-24 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
@@ -52,7 +53,7 @@ export default async function ContactPage() {
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
               {/* Contact form */}
-              <div style={{ backgroundColor: '#0d0c0b' }} className="p-8 rounded-lg border border-white/5">
+              <div style={{ backgroundColor: '#0d0c0b' }} className="p-8 border border-white/5">
                 <p className="section-label mb-8">
                   Send a Message
                 </p>
@@ -63,7 +64,7 @@ export default async function ContactPage() {
               </div>
 
               {/* Info sidebar */}
-              <div className="card-premium flex flex-col gap-10 p-8 rounded-lg" style={{ backgroundColor: '#111210', border: '1px solid rgba(255,240,230,0.07)' }}>
+              <div className="card-premium flex flex-col gap-10 p-8" style={{ backgroundColor: '#111210', border: '1px solid rgba(255,240,230,0.07)' }}>
                 {/* Quick actions */}
                 <div>
                   <p className="section-label mb-6">
@@ -193,12 +194,12 @@ export default async function ContactPage() {
                   <p className="font-[family-name:var(--font-body)] text-sm text-[#bab8b7] mb-4 leading-relaxed">
                     Ready to start training? Skip the enquiry and book a trial class directly.
                   </p>
-                  <Link
+                  <Button
                     href="/book-trial"
-                    className="btn-primary inline-block px-8 py-4 transition-all duration-300 active:scale-95"
+                    className="w-full justify-center"
                   >
                     BOOK A TRIAL
-                  </Link>
+                  </Button>
                 </div>
               </div>
             </div>

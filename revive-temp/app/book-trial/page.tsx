@@ -43,7 +43,7 @@ export default async function BookTrialPage({ searchParams }: BookTrialPageProps
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20">
+      <main id="main" className="min-h-screen pt-14 md:pt-20">
         <section className="py-16 md:py-24">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">

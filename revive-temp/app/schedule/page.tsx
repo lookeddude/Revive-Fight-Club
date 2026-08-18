@@ -4,6 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActiveSchedule } from '@/lib/data/listings'
 import { getBusinessSettings } from '@/lib/data/content'
+import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ export default async function SchedulePage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20">
+      <main id="main" className="min-h-screen pt-14 md:pt-20">
         <section className="py-16 md:py-24 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
@@ -118,12 +119,11 @@ export default async function SchedulePage() {
                   Schedule details coming soon. Contact us for current session times.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <Link
+                  <Button
                     href="/book-trial"
-                    className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300"
                   >
                     BOOK A TRIAL
-                  </Link>
+                  </Button>
                   <WhatsAppCTA
                     whatsappNumber={settings?.whatsapp_number ?? null}
                     context="general"
@@ -141,12 +141,11 @@ export default async function SchedulePage() {
               Schedule subject to change. Booking a trial confirms your spot with our team.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link
+              <Button
                 href="/book-trial"
-                className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300"
               >
                 BOOK A TRIAL CLASS
-              </Link>
+              </Button>
               <WhatsAppCTA
                 whatsappNumber={settings?.whatsapp_number ?? null}
                 context="general"

@@ -29,7 +29,7 @@ export default async function TrainersPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
 
         {/* ── Hero ─────────────────────────────────────────── */}
         <section

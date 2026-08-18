@@ -47,28 +47,28 @@ export default async function EnquiriesPage({
               <thead>
                 <tr className="border-b border-white/[0.06]">
                   {['Name', 'Email', 'Subject', 'Status', 'Submitted', ''].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
+                    <th key={h} className="px-4 py-2.5 bg-white/[0.02] text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {enquiries.map(e => (
                   <tr key={e.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{e.name}</span>
                       {e.phone && <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-0.5">{e.phone}</p>}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">{e.email}</span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] line-clamp-1 max-w-[200px] block">{e.subject}</span>
                     </td>
-                    <td className="px-4 py-3"><StatusBadge status={e.status} /></td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5"><StatusBadge status={e.status} /></td>
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">{formatDate(e.created_at)}</span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <Link href={`/admin/enquiries/${e.id}`} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">View</Link>
                     </td>
                   </tr>

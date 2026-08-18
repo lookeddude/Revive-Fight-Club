@@ -50,34 +50,34 @@ export default async function TrialsPage({
               <thead>
                 <tr className="border-b border-white/[0.06]">
                   {['Name', 'Phone', 'Program', 'Preferred Date', 'Status', 'Submitted', ''].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#6b7280]">{h}</th>
+                    <th key={h} className="px-4 py-2.5 bg-white/[0.02] text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {trials.map(trial => (
                   <tr key={trial.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{trial.name}</span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <a href={`tel:${trial.phone}`} className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] hover:text-[#ff571a] transition-colors">{trial.phone}</a>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">{trial.programs?.name ?? '—'}</span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">
                         {trial.preferred_date ? formatDate(trial.preferred_date) : '—'}
                       </span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <StatusBadge status={trial.status} />
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">{formatDate(trial.created_at)}</span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-2.5">
                       <Link
                         href={`/admin/trials/${trial.id}`}
                         className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors"

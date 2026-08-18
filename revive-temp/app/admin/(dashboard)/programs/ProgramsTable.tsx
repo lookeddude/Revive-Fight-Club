@@ -122,8 +122,8 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/[0.06]">
-                  {['Pos', 'Name', 'Level', 'Category', 'Status', 'Website', 'Order', ''].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563]">{h}</th>
+                  {['Name', 'Category', 'Level', 'Status', 'Featured', ''].map(h => (
+                    <th key={h} className="px-4 py-2.5 bg-white/[0.02] text-left font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af]">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -144,35 +144,27 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                         isFeatured ? 'bg-[#ff571a]/[0.03] hover:bg-[#ff571a]/[0.05]' : 'hover:bg-white/[0.02]'
                       } ${isMoving ? 'opacity-60' : 'opacity-100'}`}
                     >
-                      {/* Position */}
-                      <td className="px-4 py-3">
-                        <div className={`w-7 h-7 flex items-center justify-center font-[family-name:var(--font-outfit)] font-bold text-sm transition-colors ${
-                          isFeatured ? 'bg-[#ff571a] text-black' : 'bg-white/[0.06] text-[#6b7280]'
-                        }`}>
-                          {trueIdx + 1}
-                        </div>
-                      </td>
-
                       {/* Name */}
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-2.5">
                         <span className="font-[family-name:var(--font-body)] text-sm font-medium text-[#e2e3e1]">{p.name}</span>
-                      </td>
-
-                      {/* Level */}
-                      <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#9ca3af] capitalize">
-                        {p.level?.replace('_', ' ') ?? '\u2014'}
+                        {p.slug && <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-0.5">{p.slug}</p>}
                       </td>
 
                       {/* Category */}
-                      <td className="px-4 py-3 font-[family-name:var(--font-body)] text-xs text-[#9ca3af]">
+                      <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-sm text-[#9ca3af]">
                         {p.category ?? '\u2014'}
                       </td>
 
+                      {/* Level */}
+                      <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs text-[#9ca3af] capitalize">
+                        {p.level?.replace('_', ' ') ?? '\u2014'}
+                      </td>
+
                       {/* Status */}
-                      <td className="px-4 py-3"><StatusBadge status={p.is_active ? 'active' : 'inactive'} /></td>
+                      <td className="px-4 py-2.5"><StatusBadge status={p.is_active ? 'active' : 'inactive'} /></td>
 
                       {/* Featured badge */}
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-2.5">
                         {isFeatured ? (
                           <span className="inline-flex items-center gap-1 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] border border-[#ff571a]/30 px-2 py-0.5">
                             <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>

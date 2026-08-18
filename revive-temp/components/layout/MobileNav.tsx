@@ -103,6 +103,7 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase py-4 border-b border-white/5 transition-colors duration-200 ${
                   isActive ? 'text-[#ffb59e]' : 'text-[#e2e3e1] hover:text-[#ffb59e]'
                 }`}

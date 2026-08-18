@@ -98,7 +98,7 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
+      <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* Hero */}
         <section className="py-16 md:py-20 border-b border-white/[0.07]">
