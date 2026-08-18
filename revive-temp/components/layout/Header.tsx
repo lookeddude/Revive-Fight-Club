@@ -251,7 +251,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden text-[#f0ede8] hover:text-[#ff571a] transition-colors p-2"
+            className="md:hidden text-[#f0ede8] hover:text-[#ff571a] transition-colors p-3 -mr-1"
             aria-label="Open navigation menu"
             aria-expanded={mobileOpen}
           >

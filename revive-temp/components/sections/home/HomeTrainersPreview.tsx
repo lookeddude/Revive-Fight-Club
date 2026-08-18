@@ -63,7 +63,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                 {/* Mobile: compact horizontal card */}
                 <div className="flex md:hidden" style={{ minHeight: '140px' }}>
                   {/* Image — fixed width left column */}
-                  <div className="relative flex-shrink-0 overflow-hidden" style={{ width: '38%' }}>
+                  <div className="relative flex-shrink-0 overflow-hidden w-[110px] sm:w-[140px]">
                     <Image
                       src={image}
                       alt={`${trainer.name}, ${trainer.role}`}

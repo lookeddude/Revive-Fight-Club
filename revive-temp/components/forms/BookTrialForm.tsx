@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { FormField, inputClass } from '@/components/ui/FormField'
+import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
 import { submitTrialRequest } from '@/lib/actions/forms'
@@ -162,10 +163,10 @@ export function BookTrialForm({
             </svg>
           </div>
           <div>
-            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[var(--color-primary)] mb-1">
               Request Received
             </p>
-            <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl uppercase tracking-tight">
+            <h2 className="font-[family-name:var(--font-outfit)] font-black text-[var(--color-on-background)] text-3xl uppercase tracking-[-0.02em] leading-tight">
               TRIAL REQUEST SENT
             </h2>
           </div>
@@ -238,12 +239,12 @@ export function BookTrialForm({
         </div>
 
         <div className="flex flex-wrap gap-4">
-          <button
+          <Button
             onClick={() => setFormState('idle')}
-            className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
+            className="w-full sm:w-auto"
           >
             TRY AGAIN
-          </button>
+          </Button>
           <WhatsAppCTA
             whatsappNumber={whatsappNumber ?? null}
             context="trial"
@@ -289,6 +290,7 @@ export function BookTrialForm({
             id="phone"
             name="phone"
             type="tel"
+            inputMode="tel"
             autoComplete="tel"
             placeholder="+91 98765 43210"
             value={values.phone}
@@ -308,7 +310,11 @@ export function BookTrialForm({
             id="email"
             name="email"
             type="email"
+            inputMode="email"
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck="false"
             placeholder="your@email.com"
             value={values.email}
             onChange={handleChange('email')}
@@ -398,7 +404,7 @@ export function BookTrialForm({
           placeholder="Experience level, goals, injuries, questions..."
           value={values.message}
           onChange={handleChange('message')}
-          className={`${inputClass(!!errors.message)} resize-none`}
+          className={`${inputClass(!!errors.message)} !h-auto resize-none`}
           maxLength={2000}
           disabled={isPending}
         />
@@ -415,10 +421,10 @@ export function BookTrialForm({
 
       {/* Submit */}
       <div>
-        <button
+        <Button
           type="submit"
           disabled={isPending}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
+          className="w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
           aria-live="polite"
         >
           {isPending ? (
@@ -432,7 +438,7 @@ export function BookTrialForm({
           ) : (
             'BOOK MY TRIAL CLASS'
           )}
-        </button>
+        </Button>
       </div>
     </form>
   )

@@ -148,8 +148,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
       <div className="relative z-10 w-full px-6 md:px-14 pb-5">
 
 
-        {/* Discipline tags — single row, no wrap */}
-        <div className="flex flex-nowrap items-center gap-1 md:gap-2 mb-3 overflow-hidden">
+        {/* Discipline tags */}
+        <div className="flex flex-wrap items-center gap-2 mb-3">
           {(programNames.length > 0 ? programNames : ['MMA', 'BOXING', 'BJJ']).map((d, i, arr) => (
             <span key={d} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
               <span
@@ -206,10 +206,10 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
           </div>
 
           {/* Right: CTA Buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row w-full sm:w-auto items-stretch sm:items-center gap-3">
             <Link
               href="/book-trial"
-              className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-3 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)] shrink-0"
+              className="inline-flex justify-center items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-6 py-4 sm:py-3 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)] shrink-0 w-full sm:w-auto"
             >
               BOOK TRIAL
             </Link>
@@ -220,14 +220,14 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contact on WhatsApp"
-                className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.1em] px-6 py-3 transition-colors duration-200 active:scale-95 border border-[#25d366]/50 text-[#25d366] hover:bg-[#25d366]/10"
+                className="inline-flex justify-center items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.1em] px-6 py-4 sm:py-3 transition-colors duration-200 active:scale-95 border border-[#25d366]/50 text-[#25d366] hover:bg-[#25d366]/10 w-full sm:w-auto"
               >
                 WHATSAPP
               </a>
             ) : (
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.1em] px-6 py-3 transition-colors duration-200 active:scale-95 border border-[var(--color-outline-variant)] text-[var(--color-on-background)] hover:bg-[var(--color-surface-container-high)]"
+                className="inline-flex justify-center items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.1em] px-6 py-4 sm:py-3 transition-colors duration-200 active:scale-95 border border-[var(--color-outline-variant)] text-[var(--color-on-background)] hover:bg-[var(--color-surface-container-high)] w-full sm:w-auto"
               >
                 CONTACT US
               </Link>

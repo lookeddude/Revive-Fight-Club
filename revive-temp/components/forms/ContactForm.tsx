@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react'
 import { FormField, inputClass } from '@/components/ui/FormField'
+import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
 import { submitContactEnquiry } from '@/lib/actions/forms'
@@ -113,10 +114,10 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             </svg>
           </div>
           <div>
-            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-1">
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[var(--color-primary)] mb-1">
               Message Sent
             </p>
-            <h2 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-3xl uppercase tracking-tight">
+            <h2 className="font-[family-name:var(--font-outfit)] font-black text-[var(--color-on-background)] text-3xl uppercase tracking-[-0.02em] leading-tight">
               MESSAGE RECEIVED
             </h2>
           </div>
@@ -162,12 +163,12 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
         </div>
 
         <div className="flex flex-wrap gap-4">
-          <button
+          <Button
             onClick={() => setFormState('idle')}
-            className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95"
+            className="w-full sm:w-auto"
           >
             TRY AGAIN
-          </button>
+          </Button>
           <WhatsAppCTA
             whatsappNumber={whatsappNumber ?? null}
             context="contact"
@@ -212,6 +213,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             id="phone"
             name="phone"
             type="tel"
+            inputMode="tel"
             autoComplete="tel"
             placeholder="+91 98765 43210"
             value={values.phone}
@@ -230,7 +232,11 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
             id="email"
             name="email"
             type="email"
+            inputMode="email"
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck="false"
             placeholder="your@email.com"
             value={values.email}
             onChange={handleChange('email')}
@@ -265,7 +271,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
           placeholder="Tell us how we can help..."
           value={values.message}
           onChange={handleChange('message')}
-          className={`${inputClass(!!errors.message)} resize-none`}
+          className={`${inputClass(!!errors.message)} !h-auto resize-none`}
           maxLength={5000}
           aria-required="true"
           aria-invalid={!!errors.message}
@@ -277,10 +283,10 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
       </FormField>
 
       <div>
-        <button
+        <Button
           type="submit"
           disabled={isPending}
-          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px]"
+          className="w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px]"
           aria-live="polite"
         >
           {isPending ? (
@@ -294,7 +300,7 @@ export function ContactForm({ whatsappNumber, phone }: ContactFormProps) {
           ) : (
             'SEND MESSAGE'
           )}
-        </button>
+        </Button>
       </div>
     </form>
   )

@@ -16,8 +16,7 @@ export function FormField({ id, label, error, required, optional, children }: Fo
   return (
     <div>
       <label
-        htmlFor={id}
-        className="block font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[var(--color-on-background)] mb-3"
+        className="block font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[var(--color-on-background)] mb-1.5"
       >
         {label}
         {optional && (
@@ -49,9 +48,9 @@ export function FormField({ id, label, error, required, optional, children }: Fo
 
 /** Shared input class — solid mature input style */
 export function inputClass(hasError: boolean): string {
-  return `w-full px-4 py-3 border text-[var(--color-on-background)] placeholder-[var(--color-on-surface-variant)] font-[family-name:var(--font-body)] text-base bg-[var(--color-surface)] rounded-none outline-none focus:ring-1 focus:ring-[var(--color-primary)] transition-colors${
+  return `w-full h-[56px] px-5 py-4 border text-[var(--color-on-background)] placeholder-[#6b7280] font-[family-name:var(--font-body)] text-base rounded-none outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[var(--color-background)] focus:ring-[var(--color-primary)] transition-all duration-200${
     hasError 
-      ? ' border-[var(--color-secondary)] focus:border-[var(--color-secondary)]' 
-      : ' border-[var(--color-outline-variant)] focus:border-[var(--color-primary)]'
+      ? ' border-[var(--color-secondary)] bg-[var(--color-secondary)]/5 focus:border-[var(--color-secondary)]' 
+      : ' border-[var(--color-outline-variant)] bg-[var(--color-surface)] focus:border-[var(--color-primary)]'
   }`
 }

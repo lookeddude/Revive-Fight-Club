@@ -64,8 +64,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
             <Link
               key={program.id}
               href={`/programs/${program.slug}`}
-              className="group relative overflow-hidden flex flex-col justify-end card-premium"
-              style={{ height: '420px' }}
+              className="group relative overflow-hidden flex flex-col justify-end card-premium h-[280px] md:h-[420px]"
               aria-label={`View ${program.name} program`}
             >
               {/* Background Image */}

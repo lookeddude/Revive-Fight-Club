@@ -64,7 +64,7 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="text-[#e2e3e1] hover:text-[#ffb59e] transition-colors p-2"
+            className="text-[#e2e3e1] hover:text-[#ffb59e] transition-colors p-3 -mr-1"
             aria-label="Close navigation menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
