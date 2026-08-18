@@ -44,7 +44,7 @@ export function FacilitiesManager({ facilities }: { facilities: Facility[] }) {
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Upload failed')
-      setImagePath(data.path)
+      setImagePath(data.url)
       setImagePreview(data.url)
       setToast({ message: 'Image uploaded.', type: 'success' })
     } catch (err) {

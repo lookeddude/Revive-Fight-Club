@@ -86,7 +86,7 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Upload failed')
-      setImagePath(data.path)
+      setImagePath(data.url)
       setImagePreview(data.url)
       setToast({ message: 'Profile image uploaded.', type: 'success' })
     } catch (err) {
@@ -108,9 +108,9 @@ export function TrainerForm({ mode, trainer }: TrainerFormProps) {
       const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Upload failed')
-      if (device === 'desktop') { setDesktopPath(data.path); setDesktopPreview(data.url) }
-      if (device === 'tablet')  { setTabletPath(data.path);  setTabletPreview(data.url) }
-      if (device === 'mobile')  { setMobilePath(data.path);  setMobilePreview(data.url) }
+      if (device === 'desktop') { setDesktopPath(data.url); setDesktopPreview(data.url) }
+      if (device === 'tablet')  { setTabletPath(data.url);  setTabletPreview(data.url) }
+      if (device === 'mobile')  { setMobilePath(data.url);  setMobilePreview(data.url) }
       setToast({ message: `${DEVICE_CONFIG[device].label} uploaded.`, type: 'success' })
     } catch (err) {
       setToast({ message: err instanceof Error ? err.message : 'Upload failed. Please try again.', type: 'error' })
