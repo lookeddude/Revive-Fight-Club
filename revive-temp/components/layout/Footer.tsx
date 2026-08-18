@@ -130,24 +130,42 @@ export async function Footer() {
             </div>
           </div>
 
-          {/* ── Column 1 (mobile left / desktop Navigation) ── */}
+          {/* ── Column 1 — Navigation only (mobile left / desktop Navigation) ── */}
           <div className="col-span-1 md:col-span-3 md:col-start-6">
-            {/* Mobile: Location */}
-            <div className="md:hidden mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
+              <h4 className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Navigation</h4>
+            </div>
+            <ul className="flex flex-col gap-0">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors"
+                  >
+                    <span className="w-0 h-px bg-[#ff571a] group-hover:w-3 transition-all duration-300 flex-shrink-0" aria-hidden="true" />
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ── Column 2 (mobile right / desktop Social+Legal) ── */}
+          <div className="col-span-1 md:col-span-3 md:col-start-10 flex flex-col gap-6">
+
+            {/* Location (mobile only) */}
+            <div className="md:hidden">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
                 <p className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
               </div>
-              <a
-                href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
-                target="_blank" rel="noopener noreferrer"
-                className="group inline-flex items-start gap-2 mb-2"
-              >
+              <a href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 mb-2">
                 <svg className="w-3 h-3 text-[#ff571a] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
                 <span className="font-[family-name:var(--font-inter)] text-[11px] text-[#5a5450] leading-snug group-hover:text-[#9a9490] transition-colors">
-                  3rd floor, 157, MM Road,<br />Fraser Town,<br />Bengaluru 560005
+                  3rd floor, 157,<br />MM Road, Fraser Town,<br />Bengaluru 560005
                 </span>
               </a>
               {settings?.phone && (
@@ -157,31 +175,6 @@ export async function Footer() {
                 </a>
               )}
             </div>
-
-            {/* Navigation (both mobile & desktop) */}
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <h4 className="font-[family-name:var(--font-inter)] text-[9px] font-black tracking-[0.22em] uppercase text-[#ff571a]">Navigation</h4>
-              </div>
-              <ul className="flex flex-col gap-0">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-inter)] text-[12px] text-[#5a5450] hover:text-[#e2e3e1] transition-colors"
-                    >
-                      <span className="w-0 h-px bg-[#ff571a] group-hover:w-3 transition-all duration-300 flex-shrink-0" aria-hidden="true" />
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* ── Column 2 (mobile right / desktop Social+Legal) ── */}
-          <div className="col-span-1 md:col-span-3 md:col-start-10 flex flex-col gap-8">
 
             {/* Connect / Social */}
             <div>
