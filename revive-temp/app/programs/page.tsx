@@ -109,7 +109,7 @@ export default async function ProgramsPage() {
                           {program.name}
                         </h2>
                         {program.short_description ? (
-                          <p className="font-[family-name:var(--font-body)] text-sm text-[#c8c4bf] leading-relaxed mb-5 flex-1">
+                          <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#e2e0de] leading-relaxed mb-5 flex-1">
                             {program.short_description}
                           </p>
                         ) : (
