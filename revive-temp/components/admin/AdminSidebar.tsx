@@ -224,7 +224,13 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-3 px-2" style={{ scrollbarWidth: 'none' }}>
+        <nav
+          className="flex-1 overflow-y-auto py-3 px-2"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(255,87,26,0.25) transparent',
+          }}
+        >
           {NAV_SECTIONS.map((section, si) => (
             <div key={si} className={si > 0 ? 'mt-5' : ''}>
               {section.title && (
