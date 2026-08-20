@@ -1,10 +1,11 @@
 import { Reveal } from '@/components/ui/Reveal'
+import { GsapCountUp } from '@/components/gsap/GsapCountUp'
 
 const stats = [
-  { value: '5.0', label: 'Google Rating', suffix: '★' },
-  { value: '126', label: 'Verified Reviews', suffix: '+' },
-  { value: '8', label: 'Programs', suffix: '+' },
-  { value: '15', label: 'Years Experience', suffix: '+' },
+  { target: 5.0, decimals: 1, label: 'Google Rating', suffix: '★' },
+  { target: 126, decimals: 0, label: 'Verified Reviews', suffix: '+' },
+  { target: 8,   decimals: 0, label: 'Programs', suffix: '+' },
+  { target: 15,  decimals: 0, label: 'Years Experience', suffix: '+' },
 ]
 
 export function HomeStats() {
@@ -31,14 +32,15 @@ export function HomeStats() {
                   />
                 )}
 
-                {/* Number */}
+                {/* Number — GSAP count-up */}
                 <div className="flex items-start gap-0.5 mb-3">
-                  <span
+                  <GsapCountUp
+                    target={stat.target}
+                    decimals={stat.decimals}
+                    duration={1.8}
                     className="stat-number text-[clamp(52px,7vw,80px)]"
                     style={{ textShadow: 'none' }}
-                  >
-                    {stat.value}
-                  </span>
+                  />
                   <span
                     className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] mt-2"
                     style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}

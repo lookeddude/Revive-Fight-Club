@@ -8,6 +8,8 @@ import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
 import { DirectionsCTA } from '@/components/ui/DirectionsCTA'
 import { getBusinessSettings } from '@/lib/data/content'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 
 export const metadata: Metadata = {
   title: 'Contact | Revive Fight Club',
@@ -31,22 +33,24 @@ export default async function ContactPage() {
       <Navbar />
       <main id="main" className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
+        <GsapHeroReveal>
         <section className="py-16 md:py-24 border-b border-white/10" style={{ backgroundColor: '#0d0c0b' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-4 gsap-label">
               <div className="w-6 h-px bg-[#ff571a]" />
               <p className="section-label">
                 Get In Touch
               </p>
             </div>
-            <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,4vw,64px)] max-w-2xl mb-6">
+            <h1 className="gsap-heading font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,4vw,64px)] max-w-2xl mb-6">
               CONTACT REVIVE FIGHT CLUB
             </h1>
-            <p className="font-[family-name:var(--font-body)] text-lg text-[#bab8b7] max-w-xl leading-relaxed">
+            <p className="gsap-text font-[family-name:var(--font-body)] text-lg text-[#bab8b7] max-w-xl leading-relaxed">
               Have a question? Want to visit? Looking to join? We&apos;re here to help.
             </p>
           </div>
         </section>
+        </GsapHeroReveal>
 
         {/* Main content */}
         <section className="py-16 md:py-24" style={{ backgroundColor: '#111210' }}>

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 import type { HeroSlide, HeroSettings } from '@/lib/data/heroSlideshow'
+import { GsapParallax } from '@/components/gsap/GsapParallax'
 
 const DEFAULT_HERO = 'https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png'
 
@@ -104,26 +105,28 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* ── Background Image ─────────────────────────────────────────── */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            opacity: bgOpacity,
-            transition: transition === 'fade' ? 'opacity 0.35s ease' : 'opacity 0.15s ease',
-          }}
-        >
-          <Image
-            key={bgImage}
-            src={bgImage}
-            alt={bgAlt}
-            fill
-            priority
-            quality={90}
-            sizes="100vw"
-            className="hero-bg-img img-settle"
-            style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center -10px' : 'center top' }}
-          />
-        </div>
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <GsapParallax speed={0.12} className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              opacity: bgOpacity,
+              transition: transition === 'fade' ? 'opacity 0.35s ease' : 'opacity 0.15s ease',
+            }}
+          >
+            <Image
+              key={bgImage}
+              src={bgImage}
+              alt={bgAlt}
+              fill
+              priority
+              quality={90}
+              sizes="100vw"
+              className="hero-bg-img img-settle"
+              style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center -10px' : 'center top' }}
+            />
+          </div>
+        </GsapParallax>
 
         {/* Bottom-only gradient — lighter so images breathe at top 65% */}
         <div

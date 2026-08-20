@@ -6,6 +6,8 @@ import { getActiveSchedule } from '@/lib/data/listings'
 import { getBusinessSettings } from '@/lib/data/content'
 import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapStagger } from '@/components/gsap/GsapStagger'
 
 export const metadata: Metadata = {
   title: 'Schedule | Revive Fight Club',
@@ -43,19 +45,21 @@ export default async function SchedulePage() {
     <>
       <Navbar />
       <main id="main" className="min-h-screen pt-14 md:pt-20">
+        <GsapHeroReveal>
         <section className="py-16 md:py-24 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
+            <p className="gsap-label font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.1em] uppercase text-[#ffb59e] mb-4">
               Weekly Class Schedule
             </p>
-            <h1 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,5vw,64px)] mb-4">
+            <h1 className="gsap-heading font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] uppercase leading-tight tracking-[-0.02em] text-[clamp(32px,5vw,64px)] mb-4">
               TRAINING SCHEDULE
             </h1>
-            <p className="font-[family-name:var(--font-body)] text-base text-[#bab8b7] max-w-xl">
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#bab8b7] max-w-xl">
               These are our regular training sessions. Book a trial class to join one — your spot is confirmed by our team.
             </p>
           </div>
         </section>
+        </GsapHeroReveal>
 
         <section className="py-16 md:py-24">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">

@@ -6,6 +6,8 @@ import { getBusinessSettings } from '@/lib/data/content'
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 
 export const metadata: Metadata = {
   title: 'Membership & Pricing | Revive Fight Club',
@@ -61,6 +63,7 @@ export default async function MembershipPage() {
       <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
 
         {/* ── Hero ──────────────────────────────────────────── */}
+        <GsapHeroReveal>
         <section
           className="relative overflow-hidden py-20 md:py-28"
           style={{
@@ -76,28 +79,29 @@ export default async function MembershipPage() {
             }}
           />
           <div className="relative max-w-[1280px] mx-auto px-5 md:px-16 text-center">
-            <div className="inline-flex items-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-3 mb-6 gsap-label">
               <div className="w-8 h-px bg-[#ff571a]" />
               <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Price List</p>
               <div className="w-8 h-px bg-[#ff571a]" />
             </div>
             <h1
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em]"
+              className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em]"
               style={{ fontSize: 'clamp(48px, 8vw, 96px)' }}
             >
               MEMBERSHIP
             </h1>
             <h1
-              className="font-[family-name:var(--font-outfit)] font-black uppercase leading-[0.9] tracking-[-0.03em] mb-6"
+              className="gsap-heading font-[family-name:var(--font-outfit)] font-black uppercase leading-[0.9] tracking-[-0.03em] mb-6"
               style={{ fontSize: 'clamp(48px, 8vw, 96px)', color: '#ff571a' }}
             >
               PLANS
             </h1>
-            <p className="font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl mx-auto leading-relaxed">
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl mx-auto leading-relaxed">
               Transparent pricing for every batch. No hidden fees — just dedicated training.
             </p>
           </div>
         </section>
+        </GsapHeroReveal>
 
         {/* ── Pricing Batches ───────────────────────────────── */}
         <section className="py-16 md:py-24" style={{ backgroundColor: '#0d0c0b' }}>

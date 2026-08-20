@@ -8,6 +8,10 @@ import { getFirstProgramSlides } from '@/lib/data/programSlides'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { DirectionsCTA } from '@/components/ui/DirectionsCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
+import { GsapStagger } from '@/components/gsap/GsapStagger'
+import { GsapCountUp } from '@/components/gsap/GsapCountUp'
 
 export const metadata: Metadata = {
   title: 'About | Revive Fight Club',
@@ -30,6 +34,7 @@ export default async function AboutPage() {
       <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
         {/* ── HERO ─────────────────────────────────────────────── */}
+        <GsapHeroReveal>
         <section className="relative py-20 md:py-32 overflow-hidden" style={{ background: 'linear-gradient(160deg, #0d0c0b 0%, #111009 100%)' }}>
           {/* Background glow */}
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(255,87,26,0.07) 0%, transparent 60%)' }} aria-hidden="true" />
@@ -37,13 +42,13 @@ export default async function AboutPage() {
           <span className="absolute right-0 top-1/2 -translate-y-1/2 font-[family-name:var(--font-outfit)] font-black uppercase select-none pointer-events-none hidden lg:block" style={{ fontSize: '180px', lineHeight: 1, color: 'transparent', WebkitTextStroke: '1px rgba(255,87,26,0.06)', letterSpacing: '-0.04em' }} aria-hidden="true">RFC</span>
 
           <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-6 gsap-label">
               <div className="w-8 h-px bg-[#ff571a]" aria-hidden="true" />
               <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Our Story</p>
             </div>
 
             <h1
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.04em] mb-8 max-w-4xl"
+              className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.04em] mb-8 max-w-4xl"
               style={{ fontSize: 'clamp(42px, 7vw, 96px)' }}
             >
               BUILT FOR THOSE<br />
@@ -51,31 +56,43 @@ export default async function AboutPage() {
               FOR MORE
             </h1>
 
-            <p className="font-[family-name:var(--font-body)] text-lg md:text-xl text-[#c8c4bf] max-w-2xl leading-relaxed" style={{ paddingLeft: '1.5rem' }}>
+            <p className="gsap-text font-[family-name:var(--font-body)] text-lg md:text-xl text-[#c8c4bf] max-w-2xl leading-relaxed" style={{ paddingLeft: '1.5rem' }}>
               Revive Fight Club is Bengaluru&apos;s premier destination for combat sports and transformative fitness training — where beginners find their footing and champions are forged.
             </p>
 
             {/* Quick stat row */}
-            <div className="flex flex-wrap gap-6 mt-12">
+            <div className="flex flex-wrap gap-6 mt-12 gsap-extra">
               {[
-                { value: '5.0', label: 'Google Rating', accent: true },
-                { value: '4+', label: 'Programs', accent: false },
-                { value: '3rd', label: 'Floor, MM Road', accent: false },
-                { value: '2024', label: 'Established', accent: false },
-              ].map(stat => (
+                { value: 5.0, decimals: 1, label: 'Google Rating', accent: true },
+                { value: 4, decimals: 0, label: 'Programs', accent: false },
+                { label: '3rd', labelStatic: true, subLabel: 'Floor, MM Road', accent: false },
+                { label: '2024', labelStatic: true, subLabel: 'Established', accent: false },
+              ].map((stat, i) => (
                 <div key={stat.label} className="flex flex-col" style={{ paddingLeft: '1rem' }}>
-                  <span className="font-[family-name:var(--font-outfit)] font-black leading-none" style={{ fontSize: '32px', color: stat.accent ? '#ff571a' : '#f0ede8' }}>{stat.value}</span>
-                  <span className="font-[family-name:var(--font-body)] text-xs text-[#4a4540] uppercase tracking-[0.15em] mt-1">{stat.label}</span>
+                  {stat.labelStatic ? (
+                    <span className="font-[family-name:var(--font-outfit)] font-black leading-none" style={{ fontSize: '32px', color: stat.accent ? '#ff571a' : '#f0ede8' }}>{stat.label}</span>
+                  ) : (
+                    <GsapCountUp
+                      target={stat.value!}
+                      decimals={stat.decimals!}
+                      duration={1.6}
+                      className="font-[family-name:var(--font-outfit)] font-black leading-none"
+                      style={{ fontSize: '32px', color: stat.accent ? '#ff571a' : '#f0ede8' }}
+                    />
+                  )}
+                  <span className="font-[family-name:var(--font-body)] text-xs text-[#4a4540] uppercase tracking-[0.15em] mt-1">{stat.label === stat.label && stat.labelStatic ? stat.subLabel : stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
         </section>
+        </GsapHeroReveal>
 
         {/* ── OUR STORY ─────────────────────────────────────────── */}
         <section className="py-16 md:py-24" style={{ background: '#0a0908', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <GsapFadeReveal direction="left">
               <div>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
@@ -97,8 +114,10 @@ export default async function AboutPage() {
                   </p>
                 </div>
               </div>
+              </GsapFadeReveal>
 
               {/* Values grid */}
+              <GsapStagger stagger={0.08} delay={100}>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { icon: '⚡', title: 'Expert Coaching', desc: 'Coaches with real competitive backgrounds and years of teaching experience.' },
@@ -106,13 +125,14 @@ export default async function AboutPage() {
                   { icon: '🏆', title: 'Proven Results', desc: 'Rated 5.0 on Google. Real transformations, real testimonials.' },
                   { icon: '🤝', title: 'Tight Community', desc: 'Train alongside people who push each other and celebrate every win.' },
                 ].map(v => (
-                  <div key={v.title} className="p-5" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div key={v.title} className="gsap-item p-5" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <span className="text-2xl mb-3 block">{v.icon}</span>
                     <p className="font-[family-name:var(--font-body)] text-sm font-black uppercase  text-[#f0ede8] mb-2">{v.title}</p>
                     <p className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-relaxed">{v.desc}</p>
                   </div>
                 ))}
               </div>
+              </GsapStagger>
             </div>
           </div>
         </section>

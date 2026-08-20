@@ -7,6 +7,8 @@ import { getActivePrograms, getBusinessSettings } from '@/lib/data/content'
 import { getSlotImages } from '@/lib/data/images'
 import { getFirstProgramSlides } from '@/lib/data/programSlides'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 
 export const metadata: Metadata = {
   title: 'Programs | Revive Fight Club',
@@ -40,33 +42,36 @@ export default async function ProgramsPage() {
       <Navbar />
       <main id="main" className="min-h-screen pt-14 md:pt-20">
         {/* Hero */}
+        <GsapHeroReveal>
         <section className="py-16 md:py-20 border-b border-white/10">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-4 gsap-label">
               <div className="w-6 h-px bg-[#ff571a]" />
               <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.18em] uppercase text-[#ff571a]">
                 Training Programs
               </p>
             </div>
-            <h1 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,72px)] max-w-2xl mb-4">
+            <h1 className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,72px)] max-w-2xl mb-4">
               ELITE PROGRAMS
             </h1>
-            <p className="font-[family-name:var(--font-body)] text-base text-[#c8c4bf] max-w-xl leading-relaxed">
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#c8c4bf] max-w-xl leading-relaxed">
               World-class combat sports and fitness training for every level — from first-timers to competitive fighters.
             </p>
           </div>
         </section>
+        </GsapHeroReveal>
 
         {/* Programs Grid */}
         <section className="py-16 md:py-24">
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             {programs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {programs.map((program) => {
+                {programs.map((program, idx) => {
                   const img = getImage(program.slug, program.id, program.image_path)
                   const level = levelLabel(program.level)
                   return (
-                    <div key={program.id} className="group flex flex-col border border-white/[0.07] hover:border-white/20 transition-all duration-300" style={{ background: '#0f0e0d' }}>
+                    <GsapFadeReveal key={program.id} direction="up" delay={idx * 80} duration={0.55}>
+                    <div className="group flex flex-col border border-white/[0.07] hover:border-white/20 transition-all duration-300 h-full" style={{ background: '#0f0e0d' }}>
                       {/* Image */}
                       <div className="relative overflow-hidden bg-[#1a1c1b]" style={{ height: '240px' }}>
                         {img ? (
@@ -131,6 +136,7 @@ export default async function ProgramsPage() {
                         </div>
                       </div>
                     </div>
+                    </GsapFadeReveal>
                   )
                 })}
               </div>
@@ -151,6 +157,7 @@ export default async function ProgramsPage() {
         </section>
 
         {/* Bottom CTA */}
+        <GsapFadeReveal>
         <section className="py-16 border-t border-white/10" style={{ background: '#0a0b0a' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16 text-center">
             <h2 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase text-[clamp(24px,3vw,36px)] tracking-[-0.02em] mb-4">
@@ -167,8 +174,10 @@ export default async function ProgramsPage() {
             </div>
           </div>
         </section>
+        </GsapFadeReveal>
       </main>
       <Footer />
     </>
   )
 }
+

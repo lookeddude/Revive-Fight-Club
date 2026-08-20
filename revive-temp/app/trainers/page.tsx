@@ -5,6 +5,9 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getActiveTrainers, getBusinessSettings } from '@/lib/data/content'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
+import { GsapCountUp } from '@/components/gsap/GsapCountUp'
 
 export const metadata: Metadata = {
   title: 'Trainers | Revive Fight Club',
@@ -32,6 +35,7 @@ export default async function TrainersPage() {
       <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ backgroundColor: '#0a0b0a' }}>
 
         {/* ── Hero ─────────────────────────────────────────── */}
+        <GsapHeroReveal>
         <section
           className="relative overflow-hidden py-20 md:py-28"
           style={{
@@ -46,22 +50,23 @@ export default async function TrainersPage() {
             }}
           />
           <div className="relative max-w-[1280px] mx-auto px-5 md:px-16">
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-5 gsap-label">
               <div className="w-8 h-px bg-[#ff571a]" />
               <p className="font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-[0.2em] text-[#ff571a]">Our Coaches</p>
             </div>
             <h1
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em] mb-4"
+              className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em] mb-4"
               style={{ fontSize: 'clamp(44px, 7vw, 88px)' }}
             >
               WORLD-CLASS<br />
               <span style={{ color: '#ff571a' }}>TRAINERS</span>
             </h1>
-            <p className="font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl leading-relaxed">
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl leading-relaxed">
               Professional fighters and experienced coaches dedicated to your development — from complete beginners to competitive athletes.
             </p>
           </div>
         </section>
+        </GsapHeroReveal>
 
         {/* ── Trainers Grid ─────────────────────────────────── */}
         <section className="py-16 md:py-24" style={{ backgroundColor: '#0d0c0b' }}>
@@ -183,17 +188,23 @@ export default async function TrainersPage() {
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
               {[
-                { val: '10+', label: 'Years Experience' },
-                { val: '2', label: 'Expert Coaches' },
-                { val: '12+', label: 'Disciplines' },
-                { val: '100%', label: 'Dedicated' },
+                { target: 10, label: 'Years Experience', suffix: '+' },
+                { target: 2,  label: 'Expert Coaches',  suffix: '' },
+                { target: 12, label: 'Disciplines',     suffix: '+' },
+                { target: 100,label: 'Dedicated',       suffix: '%' },
               ].map(stat => (
                 <div key={stat.label} className="text-center py-8 px-4">
                   <p
-                    className="font-[family-name:var(--font-outfit)] font-black leading-none mb-1"
+                    className="font-[family-name:var(--font-outfit)] font-black leading-none mb-1 flex items-center justify-center gap-0.5"
                     style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ff571a' }}
                   >
-                    {stat.val}
+                    <GsapCountUp
+                      target={stat.target}
+                      duration={1.6}
+                      className="font-[family-name:var(--font-outfit)] font-black"
+                      style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ff571a' }}
+                    />
+                    <span>{stat.suffix}</span>
                   </p>
                   <p className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider">{stat.label}</p>
                 </div>
@@ -203,6 +214,7 @@ export default async function TrainersPage() {
         </section>
 
         {/* ── Bottom CTA ────────────────────────────────────── */}
+        <GsapFadeReveal>
         <section
           className="py-20 md:py-28"
           style={{ background: 'linear-gradient(180deg, #0d0c0b 0%, #111210 100%)' }}
@@ -237,6 +249,7 @@ export default async function TrainersPage() {
             </div>
           </div>
         </section>
+        </GsapFadeReveal>
 
       </main>
       <Footer />

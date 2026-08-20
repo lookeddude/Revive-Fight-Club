@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { getPublishedReviews } from '@/lib/data/content'
+import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
+import { GsapStagger } from '@/components/gsap/GsapStagger'
 
 export const revalidate = 300
 
@@ -47,15 +49,16 @@ export default async function ReviewsPage() {
         </div>
 
         {/* Hero */}
+        <GsapHeroReveal>
         <section className="max-w-[1280px] mx-auto px-5 md:px-16 pb-12">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
             <div>
-              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase mb-3" style={{ color: '#f5a623' }}>
+              <p className="gsap-label font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase mb-3" style={{ color: '#f5a623' }}>
                 <span style={{ display: 'inline-block', width: '24px', height: '1px', background: '#f5a623', marginRight: '10px', verticalAlign: 'middle' }} />
                 Member Reviews
               </p>
               <h1
-                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+                className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
                 style={{ fontSize: 'clamp(36px, 6vw, 72px)' }}
               >
                 WHAT OUR{' '}
@@ -65,7 +68,7 @@ export default async function ReviewsPage() {
             </div>
 
             {/* Stats */}
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex gap-4 flex-wrap gsap-extra">
               <div className="px-6 py-4 text-center" style={{ background: 'rgba(245,166,35,0.06)', border: '1px solid rgba(245,166,35,0.15)' }}>
                 <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8]" style={{ fontSize: '40px', lineHeight: 1, letterSpacing: '-0.05em' }}>{avgRating}</p>
                 <div className="flex justify-center gap-0.5 my-1">
@@ -83,20 +86,24 @@ export default async function ReviewsPage() {
               </div>
             </div>
           </div>
+        </section>
+        </GsapHeroReveal>
 
-          {/* Reviews Grid */}
+        {/* Reviews Grid */}
+        <section className="max-w-[1280px] mx-auto px-5 md:px-16 pb-16">
           {reviews.length === 0 ? (
             <div className="py-24 text-center">
               <p className="font-[family-name:var(--font-body)] text-[#3a3530] text-sm uppercase ">No reviews yet</p>
             </div>
           ) : (
+            <GsapStagger stagger={0.05} selector=".review-card">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {reviews.map((review, i) => {
                 const isAccent = i % 3 === 1
                 return (
                   <div
                     key={review.id}
-                    className="flex flex-col gap-3 p-5 relative overflow-hidden"
+                    className="review-card flex flex-col gap-3 p-5 relative overflow-hidden"
                     style={{
                       background: isAccent
                         ? 'linear-gradient(135deg, rgba(255,87,26,0.07) 0%, rgba(16,14,12,0.98) 100%)'
@@ -166,6 +173,7 @@ export default async function ReviewsPage() {
                 )
               })}
             </div>
+            </GsapStagger>
           )}
         </section>
 
