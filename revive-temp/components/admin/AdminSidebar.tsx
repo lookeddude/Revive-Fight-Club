@@ -223,9 +223,13 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           </div>
         </div>
 
-        {/* Nav */}
+        {/* Nav — data-lenis-prevent tells Lenis to release wheel events here
+            so mouse scroll works independently per region:
+            cursor over sidebar → sidebar scrolls,
+            cursor over main content → main content scrolls */}
         <nav
           className="flex-1 overflow-y-auto py-3 px-2"
+          data-lenis-prevent
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(255,87,26,0.25) transparent',
