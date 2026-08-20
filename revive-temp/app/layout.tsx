@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Outfit, Barlow } from 'next/font/google'
+import { LenisProvider } from '@/components/providers/LenisProvider'
 import './globals.css'
 
 // Preload only needed weights — faster font load
@@ -86,7 +87,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {children}
+        <LenisProvider>
+          {children}
+        </LenisProvider>
       </body>
     </html>
   )
