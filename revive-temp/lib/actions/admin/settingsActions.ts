@@ -24,6 +24,7 @@ type SettingsInput = {
   youtube_url?: string | null
   opening_hours?: Record<string, string> | null
   logo_url?: string | null
+  homepage_video_url?: string | null
 }
 
 export async function updateBusinessSettings(

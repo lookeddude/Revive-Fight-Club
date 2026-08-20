@@ -52,6 +52,7 @@ export type Database = {
           email: string | null
           facebook_url: string | null
           google_maps_url: string | null
+          homepage_video_url: string | null
           id: number
           instagram_url: string | null
           latitude: number | null
@@ -73,6 +74,7 @@ export type Database = {
           email?: string | null
           facebook_url?: string | null
           google_maps_url?: string | null
+          homepage_video_url?: string | null
           id?: number
           instagram_url?: string | null
           latitude?: number | null
@@ -94,6 +96,7 @@ export type Database = {
           email?: string | null
           facebook_url?: string | null
           google_maps_url?: string | null
+          homepage_video_url?: string | null
           id?: number
           instagram_url?: string | null
           latitude?: number | null

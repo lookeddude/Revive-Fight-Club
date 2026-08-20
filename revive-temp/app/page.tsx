@@ -3,6 +3,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { HomeHero } from '@/components/sections/home/HomeHero'
 import { HomePhilosophy } from '@/components/sections/home/HomePhilosophy'
+import { HomeVideo } from '@/components/sections/home/HomeVideo'
 import { HomeStats } from '@/components/sections/home/HomeStats'
 import { HomeProgramsPreview } from '@/components/sections/home/HomeProgramsPreview'
 import { HomeTrainersPreview } from '@/components/sections/home/HomeTrainersPreview'
@@ -58,6 +59,7 @@ export default async function HomePage() {
         />
         <HomeStats />
         <HomePhilosophy />
+        <HomeVideo videoUrl={settings?.homepage_video_url ?? null} />
         <HomeProgramsPreview programs={programs} slideImages={slideImages} />
         <HomeTrainersPreview trainers={trainers} />
         <HomeReviews reviews={reviews} />

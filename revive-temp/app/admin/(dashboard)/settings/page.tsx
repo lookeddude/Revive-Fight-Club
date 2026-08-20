@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { SettingsForm } from './SettingsForm'
 
 import { LogoUploadSection } from '@/components/admin/LogoUploadSection'
+import { VideoUploadSection } from '@/components/admin/VideoUploadSection'
 
 export const metadata: Metadata = { title: 'Business Settings' }
 
@@ -17,6 +18,7 @@ export default async function AdminSettingsPage() {
         <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] mt-1">Changes here update the public website in real-time.</p>
       </div>
       <LogoUploadSection currentLogoUrl={settings?.logo_url} />
+      <VideoUploadSection currentVideoUrl={settings?.homepage_video_url} />
       <SettingsForm settings={settings} />
     </div>
   )
