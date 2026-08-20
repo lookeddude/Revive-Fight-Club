@@ -1,10 +1,14 @@
+'use client'
+
 import { buildPhoneUrl } from '@/lib/business'
+import { trackPhoneClick } from '@/lib/analytics'
 
 interface PhoneCTAProps {
   phone: string | null
   variant?: 'primary' | 'secondary' | 'text'
   label?: string
   className?: string
+  location?: string
 }
 
 /**
@@ -16,6 +20,7 @@ export function PhoneCTA({
   variant = 'secondary',
   label,
   className = '',
+  location = 'unknown',
 }: PhoneCTAProps) {
   const url = buildPhoneUrl(phone)
   if (!url) return null
@@ -36,6 +41,7 @@ export function PhoneCTA({
       href={url}
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
       aria-label={`Call Revive Fight Club at ${phone}`}
+      onClick={() => trackPhoneClick(location)}
     >
       <svg
         className="w-4 h-4 fill-current flex-shrink-0"

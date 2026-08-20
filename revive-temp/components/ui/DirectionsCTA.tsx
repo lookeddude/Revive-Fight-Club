@@ -1,8 +1,13 @@
+'use client'
+
+import { trackDirectionsClick } from '@/lib/analytics'
+
 interface DirectionsCTAProps {
   googleMapsUrl: string | null
   variant?: 'primary' | 'secondary' | 'text'
   label?: string
   className?: string
+  location?: string
 }
 
 /**
@@ -15,6 +20,7 @@ export function DirectionsCTA({
   variant = 'secondary',
   label = 'GET DIRECTIONS',
   className = '',
+  location = 'unknown',
 }: DirectionsCTAProps) {
   if (!googleMapsUrl) return null
 
@@ -34,6 +40,7 @@ export function DirectionsCTA({
       rel="noopener noreferrer"
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
       aria-label="Get directions to Revive Fight Club on Google Maps"
+      onClick={() => trackDirectionsClick(location)}
     >
       <svg
         className="w-4 h-4 fill-current flex-shrink-0"

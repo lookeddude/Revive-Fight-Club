@@ -1,6 +1,7 @@
 'use client'
 
 import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
+import { trackWhatsAppClick } from '@/lib/analytics'
 
 interface WhatsAppCTAProps {
   whatsappNumber: string | null
@@ -10,6 +11,7 @@ interface WhatsAppCTAProps {
   className?: string
   context?: keyof typeof WHATSAPP_MESSAGES
   programName?: string
+  location?: string
 }
 
 /**
@@ -25,6 +27,7 @@ export function WhatsAppCTA({
   className = '',
   context = 'general',
   programName,
+  location = 'unknown',
 }: WhatsAppCTAProps) {
   const resolvedMessage: string =
     message ??
@@ -51,6 +54,7 @@ export function WhatsAppCTA({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackWhatsAppClick(location)}
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
       aria-label={`Contact Revive Fight Club on WhatsApp`}
     >
