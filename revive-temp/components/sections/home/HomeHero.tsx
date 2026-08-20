@@ -105,8 +105,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* ── Background Image ─────────────────────────────────────────── */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <GsapParallax speed={0.12} className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
+        <GsapParallax speed={0.12} className="w-full h-full">
           <div
             className="absolute inset-0"
             style={{
