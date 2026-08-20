@@ -104,6 +104,14 @@ const LogsIcon = () => (
     <polyline points="10 9 9 9 8 9"/>
   </svg>
 )
+const InviteIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <line x1="19" y1="8" x2="19" y2="14"/>
+    <line x1="22" y1="11" x2="16" y2="11"/>
+  </svg>
+)
 
 const NAV_SECTIONS: NavSection[] = [
   {
@@ -138,7 +146,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: 'Settings',
     roles: ['superadmin', 'admin', 'manager'],
     items: [
-      { label: 'Business Info', href: '/admin/settings', icon: <SettingsIcon /> },
+      { label: 'Site Settings', href: '/admin/settings', icon: <SettingsIcon /> },
     ],
   },
   {
@@ -146,11 +154,12 @@ const NAV_SECTIONS: NavSection[] = [
     roles: ['superadmin', 'admin'],
     items: [
       { label: 'User Management', href: '/admin/users', icon: <UsersIcon /> },
+      { label: 'Invite Staff', href: '/admin/users', icon: <InviteIcon /> },
     ],
   },
   {
     title: 'Audit',
-    roles: ['superadmin'],
+    roles: ['superadmin', 'admin'],
     items: [
       { label: 'Activity Logs', href: '/admin/logs', icon: <LogsIcon /> },
     ],
