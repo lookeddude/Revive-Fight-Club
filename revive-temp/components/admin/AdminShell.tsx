@@ -21,7 +21,6 @@ export function AdminShell({ title, profile, children }: AdminShellProps) {
       <AdminSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        role={profile.role}
       />
 
       {/* Main content area */}

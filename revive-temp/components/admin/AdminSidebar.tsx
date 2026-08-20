@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import type { AdminRole } from '@/lib/auth/roles'
+
 import Image from 'next/image'
 
 type NavItem = {
@@ -14,7 +14,6 @@ type NavItem = {
 
 type NavSection = {
   title: string
-  roles?: AdminRole[]
   items: NavItem[]
 }
 
@@ -129,7 +128,6 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Content',
-    roles: ['superadmin', 'admin', 'manager'],
     items: [
       { label: 'Programs', href: '/admin/programs', icon: <ProgramIcon /> },
       { label: 'Trainers', href: '/admin/trainers', icon: <TrainerIcon /> },
@@ -144,14 +142,12 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Settings',
-    roles: ['superadmin', 'admin', 'manager'],
     items: [
       { label: 'Site Settings', href: '/admin/settings', icon: <SettingsIcon /> },
     ],
   },
   {
     title: 'Team',
-    roles: ['superadmin', 'admin'],
     items: [
       { label: 'User Management', href: '/admin/users', icon: <UsersIcon /> },
       { label: 'Invite Staff', href: '/admin/users', icon: <InviteIcon /> },
@@ -159,7 +155,6 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     title: 'Audit',
-    roles: ['superadmin', 'admin'],
     items: [
       { label: 'Activity Logs', href: '/admin/logs', icon: <LogsIcon /> },
     ],
@@ -169,10 +164,9 @@ const NAV_SECTIONS: NavSection[] = [
 interface AdminSidebarProps {
   isOpen: boolean
   onClose: () => void
-  role: AdminRole
 }
 
-export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
+export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname()
 
   const isActive = (href: string) => {
@@ -231,7 +225,7 @@ export function AdminSidebar({ isOpen, onClose, role }: AdminSidebarProps) {
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-3 px-2" style={{ scrollbarWidth: 'none' }}>
-          {NAV_SECTIONS.filter(section => !section.roles || section.roles.includes(role)).map((section, si) => (
+          {NAV_SECTIONS.map((section, si) => (
             <div key={si} className={si > 0 ? 'mt-5' : ''}>
               {section.title && (
                 <p
