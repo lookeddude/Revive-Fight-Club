@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminSession } from '@/lib/auth/getAdminSession'
 
+// Allow large video uploads (default Next.js limit is ~1MB)
+export const runtime = 'nodejs'
+export const maxDuration = 60 // seconds
+
 const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime']
 const MAX_VIDEO_SIZE = 50 * 1024 * 1024 // 50 MB
 const BUCKET = 'revive-videos'

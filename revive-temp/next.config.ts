@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
+  // ── Allow large video uploads (up to 50 MB) ──────────────────
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '50mb',
+    },
+  },
+
   // ── Static asset caching (only for user-uploaded assets, not _next/static) ─
   async headers() {
     return [
