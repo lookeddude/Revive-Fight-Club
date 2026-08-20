@@ -157,6 +157,7 @@ export default async function AboutPage() {
             </div>
 
             {programs.length > 0 ? (
+              <GsapStagger stagger={0.06} delay={0}>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {programs.map((p, i) => {
                   const img = slideImages[p.id] ?? p.image_path ?? null
@@ -202,6 +203,7 @@ export default async function AboutPage() {
                   )
                 })}
               </div>
+              </GsapStagger>
             ) : (
               <div className="py-10 text-center">
                 <Link href="/programs" className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm text-[#ff571a] hover:text-[#ff8a5a] transition-colors">
@@ -214,6 +216,7 @@ export default async function AboutPage() {
         </section>
 
         {/* ── MISSION + WHY US ──────────────────────────────────── */}
+        <GsapFadeReveal>
         <section className="py-16 md:py-24" style={{ background: '#080706', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -253,8 +256,10 @@ export default async function AboutPage() {
             </div>
           </div>
         </section>
+        </GsapFadeReveal>
 
         {/* ── GOOGLE REVIEWS ────────────────────────────────────── */}
+        <GsapFadeReveal direction="up" duration={0.6}>
         <section className="py-14 md:py-20" style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
             <div className="flex flex-col md:flex-row md:items-center gap-8 p-8 md:p-10" style={{ background: 'rgba(245,166,35,0.04)', border: '1px solid rgba(245,166,35,0.12)' }}>
@@ -292,6 +297,7 @@ export default async function AboutPage() {
             </div>
           </div>
         </section>
+        </GsapFadeReveal>
 
         {/* ── FIND US ───────────────────────────────────────────── */}
         <section className="py-16 md:py-24" style={{ background: '#080706', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
@@ -299,6 +305,7 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
               {/* Left: location info */}
+              <GsapFadeReveal direction="left">
               <div>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
@@ -371,8 +378,10 @@ export default async function AboutPage() {
                   )}
                 </div>
               </div>
+              </GsapFadeReveal>
 
               {/* Right: Mission card */}
+              <GsapFadeReveal direction="right" delay={100}>
               <div className="flex flex-col gap-5">
                 <div className="p-7 flex-1" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Getting Here</p>
@@ -408,11 +417,13 @@ export default async function AboutPage() {
                   </Link>
                 </div>
               </div>
+              </GsapFadeReveal>
             </div>
           </div>
         </section>
 
         {/* ── FINAL CTA ─────────────────────────────────────────── */}
+        <GsapFadeReveal direction="up" duration={0.7}>
         <section className="py-20 md:py-28 text-center relative overflow-hidden" style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 50%, rgba(255,87,26,0.07) 0%, transparent 60%)' }} aria-hidden="true" />
           <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
@@ -442,6 +453,7 @@ export default async function AboutPage() {
             </div>
           </div>
         </section>
+        </GsapFadeReveal>
 
       </main>
       <Footer />

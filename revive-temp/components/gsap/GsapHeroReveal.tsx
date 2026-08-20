@@ -41,10 +41,11 @@ export function GsapHeroReveal({ children, className = '', delay = 0 }: GsapHero
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    const label   = el.querySelector<HTMLElement>('.gsap-label')
-    const heading = el.querySelector<HTMLElement>('.gsap-heading')
-    const text    = el.querySelector<HTMLElement>('.gsap-text')
-    const extras  = el.querySelectorAll<HTMLElement>('.gsap-extra')
+    const label    = el.querySelector<HTMLElement>('.gsap-label')
+    const headings = Array.from(el.querySelectorAll<HTMLElement>('.gsap-heading'))
+    const heading  = headings[0] ?? null
+    const text     = el.querySelector<HTMLElement>('.gsap-text')
+    const extras   = el.querySelectorAll<HTMLElement>('.gsap-extra')
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: delay / 1000 })
@@ -56,10 +57,10 @@ export function GsapHeroReveal({ children, className = '', delay = 0 }: GsapHero
         )
       }
 
-      if (heading) {
-        tl.fromTo(heading,
+      if (headings.length > 0) {
+        tl.fromTo(headings,
           { opacity: 0, y: 28 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08 },
           label ? '-=0.28' : 0
         )
       }

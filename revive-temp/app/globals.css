@@ -297,7 +297,7 @@ body {
 }
 
 .img-settle {
-  animation: imgSettle 7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: imgSettle 4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ── Scroll Reveal System ────────────────────────────────── */
@@ -336,16 +336,6 @@ body {
   transform: translateX(0);
 }
 
-/* ── Dropdown Animation ──────────────────────────────────── */
-@keyframes dropdownReveal {
-  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.animate-dropdown {
-  animation: dropdownReveal 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transform-origin: top right;
-}
 
 /* ── Mobile Nav Link Stagger ─────────────────────────────── */
 @keyframes navLinkIn {

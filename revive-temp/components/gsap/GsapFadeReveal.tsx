@@ -70,7 +70,7 @@ export function GsapFadeReveal({
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: 'top 82%',
             once: true,
           },
         }

@@ -53,7 +53,7 @@ export function GsapCountUp({
 
     const st = ScrollTrigger.create({
       trigger: el,
-      start: 'top 88%',
+      start: 'top 85%',
       once: true,
       onEnter: () => {
         gsap.to(obj, {

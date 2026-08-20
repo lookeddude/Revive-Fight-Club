@@ -68,7 +68,7 @@ export function GsapStagger({
           delay: delay / 1000,
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: 'top 82%',
             once: true,
           },
         }
