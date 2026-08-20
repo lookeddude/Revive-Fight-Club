@@ -1,6 +1,10 @@
 'use client'
 import { useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { updateBusinessSettings } from '@/lib/actions/admin/settingsActions'
+
+const BUCKET = 'revive-videos'
+const FOLDER = 'homepage'
 
 interface VideoUploadSectionProps {
   currentVideoUrl?: string | null
@@ -8,12 +12,13 @@ interface VideoUploadSectionProps {
 
 /**
  * Admin section for uploading / removing the homepage explainer video.
- * Video is stored in Supabase Storage (revive-videos bucket).
- * URL is saved to business_settings.homepage_video_url.
+ * Uploads DIRECTLY to Supabase Storage from the browser (bypasses Vercel's 4.5MB serverless limit).
+ * URL is saved to business_settings.homepage_video_url via server action.
  */
 export function VideoUploadSection({ currentVideoUrl }: VideoUploadSectionProps) {
   const [uploading, setUploading] = useState(false)
   const [removing, setRemoving] = useState(false)
+  const [progress, setProgress] = useState('')
   const [preview, setPreview] = useState<string | null>(currentVideoUrl ?? null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -34,32 +39,48 @@ export function VideoUploadSection({ currentVideoUrl }: VideoUploadSectionProps)
     setUploading(true)
     setError('')
     setSuccess('')
+    setProgress('Uploading to storage...')
 
     try {
-      const form = new FormData()
-      form.append('file', file)
+      const supabase = createClient()
 
-      const res = await fetch('/api/admin/upload-video', { method: 'POST', body: form })
-      const data = await res.json()
+      // Generate unique filename
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? 'mp4'
+      const filename = `${FOLDER}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-      if (!res.ok || !data.url) {
-        setError(data.error ?? 'Upload failed.')
+      // Upload directly to Supabase Storage from the browser
+      const { error: uploadError } = await supabase.storage
+        .from(BUCKET)
+        .upload(filename, file, {
+          contentType: file.type,
+          upsert: false,
+        })
+
+      if (uploadError) {
+        setError(`Storage error: ${uploadError.message}`)
         return
       }
 
+      // Get public URL
+      const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(filename)
+      const publicUrl = urlData.publicUrl
+
       // Save video URL to business_settings
-      const result = await updateBusinessSettings({ homepage_video_url: data.url })
+      setProgress('Saving to settings...')
+      const result = await updateBusinessSettings({ homepage_video_url: publicUrl })
       if (!result.success) {
         setError(result.error)
         return
       }
 
-      setPreview(data.url)
+      setPreview(publicUrl)
       setSuccess('Video uploaded successfully. Refresh the site to see changes.')
-    } catch {
+    } catch (err) {
+      console.error('[VideoUploadSection] upload error:', err)
       setError('Upload failed. Please try again.')
     } finally {
       setUploading(false)
+      setProgress('')
     }
   }
 
@@ -72,16 +93,21 @@ export function VideoUploadSection({ currentVideoUrl }: VideoUploadSectionProps)
     setSuccess('')
 
     try {
+      const supabase = createClient()
+
       // Extract storage path from URL for deletion
-      const urlParts = preview.split('/revive-videos/')
+      const urlParts = preview.split(`/${BUCKET}/`)
       const storagePath = urlParts[1] ?? null
 
       if (storagePath) {
-        await fetch('/api/admin/upload-video', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: storagePath }),
-        })
+        const { error: deleteError } = await supabase.storage
+          .from(BUCKET)
+          .remove([storagePath])
+
+        if (deleteError) {
+          console.error('[VideoUploadSection] delete error:', deleteError.message)
+          // Continue anyway — clear the DB reference even if storage delete fails
+        }
       }
 
       // Clear from business_settings
@@ -136,7 +162,7 @@ export function VideoUploadSection({ currentVideoUrl }: VideoUploadSectionProps)
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="square" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
-          {uploading ? 'Uploading...' : preview ? 'Replace Video' : 'Upload Video'}
+          {uploading ? (progress || 'Uploading...') : preview ? 'Replace Video' : 'Upload Video'}
           <input
             type="file"
             className="hidden"
