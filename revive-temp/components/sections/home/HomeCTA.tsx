@@ -30,17 +30,18 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
             className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.04em] mb-8 max-w-4xl mx-auto"
             style={{ fontSize: 'clamp(42px, 8vw, 90px)' }}
           >
-            READY TO{' '}
+            START TRAINING{' '}
             <br className="hidden sm:block" />
-            <span className="text-[#ff571a]">TRANSFORM</span>{' '}
+            AT{' '}
+            <span className="text-[#ff571a]">REVIVE</span>{' '}
             <br className="hidden sm:block" />
-            YOUR PERFORMANCE?
+            FIGHT CLUB
           </h2>
         </Reveal>
 
         <Reveal delay={160}>
           <p className="font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#9ca3af] max-w-lg mx-auto mb-12">
-            Book your trial class and experience what elite combat sports training truly feels like.
+            Book a trial class at our Fraser Town gym. No experience needed — just show up and train.
           </p>
         </Reveal>
 

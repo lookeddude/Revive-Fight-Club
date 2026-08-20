@@ -70,7 +70,7 @@ export default async function AboutPage() {
             <div className="flex flex-wrap gap-6 mt-12 gsap-extra">
               {[
                 { value: 5.0, decimals: 1, label: 'Google Rating', accent: true },
-                { value: 4, decimals: 0, label: 'Programs', accent: false },
+                { value: programs.length, decimals: 0, label: 'Programs', accent: false },
                 { label: '3rd', labelStatic: true, subLabel: 'Floor, MM Road', accent: false },
                 { label: '2024', labelStatic: true, subLabel: 'Established', accent: false },
               ].map((stat, i) => (
@@ -110,13 +110,13 @@ export default async function AboutPage() {
                 </h2>
                 <div className="flex flex-col gap-4 font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-[1.85]">
                   <p>
-                    Revive Fight Club was founded with one clear purpose — to bring world-class combat sports training to Bengaluru. Located on the 3rd floor of 157, MM Road in Frazer Town, we are more than just a gym. We are a place where discipline is built, limits are broken, and real transformation happens.
+                    Revive Fight Club was founded with one clear purpose — to bring world-class combat sports training to Bengaluru. Located on the 3rd floor of 157, MM Road in Fraser Town, we are more than just a gym. We are a place where discipline is built, limits are broken, and real progress happens.
                   </p>
                   <p>
-                    From our first class to today, we have trained beginners who had never thrown a punch, office professionals looking for a powerful stress outlet, and serious competitors who have gone on to fight at amateur and professional levels. Every one of them started where you are right now — curious, nervous, and ready.
+                    From our first class to today, we have trained beginners who had never thrown a punch, office professionals looking for a powerful stress outlet, and serious competitors who have gone on to fight at amateur and professional levels. Every one of them started where you are right now — curious, ready, and willing.
                   </p>
                   <p>
-                    Our coaches bring years of real-world experience from MMA, Kickboxing, Bodybuilding, and Weight Management. They do not just teach technique — they invest in your journey, track your progress, and push you to levels you did not think were possible.
+                    Our coaches bring real-world experience from MMA, Kickboxing, Boxing and Jiu-Jitsu. They do not just teach technique — they invest in your development, track your progress, and push you further than you expected.
                   </p>
                 </div>
               </div>
@@ -305,6 +305,119 @@ export default async function AboutPage() {
         </section>
         </GsapFadeReveal>
 
+        {/* ── FAQ ───────────────────────────────────────────── */}
+        <section
+          className="py-16 md:py-20"
+          style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.04)' }}
+          aria-labelledby="faq-heading"
+        >
+          {/* FAQPage JSON-LD — matches visible FAQ content below */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: [
+                  {
+                    '@type': 'Question',
+                    name: 'Is Revive Fight Club suitable for beginners?',
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: 'Yes. We welcome complete beginners — no prior combat sports experience is needed. Our coaches guide you from the fundamentals at a pace that works for you.',
+                    },
+                  },
+                  {
+                    '@type': 'Question',
+                    name: 'What combat sports can I train at Revive Fight Club?',
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: 'We offer MMA, Boxing, Kickboxing, Muay Thai, Brazilian Jiu-Jitsu, Wrestling, Judo and more. We also have Strength & Conditioning, Weight Loss, Personal Training and Nutrition Guidance programs.',
+                    },
+                  },
+                  {
+                    '@type': 'Question',
+                    name: 'Where is Revive Fight Club located in Bengaluru?',
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: 'We are located at 3rd Floor, 157, MM Road, above Indian Overseas Bank, Fraser Town, Bengaluru, Karnataka 560005. Easily accessible by auto, cab, or personal vehicle.',
+                    },
+                  },
+                  {
+                    '@type': 'Question',
+                    name: 'How can I get started at Revive Fight Club?',
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: 'Book a trial class online or contact us on WhatsApp or phone (+91 96069 72238). No commitment is required for the trial — just come in and train.',
+                    },
+                  },
+                  {
+                    '@type': 'Question',
+                    name: 'Can I join Revive Fight Club just for fitness, without doing combat sports?',
+                    acceptedAnswer: {
+                      '@type': 'Answer',
+                      text: 'Yes. We offer dedicated Strength & Conditioning, Weight Loss and Personal Training programs for members focused on fitness goals rather than combat sports.',
+                    },
+                  },
+                ],
+              }),
+            }}
+          />
+
+          <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
+              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Common Questions</p>
+            </div>
+            <h2
+              id="faq-heading"
+              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-12"
+              style={{ fontSize: 'clamp(26px, 4vw, 44px)' }}
+            >
+              FREQUENTLY ASKED <span className="text-[#ff571a]">QUESTIONS</span>
+            </h2>
+
+            <div className="flex flex-col gap-0 max-w-3xl">
+              {[
+                {
+                  q: 'Is Revive Fight Club suitable for beginners?',
+                  a: 'Yes. We welcome complete beginners — no prior combat sports experience is needed. Our coaches guide you from the fundamentals at a pace that works for you.',
+                },
+                {
+                  q: 'What combat sports can I train at Revive Fight Club?',
+                  a: 'We offer MMA, Boxing, Kickboxing, Muay Thai, Brazilian Jiu-Jitsu, Wrestling, Judo and more. We also have Strength & Conditioning, Weight Loss, Personal Training and Nutrition Guidance programs.',
+                },
+                {
+                  q: 'Where is Revive Fight Club located in Bengaluru?',
+                  a: '3rd Floor, 157, MM Road, above Indian Overseas Bank, Fraser Town, Bengaluru, Karnataka 560005. Easily accessible by auto, cab or personal vehicle from anywhere in Bengaluru.',
+                },
+                {
+                  q: 'How do I get started?',
+                  a: 'Book a trial class online or contact us on WhatsApp / phone (+91 96069 72238). No commitment required — just come in, try a class and see for yourself.',
+                },
+                {
+                  q: 'Can I join just for fitness, without combat sports?',
+                  a: 'Yes. We offer dedicated Strength & Conditioning, Weight Loss and Personal Training programs for members focused on fitness goals rather than combat sports.',
+                },
+              ].map(({ q, a }, i) => (
+                <div
+                  key={i}
+                  className="py-6"
+                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                >
+                  <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#f0ede8] text-base md:text-lg uppercase tracking-tight mb-3">
+                    <span className="text-[#ff571a] mr-2" aria-hidden="true">—</span>
+                    {q}
+                  </h3>
+                  <p className="font-[family-name:var(--font-body)] text-[14px] text-[#9ca3af] leading-relaxed pl-5">
+                    {a}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── FIND US ───────────────────────────────────────────── */}
         <section className="py-16 md:py-24" style={{ background: '#080706', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
           <div className="max-w-[1280px] mx-auto px-5 md:px-16">
@@ -339,7 +452,7 @@ export default async function AboutPage() {
                   <address className="not-italic font-[family-name:var(--font-body)] text-[15px] text-[#c8c4bf] leading-relaxed group-hover:text-[#c8c6c5] transition-colors">
                     {settings?.address
                       ? <>{settings.address}<br />{settings.city}{settings.state ? `, ${settings.state}` : ''}{settings.postal_code ? ` – ${settings.postal_code}` : ''}</>
-                      : <>3rd floor, 157, MM Road,<br />Frazer Town, Bengaluru,<br />Karnataka 560005</>
+                      : <>3rd floor, 157, MM Road,<br />above Indian Overseas Bank,<br />Fraser Town, Bengaluru,<br />Karnataka 560005</>
                     }
                   </address>
                 </a>
@@ -392,11 +505,11 @@ export default async function AboutPage() {
                 <div className="p-7 flex-1" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a] mb-4">Getting Here</p>
                   <p className="font-[family-name:var(--font-body)] text-[14px] text-[#9ca3af] leading-relaxed mb-5">
-                    We are located on the 3rd floor of 157, MM Road, Frazer Town — one of Bengaluru&apos;s most well-connected neighbourhoods. Easily accessible by auto, cab, or personal vehicle. Street parking is available nearby.
+                    We are located on the 3rd floor of 157, MM Road, Fraser Town — one of Bengaluru&apos;s most well-connected neighbourhoods. Easily accessible by auto, cab, or personal vehicle. Street parking is available nearby.
                   </p>
                   <ul className="flex flex-col gap-3">
                     {[
-                      'Near Frazer Town Bus Stop',
+                      'Near Fraser Town Bus Stop',
                       'Accessible via MG Road / CMH Road',
                       'Auto & cab friendly location',
                       'Street parking available',

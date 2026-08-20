@@ -102,9 +102,18 @@ export default async function MembershipPage() {
             >
               PLANS
             </h1>
-            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl mx-auto leading-relaxed">
-              Transparent pricing for every batch. No hidden fees — just dedicated training.
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl mx-auto leading-relaxed mb-3">
+              Transparent pricing for every batch. No hidden fees — just dedicated training at Fraser Town, Bengaluru.
             </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm font-[family-name:var(--font-body)]">
+              <a href="/programs" className="text-[#ff571a] hover:text-[#ff8a5a] transition-colors font-semibold underline underline-offset-2">
+                Explore training programs
+              </a>
+              <span className="text-[#3a3530]">·</span>
+              <a href="/trainers" className="text-[#ff571a] hover:text-[#ff8a5a] transition-colors font-semibold underline underline-offset-2">
+                Meet our coaches
+              </a>
+            </div>
           </div>
         </section>
         </GsapHeroReveal>

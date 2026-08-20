@@ -56,8 +56,23 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
       <Navbar />
       <main id="main" className="min-h-screen pt-14 md:pt-20" style={{ background: '#0d0c0b' }}>
 
-        {/* ── Breadcrumb ─────────────────────────────────── */}
+        {/* ── Breadcrumb + BreadcrumbList JSON-LD ────────── */}
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-6">
+          {/* BreadcrumbList structured data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://revivefightclub.com' },
+                  { '@type': 'ListItem', position: 2, name: 'Programs', item: 'https://revivefightclub.com/programs' },
+                  { '@type': 'ListItem', position: 3, name: program.name, item: `https://revivefightclub.com/programs/${slug}` },
+                ],
+              }),
+            }}
+          />
           <nav className="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
             <Link href="/" className="text-[#9ca3af] hover:text-[#ff571a] transition-colors font-[family-name:var(--font-body)]">Home</Link>
             <span className="text-[#3a3530]">/</span>

@@ -58,10 +58,16 @@ export default async function ProgramsPage() {
               </p>
             </div>
             <h1 className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.03em] text-[clamp(36px,5vw,72px)] max-w-2xl mb-4">
-              ELITE PROGRAMS
+              MMA &amp; COMBAT SPORTS PROGRAMS IN BENGALURU
             </h1>
-            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#c8c4bf] max-w-xl leading-relaxed">
-              World-class combat sports and fitness training for every level — from first-timers to competitive fighters.
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#c8c4bf] max-w-2xl leading-relaxed mb-3">
+              Train MMA, Boxing, Kickboxing, Muay Thai, Brazilian Jiu-Jitsu, Wrestling, Judo and more at Revive Fight Club in Fraser Town, Bengaluru. Programs for all levels — complete beginners to competitive fighters.
+            </p>
+            <p className="gsap-text font-[family-name:var(--font-body)] text-sm text-[#6a6260]">
+              Looking for pricing?{' '}
+              <a href="/membership" className="text-[#ff571a] hover:text-[#ff8a5a] transition-colors font-semibold underline underline-offset-2">
+                View membership plans
+              </a>
             </p>
           </div>
         </section>

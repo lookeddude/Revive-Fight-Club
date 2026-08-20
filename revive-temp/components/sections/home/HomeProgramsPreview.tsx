@@ -39,7 +39,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
-              <p className="section-label">Training Disciplines</p>
+              <p className="section-label">Combat Sports & Fitness</p>
               <h2
                 className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
                 style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
@@ -49,9 +49,10 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
             </div>
             <Link
               href="/programs"
+              aria-label="Explore all training programs at Revive Fight Club"
               className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-end"
             >
-              VIEW ALL
+              EXPLORE ALL PROGRAMS
               <span className="flex items-center justify-center w-8 h-8 border border-white/10 group-hover:border-[#ff571a]/40 group-hover:bg-[#ff571a]/08 transition-all duration-300">
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
@@ -75,7 +76,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
               <div className="absolute inset-0 z-0">
                 <Image
                   src={getImage(program, slideImages)}
-                  alt={program.name}
+                  alt={`${program.name} training at Revive Fight Club, Bengaluru`}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   style={{ opacity: 0.72 }}

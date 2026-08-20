@@ -64,11 +64,18 @@ export default async function TrainersPage() {
               className="gsap-heading font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.03em] mb-4"
               style={{ fontSize: 'clamp(44px, 7vw, 88px)' }}
             >
-              WORLD-CLASS<br />
-              <span style={{ color: '#ff571a' }}>TRAINERS</span>
+              EXPERT MMA &amp;<br />
+              <span style={{ color: '#ff571a' }}>COMBAT SPORTS</span><br />
+              COACHES
             </h1>
-            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl leading-relaxed">
-              Professional fighters and experienced coaches dedicated to your development — from complete beginners to competitive athletes.
+            <p className="gsap-text font-[family-name:var(--font-body)] text-base text-[#9ca3af] max-w-xl leading-relaxed mb-3">
+              Professional fighters and experienced coaches training members at Revive Fight Club, Fraser Town, Bengaluru — from complete beginners to competitive athletes.
+            </p>
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#6a6260]">
+              Want to start training?{' '}
+              <a href="/programs" className="text-[#ff571a] hover:text-[#ff8a5a] transition-colors font-semibold underline underline-offset-2">
+                Explore our training programs
+              </a>
             </p>
           </div>
         </section>

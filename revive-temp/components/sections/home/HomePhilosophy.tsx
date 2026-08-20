@@ -22,10 +22,10 @@ export function HomePhilosophy() {
                   className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em] mb-10"
                   style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
                 >
-                  WHERE{' '}
-                  <span className="text-[#ff571a]">PERFORMANCE</span>{' '}
-                  MEETS{' '}
-                  DISCIPLINE
+                  TRAIN LIKE{' '}
+                  <span className="text-[#ff571a]">A FIGHTER.</span>{' '}
+                  THINK LIKE{' '}
+                  A CHAMPION.
                 </h2>
 
                 {/* Three pillars */}
@@ -71,8 +71,9 @@ export function HomePhilosophy() {
               </p>
 
               <p className="font-[family-name:var(--font-body)] text-base leading-[1.85] text-[#5a5249] mb-10">
-                Our facility is a sanctuary for those dedicated to the craft of combat sports and elite
-                fitness. Every session, every round, every rep — it all counts here.
+                Our facility in Fraser Town, Bengaluru is built for those serious about combat sports and
+                fitness — MMA, Boxing, Kickboxing, Muay Thai and more. Every session, every round,
+                every rep counts here.
               </p>
 
               {/* Quote callout */}

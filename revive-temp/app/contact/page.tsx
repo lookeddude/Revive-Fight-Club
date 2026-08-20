@@ -212,6 +212,57 @@ export default async function ContactPage() {
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <section
+          className="py-14 md:py-20 border-t border-white/[0.06]"
+          style={{ backgroundColor: '#0d0c0b' }}
+          aria-labelledby="contact-faq-heading"
+        >
+          <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-6 h-px bg-[#ff571a]" aria-hidden="true" />
+              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Common Questions</p>
+            </div>
+            <h2
+              id="contact-faq-heading"
+              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.03em] mb-10"
+              style={{ fontSize: 'clamp(24px, 3.5vw, 40px)' }}
+            >
+              FREQUENTLY ASKED <span className="text-[#ff571a]">QUESTIONS</span>
+            </h2>
+            <div className="flex flex-col gap-0 max-w-2xl">
+              {[
+                {
+                  q: 'Where is Revive Fight Club located in Bengaluru?',
+                  a: '3rd Floor, 157, MM Road, above Indian Overseas Bank, Fraser Town, Bengaluru, Karnataka 560005. We are accessible by auto, cab or personal vehicle from Fraser Town, Ulsoor, Indiranagar and surrounding areas.',
+                },
+                {
+                  q: 'How do I book a trial class at Revive Fight Club?',
+                  a: 'Use the contact form on this page, reach us on WhatsApp at +91 96069 72238, or book directly online. No commitment required for the trial.',
+                },
+                {
+                  q: 'Can I visit the gym before joining?',
+                  a: 'Yes — feel free to visit us during training hours and our team will be happy to show you around the facility.',
+                },
+              ].map(({ q, a }, i) => (
+                <div
+                  key={i}
+                  className="py-5"
+                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                >
+                  <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#f0ede8] text-base uppercase tracking-tight mb-2">
+                    <span className="text-[#ff571a] mr-2" aria-hidden="true">—</span>
+                    {q}
+                  </h3>
+                  <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-relaxed pl-5">
+                    {a}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>
