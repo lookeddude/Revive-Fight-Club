@@ -14,8 +14,14 @@ import { GsapStagger } from '@/components/gsap/GsapStagger'
 import { GsapCountUp } from '@/components/gsap/GsapCountUp'
 
 export const metadata: Metadata = {
-  title: 'About | Revive Fight Club',
-  description: 'Revive Fight Club — Bengaluru\'s premier combat sports and fitness gym in Frazer Town. MMA, Kickboxing, Bodybuilding & Weight Loss. Rated 5.0 on Google.',
+  title: 'About Revive Fight Club | MMA Gym in Bengaluru',
+  description: "Revive Fight Club — Bengaluru's premier combat sports and fitness gym in Fraser Town. MMA, Boxing, Kickboxing, Jiu-Jitsu and Muay Thai. Rated 5.0 on Google.",
+  alternates: {
+    canonical: 'https://revivefightclub.com/about',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/about',
+  },
 }
 
 export const revalidate = 3600

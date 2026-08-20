@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Outfit, Barlow } from 'next/font/google'
 import { LenisProvider } from '@/components/providers/LenisProvider'
+import { SITE_URL, BUSINESS, DEFAULT_OG_IMAGE, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from '@/lib/seo.config'
 import './globals.css'
 
 // Preload only needed weights — faster font load
@@ -20,40 +21,56 @@ const barlow = Barlow({
   preload: true,
 })
 
+/**
+ * metadataBase is REQUIRED for Next.js to resolve relative OG/canonical URLs correctly.
+ * Must be the production domain — never the Vercel testing URL.
+ */
 export const metadata: Metadata = {
-  title: {
-    default: 'Revive Fight Club | MMA & Fitness in Bengaluru',
-    template: '%s | Revive Fight Club',
-  },
-  description:
-    'Elite MMA, Muay Thai, BJJ and fitness training in Frazer Town, Bengaluru. Book a trial class today.',
+  metadataBase: new URL(SITE_URL),
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
   keywords: [
     'MMA Bengaluru',
     'fight club Bengaluru',
     'Muay Thai Bengaluru',
-    'BJJ Bengaluru',
+    'Jiu-Jitsu Bengaluru',
     'boxing Bengaluru',
     'kickboxing Bengaluru',
-    'fitness Frazer Town',
-    'combat sports training',
+    'fitness Fraser Town',
+    'combat sports training Bengaluru',
   ],
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    siteName: 'Revive Fight Club',
-    title: 'Revive Fight Club | MMA & Fitness in Bengaluru',
-    description:
-      'Elite MMA, Muay Thai, BJJ and fitness training in Frazer Town, Bengaluru.',
+    siteName: BUSINESS.brandName,
+    title: DEFAULT_TITLE.default,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 512,
+        height: 512,
+        alt: 'Revive Fight Club — MMA & Fitness Gym in Bengaluru',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Revive Fight Club | MMA & Fitness in Bengaluru',
-    description:
-      'Elite MMA, Muay Thai, BJJ and fitness training in Frazer Town, Bengaluru.',
+    title: DEFAULT_TITLE.default,
+    description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
   },
   icons: {
     icon: [
@@ -66,14 +83,62 @@ export const metadata: Metadata = {
   },
 }
 
+/**
+ * Global JSON-LD Structured Data
+ * ─────────────────────────────────
+ * WebSite: establishes the site entity
+ * LocalBusiness / SportsActivityLocation: local SEO for Bengaluru
+ *
+ * Rules followed:
+ *  - No AggregateRating (would require verified third-party source)
+ *  - No fabricated hours, coordinates, or price range
+ *  - Only verified NAP information
+ */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: BUSINESS.brandName,
+      url: SITE_URL,
+      description: DEFAULT_DESCRIPTION,
+      inLanguage: 'en-IN',
+    },
+    {
+      '@type': ['LocalBusiness', 'SportsActivityLocation'],
+      '@id': `${SITE_URL}/#localbusiness`,
+      name: BUSINESS.name,
+      alternateName: BUSINESS.brandName,
+      url: SITE_URL,
+      telephone: BUSINESS.phone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: BUSINESS.address.street,
+        addressLocality: BUSINESS.address.locality,
+        addressRegion: BUSINESS.address.state,
+        postalCode: BUSINESS.address.postalCode,
+        addressCountry: BUSINESS.address.country,
+      },
+      image: DEFAULT_OG_IMAGE,
+      sameAs: [],
+    },
+  ],
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${barlow.variable}`}>
+    <html lang="en-IN" className={`${outfit.variable} ${barlow.variable}`}>
       <head>
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {/* Preconnect to Supabase for faster API + image loads */}
         <link rel="preconnect" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
         <link rel="dns-prefetch" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
@@ -81,8 +146,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
-        <a 
-          href="#main" 
+        <a
+          href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#ff571a] focus:text-black focus:font-bold focus:uppercase focus:tracking-widest"
         >
           Skip to content

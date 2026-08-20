@@ -5,6 +5,9 @@ import { Footer } from '@/components/layout/Footer'
 export const metadata: Metadata = {
   title: 'Terms of Service | Revive Fight Club',
   description: 'Terms and conditions for using Revive Fight Club services, facilities and website.',
+  alternates: {
+    canonical: 'https://revivefightclub.com/terms-of-service',
+  },
 }
 
 export default function TermsOfServicePage() {

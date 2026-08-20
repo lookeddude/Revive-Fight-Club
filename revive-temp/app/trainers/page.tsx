@@ -10,8 +10,14 @@ import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 import { GsapCountUp } from '@/components/gsap/GsapCountUp'
 
 export const metadata: Metadata = {
-  title: 'Trainers | Revive Fight Club',
-  description: 'Train under world-class MMA coaches at Revive Fight Club, Bengaluru. Professional fighters with 10+ years of combat sports coaching experience.',
+  title: 'Trainers | Expert MMA & Combat Sports Coaches',
+  description: 'Train under world-class MMA, Boxing and combat sports coaches at Revive Fight Club in Fraser Town, Bengaluru. Professional fighters with years of coaching experience.',
+  alternates: {
+    canonical: 'https://revivefightclub.com/trainers',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/trainers',
+  },
 }
 
 export const revalidate = 300

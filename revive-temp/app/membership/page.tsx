@@ -11,7 +11,13 @@ import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 
 export const metadata: Metadata = {
   title: 'Membership & Pricing | Revive Fight Club',
-  description: 'Transparent pricing for all batches — Beginners, Fighters, Kids (Weekday & Weekend). Join Revive Fight Club, Bengaluru\'s elite combat gym.',
+  description: "Transparent membership pricing for all levels — Beginners, Fighters, Kids. Weekday & Weekend batches. Join Revive Fight Club, Bengaluru's elite combat sports gym.",
+  alternates: {
+    canonical: 'https://revivefightclub.com/membership',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/membership',
+  },
 }
 
 export const revalidate = 3600

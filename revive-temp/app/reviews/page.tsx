@@ -10,7 +10,13 @@ export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Member Reviews | Revive Fight Club',
-  description: 'Read what our members say about training at Revive Fight Club — Bengaluru\'s elite combat gym. Real reviews from real athletes.',
+  description: "Read what our members say about training at Revive Fight Club in Fraser Town, Bengaluru — Bengaluru's elite combat gym. Real reviews from real athletes.",
+  alternates: {
+    canonical: 'https://revivefightclub.com/reviews',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/reviews',
+  },
 }
 
 function StarRating({ rating }: { rating: number }) {

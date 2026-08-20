@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'Privacy Policy | Revive Fight Club',
   description: 'Privacy Policy for Revive Fight Club — how we collect, use and protect your personal data.',
   robots: { index: true, follow: true },
+  alternates: {
+    canonical: 'https://revivefightclub.com/privacy-policy',
+  },
 }
 
 export default function PrivacyPolicyPage() {

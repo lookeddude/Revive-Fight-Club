@@ -14,9 +14,12 @@ import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 export const metadata: Metadata = {
   title: 'Contact | Revive Fight Club',
   description:
-    'Get in touch with Revive Fight Club. Contact us by form, WhatsApp, phone, or visit us at Frazer Town, Bengaluru.',
+    'Get in touch with Revive Fight Club. Contact us by form, WhatsApp, phone, or visit us at Fraser Town, Bengaluru.',
   alternates: {
     canonical: 'https://revivefightclub.com/contact',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/contact',
   },
 }
 

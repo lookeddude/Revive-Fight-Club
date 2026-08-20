@@ -10,8 +10,14 @@ import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
 import { GsapStagger } from '@/components/gsap/GsapStagger'
 
 export const metadata: Metadata = {
-  title: 'Schedule | Revive Fight Club',
-  description: 'View the weekly class schedule at Revive Fight Club, Bengaluru.',
+  title: 'Class Schedule | Revive Fight Club',
+  description: 'View the weekly MMA, Boxing, Kickboxing, Jiu-Jitsu and fitness class schedule at Revive Fight Club in Fraser Town, Bengaluru. Morning and evening batches available.',
+  alternates: {
+    canonical: 'https://revivefightclub.com/schedule',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/schedule',
+  },
 }
 
 export const revalidate = 300

@@ -18,11 +18,16 @@ import { getActiveHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
 import { getFirstProgramSlides } from '@/lib/data/programSlides'
 
 export const metadata: Metadata = {
-  title: 'Revive Fight Club | Elite MMA & Fitness in Bengaluru',
+  title: 'Revive Fight Club | MMA, Boxing & Fitness Gym in Bengaluru',
   description:
-    'Elite MMA, Kickboxing, Bodybuilding and Weight Loss training in Frazer Town, Bengaluru. World-class coaches. Premium facilities. Book your trial class today.',
+    'Revive Fight Club — MMA, Boxing, Kickboxing, Jiu-Jitsu, Muay Thai and fitness training in Fraser Town, Bengaluru. World-class coaches. Premium facilities. Book a trial class today.',
   alternates: {
     canonical: 'https://revivefightclub.com',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com',
+    title: 'Revive Fight Club | MMA, Boxing & Fitness Gym in Bengaluru',
+    description: 'MMA, Boxing, Kickboxing, Jiu-Jitsu, Muay Thai and fitness training in Fraser Town, Bengaluru. World-class coaches. Book a trial class today.',
   },
 }
 

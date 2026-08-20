@@ -11,8 +11,14 @@ import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
 import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
 
 export const metadata: Metadata = {
-  title: 'Programs | Revive Fight Club',
-  description: 'Explore MMA, Muay Thai, Brazilian Jiu-Jitsu and Strength & Conditioning programs at Revive Fight Club, Bengaluru.',
+  title: 'Programs | MMA, Boxing, Jiu-Jitsu & More',
+  description: 'Explore MMA, Boxing, Kickboxing, Muay Thai, Jiu-Jitsu, Wrestling, Judo, Strength & Conditioning, Weight Loss and more at Revive Fight Club in Fraser Town, Bengaluru.',
+  alternates: {
+    canonical: 'https://revivefightclub.com/programs',
+  },
+  openGraph: {
+    url: 'https://revivefightclub.com/programs',
+  },
 }
 
 export const revalidate = 300

@@ -17,7 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!program) return { title: 'Program Not Found' }
   return {
     title: `${program.name} | Revive Fight Club`,
-    description: program.short_description ?? `${program.name} training at Revive Fight Club, Bengaluru.`,
+    description: program.short_description ?? `${program.name} training at Revive Fight Club in Fraser Town, Bengaluru.`,
+    alternates: {
+      canonical: `https://revivefightclub.com/programs/${slug}`,
+    },
+    openGraph: {
+      url: `https://revivefightclub.com/programs/${slug}`,
+    },
   }
 }
 
