@@ -3,13 +3,17 @@ import { Reveal } from '@/components/ui/Reveal'
 
 /**
  * Featured Membership Plans — Homepage section.
- * Shows Beginners Batch and Kids Batch as two featured cards.
+ * Shows Beginners Batch and Kids Batch with ALL pricing tiers.
  * Placed between Reviews and CTA for optimal conversion flow.
- *
- * Data is hardcoded display copy (batch names, starting prices, selling points).
- * Starting prices come from the DB: Beginners ₹6,500/mo, Kids ₹3,500/mo.
- * The full dynamic pricing is on /membership.
  */
+
+type PriceTier = {
+  label: string
+  shortLabel: string
+  price: string
+  perMonth: string
+  best?: boolean
+}
 
 const FEATURED_PLANS = [
   {
@@ -17,16 +21,19 @@ const FEATURED_PLANS = [
     icon: '🥊',
     title: 'BEGINNERS BATCH',
     subtitle: 'Your combat sports journey starts here',
-    startingPrice: '6,500',
-    period: '/month',
     points: [
-      'No experience needed',
+      'No experience needed — learn from scratch',
       'MMA, Boxing, Kickboxing fundamentals',
       'Expert coaches guide every session',
-      'Flexible monthly, quarterly & yearly plans',
     ],
+    tiers: [
+      { label: 'Monthly', shortLabel: '1 Mo', price: '6,500', perMonth: '6,500' },
+      { label: 'Quarterly', shortLabel: '3 Mo', price: '13,000', perMonth: '4,333' },
+      { label: 'Semiannual', shortLabel: '6 Mo', price: '20,000', perMonth: '3,333' },
+      { label: 'Yearly', shortLabel: '12 Mo', price: '40,000', perMonth: '3,333', best: true },
+    ] as PriceTier[],
     accent: '#ff571a',
-    glowFrom: 'rgba(255,87,26,0.06)',
+    accentLight: 'rgba(255,87,26,0.08)',
     border: 'rgba(255,87,26,0.2)',
   },
   {
@@ -34,16 +41,19 @@ const FEATURED_PLANS = [
     icon: '⚡',
     title: 'KIDS BATCH',
     subtitle: 'Build discipline, fitness & confidence early',
-    startingPrice: '3,500',
-    period: '/month',
     points: [
       'Ages 6–15 welcome',
       'Weekday & weekend batches available',
-      'Safe, structured environment',
-      'Builds focus, strength & self-defence skills',
+      'Safe, structured training environment',
     ],
+    tiers: [
+      { label: 'Monthly', shortLabel: '1 Mo', price: '4,500', perMonth: '4,500' },
+      { label: 'Quarterly', shortLabel: '3 Mo', price: '10,000', perMonth: '3,333' },
+      { label: 'Semiannual', shortLabel: '6 Mo', price: '15,000', perMonth: '2,500' },
+      { label: 'Yearly', shortLabel: '12 Mo', price: '26,000', perMonth: '2,167', best: true },
+    ] as PriceTier[],
     accent: '#f5a623',
-    glowFrom: 'rgba(245,166,35,0.06)',
+    accentLight: 'rgba(245,166,35,0.08)',
     border: 'rgba(245,166,35,0.2)',
   },
 ]
@@ -84,13 +94,13 @@ export function HomeMembership() {
         </Reveal>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">
           {FEATURED_PLANS.map((plan, index) => (
             <Reveal key={plan.id} delay={index * 140}>
               <div
-                className="group relative overflow-hidden transition-all duration-500 hover:-translate-y-1"
+                className="group relative overflow-hidden h-full"
                 style={{
-                  background: `linear-gradient(160deg, #131211 0%, #0f0e0d 100%)`,
+                  background: 'linear-gradient(160deg, #131211 0%, #0f0e0d 100%)',
                   border: `1px solid ${plan.border}`,
                 }}
               >
@@ -100,15 +110,9 @@ export function HomeMembership() {
                   style={{ background: `linear-gradient(90deg, transparent, ${plan.accent}, transparent)` }}
                 />
 
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 50% 0%, ${plan.glowFrom}, transparent 70%)` }}
-                />
-
-                <div className="relative p-7 md:p-9">
+                <div className="relative p-6 md:p-8">
                   {/* Icon + Title */}
-                  <div className="flex items-center gap-3 mb-5">
+                  <div className="flex items-center gap-3 mb-6">
                     <span className="text-3xl">{plan.icon}</span>
                     <div>
                       <h3
@@ -123,27 +127,56 @@ export function HomeMembership() {
                     </div>
                   </div>
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] uppercase tracking-wider">Starting at</span>
-                    </div>
-                    <div className="flex items-baseline gap-1 mt-1">
-                      <span className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] text-4xl md:text-5xl leading-none">
-                        ₹{plan.startingPrice}
-                      </span>
-                      <span className="font-[family-name:var(--font-body)] text-sm text-[#6b7280] font-medium">
-                        {plan.period}
-                      </span>
-                    </div>
+                  {/* Pricing grid — 2×2 */}
+                  <div className="grid grid-cols-2 gap-2.5 mb-6">
+                    {plan.tiers.map((tier) => (
+                      <div
+                        key={tier.label}
+                        className="relative p-3.5 md:p-4 overflow-hidden"
+                        style={{
+                          background: tier.best ? plan.accentLight : 'rgba(255,255,255,0.02)',
+                          border: tier.best ? `1px solid ${plan.border}` : '1px solid rgba(255,255,255,0.04)',
+                        }}
+                      >
+                        {/* Best value badge */}
+                        {tier.best && (
+                          <div
+                            className="absolute top-0 right-0 px-2 py-0.5"
+                            style={{ background: plan.accent }}
+                          >
+                            <span className="font-[family-name:var(--font-body)] text-[9px] font-black tracking-[0.12em] uppercase" style={{ color: '#0d0c0b' }}>
+                              Best Value
+                            </span>
+                          </div>
+                        )}
+
+                        <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.15em] uppercase text-[#6b7280] mb-1.5">
+                          {tier.label}
+                        </p>
+                        <div className="flex items-baseline gap-0.5">
+                          <span
+                            className="font-[family-name:var(--font-outfit)] font-black leading-none"
+                            style={{
+                              color: tier.best ? plan.accent : '#f0ede8',
+                              fontSize: 'clamp(20px, 3vw, 28px)',
+                            }}
+                          >
+                            ₹{tier.price}
+                          </span>
+                        </div>
+                        <p className="font-[family-name:var(--font-body)] text-[10px] text-[#4b5563] mt-1">
+                          ≈ ₹{tier.perMonth}/mo
+                        </p>
+                      </div>
+                    ))}
                   </div>
 
                   {/* Points */}
-                  <ul className="space-y-2.5 mb-8">
+                  <ul className="space-y-2 mb-7">
                     {plan.points.map((point) => (
                       <li key={point} className="flex items-start gap-2.5">
                         <svg
-                          className="w-4 h-4 mt-0.5 flex-shrink-0"
+                          className="w-3.5 h-3.5 mt-0.5 flex-shrink-0"
                           style={{ color: plan.accent }}
                           fill="none"
                           stroke="currentColor"
@@ -151,7 +184,7 @@ export function HomeMembership() {
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="font-[family-name:var(--font-body)] text-sm text-[#c0bfbd] leading-snug">
+                        <span className="font-[family-name:var(--font-body)] text-sm text-[#a8a5a2] leading-snug">
                           {point}
                         </span>
                       </li>
@@ -167,7 +200,7 @@ export function HomeMembership() {
                       color: '#0d0c0b',
                     }}
                   >
-                    View Plans
+                    Join Now
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                     </svg>
