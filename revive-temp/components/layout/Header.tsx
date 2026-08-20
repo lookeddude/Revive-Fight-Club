@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'motion/react'
 import { createClient } from '@/lib/supabase/client'
 import { MobileNav } from './MobileNav'
 import { SiteLogo } from '@/components/ui/SiteLogo'
@@ -136,13 +137,20 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 ${
+                  className={`relative font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 pb-1 ${
                     isActive
-                      ? 'text-[#ffb59e] border-b border-[#ffb59e] pb-1'
+                      ? 'text-[#ffb59e]'
                       : 'text-[#f0ede8] hover:text-[#ff571a]'
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#ffb59e]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
               )
             })}
@@ -190,8 +198,16 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 </button>
 
                 {/* Dropdown */}
-                {dropdownOpen && (
-                  <div className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50 animate-dropdown">
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      key="auth-dropdown"
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50"
+                    >
                     {/* User info */}
                     <div className="px-4 py-3 border-b border-white/8">
                       <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#e2e3e1] truncate">
@@ -235,8 +251,9 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                         Sign Out
                       </span>
                     </button>
-                  </div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               /* Not logged in */
