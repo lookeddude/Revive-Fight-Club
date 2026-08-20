@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 interface HomeVideoProps {
   videoUrl: string | null
@@ -9,108 +9,113 @@ interface HomeVideoProps {
 /**
  * Homepage explainer video section.
  * MOBILE ONLY — hidden on md+ (tablet and desktop).
- * 16:9 landscape aspect ratio.
- * Renders nothing if no video URL is set.
+ * Full-screen portrait mode.
+ * Auto-plays (muted) when scrolled into view, pauses when out of view.
+ * Has a mute/unmute toggle button.
  */
 export function HomeVideo({ videoUrl }: HomeVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isMuted, setIsMuted] = useState(true)
   const [isPlaying, setIsPlaying] = useState(false)
 
   if (!videoUrl) return null
 
-  function handlePlay() {
+  // Auto-play/pause on scroll using IntersectionObserver
+  useEffect(() => {
+    const video = videoRef.current
+    const container = containerRef.current
+    if (!video || !container) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // Autoplay blocked — user needs to interact first
+          })
+        } else {
+          video.pause()
+        }
+      },
+      { threshold: 0.5 } // 50% visible triggers play
+    )
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  function toggleMute() {
     const video = videoRef.current
     if (!video) return
-
-    if (video.paused) {
-      video.play()
-      setIsPlaying(true)
-    } else {
-      video.pause()
-      setIsPlaying(false)
-    }
-  }
-
-  function handleVideoEnd() {
-    setIsPlaying(false)
+    video.muted = !video.muted
+    setIsMuted(video.muted)
   }
 
   return (
-    // block md:hidden → visible on mobile, hidden on tablet + desktop
-    <section className="block md:hidden" style={{ background: '#0d0c0b' }}>
-      <div className="max-w-[1280px] mx-auto px-5 py-10">
-        {/* Section label */}
-        <p
-          className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.18em] uppercase mb-4"
-          style={{ color: '#f5a623' }}
-        >
-          <span
-            style={{
-              display: 'inline-block',
-              width: '24px',
-              height: '1px',
-              background: '#f5a623',
-              marginRight: '10px',
-              verticalAlign: 'middle',
-            }}
-          />
-          About Revive Fight Club
-        </p>
+    // block md:hidden → visible on mobile only
+    <section className="block md:hidden relative" style={{ background: '#0d0c0b' }}>
+      <div ref={containerRef} className="relative w-full" style={{ aspectRatio: '9 / 16' }}>
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          className="w-full h-full object-cover"
+          muted
+          playsInline
+          loop
+          preload="metadata"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+        />
 
-        {/* Video container — 16:9 */}
-        <div
-          className="relative w-full aspect-video overflow-hidden cursor-pointer"
-          style={{ border: '1px solid rgba(255,255,255,0.06)' }}
-          onClick={handlePlay}
+        {/* Mute / Unmute button — bottom right */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-5 right-5 z-10 w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 active:scale-90"
+          style={{
+            background: 'rgba(13,12,11,0.65)',
+            border: '1px solid rgba(255,255,255,0.15)',
+          }}
+          aria-label={isMuted ? 'Unmute video' : 'Mute video'}
         >
-          <video
-            ref={videoRef}
-            src={videoUrl}
-            className="w-full h-full object-cover"
-            preload="metadata"
-            playsInline
-            onEnded={handleVideoEnd}
-            onPause={() => setIsPlaying(false)}
-            onPlay={() => setIsPlaying(true)}
-          />
+          {isMuted ? (
+            // Muted icon — speaker with X
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          ) : (
+            // Unmuted icon — speaker with waves
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728" />
+            </svg>
+          )}
+        </button>
 
-          {/* Play button overlay — fades when playing */}
+        {/* Tap to unmute hint — shows briefly when muted and playing */}
+        {isPlaying && isMuted && (
           <div
-            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-              isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
-            style={{ background: 'rgba(13,12,11,0.45)' }}
+            className="absolute bottom-5 left-5 z-10 px-3 py-1.5 rounded-full animate-pulse"
+            style={{
+              background: 'rgba(13,12,11,0.6)',
+              border: '1px solid rgba(255,255,255,0.1)',
+            }}
           >
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{
-                background: 'rgba(255,87,26,0.9)',
-                boxShadow: '0 4px 20px rgba(255,87,26,0.4)',
-              }}
-            >
-              <svg
-                className="w-6 h-6 text-black ml-1"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
+            <p className="font-[family-name:var(--font-body)] text-[10px] text-white/70 tracking-wide uppercase">
+              Tap 🔊 for sound
+            </p>
           </div>
+        )}
 
-          {/* Subtle bottom gradient */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
-            style={{
-              background: 'linear-gradient(to top, rgba(13,12,11,0.6), transparent)',
-            }}
-          />
-        </div>
-
-        {/* Caption */}
-        <p className="font-[family-name:var(--font-body)] text-xs text-[#6a6260] mt-3 text-center tracking-wide">
-          Tap to play · Learn about our training programs and facility
-        </p>
+        {/* Subtle top + bottom gradient for polish */}
+        <div
+          className="absolute top-0 left-0 right-0 h-16 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, rgba(13,12,11,0.4), transparent)' }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(13,12,11,0.5), transparent)' }}
+        />
       </div>
     </section>
   )
