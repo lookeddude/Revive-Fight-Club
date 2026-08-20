@@ -40,7 +40,15 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
   const [screenSize, setScreenSize] = useState<ScreenSize>('desktop')
   const [isPaused, setIsPaused] = useState(false)
+  const [entered, setEntered] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Trigger entrance animation after mount
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setEntered(true))
+    return () => cancelAnimationFrame(id)
+  }, [])
+
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -112,7 +120,7 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
             priority
             quality={90}
             sizes="100vw"
-            className="hero-bg-img"
+            className="hero-bg-img img-settle"
             style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center -10px' : 'center top' }}
           />
         </div>
@@ -149,7 +157,10 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
 
         {/* Discipline tags */}
-        <div className="flex flex-wrap items-center gap-2 mb-3">
+        <div
+          className={`flex flex-wrap items-center gap-2 mb-3${entered ? ' hero-enter' : ''}`}
+          style={entered ? ({ '--hero-delay': '0ms', '--hero-dur': '0.6s' } as React.CSSProperties) : undefined}
+        >
           {(programNames.length > 0 ? programNames : ['MMA', 'BOXING', 'BJJ']).map((d, i, arr) => (
             <span key={d} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
               <span
@@ -171,8 +182,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
 
         {/* Brand name — ONE horizontal line */}
         <h1
-          className="font-[family-name:var(--font-outfit)] font-black uppercase leading-none tracking-[-0.02em] mb-4"
-          style={{ fontSize: 'clamp(38px, 7.5vw, 96px)' }}
+          className={`font-[family-name:var(--font-outfit)] font-black uppercase leading-none tracking-[-0.02em] mb-4${entered ? ' hero-enter' : ''}`}
+          style={{ fontSize: 'clamp(38px, 7.5vw, 96px)', ...(entered ? ({ '--hero-delay': '160ms', '--hero-dur': '0.72s' } as React.CSSProperties) : {}) }}
         >
           <span className="text-[#f5f2ed]">REVIVE </span>
           <span className="text-[#ff571a]">FIGHT </span>
@@ -187,7 +198,10 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
         </h1>
 
         {/* Bottom row — tagline left, CTAs right */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+        <div
+          className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5${entered ? ' hero-enter' : ''}`}
+          style={entered ? ({ '--hero-delay': '340ms', '--hero-dur': '0.65s' } as React.CSSProperties) : undefined}
+        >
 
           {/* Left: Location + tagline */}
           <div className="flex flex-col gap-1">

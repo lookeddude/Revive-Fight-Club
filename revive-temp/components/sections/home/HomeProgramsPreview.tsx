@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/Badge'
+import { Reveal } from '@/components/ui/Reveal'
 import type { ProgramCard } from '@/lib/data/content'
 
 const FALLBACK_IMAGES: Record<string, string> = {
@@ -35,31 +36,34 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-          <div>
-            <p className="section-label">Training Disciplines</p>
-            <h2
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
+        <Reveal>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <div>
+              <p className="section-label">Training Disciplines</p>
+              <h2
+                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
+              >
+                OUR <span className="text-[#ff571a]">PROGRAMS</span>
+              </h2>
+            </div>
+            <Link
+              href="/programs"
+              className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-end"
             >
-              OUR <span className="text-[#ff571a]">PROGRAMS</span>
-            </h2>
+              VIEW ALL
+              <span className="flex items-center justify-center w-8 h-8 border border-white/10 group-hover:border-[#ff571a]/40 group-hover:bg-[#ff571a]/08 transition-all duration-300">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
           </div>
-          <Link
-            href="/programs"
-            className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-end"
-          >
-            VIEW ALL
-            <span className="flex items-center justify-center w-8 h-8 border border-white/10 group-hover:border-[#ff571a]/40 group-hover:bg-[#ff571a]/08 transition-all duration-300">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
-        </div>
+        </Reveal>
 
         {/* Programs Grid — 4-up on large, 2-up on tablet, 1-up on mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <Reveal delay={120}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {programs.map((program, i) => (
             <Link
               key={program.id}
@@ -118,7 +122,8 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
               </div>
             </Link>
           ))}
-        </div>
+          </div>
+        </Reveal>
 
         {/* Mobile - View All */}
         <div className="flex justify-center mt-10 md:hidden">

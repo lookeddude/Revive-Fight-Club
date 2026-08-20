@@ -33,7 +33,9 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
 
-  if (!isOpen) return null
+  if (!isOpen && typeof document !== 'undefined') {
+    // Keep in DOM for transition but hidden for AT when closed
+  }
 
   const getInitials = (name: string | null, email: string) => {
     if (name) return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
@@ -42,19 +44,30 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — fades in/out */}
       <div
         className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm md:hidden"
+        style={{
+          opacity: isOpen ? 1 : 0,
+          pointerEvents: isOpen ? 'auto' : 'none',
+          transition: 'opacity 0.28s ease',
+        }}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Drawer */}
+      {/* Drawer — slides in from right */}
       <div
         className="fixed top-0 right-0 bottom-0 z-[70] w-full max-w-sm bg-[#0d0f0e] border-l border-white/10 flex flex-col md:hidden"
+        style={{
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1)',
+          visibility: isOpen ? 'visible' : 'hidden',
+        }}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
+        aria-hidden={!isOpen}
       >
         {/* Drawer Header */}
         <div className="flex justify-between items-center h-20 px-6 border-b border-white/10">
@@ -97,7 +110,7 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
 
         {/* Nav Links */}
         <nav className="flex-1 flex flex-col px-6 py-6 gap-1 overflow-y-auto" aria-label="Mobile navigation">
-          {navLinks.map((link) => {
+          {navLinks.map((link, index) => {
             const isActive = currentPath === link.href
             return (
               <Link
@@ -107,6 +120,11 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
                 className={`font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase py-4 border-b border-white/5 transition-colors duration-200 ${
                   isActive ? 'text-[#ffb59e]' : 'text-[#e2e3e1] hover:text-[#ffb59e]'
                 }`}
+                style={{
+                  animation: isOpen
+                    ? `navLinkIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) ${0.12 + index * 0.05}s both`
+                    : 'none',
+                }}
                 onClick={onClose}
               >
                 {link.label}
@@ -119,6 +137,11 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
             <Link
               href="/admin"
               className="flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase py-4 border-b border-white/5 text-[#ff571a] hover:text-[#ffb59e] transition-colors"
+              style={{
+                animation: isOpen
+                  ? `navLinkIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) ${0.12 + navLinks.length * 0.05}s both`
+                  : 'none',
+              }}
               onClick={onClose}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -1,4 +1,5 @@
 import type { ReviewCard } from '@/lib/data/content'
+import { Reveal } from '@/components/ui/Reveal'
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -35,18 +36,19 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
-          <div>
-            <p className="section-label" style={{ color: '#f5a623' }}>
-              <span style={{ background: '#f5a623', display: 'inline-block', width: '28px', height: '1px', marginRight: '12px', verticalAlign: 'middle' }} aria-hidden="true" />
-              Athlete Testimonials
-            </p>
-            <h2
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(34px, 5vw, 56px)' }}
-            >
-              WHAT OUR{' '}<br className="hidden md:block" />
-              <span className="text-[#ff571a]">ATHLETES SAY</span>
+        <Reveal>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
+            <div>
+              <p className="section-label" style={{ color: '#f5a623' }}>
+                <span style={{ background: '#f5a623', display: 'inline-block', width: '28px', height: '1px', marginRight: '12px', verticalAlign: 'middle' }} aria-hidden="true" />
+                Athlete Testimonials
+              </p>
+              <h2
+                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(34px, 5vw, 56px)' }}
+              >
+                WHAT OUR{' '}<br className="hidden md:block" />
+                <span className="text-[#ff571a]">ATHLETES SAY</span>
             </h2>
           </div>
           <div
@@ -69,11 +71,13 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
             </div>
           </div>
         </div>
+        </Reveal>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {reviews.map((review) => {
-            return (
+        <Reveal delay={100}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {reviews.map((review) => {
+              return (
               <div
                 key={review.id}
                 className="flex flex-col gap-3 p-4 relative group transition-all duration-300"
@@ -127,7 +131,8 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
               </div>
             )
           })}
-        </div>
+          </div>
+        </Reveal>
       </div>
 
       <div className="sep-subtle mt-14" aria-hidden="true" />

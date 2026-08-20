@@ -1,3 +1,5 @@
+import { Reveal } from '@/components/ui/Reveal'
+
 const stats = [
   { value: '5.0', label: 'Google Rating', suffix: '★' },
   { value: '126', label: 'Verified Reviews', suffix: '+' },
@@ -17,39 +19,40 @@ export function HomeStats() {
       <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-16 md:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className="relative flex flex-col items-center justify-center py-10 px-6"
-            >
-              {/* Vertical divider */}
-              {i < stats.length - 1 && (
-                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-14"
-                  style={{ background: 'linear-gradient(to bottom, transparent, rgba(255,87,26,0.15), transparent)' }}
-                  aria-hidden="true"
-                />
-              )}
+            <Reveal key={stat.label} delay={i * 90} threshold={0.1}>
+              <div
+                className="relative flex flex-col items-center justify-center py-10 px-6"
+              >
+                {/* Vertical divider */}
+                {i < stats.length - 1 && (
+                  <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-14"
+                    style={{ background: 'linear-gradient(to bottom, transparent, rgba(255,87,26,0.15), transparent)' }}
+                    aria-hidden="true"
+                  />
+                )}
 
-              {/* Number */}
-              <div className="flex items-start gap-0.5 mb-3">
-                <span
-                  className="stat-number text-[clamp(52px,7vw,80px)]"
-                  style={{ textShadow: 'none' }}
-                >
-                  {stat.value}
-                </span>
-                <span
-                  className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] mt-2"
-                  style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
-                >
-                  {stat.suffix}
+                {/* Number */}
+                <div className="flex items-start gap-0.5 mb-3">
+                  <span
+                    className="stat-number text-[clamp(52px,7vw,80px)]"
+                    style={{ textShadow: 'none' }}
+                  >
+                    {stat.value}
+                  </span>
+                  <span
+                    className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] mt-2"
+                    style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}
+                  >
+                    {stat.suffix}
+                  </span>
+                </div>
+
+                {/* Label */}
+                <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.18em] uppercase text-[#9ca3af]">
+                  {stat.label}
                 </span>
               </div>
-
-              {/* Label */}
-              <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.18em] uppercase text-[#9ca3af]">
-                {stat.label}
-              </span>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

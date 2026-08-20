@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { Reveal } from '@/components/ui/Reveal'
 import type { TrainerCard } from '@/lib/data/content'
 
 const FALLBACK_IMAGES = [
@@ -26,26 +27,28 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-          <div>
-            <p className="section-label">Coaching Staff</p>
-            <h2
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
-              style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
+        <Reveal>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+            <div>
+              <p className="section-label">Coaching Staff</p>
+              <h2
+                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}
+              >
+                MEET THE <span className="text-[#ff571a]">COACHES</span>
+              </h2>
+            </div>
+            <Link
+              href="/trainers"
+              className="group flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-start md:self-end"
             >
-              MEET THE <span className="text-[#ff571a]">COACHES</span>
-            </h2>
+              VIEW ALL TRAINERS
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
-          <Link
-            href="/trainers"
-            className="group flex items-center gap-3 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#9ca3af] hover:text-[#ff571a] transition-colors self-start md:self-end"
-          >
-            VIEW ALL TRAINERS
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
+        </Reveal>
 
         {/* Trainer Cards — Compact horizontal on mobile, editorial alternating on desktop */}
         <div className="flex flex-col gap-4">
@@ -54,12 +57,12 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
             const image = trainer.profile_image_path ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]
 
             return (
-              <Link
-                key={trainer.id}
-                href={`/trainers/${trainer.slug}`}
-                className="group card-premium overflow-hidden"
-                aria-label={`View ${trainer.name} profile`}
-              >
+              <Reveal key={trainer.id} delay={index * 80}>
+                <Link
+                  href={`/trainers/${trainer.slug}`}
+                  className="group card-premium overflow-hidden block"
+                  aria-label={`View ${trainer.name} profile`}
+                >
                 {/* Mobile: compact horizontal card */}
                 <div className="flex md:hidden" style={{ minHeight: '140px' }}>
                   {/* Image — fixed width left column */}
@@ -165,6 +168,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                   </div>
                 </div>
               </Link>
+              </Reveal>
             )
           })}
         </div>

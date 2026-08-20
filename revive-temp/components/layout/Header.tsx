@@ -191,7 +191,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
 
                 {/* Dropdown */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50">
+                  <div className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50 animate-dropdown">
                     {/* User info */}
                     <div className="px-4 py-3 border-b border-white/8">
                       <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#e2e3e1] truncate">

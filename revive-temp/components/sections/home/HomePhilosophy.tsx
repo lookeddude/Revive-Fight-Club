@@ -1,3 +1,5 @@
+import { Reveal } from '@/components/ui/Reveal'
+
 export function HomePhilosophy() {
   return (
     <section
@@ -12,46 +14,47 @@ export function HomePhilosophy() {
           {/* Left: Headline + pillars */}
           <div className="md:col-span-5 relative">
 
+            <Reveal direction="left">
+              <div className="relative z-10">
+                <p className="section-label mb-6">Our Philosophy</p>
 
-            <div className="relative z-10">
-              <p className="section-label mb-6">Our Philosophy</p>
+                <h2
+                  className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em] mb-10"
+                  style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
+                >
+                  WHERE{' '}
+                  <span className="text-[#ff571a]">PERFORMANCE</span>{' '}
+                  MEETS{' '}
+                  DISCIPLINE
+                </h2>
 
-              <h2
-                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em] mb-10"
-                style={{ fontSize: 'clamp(38px, 5.5vw, 62px)' }}
-              >
-                WHERE{' '}
-                <span className="text-[#ff571a]">PERFORMANCE</span>{' '}
-                MEETS{' '}
-                DISCIPLINE
-              </h2>
-
-              {/* Three pillars */}
-              <div className="flex flex-col gap-5">
-                {[
-                  { num: '01', label: 'Technical Mastery' },
-                  { num: '02', label: 'Physical Conditioning' },
-                  { num: '03', label: 'Mental Resilience' },
-                ].map(({ num, label }, i) => (
-                  <div key={label} className="flex items-center gap-4 group cursor-default">
-                    <span
-                      className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-xl w-8 flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
-                      style={{ opacity: 1 - i * 0.2 }}
-                    >
-                      {num}
-                    </span>
-                    <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,87,26,0.2), transparent)' }} aria-hidden="true" />
-                    <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#c8bfb8] group-hover:text-[#f0ede8] transition-colors">
-                      {label}
-                    </span>
-                  </div>
-                ))}
+                {/* Three pillars */}
+                <div className="flex flex-col gap-5">
+                  {[
+                    { num: '01', label: 'Technical Mastery' },
+                    { num: '02', label: 'Physical Conditioning' },
+                    { num: '03', label: 'Mental Resilience' },
+                  ].map(({ num, label }, i) => (
+                    <div key={label} className="flex items-center gap-4 group cursor-default">
+                      <span
+                        className="font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-xl w-8 flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                        style={{ opacity: 1 - i * 0.2 }}
+                      >
+                        {num}
+                      </span>
+                      <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,87,26,0.2), transparent)' }} aria-hidden="true" />
+                      <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.12em] uppercase text-[#c8bfb8] group-hover:text-[#f0ede8] transition-colors">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           {/* Right: Body text + quote */}
-          <div className="md:col-span-7">
+          <Reveal delay={180} direction="up" className="md:col-span-7">
             <div className="relative pl-8" style={{ borderLeft: '2px solid rgba(255,87,26,0.25)' }}>
               {/* Orange top accent on border */}
               <div
@@ -96,7 +99,8 @@ export function HomePhilosophy() {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
+
         </div>
       </div>
     </section>
