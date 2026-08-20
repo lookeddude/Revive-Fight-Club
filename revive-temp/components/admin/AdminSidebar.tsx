@@ -189,7 +189,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed top-0 left-0 z-30 h-full w-60 flex flex-col',
+          'fixed top-0 left-0 z-30 h-full w-60 flex flex-col overflow-hidden',
           'transition-transform duration-300 ease-in-out',
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
@@ -229,6 +229,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(255,87,26,0.25) transparent',
+            overscrollBehavior: 'contain',
           }}
         >
           {NAV_SECTIONS.map((section, si) => (
