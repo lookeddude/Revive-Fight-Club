@@ -34,6 +34,12 @@ const EnquiryIcon = () => (
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
 )
+const PaymentIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+    <line x1="1" y1="10" x2="23" y2="10"/>
+  </svg>
+)
 const ProgramIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -124,6 +130,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { label: 'Trial Requests', href: '/admin/trials', icon: <TrialIcon /> },
       { label: 'Enquiries', href: '/admin/enquiries', icon: <EnquiryIcon /> },
+      { label: 'Payments', href: '/admin/payments', icon: <PaymentIcon /> },
     ],
   },
   {

@@ -44,6 +44,123 @@ export type Database = {
         }
         Relationships: []
       }
+      member_purchases: {
+        Row: {
+          id: string
+          membership_plan_id: string
+          payment_id: string | null
+          customer_name: string
+          customer_email: string
+          customer_phone: string
+          start_date: string | null
+          end_date: string | null
+          status: string
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          membership_plan_id: string
+          payment_id?: string | null
+          customer_name: string
+          customer_email: string
+          customer_phone: string
+          start_date?: string | null
+          end_date?: string | null
+          status?: string
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          membership_plan_id?: string
+          payment_id?: string | null
+          customer_name?: string
+          customer_email?: string
+          customer_phone?: string
+          start_date?: string | null
+          end_date?: string | null
+          status?: string
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_purchases_membership_plan_id_fkey"
+            columns: ["membership_plan_id"]
+            isOneToOne: false
+            referencedRelation: "membership_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_purchases_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          id: string
+          razorpay_order_id: string
+          razorpay_payment_id: string | null
+          razorpay_signature: string | null
+          customer_name: string
+          customer_email: string
+          customer_phone: string
+          payment_type: string
+          reference_id: string | null
+          amount: number
+          currency: string
+          status: string
+          failure_reason: string | null
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          razorpay_order_id: string
+          razorpay_payment_id?: string | null
+          razorpay_signature?: string | null
+          customer_name: string
+          customer_email: string
+          customer_phone: string
+          payment_type: string
+          reference_id?: string | null
+          amount: number
+          currency?: string
+          status?: string
+          failure_reason?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          razorpay_order_id?: string
+          razorpay_payment_id?: string | null
+          razorpay_signature?: string | null
+          customer_name?: string
+          customer_email?: string
+          customer_phone?: string
+          payment_type?: string
+          reference_id?: string | null
+          amount?: number
+          currency?: string
+          status?: string
+          failure_reason?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       business_settings: {
         Row: {
           address: string | null
@@ -800,11 +917,14 @@ export type Database = {
           id: string
           message: string | null
           name: string
+          payment_id: string | null
+          payment_required: boolean
           phone: string
           preferred_date: string | null
           preferred_time: string | null
           program_id: string | null
           status: Database["public"]["Enums"]["trial_request_status"]
+          trial_fee: number | null
           updated_at: string
         }
         Insert: {
@@ -814,11 +934,14 @@ export type Database = {
           id?: string
           message?: string | null
           name: string
+          payment_id?: string | null
+          payment_required?: boolean
           phone: string
           preferred_date?: string | null
           preferred_time?: string | null
           program_id?: string | null
           status?: Database["public"]["Enums"]["trial_request_status"]
+          trial_fee?: number | null
           updated_at?: string
         }
         Update: {
@@ -828,11 +951,14 @@ export type Database = {
           id?: string
           message?: string | null
           name?: string
+          payment_id?: string | null
+          payment_required?: boolean
           phone?: string
           preferred_date?: string | null
           preferred_time?: string | null
           program_id?: string | null
           status?: Database["public"]["Enums"]["trial_request_status"]
+          trial_fee?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -873,6 +999,14 @@ export type Database = {
         }
         Returns: string
       }
+      process_payment_success: {
+        Args: {
+          p_razorpay_order_id: string
+          p_razorpay_payment_id: string
+          p_razorpay_signature: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       billing_period: "monthly" | "quarterly" | "semiannual" | "annually"
@@ -882,6 +1016,7 @@ export type Database = {
       review_source: "google" | "facebook" | "internal" | "other"
       trial_request_status:
         | "pending"
+        | "pending_payment"
         | "contacted"
         | "confirmed"
         | "completed"

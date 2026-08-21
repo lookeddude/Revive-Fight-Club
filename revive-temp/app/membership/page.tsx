@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { GsapHeroReveal } from '@/components/gsap/GsapHeroReveal'
 import { GsapFadeReveal } from '@/components/gsap/GsapFadeReveal'
+import { MembershipCheckout } from '@/components/payments/MembershipCheckout'
 
 export const metadata: Metadata = {
   title: 'Membership & Pricing | Revive Fight Club',
@@ -233,8 +234,18 @@ export default async function MembershipPage() {
                       })}
                     </div>
 
-                    {/* Batch CTA */}
-                    <div className="px-6 md:px-8 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                    {/* Batch CTA — Pay Now + WhatsApp enquiry */}
+                    <div className="px-6 md:px-8 py-4 flex flex-col sm:flex-row gap-3 items-start" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                      {/* Pay Now button — uses the FIRST active plan in this batch for simplicity */}
+                      {catPlans[0]?.price && catPlans[0].price > 0 && (
+                        <MembershipCheckout
+                          planId={catPlans[0].id}
+                          planName={catPlans[0].sort_label ?? catPlans[0].billing_period}
+                          price={catPlans[0].price}
+                          billingPeriod={catPlans[0].billing_period}
+                          batchCategory={cat}
+                        />
+                      )}
                       <WhatsAppCTA
                         whatsappNumber={settings?.whatsapp_number ?? null}
                         context="membership"

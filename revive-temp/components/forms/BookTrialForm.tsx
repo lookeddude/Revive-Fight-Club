@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { PhoneCTA } from '@/components/ui/PhoneCTA'
 import { submitTrialRequest } from '@/lib/actions/forms'
+import { RazorpayButton } from '@/components/payments/RazorpayButton'
 import {
   validateName,
   validatePhone,
@@ -64,6 +65,7 @@ export function BookTrialForm({
   const [formState, setFormState] = useState<FormState>('idle')
   const [errors, setErrors] = useState<FormErrors>({})
   const [submittedId, setSubmittedId] = useState<string | null>(null)
+  const [showPayment, setShowPayment] = useState(false)
 
   // Track values to preserve them on error
   const [values, setValues] = useState({
@@ -413,33 +415,109 @@ export function BookTrialForm({
         </p>
       </FormField>
 
-      {/* Notice */}
-      <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c6c5]/60 leading-relaxed">
-        * This is a trial request — not an automatic booking. Revive Fight Club will confirm your 
-        session by phone or WhatsApp within 24 hours.
-      </p>
+      {/* Notice + CTA */}
+      {!showPayment ? (
+        <>
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Paid trial — proceed to payment */}
+            <Button
+              type="button"
+              disabled={isPending}
+              className="flex-1 sm:flex-none disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
+              onClick={() => {
+                const validationErrors = validate()
+                const hasErrors = Object.values(validationErrors).some(Boolean)
+                if (hasErrors) {
+                  setErrors(validationErrors)
+                  return
+                }
+                setErrors({})
+                setShowPayment(true)
+              }}
+            >
+              BOOK TRIAL — PAY ₹1,000
+            </Button>
 
-      {/* Submit */}
-      <div>
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed min-w-[220px]"
-          aria-live="polite"
-        >
-          {isPending ? (
-            <span className="flex items-center gap-2 justify-center">
-              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              REQUESTING TRIAL...
-            </span>
-          ) : (
-            'BOOK MY TRIAL CLASS'
-          )}
-        </Button>
-      </div>
+            {/* Free enquiry option */}
+            <button
+              type="submit"
+              disabled={isPending}
+              className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] hover:text-[#9ca3af] underline underline-offset-2 transition-colors disabled:opacity-50"
+            >
+              {isPending ? 'Sending...' : 'Just send an enquiry (free)'}
+            </button>
+          </div>
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] leading-relaxed">
+            Pay ₹1,000 to secure your trial slot. Our team confirms within 24 hours.
+            Or send a free enquiry and we&apos;ll contact you.
+          </p>
+        </>
+      ) : (
+        /* Payment step — shown after form validation passes */
+        <div className="border border-[#ff571a]/20 bg-[#ff571a]/5 p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.15em] uppercase text-[#ff571a]">
+              Trial Booking Summary
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPayment(false)}
+              className="text-[#6b7280] hover:text-[#f0ede8] text-xs font-[family-name:var(--font-body)]"
+            >
+              ← Edit details
+            </button>
+          </div>
+          <table className="w-full text-sm">
+            <tbody>
+              <tr>
+                <td className="py-1 font-[family-name:var(--font-body)] text-[#9ca3af]">Name</td>
+                <td className="py-1 text-[#f0ede8] text-right font-[family-name:var(--font-body)]">{values.name}</td>
+              </tr>
+              {values.program_id && (
+                <tr>
+                  <td className="py-1 font-[family-name:var(--font-body)] text-[#9ca3af]">Program</td>
+                  <td className="py-1 text-[#f0ede8] text-right font-[family-name:var(--font-body)]">
+                    {programs.find(p => p.id === values.program_id)?.name ?? 'Selected'}
+                  </td>
+                </tr>
+              )}
+              {values.preferred_date && (
+                <tr>
+                  <td className="py-1 font-[family-name:var(--font-body)] text-[#9ca3af]">Date</td>
+                  <td className="py-1 text-[#f0ede8] text-right font-[family-name:var(--font-body)]">{values.preferred_date}</td>
+                </tr>
+              )}
+              {values.preferred_time && (
+                <tr>
+                  <td className="py-1 font-[family-name:var(--font-body)] text-[#9ca3af]">Time</td>
+                  <td className="py-1 text-[#f0ede8] text-right font-[family-name:var(--font-body)]">{values.preferred_time}</td>
+                </tr>
+              )}
+              <tr className="border-t border-white/10">
+                <td className="pt-2 font-[family-name:var(--font-body)] font-bold text-[#f0ede8]">Trial Fee</td>
+                <td className="pt-2 font-[family-name:var(--font-outfit)] font-black text-[#ff571a] text-right text-base">₹1,000</td>
+              </tr>
+            </tbody>
+          </table>
+          <RazorpayButton
+            type="trial"
+            customerName={values.name.trim()}
+            customerEmail={values.email.trim()}
+            customerPhone={values.phone.trim()}
+            trialData={{
+              programId: values.program_id || null,
+              preferredDate: values.preferred_date || null,
+              preferredTime: values.preferred_time ? timeSlotToHH(values.preferred_time) : null,
+              message: values.message.trim() || null,
+            }}
+            label="Pay ₹1,000 & Confirm Trial"
+            className="w-full"
+          />
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] text-center">
+            🔒 Secured by Razorpay · UPI, Cards, Net Banking
+          </p>
+        </div>
+      )}
     </form>
   )
 }
