@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
 }
 
-export const revalidate = 300
+export const revalidate = 3600 // 1 hour — content is stable, no need to re-fetch every 5 min
 
 export default async function HomePage() {
   const [programs, trainers, reviews, settings, heroSlides, heroSettings] = await Promise.all([

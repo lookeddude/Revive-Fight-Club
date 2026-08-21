@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { cache } from 'react'
 import type { Database } from '@/types/database'
 
 type ProgramRow = Database['public']['Tables']['programs']['Row']
@@ -6,6 +7,9 @@ type TrainerRow = Database['public']['Tables']['trainers']['Row']
 type ReviewRow = Database['public']['Tables']['reviews']['Row']
 type FAQRow = Database['public']['Tables']['faqs']['Row']
 type BusinessSettingsRow = Database['public']['Tables']['business_settings']['Row'] & { logo_url?: string | null }
+
+// Cached per-request Supabase client — React cache() deduplicates within one render
+const getSupabase = cache(async () => createClient())
 
 // ── Programs ──────────────────────────────────────────────────────
 
@@ -15,7 +19,7 @@ export type ProgramCard = Pick<
 >
 
 export async function getActivePrograms(): Promise<ProgramCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('programs')
     .select('id, slug, name, short_description, image_path, level, category, is_featured, sort_order')
@@ -30,7 +34,7 @@ export async function getActivePrograms(): Promise<ProgramCard[]> {
 }
 
 export async function getFeaturedPrograms(): Promise<ProgramCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('programs')
     .select('id, slug, name, short_description, image_path, level, category, is_featured, sort_order')
@@ -47,7 +51,7 @@ export async function getFeaturedPrograms(): Promise<ProgramCard[]> {
 }
 
 export async function getProgramBySlug(slug: string): Promise<ProgramRow | null> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('programs')
     .select('*')
@@ -70,7 +74,7 @@ export type TrainerCard = Pick<
 >
 
 export async function getActiveTrainers(): Promise<TrainerCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('trainers')
     .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order, years_experience')
@@ -85,7 +89,7 @@ export async function getActiveTrainers(): Promise<TrainerCard[]> {
 }
 
 export async function getFeaturedTrainers(): Promise<TrainerCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('trainers')
     .select('id, slug, name, role, short_bio, profile_image_path, specialties, is_featured, sort_order, years_experience')
@@ -102,7 +106,7 @@ export async function getFeaturedTrainers(): Promise<TrainerCard[]> {
 }
 
 export async function getTrainerBySlug(slug: string): Promise<TrainerRow | null> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('trainers')
     .select('*')
@@ -125,7 +129,7 @@ export type ReviewCard = Pick<
 >
 
 export async function getPublishedReviews(limit = 9): Promise<ReviewCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('reviews')
     .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
@@ -141,34 +145,22 @@ export async function getPublishedReviews(limit = 9): Promise<ReviewCard[]> {
 }
 
 export async function getFeaturedReviews(limit = 10): Promise<ReviewCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
 
-  // First try featured reviews
-  const { data: featured, error: err1 } = await supabase
+  // Single query — ORDER BY is_featured DESC gives featured first, falls back to all published
+  const { data, error } = await supabase
     .from('reviews')
     .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
     .eq('is_published', true)
-    .eq('is_featured', true)
+    .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true })
     .limit(limit)
 
-  if (!err1 && featured && featured.length > 0) {
-    return featured as ReviewCard[]
-  }
-
-  // Fallback: return any published reviews
-  const { data: all, error: err2 } = await supabase
-    .from('reviews')
-    .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
-    .limit(limit)
-
-  if (err2) {
-    console.error('[getFeaturedReviews]', err2.message)
+  if (error) {
+    console.error('[getFeaturedReviews]', error.message)
     return []
   }
-  return (all ?? []) as ReviewCard[]
+  return (data ?? []) as ReviewCard[]
 }
 
 // ── FAQs ──────────────────────────────────────────────────────────
@@ -176,7 +168,7 @@ export async function getFeaturedReviews(limit = 10): Promise<ReviewCard[]> {
 export type FAQCard = Pick<FAQRow, 'id' | 'question' | 'answer' | 'category' | 'sort_order'>
 
 export async function getPublishedFAQs(): Promise<FAQCard[]> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('faqs')
     .select('id, question, answer, category, sort_order')
@@ -193,7 +185,7 @@ export async function getPublishedFAQs(): Promise<FAQCard[]> {
 // ── Business Settings ─────────────────────────────────────────────
 
 export async function getBusinessSettings(): Promise<BusinessSettingsRow | null> {
-  const supabase = await createClient()
+  const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('business_settings')
     .select('*, logo_url')

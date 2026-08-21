@@ -71,8 +71,10 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                       src={image}
                       alt={`${trainer.name}, ${trainer.role}`}
                       fill
+                      loading="lazy"
+                      quality={75}
                       className="object-cover trainer-img"
-                      sizes="38vw"
+                      sizes="(max-width: 640px) 38vw, 140px"
                     />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(22,20,18,0.5))' }} aria-hidden="true" />
                   </div>
@@ -121,8 +123,10 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                       src={image}
                       alt={`${trainer.name}, ${trainer.role}`}
                       fill
+                      loading="lazy"
+                      quality={75}
                       className="object-cover trainer-img group-hover:scale-105 transition-transform duration-600"
-                      sizes="58vw"
+                      sizes="(max-width: 1024px) 100vw, 58vw"
                     />
                   </div>
                   {/* Content */}

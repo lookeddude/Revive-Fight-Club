@@ -78,6 +78,8 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                   src={getImage(program, slideImages)}
                   alt={`${program.name} training at Revive Fight Club, Bengaluru`}
                   fill
+                  loading="lazy"
+                  quality={75}
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   style={{ opacity: 0.72 }}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"

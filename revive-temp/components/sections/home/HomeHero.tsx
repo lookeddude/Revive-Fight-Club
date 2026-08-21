@@ -7,7 +7,7 @@ import { buildWhatsAppUrl, WHATSAPP_MESSAGES } from '@/lib/business'
 import type { HeroSlide, HeroSettings } from '@/lib/data/heroSlideshow'
 import { GsapParallax } from '@/components/gsap/GsapParallax'
 
-const DEFAULT_HERO = 'https://hnmtjcpmdywwtafgexxk.supabase.co/storage/v1/object/public/revive-brand/seconf.png'
+const DEFAULT_HERO = ''
 
 interface HomeHeroProps {
   whatsappNumber?: string | null
@@ -120,7 +120,8 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
               alt={bgAlt}
               fill
               priority
-              quality={90}
+              quality={80}
+              fetchPriority="high"
               sizes="100vw"
               className="hero-bg-img img-settle"
               style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center -10px' : 'center top' }}

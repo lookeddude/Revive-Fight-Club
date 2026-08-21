@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Outfit, Barlow } from 'next/font/google'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { WhatsAppFloat } from '@/components/ui/WhatsAppFloat'
@@ -135,19 +136,42 @@ export default function RootLayout({
   return (
     <html lang="en-IN" className={`${outfit.variable} ${barlow.variable}`}>
       <head>
-        {/* JSON-LD Structured Data */}
+        {/* JSON-LD Structured Data — stays in head for SEO crawlers */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Google Analytics 4 — loads only when NEXT_PUBLIC_GA_MEASUREMENT_ID is set */}
+        {/* Critical preconnects — establishes TCP+TLS early for main resources */}
+        <link rel="preconnect" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
+        <link rel="dns-prefetch" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect GTM only if GA4 is configured */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <link rel="preconnect" href="https://www.googletagmanager.com" />
+        )}
+      </head>
+      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#ff571a] focus:text-black focus:font-bold focus:uppercase focus:tracking-widest"
+        >
+          Skip to content
+        </a>
+        <LenisProvider>
+          {children}
+        </LenisProvider>
+        <WhatsAppFloat />
+
+        {/* Google Analytics 4 — deferred until after page is interactive (non-blocking) */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
-            <script
-              async
+            <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
             />
-            <script
+            <Script
+              id="ga4-init"
+              strategy="afterInteractive"
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
@@ -162,23 +186,6 @@ export default function RootLayout({
             />
           </>
         )}
-        {/* Preconnect to Supabase for faster API + image loads */}
-        <link rel="preconnect" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
-        <link rel="dns-prefetch" href="https://hnmtjcpmdywwtafgexxk.supabase.co" />
-        {/* Preconnect to Google Fonts CDN */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#ff571a] focus:text-black focus:font-bold focus:uppercase focus:tracking-widest"
-        >
-          Skip to content
-        </a>
-        <LenisProvider>
-          {children}
-        </LenisProvider>
-        <WhatsAppFloat />
       </body>
     </html>
   )
