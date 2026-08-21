@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   { href: '/reviews', label: 'Reviews' },
+  { href: '/about#faq-heading', label: 'FAQ' },
 ]
 
 const legalLinks = [
