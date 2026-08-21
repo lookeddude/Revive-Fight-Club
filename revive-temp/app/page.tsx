@@ -9,6 +9,8 @@ import { HomeProgramsPreview } from '@/components/sections/home/HomeProgramsPrev
 import { HomeTrainersPreview } from '@/components/sections/home/HomeTrainersPreview'
 import { HomeReviews } from '@/components/sections/home/HomeReviews'
 import { HomeMembership } from '@/components/sections/home/HomeMembership'
+import { HomeFAQ } from '@/components/sections/home/HomeFAQ'
+import { HomeSuccessStories } from '@/components/sections/home/HomeSuccessStories'
 import { HomeCTA } from '@/components/sections/home/HomeCTA'
 import {
   getFeaturedPrograms,
@@ -64,7 +66,9 @@ export default async function HomePage() {
         <HomeTrainersPreview trainers={trainers} />
         <HomeVideo videoUrl={settings?.homepage_video_url ?? null} />
         <HomeReviews reviews={reviews} />
+        <HomeSuccessStories />
         <HomeMembership />
+        <HomeFAQ />
         <HomeCTA whatsappNumber={settings?.whatsapp_number ?? null} />
       </main>
       <Footer />
