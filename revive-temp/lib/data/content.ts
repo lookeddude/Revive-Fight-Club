@@ -147,12 +147,12 @@ export async function getPublishedReviews(limit = 9): Promise<ReviewCard[]> {
 export async function getFeaturedReviews(limit = 10): Promise<ReviewCard[]> {
   const supabase = await getSupabase()
 
-  // Single query — ORDER BY is_featured DESC gives featured first, falls back to all published
+  // Strictly featured reviews only — what the admin marks as featured shows on homepage
   const { data, error } = await supabase
     .from('reviews')
     .select('id, reviewer_name, rating, review_text, reviewer_role, source, review_date, sort_order')
     .eq('is_published', true)
-    .order('is_featured', { ascending: false })
+    .eq('is_featured', true)
     .order('sort_order', { ascending: true })
     .limit(limit)
 
