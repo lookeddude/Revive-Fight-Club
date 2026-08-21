@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Outfit, Barlow } from 'next/font/google'
 import { LenisProvider } from '@/components/providers/LenisProvider'
+import { WhatsAppFloat } from '@/components/ui/WhatsAppFloat'
 import { SITE_URL, BUSINESS, DEFAULT_OG_IMAGE, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from '@/lib/seo.config'
 import './globals.css'
 
@@ -177,6 +178,7 @@ export default function RootLayout({
         <LenisProvider>
           {children}
         </LenisProvider>
+        <WhatsAppFloat />
       </body>
     </html>
   )
