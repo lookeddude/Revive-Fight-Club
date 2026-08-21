@@ -60,9 +60,9 @@ export default async function HomePage() {
         />
         <HomeStats />
         <HomePhilosophy />
-        <HomeVideo videoUrl={settings?.homepage_video_url ?? null} />
         <HomeProgramsPreview programs={programs} slideImages={slideImages} />
         <HomeTrainersPreview trainers={trainers} />
+        <HomeVideo videoUrl={settings?.homepage_video_url ?? null} />
         <HomeReviews reviews={reviews} />
         <HomeMembership />
         <HomeCTA whatsappNumber={settings?.whatsapp_number ?? null} />
