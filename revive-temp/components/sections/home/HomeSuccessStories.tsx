@@ -109,7 +109,7 @@ export function HomeSuccessStories() {
               </h2>
             </div>
             <Link
-              href="/stories"
+              href="/reviews"
               className="flex-shrink-0 inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.14em] uppercase px-6 py-3 transition-all duration-200 hover:bg-[#ff571a] hover:text-black"
               style={{ border: '1px solid rgba(255,87,26,0.35)', color: '#ff571a' }}
             >
