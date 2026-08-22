@@ -24,10 +24,10 @@ interface MembershipBatchCardsProps {
 }
 
 const PERIOD_LABEL: Record<string, string> = {
-  monthly: '1 Mo',
-  quarterly: '3 Mo',
-  semiannual: '6 Mo',
-  annually: '1 Yr',
+  monthly: '1 Month',
+  quarterly: '3 Months',
+  semiannual: '6 Months',
+  annually: '1 Year',
 }
 
 function CheckIcon() {
@@ -149,60 +149,67 @@ function BatchCard({ cat, plans, settings, index }: {
         </p>
       </div>
 
-      {/* Price grid — all plans side-by-side */}
-      <div
-        className="grid gap-px"
-        style={{
-          gridTemplateColumns: `repeat(${sortedPlans.length}, 1fr)`,
-          background: 'rgba(255,255,255,0.04)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        {sortedPlans.map(plan => {
+      {/* Price list — stacked rows, annual highlighted */}
+      <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        {sortedPlans.map((plan, idx) => {
           const isAnnual = plan.billing_period === 'annually'
           return (
             <div
               key={plan.id}
-              className="relative flex flex-col items-center justify-center py-5 px-2"
+              className="flex items-center justify-between px-5 py-3 relative"
               style={{
                 background: isAnnual
-                  ? (meta.accent ? 'rgba(255,87,26,0.12)' : 'rgba(255,87,26,0.06)')
-                  : '#0f0f0e',
+                  ? (meta.accent ? 'rgba(255,87,26,0.12)' : 'rgba(255,87,26,0.07)')
+                  : idx % 2 === 0 ? '#0f0f0e' : 'rgba(255,255,255,0.015)',
+                borderTop: isAnnual ? '1px solid rgba(255,87,26,0.3)' : idx > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                borderBottom: isAnnual ? '1px solid rgba(255,87,26,0.3)' : 'none',
               }}
             >
-              {isAnnual && (
-                <span
-                  className="absolute -top-px left-0 right-0 h-[1px]"
-                  style={{ background: '#ff571a' }}
+              {/* Left: duration + badge */}
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: isAnnual ? '#ff571a' : 'rgba(255,255,255,0.18)' }}
                 />
-              )}
-              <span
-                className="font-[family-name:var(--font-outfit)] font-black text-center leading-none mb-1"
-                style={{
-                  fontSize: 'clamp(16px, 2.2vw, 22px)',
-                  color: isAnnual ? '#ff571a' : (meta.accent ? '#c4c0bb' : '#9ca3af'),
-                }}
-              >
-                ₹{plan.price?.toLocaleString('en-IN')}
-              </span>
-              <span
-                className="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-wider text-center"
-                style={{ color: isAnnual ? 'rgba(255,87,26,0.7)' : '#3a3530' }}
-              >
-                {PERIOD_LABEL[plan.billing_period] ?? plan.billing_period}
-              </span>
-              {isAnnual && (
                 <span
-                  className="mt-1.5 font-[family-name:var(--font-body)] text-[9px] uppercase tracking-widest font-black"
-                  style={{ color: '#ff571a' }}
+                  className="font-[family-name:var(--font-body)] font-semibold text-sm"
+                  style={{ color: isAnnual ? '#f0ede8' : '#6b7280' }}
                 >
-                  BEST VALUE
+                  {PERIOD_LABEL[plan.billing_period] ?? plan.billing_period}
                 </span>
-              )}
+                {isAnnual && (
+                  <span
+                    className="font-[family-name:var(--font-body)] text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5"
+                    style={{ background: '#ff571a', color: '#000' }}
+                  >
+                    BEST VALUE
+                  </span>
+                )}
+              </div>
+
+              {/* Right: price */}
+              <div className="flex items-baseline gap-0.5">
+                <span
+                  className="font-[family-name:var(--font-outfit)] font-black leading-none"
+                  style={{
+                    fontSize: isAnnual ? '20px' : '16px',
+                    color: isAnnual ? '#ff571a' : (meta.accent ? '#c4c0bb' : '#9ca3af'),
+                  }}
+                >
+                  ₹{plan.price?.toLocaleString('en-IN') ?? '—'}
+                </span>
+                <span
+                  className="font-[family-name:var(--font-body)] text-[10px]"
+                  style={{ color: '#3a3530' }}
+                >
+                  /-
+                </span>
+              </div>
             </div>
           )
         })}
       </div>
+
 
       {/* Features */}
       <div className="flex-1 px-6 py-5">
