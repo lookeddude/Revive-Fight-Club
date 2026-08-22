@@ -234,16 +234,18 @@ export default async function MembershipPage() {
                       })}
                     </div>
 
-                    {/* Batch CTA — Pay Now + WhatsApp enquiry */}
+                    {/* Batch CTA — Buy Now + WhatsApp enquiry */}
                     <div className="px-6 md:px-8 py-4 flex flex-col sm:flex-row gap-3 items-start" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                      {/* Pay Now button — uses the FIRST active plan in this batch for simplicity */}
-                      {catPlans[0]?.price && catPlans[0].price > 0 && (
+                      {catPlans.some(p => p.price && p.price > 0) && (
                         <MembershipCheckout
-                          planId={catPlans[0].id}
-                          planName={catPlans[0].sort_label ?? catPlans[0].billing_period}
-                          price={catPlans[0].price}
-                          billingPeriod={catPlans[0].billing_period}
+                          plans={catPlans.map(p => ({
+                            id: p.id,
+                            name: p.sort_label ?? p.billing_period,
+                            price: p.price ?? 0,
+                            billingPeriod: p.billing_period,
+                          }))}
                           batchCategory={cat}
+                          batchTitle={meta.title}
                         />
                       )}
                       <WhatsAppCTA
