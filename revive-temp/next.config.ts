@@ -61,6 +61,30 @@ const nextConfig: NextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https://hnmtjcpmdywwtafgexxk.supabase.co https://images.unsplash.com https://lh3.googleusercontent.com",
+              "connect-src 'self' https://hnmtjcpmdywwtafgexxk.supabase.co wss://hnmtjcpmdywwtafgexxk.supabase.co https://lumberjack.razorpay.com https://api.razorpay.com https://www.google-analytics.com https://www.googletagmanager.com",
+              "frame-src https://api.razorpay.com https://checkout.razorpay.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+            ].join('; '),
+          },
         ],
       },
     ]

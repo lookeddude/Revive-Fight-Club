@@ -50,13 +50,15 @@ export async function verifyPaymentSignature({
   const secret = process.env.RAZORPAY_KEY_SECRET
   if (!secret) return false
 
-  const { createHmac } = await import('crypto')
+  const { createHmac, timingSafeEqual } = await import('crypto')
   const body = `${orderId}|${paymentId}`
   const expectedSignature = createHmac('sha256', secret)
     .update(body)
     .digest('hex')
 
-  return expectedSignature === signature
+  // Timing-safe comparison prevents side-channel attacks
+  if (expectedSignature.length !== signature.length) return false
+  return timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(signature))
 }
 
 /** Verify Razorpay webhook signature */
@@ -70,10 +72,12 @@ export async function verifyWebhookSignature({
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET
   if (!secret) return false
 
-  const { createHmac } = await import('crypto')
+  const { createHmac, timingSafeEqual } = await import('crypto')
   const expectedSignature = createHmac('sha256', secret)
     .update(rawBody)
     .digest('hex')
 
-  return expectedSignature === signature
+  // Timing-safe comparison prevents side-channel attacks
+  if (expectedSignature.length !== signature.length) return false
+  return timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(signature))
 }

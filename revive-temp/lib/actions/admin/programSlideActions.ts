@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth/getAdminSession'
 
 // ── Add a slide ─────────────────────────────────────────────────────────────
 export async function addProgramSlide(
@@ -10,9 +11,8 @@ export async function addProgramSlide(
   altText?: string
 ): Promise<{ success: boolean; id?: string; error?: string }> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
-
-    // Get max sort_order for this program
     const { data: existing } = await supabase
       .from('program_slides')
       .select('sort_order')
@@ -43,6 +43,7 @@ export async function deleteProgramSlide(
   slideId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase.from('program_slides').delete().eq('id', slideId)
     if (error) return { success: false, error: error.message }
@@ -60,6 +61,7 @@ export async function toggleProgramSlide(
   isActive: boolean
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase
       .from('program_slides')
@@ -80,6 +82,7 @@ export async function updateProgramSlideAlt(
   altText: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     const { error } = await supabase
       .from('program_slides')
@@ -98,6 +101,7 @@ export async function reorderProgramSlides(
   updates: { id: string; sort_order: number }[]
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    await requireAdmin()
     const supabase = await createClient()
     await Promise.all(
       updates.map(u =>
