@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { rateLimit, getClientIpFromHeaders, RATE_LIMITS } from '@/lib/rate-limit'
 
 // ── Trial Request Submission ───────────────────────────────────────────────
 // Uses the SECURITY DEFINER RPC function — prevents status/admin_notes manipulation.
@@ -23,6 +24,14 @@ export async function submitTrialRequest(
   input: TrialRequestInput
 ): Promise<ActionResult> {
   try {
+    // ── Rate limiting ────────────────────────────────────────────
+    const ip = await getClientIpFromHeaders()
+    const rateLimitKey = `${ip}:${(input.phone || '').trim()}`
+    const rl = await rateLimit(rateLimitKey, RATE_LIMITS.TRIAL_BOOKING)
+    if (!rl.allowed) {
+      return { success: false, error: 'Too many booking requests. Please try again later.' }
+    }
+
     const supabase = await createClient()
 
     const { data, error } = await supabase.rpc('submit_trial_request', {
@@ -63,6 +72,13 @@ export async function submitContactEnquiry(
   input: ContactEnquiryInput
 ): Promise<ActionResult> {
   try {
+    // ── Rate limiting ────────────────────────────────────────────
+    const ip = await getClientIpFromHeaders()
+    const rl = await rateLimit(ip, RATE_LIMITS.CONTACT_FORM)
+    if (!rl.allowed) {
+      return { success: false, error: 'Too many messages sent. Please try again later.' }
+    }
+
     const supabase = await createClient()
 
     const { data, error } = await supabase.rpc('submit_contact_enquiry', {
@@ -84,3 +100,4 @@ export async function submitContactEnquiry(
     return { success: false, error: 'Something went wrong. Please try again.' }
   }
 }
+

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminSession } from '@/lib/auth/getAdminSession'
+import { rateLimit, rateLimitResponse, RATE_LIMITS } from '@/lib/rate-limit'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif']
 const MAX_SIZE = 10 * 1024 * 1024 // 10 MB
@@ -11,6 +12,12 @@ export async function POST(request: NextRequest) {
     const profile = await getAdminSession()
     if (!profile) {
       return NextResponse.json({ error: 'Not authorised. Admin access required.' }, { status: 403 })
+    }
+
+    // 2. Rate limiting (keyed by admin user ID)
+    const rl = await rateLimit(profile.id, RATE_LIMITS.ADMIN_UPLOAD)
+    if (!rl.allowed) {
+      return rateLimitResponse(rl.retryAfterSeconds)
     }
 
     // 2. Parse form data

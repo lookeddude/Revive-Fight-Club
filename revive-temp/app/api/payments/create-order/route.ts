@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getRazorpay, rupeesToPaise } from '@/lib/razorpay'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { rateLimit, rateLimitResponse, getClientIp, RATE_LIMITS, cleanupExpiredEntries } from '@/lib/rate-limit'
 
 // ── TRIAL FEE (server-side constant — never trust browser) ────
 const TRIAL_FEE_RUPEES = 1000
@@ -10,6 +11,16 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const { type, planId, customerName, customerEmail, customerPhone, trialData } = body
+
+    // ── Rate limiting ────────────────────────────────────────────
+    const ip = getClientIp(req)
+    const rateLimitKey = `${ip}:${(customerEmail || '').trim().toLowerCase()}`
+    const rl = await rateLimit(rateLimitKey, RATE_LIMITS.PAYMENT_CREATE)
+    if (!rl.allowed) {
+      return rateLimitResponse(rl.retryAfterSeconds)
+    }
+    // Opportunistic cleanup (non-blocking)
+    cleanupExpiredEntries().catch(() => {})
 
     // ── Input validation ──────────────────────────────────────
     if (!type || !['membership', 'trial'].includes(type)) {

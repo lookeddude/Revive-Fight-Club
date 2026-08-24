@@ -2,9 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyPaymentSignature } from '@/lib/razorpay'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendMembershipConfirmation, sendTrialConfirmation } from '@/lib/email'
+import { rateLimit, rateLimitResponse, getClientIp, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
   try {
+    // ── Rate limiting ────────────────────────────────────────────
+    const ip = getClientIp(req)
+    const rl = await rateLimit(ip, RATE_LIMITS.PAYMENT_VERIFY)
+    if (!rl.allowed) {
+      return rateLimitResponse(rl.retryAfterSeconds)
+    }
+
     const body = await req.json()
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, paymentRecordId } = body
 

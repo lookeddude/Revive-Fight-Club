@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminSession } from '@/lib/auth/getAdminSession'
+import { rateLimit, rateLimitResponse, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Allow large video uploads (default Next.js limit is ~1MB)
 export const runtime = 'nodejs'
@@ -19,6 +20,12 @@ export async function POST(request: NextRequest) {
     const profile = await getAdminSession()
     if (!profile) {
       return NextResponse.json({ error: 'Not authorised.' }, { status: 403 })
+    }
+
+    // Rate limiting (keyed by admin user ID)
+    const rl = await rateLimit(profile.id, RATE_LIMITS.ADMIN_VIDEO)
+    if (!rl.allowed) {
+      return rateLimitResponse(rl.retryAfterSeconds)
     }
 
     const formData = await request.formData()
