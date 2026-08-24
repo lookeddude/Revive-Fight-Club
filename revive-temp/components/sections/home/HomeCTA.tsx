@@ -57,7 +57,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
             ].map(({ label }) => (
               <div key={label} className="flex items-center gap-2.5">
                 <span className="w-1 h-1 rounded-full bg-white/25 flex-shrink-0" aria-hidden="true" />
-                <span className="font-[family-name:var(--font-body)] text-[11px] text-[#707078] tracking-[0.14em] uppercase font-bold">
+                <span className="font-[family-name:var(--font-body)] text-xs text-[#707078] tracking-[0.14em] uppercase font-bold">
                   {label}
                 </span>
               </div>

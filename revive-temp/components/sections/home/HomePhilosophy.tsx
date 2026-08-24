@@ -91,12 +91,12 @@ export function HomePhilosophy() {
                 >
                   &ldquo;
                 </div>
-                <p className="font-[family-name:var(--font-outfit)] font-bold text-[#FCFDFD] text-lg uppercase tracking-tight leading-snug relative z-10">
+                <p className="font-[family-name:var(--font-outfit)] font-bold text-[#FCFDFD] text-lg tracking-tight leading-snug relative z-10">
                   Train like a fighter.{' '}
                   <span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(252,253,253,0.4)' }}>Perform</span>{' '}
                   like a champion.
                 </p>
-                <p className="font-[family-name:var(--font-body)] text-[10px] text-[#707078] mt-2 tracking-[0.16em] uppercase">
+                <p className="font-[family-name:var(--font-body)] text-[11px] text-[#707078] mt-2 tracking-[0.16em] uppercase">
                   — Revive Fight Club
                 </p>
               </div>

@@ -48,7 +48,7 @@ export function HomeStats() {
                 </div>
 
                 {/* Label */}
-                <span className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">
+                <span className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.15em] text-[#707078]">
                   {stat.label}
                 </span>
               </div>

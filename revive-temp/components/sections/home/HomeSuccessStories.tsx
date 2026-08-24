@@ -70,7 +70,7 @@ function MemberTag({ name, tag, accent }: { name: string; tag: string; accent: s
         <p className="font-[family-name:var(--font-outfit)] font-bold text-[#FCFDFD] text-sm uppercase tracking-wide leading-none">
           {name}
         </p>
-        <p className="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.14em] font-bold mt-0.5" style={{ color: accent }}>
+        <p className="font-[family-name:var(--font-body)] text-[11px] uppercase tracking-[0.14em] font-bold mt-0.5" style={{ color: accent }}>
           {tag}
         </p>
       </div>
@@ -144,7 +144,7 @@ export function HomeSuccessStories() {
               {/* Quote overlay at bottom */}
               <div className="p-6 md:p-8 -mt-2">
                 <QuoteIcon color="#ff571a" />
-                <p className="font-[family-name:var(--font-body)] text-[#d4d0cc] leading-relaxed mb-5" style={{ fontSize: 'clamp(13px, 1.5vw, 16px)' }}>
+                <p className="font-[family-name:var(--font-body)] text-[#A0A0A8] leading-relaxed mb-5" style={{ fontSize: 'clamp(13px, 1.5vw, 16px)' }}>
                   "{STORIES[0].quote}"
                 </p>
                 <MemberTag name={STORIES[0].name} tag={STORIES[0].tag} accent="#ff571a" />
@@ -176,7 +176,7 @@ export function HomeSuccessStories() {
                   </div>
                   <div className="p-5">
                     <QuoteIcon color={story.accent} />
-                    <p className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-relaxed mb-4 line-clamp-3">
+                    <p className="font-[family-name:var(--font-body)] text-sm text-[#A0A0A8] leading-relaxed mb-4 line-clamp-3">
                       "{story.quote}"
                     </p>
                     <MemberTag name={story.name} tag={story.tag} accent={story.accent} />
@@ -193,32 +193,28 @@ export function HomeSuccessStories() {
             className="overflow-hidden"
             style={{ background: '#0d0c0b', border: '1px solid rgba(255,87,26,0.14)' }}
           >
-            <div className="flex flex-col md:flex-row">
-              {/* Photo — fixed width on desktop, square on mobile */}
-              <div className="relative flex-shrink-0 md:w-80" style={{ aspectRatio: '1/1' }}>
+            <div className="flex flex-col">
+              {/* Photo — full width, consistent aspect ratio */}
+              <div className="relative flex-shrink-0" style={{ aspectRatio: '16/7' }}>
                 <Image
                   src={STORIES[3].image}
                   alt={STORIES[3].name}
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 768px) 100vw, 320px"
+                  sizes="(max-width: 768px) 100vw, 1280px"
                 />
-                {/* Right-fade on desktop, bottom-fade on mobile */}
+                {/* Bottom gradient */}
                 <div
-                  className="absolute inset-0 hidden md:block"
-                  style={{ background: 'linear-gradient(to right, transparent 60%, #0d0c0b 100%)' }}
-                />
-                <div
-                  className="absolute inset-0 block md:hidden"
+                  className="absolute inset-0"
                   style={{ background: 'linear-gradient(to top, #0d0c0b 0%, transparent 60%)' }}
                 />
               </div>
 
               {/* Quote content */}
-              <div className="flex-1 flex flex-col justify-center p-7 md:p-10">
+              <div className="flex-1 flex flex-col justify-center p-7 md:p-10 -mt-2">
                 <QuoteIcon color="#ff571a" />
                 <p
-                  className="font-[family-name:var(--font-body)] text-[#c4c1be] leading-relaxed mb-6"
+                  className="font-[family-name:var(--font-body)] text-[#A0A0A8] leading-relaxed mb-6"
                   style={{ fontSize: 'clamp(14px, 1.6vw, 18px)' }}
                 >
                   "{STORIES[3].quote}"
@@ -232,7 +228,7 @@ export function HomeSuccessStories() {
         {/* CTA */}
         <Reveal delay={280}>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <p className="font-[family-name:var(--font-body)] text-sm text-[#6b7280]">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[#707078]">
               Ready to write your own story?
             </p>
             <Link

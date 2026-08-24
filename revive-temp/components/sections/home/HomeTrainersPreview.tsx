@@ -38,9 +38,9 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
             </div>
             <Link
               href="/trainers"
-              className="group flex items-center gap-3 font-[family-name:var(--font-body)] text-[12px] font-bold tracking-[0.14em] uppercase text-[#707078] hover:text-[#FCFDFD] transition-colors self-start md:self-end"
+              className="group flex items-center gap-3 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.14em] uppercase text-[#707078] hover:text-[#FCFDFD] transition-colors self-start md:self-end"
             >
-              VIEW ALL TRAINERS
+              VIEW ALL
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="square" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -77,7 +77,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, rgba(25,24,30,0.6))' }} aria-hidden="true" />
                     </div>
                     <div className="flex flex-col justify-center px-5 py-4 flex-1">
-                      <span className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.18em] uppercase text-[#707078] mb-1 block">
+                      <span className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.18em] uppercase text-[#707078] mb-1 block">
                         {trainer.role}
                       </span>
                       <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase tracking-[-0.02em] leading-tight mb-2" style={{ fontSize: '19px' }}>
@@ -142,7 +142,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                         imageRight ? 'md:order-1' : 'md:order-2'
                       }`}
                     >
-                      <span className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078] mb-4 block">
+                      <span className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078] mb-4 block">
                         {trainer.role}
                       </span>
                       <h3
@@ -161,7 +161,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                           {trainer.specialties.map((specialty) => (
                             <span
                               key={specialty}
-                              className="px-3 py-1 font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#707078]"
+                              className="px-3 py-1 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.12em] uppercase text-[#707078]"
                               style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}
                             >
                               {specialty}
@@ -169,7 +169,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                           ))}
                         </div>
                       )}
-                      <div className="flex items-center gap-2 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.14em] uppercase text-[#A0A0A8] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex items-center gap-2 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.14em] uppercase text-[#707078] group-hover:text-[#FCFDFD] transition-colors duration-300">
                         VIEW PROFILE
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />

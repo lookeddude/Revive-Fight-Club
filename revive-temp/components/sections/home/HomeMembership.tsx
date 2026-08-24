@@ -85,7 +85,7 @@ export function HomeMembership() {
               <div className="w-8 h-px bg-[#ff571a]" />
             </div>
             <h2
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.02em]"
+              className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase leading-[0.95] tracking-[-0.02em]"
               style={{ fontSize: 'clamp(32px, 6vw, 56px)' }}
             >
               CHOOSE YOUR<br />
@@ -122,7 +122,7 @@ export function HomeMembership() {
                       >
                         {plan.title}
                       </h3>
-                      <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280] mt-0.5">
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#707078] mt-0.5">
                         {plan.subtitle}
                       </p>
                     </div>
@@ -151,21 +151,21 @@ export function HomeMembership() {
                           </div>
                         )}
 
-                        <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.15em] uppercase text-[#6b7280] mb-1.5">
+                        <p className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.15em] uppercase text-[#707078] mb-1.5">
                           {tier.label}
                         </p>
                         <div className="flex items-baseline gap-0.5">
                           <span
                             className="font-[family-name:var(--font-outfit)] font-black leading-none"
                             style={{
-                              color: tier.best ? plan.accent : '#f0ede8',
+                              color: tier.best ? plan.accent : '#FCFDFD',
                               fontSize: 'clamp(20px, 3vw, 28px)',
                             }}
                           >
                             ₹{tier.price}
                           </span>
                         </div>
-                        <p className="font-[family-name:var(--font-body)] text-[10px] text-[#4b5563] mt-1">
+                        <p className="font-[family-name:var(--font-body)] text-[11px] text-[#707078] mt-1">
                           ≈ ₹{tier.perMonth}/mo
                         </p>
                       </div>
@@ -185,7 +185,7 @@ export function HomeMembership() {
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="font-[family-name:var(--font-body)] text-sm text-[#a8a5a2] leading-snug">
+                        <span className="font-[family-name:var(--font-body)] text-sm text-[#A0A0A8] leading-snug">
                           {point}
                         </span>
                       </li>
@@ -197,7 +197,7 @@ export function HomeMembership() {
                     href="/membership"
                     className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.14em] uppercase px-7 py-3.5 transition-all duration-300 active:scale-95"
                     style={{
-                      background: plan.accent,
+                      background: '#C8963E',
                       color: '#0d0c0b',
                     }}
                   >

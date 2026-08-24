@@ -37,7 +37,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
 
         {/* Section Header */}
         <Reveal>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10 mb-14">
             <div>
               <p className="section-label">Combat Sports &amp; Fitness</p>
               <h2
@@ -50,7 +50,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
             <Link
               href="/programs"
               aria-label="Explore all training programs at Revive Fight Club"
-              className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-[12px] font-bold tracking-[0.14em] uppercase text-[#707078] hover:text-[#FCFDFD] transition-colors self-end"
+              className="group hidden md:flex items-center gap-3 font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.14em] uppercase text-[#707078] hover:text-[#FCFDFD] transition-colors self-end mb-2"
             >
               EXPLORE ALL
               <span className="flex items-center justify-center w-7 h-7 border border-white/10 group-hover:border-white/25 transition-all duration-300">

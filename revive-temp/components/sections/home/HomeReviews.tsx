@@ -37,14 +37,14 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
 
         {/* Header */}
         <Reveal>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end gap-6 md:gap-10 mb-10">
             <div>
               <p className="section-label" style={{ color: '#f5a623' }}>
                 <span style={{ background: '#f5a623', display: 'inline-block', width: '28px', height: '1px', marginRight: '12px', verticalAlign: 'middle' }} aria-hidden="true" />
                 Athlete Testimonials
               </p>
               <h2
-                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.04em]"
+                className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase leading-[0.92] tracking-[-0.04em]"
                 style={{ fontSize: 'clamp(34px, 5vw, 56px)' }}
               >
                 WHAT OUR{' '}<br className="hidden md:block" />
@@ -52,7 +52,7 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
             </h2>
           </div>
           <div
-            className="flex items-center gap-5 self-start md:self-auto p-4"
+            className="flex items-center gap-5 self-start p-4"
             style={{ background: 'rgba(245,166,35,0.06)', border: '1px solid rgba(245,166,35,0.15)' }}
           >
             <div>
@@ -63,11 +63,11 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
                   </svg>
                 ))}
               </div>
-              <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf]  uppercase">Google Reviews</p>
+              <p className="font-[family-name:var(--font-body)] text-xs text-[#A0A0A8]  uppercase">Google Reviews</p>
             </div>
             <div className="pl-4" style={{ borderLeft: '1px solid rgba(245,166,35,0.2)' }}>
               <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8]" style={{ fontSize: '36px', lineHeight: 1, letterSpacing: '-0.05em' }}>5.0</p>
-              <p className="font-[family-name:var(--font-body)] text-xs text-[#c8c4bf] tracking-[0.1em] uppercase">Rating</p>
+              <p className="font-[family-name:var(--font-body)] text-xs text-[#A0A0A8] tracking-[0.1em] uppercase">Rating</p>
             </div>
           </div>
         </div>
