@@ -157,7 +157,7 @@ export function MobileNav({ isOpen, onClose, navLinks, currentPath, authUser, on
             className="block bg-[#FCFDFD] text-[#0E0C10] font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 hover:bg-white transition-all duration-200 text-center"
             onClick={onClose}
           >
-            Claim Free Trial
+            Book a Trial
           </Link>
 
           {authUser ? (

@@ -161,7 +161,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
               href="/book-trial"
               className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-[13px] font-bold tracking-[0.08em] uppercase px-5 py-2 bg-[#FCFDFD] text-[#0E0C10] hover:bg-white hover:-translate-y-[1px] transition-all duration-200 active:scale-95 rounded-[2px] shrink-0"
             >
-              Claim Free Trial
+              Book a Trial
             </Link>
 
             {/* Auth area */}
