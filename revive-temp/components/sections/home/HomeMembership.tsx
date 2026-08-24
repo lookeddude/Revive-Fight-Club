@@ -145,7 +145,7 @@ export function HomeMembership() {
                             className="absolute top-0 right-0 px-2 py-0.5"
                             style={{ background: plan.accent }}
                           >
-                            <span className="font-[family-name:var(--font-body)] text-[9px] font-black tracking-[0.12em] uppercase" style={{ color: '#0d0c0b' }}>
+                            <span className="font-[family-name:var(--font-body)] text-[10px] font-black tracking-[0.12em] uppercase" style={{ color: '#0d0c0b' }}>
                               Best Value
                             </span>
                           </div>

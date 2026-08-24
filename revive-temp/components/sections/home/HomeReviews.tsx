@@ -66,7 +66,7 @@ export function HomeReviews({ reviews }: HomeReviewsProps) {
               <p className="font-[family-name:var(--font-body)] text-xs text-[#A0A0A8]  uppercase">Google Reviews</p>
             </div>
             <div className="pl-4" style={{ borderLeft: '1px solid rgba(245,166,35,0.2)' }}>
-              <p className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8]" style={{ fontSize: '36px', lineHeight: 1, letterSpacing: '-0.05em' }}>5.0</p>
+              <p className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD]" style={{ fontSize: '36px', lineHeight: 1, letterSpacing: '-0.05em' }}>5.0</p>
               <p className="font-[family-name:var(--font-body)] text-xs text-[#A0A0A8] tracking-[0.1em] uppercase">Rating</p>
             </div>
           </div>

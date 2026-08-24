@@ -88,7 +88,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                           {trainer.specialties.slice(0, 2).map((specialty) => (
                             <span
                               key={specialty}
-                              className="px-2 py-0.5 font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.08em] uppercase text-[#707078]"
+                              className="px-2 py-0.5 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.08em] uppercase text-[#707078]"
                               style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
                             >
                               {specialty}
@@ -96,7 +96,7 @@ export function HomeTrainersPreview({ trainers }: HomeTrainersPreviewProps) {
                           ))}
                         </div>
                       )}
-                      <div className="mt-3 flex items-center gap-1.5 font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.12em] uppercase text-[#A0A0A8]">
+                      <div className="mt-3 flex items-center gap-1.5 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.12em] uppercase text-[#A0A0A8]">
                         VIEW PROFILE
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path strokeLinecap="square" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />

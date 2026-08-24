@@ -86,7 +86,7 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-3 h-px bg-white/20" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
+                <p className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
               </div>
               <a
                 href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
@@ -120,7 +120,7 @@ export async function Footer() {
           <div className="col-span-1 md:col-span-3 md:col-start-6">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-3 h-px bg-white/20" aria-hidden="true" />
-              <h3 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Navigation</h3>
+              <h3 className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">Navigation</h3>
             </div>
             <ul className="flex flex-col gap-0">
               {navLinks.map((link) => (
@@ -144,7 +144,7 @@ export async function Footer() {
             <div className="md:hidden">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-3 h-px bg-white/20" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
+                <p className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
               </div>
               <a href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 mb-2">
                 <svg className="w-3 h-3 text-[#707078] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -166,7 +166,7 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-3 h-px bg-white/20" aria-hidden="true" />
-                <h3 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Connect</h3>
+                <h3 className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">Connect</h3>
               </div>
               {socialLinks.length > 0 ? (
                 <div className="flex flex-col gap-3">
@@ -209,7 +209,7 @@ export async function Footer() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-3 h-px bg-white/20" aria-hidden="true" />
-                <h3 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Legal</h3>
+                <h3 className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.2em] uppercase text-[#707078]">Legal</h3>
               </div>
               <ul className="flex flex-col gap-2">
                 {legalLinks.map((link) => (

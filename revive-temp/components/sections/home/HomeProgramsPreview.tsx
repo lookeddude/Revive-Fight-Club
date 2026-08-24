@@ -109,7 +109,7 @@ export function HomeProgramsPreview({ programs, slideImages }: HomeProgramsPrevi
                 {program.category && (
                   <div className="absolute top-4 left-4 z-10">
                     <span
-                      className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.16em] uppercase px-2.5 py-1 text-[#A0A0A8]"
+                      className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.16em] uppercase px-2.5 py-1 text-[#A0A0A8]"
                       style={{ background: 'rgba(14,12,16,0.7)', border: '1px solid rgba(255,255,255,0.1)' }}
                     >
                       {program.category}
