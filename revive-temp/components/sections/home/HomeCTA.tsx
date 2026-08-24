@@ -52,7 +52,7 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
           <div className="flex items-center justify-center gap-8 mb-14 flex-wrap">
             {[
               { label: 'No Experience Needed' },
-              { label: 'First Trial Class Free' },
+              { label: 'Book First Class' },
               { label: 'Expert Coaches' },
             ].map(({ label }) => (
               <div key={label} className="flex items-center gap-2.5">
