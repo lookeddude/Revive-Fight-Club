@@ -33,10 +33,9 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-
   // Scroll detection
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10)
+    const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -59,14 +58,13 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  // Auth state — check user + whether they are admin
+  // Auth state
   useEffect(() => {
     const supabase = createClient()
 
     const checkSession = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        // Check if they have an active admin profile
         const { data: profile } = await supabase
           .from('profiles')
           .select('full_name, is_active')
@@ -74,9 +72,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           .single()
 
         const isAdmin = !!(profile?.is_active)
-        const displayName = profile?.full_name
-          ?? user.user_metadata?.full_name
-          ?? null
+        const displayName = profile?.full_name ?? user.user_metadata?.full_name ?? null
 
         setAuthUser({ name: displayName, email: user.email ?? '', isAdmin })
       } else {
@@ -103,7 +99,6 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
     router.refresh()
   }
 
-  // Get initials for avatar
   const getInitials = (name: string | null, email: string) => {
     if (name?.trim()) {
       return name.trim().split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
@@ -114,13 +109,15 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 h-14 md:h-20 transition-all duration-300 ${
-          scrolled ? 'bg-[#0d0c0b]/98 backdrop-blur-sm' : 'bg-[#0d0c0b]'
-        } border-b border-white/10`}
+        className={`fixed top-0 left-0 right-0 z-50 h-[60px] md:h-[72px] transition-all duration-400 ${
+          scrolled
+            ? 'bg-[#0E0C10]/96 backdrop-blur-md border-b border-white/[0.07]'
+            : 'bg-transparent border-b border-transparent'
+        }`}
       >
-        <div className="flex justify-between items-center h-full max-w-[1280px] mx-auto pl-1.5 pr-4 md:pl-[27px] md:pr-16">
+        <div className="flex justify-between items-center h-full max-w-[1320px] mx-auto px-5 md:px-12">
 
-          {/* Logo — sm on mobile (h-14=56px), md on desktop (h-20=80px) */}
+          {/* Logo */}
           <span className="block md:hidden">
             <SiteLogo logoUrl={logoUrl} size="sm" />
           </span>
@@ -128,8 +125,8 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
             <SiteLogo logoUrl={logoUrl} size="md" />
           </span>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-4 ml-8" aria-label="Main navigation">
+          {/* Desktop Nav — clean minimal links */}
+          <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -137,18 +134,18 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`relative font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.08em] uppercase transition-colors duration-200 pb-1 ${
+                  className={`relative font-[family-name:var(--font-body)] text-[13px] font-medium tracking-[0.04em] transition-all duration-200 pb-1 ${
                     isActive
-                      ? 'text-[#ffb59e]'
-                      : 'text-[#f0ede8] hover:text-[#ff571a]'
+                      ? 'text-[#FCFDFD]'
+                      : 'text-[#A0A0A8] hover:text-[#FCFDFD]'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#ffb59e]"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/60"
+                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                     />
                   )}
                 </Link>
@@ -159,19 +156,18 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-3">
 
-            {/* Book Trial CTA */}
+            {/* Primary CTA — white pill */}
             <Link
               href="/book-trial"
-              className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-5 py-2.5 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)] shrink-0"
+              className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-[13px] font-bold tracking-[0.08em] uppercase px-5 py-2 bg-[#FCFDFD] text-[#0E0C10] hover:bg-white hover:-translate-y-[1px] transition-all duration-200 active:scale-95 rounded-[2px] shrink-0"
             >
-              BOOK A TRIAL
+              Claim Free Trial
             </Link>
 
             {/* Auth area */}
             {authLoading ? (
-              <div className="w-9 h-9 bg-white/5 animate-pulse rounded-full" />
+              <div className="w-8 h-8 bg-white/5 animate-pulse rounded-full" />
             ) : authUser ? (
-              /* Logged in — show avatar dropdown */
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -180,17 +176,16 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   aria-expanded={dropdownOpen}
                 >
                   {/* Avatar */}
-                  <div className="w-9 h-9 rounded-full bg-[#ff571a] flex items-center justify-center relative">
-                    <span className="font-[family-name:var(--font-body)] text-xs font-bold text-black">
+                  <div className="w-8 h-8 rounded-full bg-[#461123] flex items-center justify-center relative">
+                    <span className="font-[family-name:var(--font-body)] text-xs font-bold text-[#ffd5df]">
                       {getInitials(authUser.name, authUser.email)}
                     </span>
-                    {/* Admin indicator dot */}
                     {authUser.isAdmin && (
-                      <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#22c55e] rounded-full border-2 border-[#121413]" />
+                      <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#22c55e] rounded-full border-2 border-[#0E0C10]" />
                     )}
                   </div>
                   <svg
-                    className={`w-3 h-3 text-[#6b7280] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                    className={`w-3 h-3 text-[#A0A0A8] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
                     fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -202,52 +197,49 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   {dropdownOpen && (
                     <motion.div
                       key="auth-dropdown"
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute right-0 top-full mt-3 w-56 bg-[#111312] border border-white/10 shadow-xl z-50"
+                      initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute right-0 top-full mt-3 w-56 bg-[#121116] border border-white/[0.08] shadow-2xl z-50"
                     >
-                    {/* User info */}
-                    <div className="px-4 py-3 border-b border-white/8">
-                      <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#e2e3e1] truncate">
+                    <div className="px-4 py-3 border-b border-white/[0.06]">
+                      <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#FCFDFD] truncate">
                         {authUser.name ?? 'My Account'}
                       </p>
-                      <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] truncate mt-0.5">
+                      <p className="font-[family-name:var(--font-body)] text-xs text-[#707078] truncate mt-0.5">
                         {authUser.email}
                       </p>
                     </div>
 
-                    {/* Admin Panel — only if admin */}
                     {authUser.isAdmin && (
-                      <div className="border-b border-white/8">
+                      <div className="border-b border-white/[0.06]">
                         <Link
                           href="/admin"
                           onClick={() => setDropdownOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-[#ff571a] hover:bg-[#ff571a]/10 transition-colors group"
+                          className="flex items-center gap-3 px-4 py-3 text-[#A0A0A8] hover:text-[#FCFDFD] hover:bg-white/[0.04] transition-colors"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                             <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
                           </svg>
-                          <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.08em] uppercase">
+                          <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.06em] uppercase">
                             Admin Panel
                           </span>
                         </Link>
                       </div>
                     )}
 
-                    {/* Sign out */}
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-[#6b7280] hover:text-[#ef4444] hover:bg-[#ef4444]/5 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-[#707078] hover:text-[#ef4444] hover:bg-[#ef4444]/5 transition-colors"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" y1="12" x2="9" y2="12"/>
                       </svg>
-                      <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.08em] uppercase">
+                      <span className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.06em] uppercase">
                         Sign Out
                       </span>
                     </button>
@@ -256,12 +248,11 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 </AnimatePresence>
               </div>
             ) : (
-              /* Not logged in */
               <Link
                 href="/login"
-                className="font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase text-[#f0ede8] hover:text-[#ff571a] transition-colors px-3 py-3"
+                className="font-[family-name:var(--font-body)] text-[13px] font-medium tracking-[0.04em] text-[#A0A0A8] hover:text-[#FCFDFD] transition-colors px-3 py-2"
               >
-                LOGIN
+                Login
               </Link>
             )}
           </div>
@@ -269,12 +260,12 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden text-[#f0ede8] hover:text-[#ff571a] transition-colors p-3 -mr-1"
+            className="md:hidden text-[#FCFDFD] p-2 -mr-1 hover:opacity-70 transition-opacity"
             aria-label="Open navigation menu"
             aria-expanded={mobileOpen}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>

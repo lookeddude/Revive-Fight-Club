@@ -22,7 +22,7 @@ const FAQS = [
   },
   {
     q: 'How do I get started?',
-    a: 'Book a trial class online or contact us on WhatsApp / phone (+91 96069 72238). No commitment required — just come in, try a class and see if it\'s right for you.',
+    a: "Book a trial class online or contact us on WhatsApp / phone (+91 96069 72238). No commitment required — just come in, try a class and see if it's right for you.",
   },
   {
     q: 'Can I join just for fitness without doing combat sports?',
@@ -52,7 +52,7 @@ export function HomeFAQ() {
   return (
     <section
       className="py-16 md:py-24 relative"
-      style={{ background: '#0d0c0b', borderTop: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: '#0E0C10', borderTop: '1px solid rgba(255,255,255,0.06)' }}
       aria-labelledby="home-faq-heading"
     >
       {/* FAQPage JSON-LD for SEO */}
@@ -71,38 +71,29 @@ export function HomeFAQ() {
         }}
       />
 
-      <div className="max-w-[1280px] mx-auto px-5 md:px-16">
+      <div className="max-w-[1320px] mx-auto px-5 md:px-12">
         {/* Header */}
         <Reveal>
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-8 h-px bg-[#ff571a]" />
-              <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">
-                Got Questions?
-              </p>
-              <div className="w-8 h-px bg-[#ff571a]" />
-            </div>
+          <div className="mb-12 md:mb-16">
+            <p className="section-label">Got Questions?</p>
             <h2
               id="home-faq-heading"
-              className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.95] tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(32px, 6vw, 56px)' }}
+              className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase leading-[0.92] tracking-[-0.04em]"
+              style={{ fontSize: 'clamp(32px, 5.5vw, 64px)' }}
             >
-              FREQUENTLY ASKED<br />
-              <span style={{ color: '#ff571a' }}>QUESTIONS</span>
+              FREQUENTLY ASKED QUESTIONS
             </h2>
           </div>
         </Reveal>
 
         {/* Accordion */}
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl">
           {FAQS.map(({ q, a }, i) => {
             const isOpen = openIndex === i
 
             return (
-              <Reveal key={i} delay={i * 50}>
-                <div
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-                >
+              <Reveal key={i} delay={i * 40}>
+                <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                   <button
                     onClick={() => toggle(i)}
                     className="w-full flex items-start justify-between gap-4 py-5 md:py-6 text-left group"
@@ -111,8 +102,8 @@ export function HomeFAQ() {
                     <h3
                       className="font-[family-name:var(--font-outfit)] font-bold uppercase tracking-tight leading-snug transition-colors duration-200"
                       style={{
-                        color: isOpen ? '#ff571a' : '#f0ede8',
-                        fontSize: 'clamp(14px, 2vw, 18px)',
+                        color: isOpen ? '#FCFDFD' : '#A0A0A8',
+                        fontSize: 'clamp(14px, 1.8vw, 17px)',
                       }}
                     >
                       {q}
@@ -120,16 +111,16 @@ export function HomeFAQ() {
 
                     {/* Toggle icon */}
                     <div
-                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center mt-0.5 transition-colors duration-200"
+                      className="flex-shrink-0 w-7 h-7 flex items-center justify-center mt-0.5 transition-all duration-200"
                       style={{
-                        border: isOpen ? '1px solid rgba(255,87,26,0.3)' : '1px solid rgba(255,255,255,0.08)',
-                        background: isOpen ? 'rgba(255,87,26,0.08)' : 'transparent',
+                        border: isOpen ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.08)',
+                        background: isOpen ? 'rgba(255,255,255,0.06)' : 'transparent',
                       }}
                     >
                       <svg
-                        className="w-4 h-4 transition-transform duration-300"
+                        className="w-3.5 h-3.5 transition-transform duration-300"
                         style={{
-                          color: isOpen ? '#ff571a' : '#6b7280',
+                          color: isOpen ? '#FCFDFD' : '#707078',
                           transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                         }}
                         fill="none"
@@ -141,7 +132,7 @@ export function HomeFAQ() {
                     </div>
                   </button>
 
-                  {/* Answer — collapsible */}
+                  {/* Answer */}
                   <div
                     className="overflow-hidden transition-all duration-300 ease-out"
                     style={{
@@ -149,7 +140,7 @@ export function HomeFAQ() {
                       opacity: isOpen ? 1 : 0,
                     }}
                   >
-                    <p className="font-[family-name:var(--font-body)] text-[14px] text-[#9ca3af] leading-relaxed pb-5 md:pb-6 pr-12">
+                    <p className="font-[family-name:var(--font-body)] text-[14px] text-[#707078] leading-relaxed pb-5 md:pb-6 pr-12">
                       {a}
                     </p>
                   </div>
@@ -162,4 +153,3 @@ export function HomeFAQ() {
     </section>
   )
 }
- 

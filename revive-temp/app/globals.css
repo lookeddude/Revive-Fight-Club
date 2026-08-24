@@ -2,47 +2,48 @@
 
 /* ============================================================
    REVIVE FIGHT CLUB — Global CSS
-   Design System: Kinetic High-Performance System v3
+   Design System: Premium Dark Combat Sports v4
+   Reference: Dark editorial combat sports brand
    ============================================================ */
 
 @theme {
-  /* ── Colors — Warm Charcoal ─────────────── */
-  --color-background: #0d0c0b;
-  --color-surface: #141210;
-  --color-surface-dim: #100f0e;
-  --color-surface-bright: #3a3530;
-  --color-surface-container-lowest: #0a0908;
-  --color-surface-container-low: #1a1714;
-  --color-surface-container: #201d1a;
-  --color-surface-container-high: #2a2622;
-  --color-surface-container-highest: #35302b;
-  
-  --color-on-surface: #f0ede8;
-  --color-on-surface-variant: #9ca3af;
-  --color-on-background: #f0ede8;
-  --color-inverse-surface: #f0ede8;
-  --color-inverse-on-surface: #141210;
-  
-  --color-outline: #3d2e26;
-  --color-outline-variant: #2a2622;
+  /* ── Colors — Cool Dark Premium ─────────────── */
+  --color-background:                  #0E0C10;
+  --color-surface:                     #121116;
+  --color-surface-dim:                 #0A090C;
+  --color-surface-bright:              #2A2830;
+  --color-surface-container-lowest:    #080710;
+  --color-surface-container-low:       #141220;
+  --color-surface-container:           #19181E;
+  --color-surface-container-high:      #242228;
+  --color-surface-container-highest:   #2E2C34;
 
-  /* Primary — Fight Orange */
-  --color-primary: #ff571a;
-  --color-on-primary: #000000;
-  --color-primary-container: #c73d0d;
-  --color-on-primary-container: #fff0eb;
-  --color-primary-hover: #ff7a45;
+  --color-on-surface:                  #FCFDFD;
+  --color-on-surface-variant:          #A0A0A8;
+  --color-on-background:               #FCFDFD;
+  --color-inverse-surface:             #FCFDFD;
+  --color-inverse-on-surface:          #0E0C10;
 
-  /* Secondary — Alert/Energy */
-  --color-secondary: #e03020;
-  --color-on-secondary: #ffffff;
+  --color-outline:                     rgba(255,255,255,0.16);
+  --color-outline-variant:             rgba(255,255,255,0.08);
 
-  /* Ratings */
-  --color-gold: #f5a623;
+  /* Primary — Dark Crimson (used VERY selectively) */
+  --color-primary:                     #461123;
+  --color-on-primary:                  #FCFDFD;
+  --color-primary-container:           #2a0a15;
+  --color-on-primary-container:        #ffd5df;
+  --color-primary-hover:               #5a1630;
+
+  /* Secondary — muted */
+  --color-secondary:                   #707078;
+  --color-on-secondary:                #FCFDFD;
+
+  /* Gold — for quote marks, accents */
+  --color-gold:                        #C8963E;
 
   /* ── Typography ──────────────────────────────────────────── */
   --font-outfit: var(--font-outfit), sans-serif;
-  --font-body: var(--font-body), sans-serif;
+  --font-body:   var(--font-body), sans-serif;
 
   /* Spacing Scale (8px baseline) */
   --spacing-1: 4px;
@@ -56,9 +57,9 @@
   --spacing-24: 96px;
   --spacing-container-max: 1280px;
 
-  /* Border Radius (Aggressive/Sharp) */
+  /* Border Radius (Sharp/Athletic) */
   --radius-none: 0px;
-  --radius-sm: 2px;
+  --radius-sm:   2px;
   --radius-full: 9999px;
 }
 
@@ -84,18 +85,13 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
+  background-color: #461123;
+  color: #FCFDFD;
 }
 
 /* ── Utilities ───────────────────────────────────────────── */
 .ghost-border {
   border: 1px solid var(--color-outline-variant);
-}
-
-.kinetic-orange {
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
 }
 
 /* ── Grain Texture Overlay ───────────────────────────────── */
@@ -108,17 +104,17 @@ body {
   background-size: 256px 256px;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.25;
+  opacity: 0.18;
   mix-blend-mode: overlay;
 }
 
 /* ── Focus States ────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid rgba(255,255,255,0.4);
   outline-offset: 2px;
 }
 
-/* ── Input Underline ─────────────────────────────────────── */
+/* ── Input System ─────────────────────────────────────────── */
 .input-underline {
   border: none;
   border-bottom: 1px solid var(--color-outline-variant);
@@ -126,33 +122,54 @@ body {
   transition: border-color 0.2s ease;
   border-radius: 0;
 }
-
 .input-underline:focus {
   outline: none;
   box-shadow: none;
-  border-bottom-color: var(--color-primary);
+  border-bottom-color: rgba(255,255,255,0.4);
+}
+
+/* ── Form input base ─────────────────────────────────────── */
+.rfc-input {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  color: var(--color-on-background);
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  border-radius: 0;
+  width: 100%;
+}
+.rfc-input::placeholder {
+  color: var(--color-secondary);
+}
+.rfc-input:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.35);
 }
 
 /* ── Hero Overlay ────────────────────────────────────────── */
 .hero-overlay {
-  background: linear-gradient(to top, var(--color-background) 0%, rgba(13,12,11,0.5) 50%, transparent 100%);
+  background: linear-gradient(to top, var(--color-background) 0%, rgba(14,12,16,0.5) 50%, transparent 100%);
 }
 
 .img-overlay-bottom {
-  background: linear-gradient(to top, rgba(13, 12, 11, 0.96) 0%, rgba(13, 12, 11, 0.4) 40%, transparent 100%);
+  background: linear-gradient(to top, rgba(14,12,16,0.97) 0%, rgba(14,12,16,0.45) 40%, transparent 100%);
 }
 
 .img-overlay-cinema {
-  background: linear-gradient(to top, rgba(13, 12, 11, 1) 0%, rgba(13, 12, 11, 0.4) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(14,12,16,1) 0%, rgba(14,12,16,0.4) 50%, transparent 100%);
 }
 
-/* ── Diagonal Section Clip ───────────────────────────────── */
-.clip-diagonal-bottom {
-  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
-}
-
-.clip-diagonal-top {
-  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+/* Cinematic image overlay for cards */
+.img-cinematic {
+  background: linear-gradient(
+    to top,
+    rgba(14,12,16,0.95) 0%,
+    rgba(14,12,16,0.55) 35%,
+    rgba(14,12,16,0.12) 65%,
+    transparent 100%
+  );
 }
 
 /* ── Section Divider ─────────────────────────────────────── */
@@ -165,74 +182,79 @@ body {
   background: var(--color-outline-variant);
 }
 
+.sep-white {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+/* Legacy — kept for compatibility */
 .sep-orange {
   height: 1px;
-  background: var(--color-primary);
-  opacity: 0.5;
+  background: rgba(255,255,255,0.06);
 }
 
 /* ── Section Label ───────────────────────────────────────── */
 .section-label {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--color-on-surface-variant);
   margin-bottom: 1rem;
 }
 .section-label::before {
   content: '';
   display: inline-block;
-  width: 24px;
-  height: 2px;
-  background: var(--color-primary);
+  width: 20px;
+  height: 1px;
+  background: var(--color-on-surface-variant);
   flex-shrink: 0;
+  opacity: 0.5;
 }
 
-/* ── Section Surface Levels ──────────────────────────────── */
+/* ── Surface Levels ──────────────────────────────────────── */
 .surface-0 { background-color: var(--color-surface-container-lowest); }
 .surface-1 { background-color: var(--color-background); }
 .surface-2 { background-color: var(--color-surface); }
 .surface-3 { background-color: var(--color-surface-container); }
 
-/* ── Premium Card (Refined) ──────────────────────────────── */
+/* ── Premium Card ────────────────────────────────────────── */
 .card-premium {
   background: var(--color-surface-container);
-  border: 1px solid var(--color-surface-container-high);
+  border: 1px solid var(--color-outline-variant);
   border-radius: var(--radius-none);
-  transition: all 0.2s ease-in-out;
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 .card-premium:hover {
-  border-color: var(--color-outline);
-  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.14);
+  transform: translateY(-3px);
 }
 
 /* ── Review Card ─────────────────────────────────────────── */
 .review-card-premium {
   background: var(--color-surface-container);
-  border: 1px solid var(--color-surface-container-high);
+  border: 1px solid var(--color-outline-variant);
   position: relative;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease;
   border-radius: var(--radius-none);
 }
 .review-card-premium:hover {
-  border-color: var(--color-outline);
-  background: var(--color-surface-container-high);
+  border-color: rgba(255,255,255,0.14);
 }
 .review-card-premium::before {
   content: '\201C';
   position: absolute;
-  top: 0px;
-  left: 20px;
-  font-size: 64px;
+  top: 4px;
+  left: 18px;
+  font-size: 56px;
   line-height: 1;
   font-family: var(--font-outfit);
-  color: var(--color-primary);
-  opacity: 0.2;
+  color: var(--color-gold);
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -240,14 +262,24 @@ body {
 .stat-number {
   font-family: var(--font-outfit);
   font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   line-height: 1;
   color: var(--color-on-background);
 }
 
+/* ── Trainer Image Treatment ─────────────────────────────── */
+.trainer-img {
+  filter: grayscale(60%) contrast(1.08);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+.group:hover .trainer-img,
+.trainer-img:hover {
+  filter: grayscale(0%) contrast(1);
+}
+
 /* ── Animations ──────────────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
@@ -255,23 +287,14 @@ body {
   to   { opacity: 1; }
 }
 
-.animate-fade-up { animation: fadeUp 0.5s ease-out forwards; }
-.animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+.animate-fade-up { animation: fadeUp 0.55s ease-out forwards; }
+.animate-fade-in { animation: fadeIn 0.45s ease-out forwards; }
 
 .image-hover-scale {
-  transition: transform 0.5s ease-out;
+  transition: transform 0.6s ease-out;
 }
 .group:hover .image-hover-scale {
-  transform: scale(1.05);
-}
-
-.trainer-img {
-  filter: grayscale(80%) contrast(1.1);
-  transition: filter 0.4s ease, transform 0.4s ease;
-}
-.group:hover .trainer-img,
-.trainer-img:hover {
-  filter: grayscale(0%) contrast(1);
+  transform: scale(1.04);
 }
 
 @media (max-width: 767px) {
@@ -282,12 +305,12 @@ body {
 
 /* ── Hero Entrance ───────────────────────────────────────── */
 @keyframes heroFadeUp {
-  from { opacity: 0; transform: translateY(22px); }
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero-enter {
-  animation: heroFadeUp var(--hero-dur, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) both;
+  animation: heroFadeUp var(--hero-dur, 0.75s) cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) both;
 }
 
 /* ── Hero image subtle life ──────────────────────────────── */
@@ -297,16 +320,16 @@ body {
 }
 
 .img-settle {
-  animation: imgSettle 4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: imgSettle 5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ── Scroll Reveal System ────────────────────────────────── */
 .rfc-reveal--up {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(32px);
   transition:
-    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .rfc-reveal--up.rfc-in-view {
@@ -316,7 +339,7 @@ body {
 
 .rfc-reveal--fade {
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.65s ease;
   transition-delay: var(--reveal-delay, 0ms);
 }
 .rfc-reveal--fade.rfc-in-view {
@@ -325,10 +348,10 @@ body {
 
 .rfc-reveal--left {
   opacity: 0;
-  transform: translateX(-22px);
+  transform: translateX(-24px);
   transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .rfc-reveal--left.rfc-in-view {
@@ -336,27 +359,17 @@ body {
   transform: translateX(0);
 }
 
-
 /* ── Mobile Nav Link Stagger ─────────────────────────────── */
 @keyframes navLinkIn {
-  from { opacity: 0; transform: translateX(14px); }
+  from { opacity: 0; transform: translateX(16px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
 /* ── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-surface-container-lowest);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-surface-container-high);
-  border-radius: var(--radius-none);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-outline);
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-container-high); }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ── Accessibility: Reduced Motion ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {

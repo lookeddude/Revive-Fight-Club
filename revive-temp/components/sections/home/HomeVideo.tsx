@@ -53,7 +53,7 @@ export function HomeVideo({ videoUrl }: HomeVideoProps) {
 
   return (
     // block md:hidden → visible on mobile only
-    <section className="block md:hidden relative" style={{ background: '#0d0c0b' }}>
+    <section className="block md:hidden relative" style={{ background: '#0E0C10' }}>
       <div ref={containerRef} className="relative w-full" style={{ aspectRatio: '9 / 16' }}>
         <video
           ref={videoRef}

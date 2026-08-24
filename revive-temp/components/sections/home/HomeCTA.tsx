@@ -8,39 +8,41 @@ interface HomeCTAProps {
 
 export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-surface)]">
-      {/* Top line separator */}
-      <div className="absolute top-0 left-0 right-0 sep-orange" aria-hidden="true" />
+    <section
+      className="relative overflow-hidden"
+      style={{ background: '#121116', borderTop: '1px solid rgba(255,255,255,0.06)' }}
+    >
+      <div className="relative z-10 max-w-[1320px] mx-auto px-5 md:px-12 py-20 md:py-32 text-center">
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 py-16 md:py-28 text-center">
-        {/* Section label */}
+        {/* Eyebrow */}
         <Reveal>
-          <div className="flex items-center justify-center gap-3 mb-10">
-            <div className="w-12 h-px bg-[#ff571a]" aria-hidden="true" />
-            <p className="font-[family-name:var(--font-body)] text-xs font-bold tracking-[0.22em] uppercase text-[#ff571a]">
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="w-10 h-px" style={{ background: 'rgba(255,255,255,0.15)' }} aria-hidden="true" />
+            <p className="font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.22em] uppercase text-[#707078]">
               Take the first step
             </p>
-            <div className="w-12 h-px bg-[#ff571a]" aria-hidden="true" />
+            <div className="w-10 h-px" style={{ background: 'rgba(255,255,255,0.15)' }} aria-hidden="true" />
           </div>
         </Reveal>
 
         {/* Headline */}
         <Reveal delay={80}>
           <h2
-            className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.9] tracking-[-0.04em] mb-8 max-w-4xl mx-auto"
-            style={{ fontSize: 'clamp(42px, 8vw, 90px)' }}
+            className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase leading-[0.9] tracking-[-0.04em] mb-6 max-w-4xl mx-auto"
+            style={{ fontSize: 'clamp(42px, 8vw, 100px)' }}
           >
             START TRAINING{' '}
             <br className="hidden sm:block" />
-            AT{' '}
-            <span className="text-[#ff571a]">REVIVE</span>{' '}
+            AT REVIVE{' '}
             <br className="hidden sm:block" />
-            FIGHT CLUB
+            <span style={{ color: 'transparent', WebkitTextStroke: '2px rgba(252,253,253,0.3)' }}>
+              FIGHT CLUB
+            </span>
           </h2>
         </Reveal>
 
         <Reveal delay={160}>
-          <p className="font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#9ca3af] max-w-lg mx-auto mb-12">
+          <p className="font-[family-name:var(--font-body)] text-base leading-relaxed text-[#707078] max-w-lg mx-auto mb-12">
             Book a trial class at our Fraser Town gym. No experience needed — just show up and train.
           </p>
         </Reveal>
@@ -49,13 +51,13 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
         <Reveal delay={240}>
           <div className="flex items-center justify-center gap-8 mb-14 flex-wrap">
             {[
-              { icon: '⚡', label: 'No Experience Needed' },
-              { icon: '★', label: 'Book First Trial' },
-              { icon: '✓', label: 'Expert Coaches' },
-            ].map(({ icon, label }) => (
+              { label: 'No Experience Needed' },
+              { label: 'First Trial Class Free' },
+              { label: 'Expert Coaches' },
+            ].map(({ label }) => (
               <div key={label} className="flex items-center gap-2.5">
-                <span className="text-[#ff571a] text-base" aria-hidden="true">{icon}</span>
-                <span className="font-[family-name:var(--font-body)] text-sm text-[#8a7e76] tracking-[0.1em] uppercase font-bold">
+                <span className="w-1 h-1 rounded-full bg-white/25 flex-shrink-0" aria-hidden="true" />
+                <span className="font-[family-name:var(--font-body)] text-[11px] text-[#707078] tracking-[0.14em] uppercase font-bold">
                   {label}
                 </span>
               </div>
@@ -68,12 +70,9 @@ export function HomeCTA({ whatsappNumber }: HomeCTAProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/book-trial"
-              className="inline-flex items-center justify-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-8 py-4 transition-colors duration-200 active:scale-95 bg-[var(--color-primary)] text-black hover:bg-[var(--color-primary-hover)]"
+              className="inline-flex items-center justify-center gap-2 font-[family-name:var(--font-body)] text-sm font-bold tracking-[0.1em] uppercase px-10 py-4 bg-[#FCFDFD] text-[#0E0C10] hover:bg-white hover:-translate-y-[2px] transition-all duration-200 active:scale-95"
             >
-              <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              BOOK TRIAL
+              BOOK A TRIAL
             </Link>
             <WhatsAppCTA
               whatsappNumber={whatsappNumber ?? null}

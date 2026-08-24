@@ -150,10 +150,10 @@ export default function RootLayout({
           <link rel="preconnect" href="https://www.googletagmanager.com" />
         )}
       </head>
-      <body className="bg-[#0d0c0b] text-[#f0ede8] font-[family-name:var(--font-body)] antialiased">
+      <body className="bg-[#0E0C10] text-[#FCFDFD] font-[family-name:var(--font-body)] antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#ff571a] focus:text-black focus:font-bold focus:uppercase focus:tracking-widest"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-[#FCFDFD] focus:text-[#0E0C10] focus:font-bold focus:uppercase focus:tracking-widest"
         >
           Skip to content
         </a>

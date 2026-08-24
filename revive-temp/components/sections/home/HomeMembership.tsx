@@ -32,9 +32,9 @@ const FEATURED_PLANS = [
       { label: 'Semiannual', shortLabel: '6 Mo', price: '20,000', perMonth: '3,333' },
       { label: 'Yearly', shortLabel: '12 Mo', price: '40,000', perMonth: '3,333', best: true },
     ] as PriceTier[],
-    accent: '#ff571a',
-    accentLight: 'rgba(255,87,26,0.08)',
-    border: 'rgba(255,87,26,0.2)',
+    accent: 'rgba(252,253,253,0.9)',
+    accentLight: 'rgba(255,255,255,0.04)',
+    border: 'rgba(255,255,255,0.12)',
   },
   {
     id: 'kids',
@@ -52,11 +52,12 @@ const FEATURED_PLANS = [
       { label: 'Semiannual', shortLabel: '6 Mo', price: '15,000', perMonth: '2,500' },
       { label: 'Yearly', shortLabel: '12 Mo', price: '26,000', perMonth: '2,167', best: true },
     ] as PriceTier[],
-    accent: '#f5a623',
-    accentLight: 'rgba(245,166,35,0.08)',
-    border: 'rgba(245,166,35,0.2)',
+    accent: '#C8963E',
+    accentLight: 'rgba(200,150,62,0.06)',
+    border: 'rgba(200,150,62,0.18)',
   },
 ]
+
 
 export function HomeMembership() {
   return (

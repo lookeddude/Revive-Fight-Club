@@ -17,7 +17,7 @@ const STORIES = [
     image: '/stories/rfc_member_sneha.jpg',
     quote:
       'Six months ago I couldn\'t throw a proper punch. Walking into Revive was the most intimidating thing I\'d done — but the coaches made me feel at home from day one. Now I spar regularly, I\'ve lost 8 kg, and I\'ve genuinely fallen in love with boxing. It changed not just my body but my entire mindset.',
-    accent: '#ff571a',
+    accent: '#C8963E',
   },
   {
     id: 'card2',
@@ -26,7 +26,7 @@ const STORIES = [
     image: '/stories/rfc_member_aditya.jpg',
     quote:
       'I used to think MMA was only for professionals. Revive showed me otherwise. Within weeks I was learning real techniques — the coaches are patient, disciplined and genuinely invested in your growth.',
-    accent: '#f5a623',
+    accent: '#C8963E',
   },
   {
     id: 'card3',
@@ -35,7 +35,7 @@ const STORIES = [
     image: '/stories/rfc_member_meera_kid.jpg',
     quote:
       'My son Aarav has transformed completely — more focused, more disciplined, more confident at school. The coaches at RFC are firm yet incredibly patient with kids. We\'re so glad we enrolled.',
-    accent: '#f5a623',
+    accent: '#C8963E',
   },
   {
     id: 'wide',
@@ -44,9 +44,10 @@ const STORIES = [
     image: '/stories/rfc_member_vikram.jpg',
     quote:
       'It\'s not just a gym — it\'s a community. Every session I walk out feeling like a better version of myself. The energy here is unlike anything I\'ve experienced. Coaches push you beyond what you think you\'re capable of, and the members around you push you even further. Revive Fight Club is the best thing that happened to me this year.',
-    accent: '#ff571a',
+    accent: '#C8963E',
   },
 ]
+
 
 function QuoteIcon({ color }: { color: string }) {
   return (
@@ -66,7 +67,7 @@ function MemberTag({ name, tag, accent }: { name: string; tag: string; accent: s
         {name[0]}
       </div>
       <div>
-        <p className="font-[family-name:var(--font-outfit)] font-bold text-[#f0ede8] text-sm uppercase tracking-wide leading-none">
+        <p className="font-[family-name:var(--font-outfit)] font-bold text-[#FCFDFD] text-sm uppercase tracking-wide leading-none">
           {name}
         </p>
         <p className="font-[family-name:var(--font-body)] text-[10px] uppercase tracking-[0.14em] font-bold mt-0.5" style={{ color: accent }}>
@@ -81,37 +82,28 @@ export function HomeSuccessStories() {
   return (
     <section
       className="py-16 md:py-24 relative overflow-hidden"
-      style={{ background: '#080706', borderTop: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: '#0E0C10', borderTop: '1px solid rgba(255,255,255,0.06)' }}
     >
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,87,26,0.04) 0%, transparent 70%)' }}
-      />
 
-      <div className="relative max-w-[1280px] mx-auto px-5 md:px-16">
+      <div className="relative max-w-[1320px] mx-auto px-5 md:px-12">
 
         {/* Section Header */}
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <div className="inline-flex items-center gap-3 mb-4">
-                <div className="w-8 h-px bg-[#ff571a]" />
-                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">
-                  Member Stories
-                </p>
-              </div>
+              <p className="section-label">Member Stories</p>
               <h2
-                className="font-[family-name:var(--font-outfit)] font-black text-[#f0ede8] uppercase leading-[0.92] tracking-[-0.02em]"
-                style={{ fontSize: 'clamp(32px, 6vw, 60px)' }}
+                className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] uppercase leading-[0.92] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(32px, 6vw, 72px)' }}
               >
                 REAL PEOPLE.<br />
-                <span style={{ color: '#ff571a' }}>REAL RESULTS.</span>
+                <span style={{ color: 'transparent', WebkitTextStroke: '1.5px rgba(252,253,253,0.3)' }}>REAL RESULTS.</span>
               </h2>
             </div>
             <Link
               href="/reviews"
-              className="flex-shrink-0 inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-xs font-black tracking-[0.14em] uppercase px-6 py-3 transition-all duration-200 hover:bg-[#ff571a] hover:text-black"
-              style={{ border: '1px solid rgba(255,87,26,0.35)', color: '#ff571a' }}
+              className="flex-shrink-0 inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.14em] uppercase px-5 py-3 transition-all duration-200 text-[#A0A0A8] hover:text-[#FCFDFD] hover:border-white/25"
+              style={{ border: '1px solid rgba(255,255,255,0.12)' }}
             >
               All Stories
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

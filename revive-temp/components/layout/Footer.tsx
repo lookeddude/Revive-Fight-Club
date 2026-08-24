@@ -46,42 +46,34 @@ export async function Footer() {
   ].filter(Boolean) as { href: string; label: string; icon: React.ReactNode }[]
 
   return (
-    <footer className="relative overflow-hidden" style={{ background: '#080706' }}>
+    <footer className="relative overflow-hidden" style={{ background: '#080710' }}>
 
-      {/* ── Top separator ─────────────────────────── */}
-      <div className="h-px w-full bg-[var(--color-outline-variant)]" />
+      {/* Top separator */}
+      <div className="h-px w-full" style={{ background: 'rgba(255,255,255,0.06)' }} />
 
-      {/* ── Main Footer Body ───────────────────────────────── */}
-      <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-16 pt-12 pb-10">
+      {/* Main Footer Body */}
+      <div className="relative z-10 max-w-[1320px] mx-auto px-5 md:px-12 pt-14 pb-10">
 
-        {/* ── MOBILE: Logo + tagline centered (hidden on md+) ── */}
-        <div className="flex flex-col items-center text-center mb-8 md:hidden">
+        {/* Mobile: Logo + tagline centered */}
+        <div className="flex flex-col items-center text-center mb-10 md:hidden">
           <SiteLogo logoUrl={settings?.logo_url} size="sm" href="/" />
-          <p className="font-[family-name:var(--font-body)] text-sm text-[#4a4440] leading-relaxed mt-3 max-w-[240px]">
-            Bengaluru&apos;s premier combat sports gym.{' '}
-            {(programs ?? []).length > 0 && (
-              <>
-                {programs.slice(0, 2).map(p => p.name).join(', ')}
-                {programs.length > 2 && ' & more'}.
-              </>
-            )}
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#707078] leading-relaxed mt-3 max-w-[240px]">
+            Bengaluru&apos;s premier combat sports gym.
           </p>
-          {/* Decorative divider */}
           <div className="flex items-center gap-3 mt-5">
-            <div className="h-px flex-1 w-12" style={{ background: 'rgba(255,87,26,0.2)' }} />
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#ff571a' }} />
-            <div className="h-px flex-1 w-12" style={{ background: 'rgba(255,87,26,0.2)' }} />
+            <div className="h-px flex-1 w-12" style={{ background: 'rgba(255,255,255,0.08)' }} />
+            <div className="w-1 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }} />
+            <div className="h-px flex-1 w-12" style={{ background: 'rgba(255,255,255,0.08)' }} />
           </div>
         </div>
 
-        {/* ── Grid layout ───────────────────────────────────── */}
-        {/* Mobile: 2-col grid for links. Desktop: 12-col */}
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-x-5 gap-y-8 md:gap-6">
+        {/* Grid layout */}
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-x-5 gap-y-10 md:gap-6">
 
-          {/* ── Brand (desktop only) ─── col-span-4 */}
+          {/* Brand — desktop only, col-span-4 */}
           <div className="hidden md:flex md:col-span-4 flex-col gap-6">
             <SiteLogo logoUrl={settings?.logo_url} size="md" />
-            <p className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-relaxed -mt-3 max-w-[260px]">
+            <p className="font-[family-name:var(--font-body)] text-[12px] text-[#707078] leading-relaxed -mt-3 max-w-[260px]">
               Bengaluru&apos;s premier combat sports gym.{' '}
               {(programs ?? []).length > 0 && (
                 <>
@@ -93,8 +85,8 @@ export async function Footer() {
             {/* Location */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-5 h-px bg-[#ff571a]" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Location</p>
+                <div className="w-3 h-px bg-white/20" aria-hidden="true" />
+                <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
               </div>
               <a
                 href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac"
@@ -102,20 +94,20 @@ export async function Footer() {
                 aria-label="Open Revive Fight Club location in Google Maps"
                 className="group inline-flex items-start gap-2.5 mb-3"
               >
-                <svg className="w-3.5 h-3.5 text-[#ff571a] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg className="w-3 h-3 text-[#707078] shrink-0 mt-0.5 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
-                <span className="font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] leading-snug group-hover:text-[#a8a49f] transition-colors">
+                <span className="font-[family-name:var(--font-body)] text-[12px] text-[#707078] leading-snug group-hover:text-[#A0A0A8] transition-colors">
                   3rd floor, 157, MM Road,<br />Fraser Town, Bengaluru,<br />Karnataka 560005
                 </span>
               </a>
               {settings?.phone && (
                 <a
                   href={`tel:${settings.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-2 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors w-fit"
+                  className="flex items-center gap-2 font-[family-name:var(--font-body)] text-[12px] text-[#707078] hover:text-[#A0A0A8] transition-colors w-fit"
                   aria-label={`Call ${settings.phone}`}
                 >
-                  <svg className="w-3 h-3 text-[#ff571a]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg className="w-3 h-3 text-[#707078]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                   </svg>
                   {settings.phone}
@@ -124,20 +116,20 @@ export async function Footer() {
             </div>
           </div>
 
-          {/* ── Column 1 — Navigation only (mobile left / desktop Navigation) ── */}
+          {/* Navigation links */}
           <div className="col-span-1 md:col-span-3 md:col-start-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-              <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Navigation</h4>
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-3 h-px bg-white/20" aria-hidden="true" />
+              <h4 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Navigation</h4>
             </div>
             <ul className="flex flex-col gap-0">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors"
+                    className="group flex items-center gap-2 py-1.5 font-[family-name:var(--font-body)] text-[13px] text-[#707078] hover:text-[#FCFDFD] transition-colors"
                   >
-                    <span className="w-0 h-px bg-[#ff571a] group-hover:w-3 transition-all duration-300 flex-shrink-0" aria-hidden="true" />
+                    <span className="w-0 h-px bg-white/40 group-hover:w-3 transition-all duration-300 flex-shrink-0" aria-hidden="true" />
                     {link.label}
                   </Link>
                 </li>
@@ -145,26 +137,26 @@ export async function Footer() {
             </ul>
           </div>
 
-          {/* ── Column 2 (mobile right / desktop Social+Legal) ── */}
-          <div className="col-span-1 md:col-span-3 md:col-start-10 flex flex-col gap-6">
+          {/* Social + Legal */}
+          <div className="col-span-1 md:col-span-3 md:col-start-10 flex flex-col gap-8">
 
             {/* Location (mobile only) */}
             <div className="md:hidden">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <p className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.2em] uppercase text-[#ff571a]">Location</p>
+                <div className="w-3 h-px bg-white/20" aria-hidden="true" />
+                <p className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Location</p>
               </div>
               <a href="https://maps.app.goo.gl/HDkr8hrYK1Tuop7G6?g_st=ac" target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 mb-2">
-                <svg className="w-3 h-3 text-[#ff571a] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 text-[#707078] shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
-                <span className="font-[family-name:var(--font-body)] text-sm text-[#9ca3af] leading-snug group-hover:text-[#9a9490] transition-colors">
+                <span className="font-[family-name:var(--font-body)] text-sm text-[#707078] leading-snug group-hover:text-[#A0A0A8] transition-colors">
                   3rd floor, 157,<br />MM Road, Fraser Town,<br />Bengaluru 560005
                 </span>
               </a>
               {settings?.phone && (
-                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 font-[family-name:var(--font-body)] text-sm text-[#9ca3af] hover:text-[#e2e3e1] transition-colors mt-1">
-                  <svg className="w-3 h-3 text-[#ff571a]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 font-[family-name:var(--font-body)] text-sm text-[#707078] hover:text-[#A0A0A8] transition-colors mt-1">
+                  <svg className="w-3 h-3 text-[#707078]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                   {settings.phone}
                 </a>
               )}
@@ -173,8 +165,8 @@ export async function Footer() {
             {/* Connect / Social */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Connect</h4>
+                <div className="w-3 h-px bg-white/20" aria-hidden="true" />
+                <h4 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Connect</h4>
               </div>
               {socialLinks.length > 0 ? (
                 <div className="flex flex-col gap-3">
@@ -182,11 +174,12 @@ export async function Footer() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#e2e3e1] transition-colors w-fit"
+                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#707078] hover:text-[#FCFDFD] transition-colors w-fit"
                       target="_blank" rel="noopener noreferrer"
                       aria-label={`Revive Fight Club on ${link.label}`}
                     >
-                      <span className="w-6 h-6 flex items-center justify-center transition-all duration-300 group-hover:text-[#ff571a]" style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
+                      <span className="w-6 h-6 flex items-center justify-center transition-all duration-300"
+                        style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
                         {link.icon}
                       </span>
                       <span className="hidden sm:inline">{link.label}</span>
@@ -195,11 +188,12 @@ export async function Footer() {
                   {whatsappUrl && (
                     <a
                       href={whatsappUrl}
-                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#9ca3af] hover:text-[#25D366] transition-colors w-fit"
+                      className="group flex items-center gap-2.5 font-[family-name:var(--font-body)] text-[12px] text-[#707078] hover:text-[#25D366] transition-colors w-fit"
                       target="_blank" rel="noopener noreferrer"
                       aria-label="Revive Fight Club on WhatsApp"
                     >
-                      <span className="w-6 h-6 flex items-center justify-center transition-all duration-300 group-hover:border-[#25D366]/40 group-hover:text-[#25D366]" style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
+                      <span className="w-6 h-6 flex items-center justify-center transition-all duration-300"
+                        style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)' }}>
                         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                       </span>
                       <span className="hidden sm:inline">WhatsApp</span>
@@ -207,22 +201,22 @@ export async function Footer() {
                   )}
                 </div>
               ) : (
-                <p className="font-[family-name:var(--font-body)] text-sm text-[#3a3530]">Coming soon</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[#3a3540]">Coming soon</p>
               )}
             </div>
 
             {/* Legal */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-4 h-px bg-[#ff571a]" aria-hidden="true" />
-                <h4 className="font-[family-name:var(--font-body)] text-xs font-black tracking-[0.22em] uppercase text-[#ff571a]">Legal</h4>
+                <div className="w-3 h-px bg-white/20" aria-hidden="true" />
+                <h4 className="font-[family-name:var(--font-body)] text-[10px] font-bold tracking-[0.2em] uppercase text-[#707078]">Legal</h4>
               </div>
               <ul className="flex flex-col gap-2">
                 {legalLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="font-[family-name:var(--font-body)] text-sm text-[#3a3835] hover:text-[#c8c4bf] transition-colors"
+                      className="font-[family-name:var(--font-body)] text-[12px] text-[#3a3540] hover:text-[#A0A0A8] transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -235,24 +229,24 @@ export async function Footer() {
         </div>
       </div>
 
-      {/* ── Bottom Bar ─────────────────────────────────────── */}
+      {/* Bottom Bar */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <p className="font-[family-name:var(--font-body)] text-xs text-[#2a2825] tracking-[0.1em] uppercase text-center sm:text-left">
+        <div className="max-w-[1320px] mx-auto px-5 md:px-12 py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+          <p className="font-[family-name:var(--font-body)] text-[11px] text-[#3a3540] tracking-[0.08em] uppercase text-center sm:text-left">
             © {new Date().getFullYear()} Revive Fight Club. All rights reserved.
           </p>
           <div className="flex items-center gap-3">
             {settings?.email && (
               <a
                 href={`mailto:${settings.email}`}
-                className="font-[family-name:var(--font-body)] text-xs text-[#2a2825] hover:text-[#9ca3af] transition-colors tracking-[0.08em]"
+                className="font-[family-name:var(--font-body)] text-[11px] text-[#3a3540] hover:text-[#707078] transition-colors tracking-[0.06em]"
                 aria-label={`Email us at ${settings.email}`}
               >
                 {settings.email}
               </a>
             )}
-            <span className="text-[#1a1815] text-xs">·</span>
-            <span className="font-[family-name:var(--font-body)] text-xs text-[#1e1c1a]">Bengaluru, Karnataka</span>
+            <span className="text-[#242228] text-xs">·</span>
+            <span className="font-[family-name:var(--font-body)] text-[11px] text-[#2a2830]">Bengaluru, Karnataka</span>
           </div>
         </div>
       </div>
