@@ -79,6 +79,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://hnmtjcpmdywwtafgexxk.supabase.co https://images.unsplash.com https://lh3.googleusercontent.com",
               "connect-src 'self' https://hnmtjcpmdywwtafgexxk.supabase.co wss://hnmtjcpmdywwtafgexxk.supabase.co https://lumberjack.razorpay.com https://api.razorpay.com https://www.google-analytics.com https://www.googletagmanager.com",
               "frame-src https://api.razorpay.com https://checkout.razorpay.com",
+              "media-src 'self' https://hnmtjcpmdywwtafgexxk.supabase.co",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
