@@ -10,18 +10,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { workshopId, fullName, email, phone, customAnswers } = body
 
-    // Authentication required for paid workshops
-    const supabaseClient = await createClient()
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Authentication required for paid workshops' }, { status: 401 })
-    }
-
-    // Rate limiting: user ID, 5/10min
+    // Rate limiting: IP, 5/10min
     const ip = getClientIp(req)
-    const rl = await rateLimit(`${user.id}:${ip}`, RATE_LIMITS.WORKSHOP_PAYMENT ?? { limit: 5, windowMs: 10*60*1000, endpoint: 'workshop:payment' })
+    const rl = await rateLimit(`ws-pay:${ip}`, RATE_LIMITS.WORKSHOP_PAYMENT ?? { limit: 5, windowMs: 10*60*1000, endpoint: 'workshop:payment' })
     if (!rl.allowed) return rateLimitResponse(rl.retryAfterSeconds)
     cleanupExpiredEntries().catch(() => {})
+
+    // Get optional user session
+    const supabaseClient = await createClient()
+    const { data: { user } } = await supabaseClient.auth.getUser()
 
     // Validate inputs
     if (!workshopId || !fullName?.trim() || !email?.trim() || !phone?.trim()) {
@@ -56,18 +53,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Check for existing active registration
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: existingReg } = await (adminClient as any)
-      .from('workshop_registrations')
-      .select('id,registration_status')
-      .eq('workshop_id', workshopId)
-      .eq('user_id', user.id)
-      .in('registration_status', ['confirmed','pending','waitlisted'])
-      .maybeSingle()
+    // Check for existing active registration (only for logged-in users; email uniqueness handled by DB)
+    if (user?.id) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: existingReg } = await (adminClient as any)
+        .from('workshop_registrations')
+        .select('id,registration_status')
+        .eq('workshop_id', workshopId)
+        .eq('user_id', user.id)
+        .in('registration_status', ['confirmed','pending','waitlisted'])
+        .maybeSingle()
 
-    if (existingReg) {
-      return NextResponse.json({ error: 'You are already registered for this workshop.' }, { status: 409 })
+      if (existingReg) {
+        return NextResponse.json({ error: 'You are already registered for this workshop.' }, { status: 409 })
+      }
     }
 
     // Server-side price (never from body)
@@ -81,7 +80,7 @@ export async function POST(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: regResult } = await (adminClient as any).rpc('register_for_workshop', {
       p_workshop_id: workshopId,
-      p_user_id: user.id,
+      p_user_id: user?.id ?? null,
       p_full_name: fullName.trim(),
       p_email: email.trim().toLowerCase(),
       p_phone: phone.trim(),

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
 import { generateQrToken, generateQrDataUrl } from '@/lib/qr'
 import { sendWorkshopConfirmation, sendWorkshopAdminNotification } from '@/lib/email-workshops'
 
@@ -11,13 +10,6 @@ export async function POST(req: NextRequest) {
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
       return NextResponse.json({ error: 'Missing payment parameters' }, { status: 400 })
-    }
-
-    // Authentication required
-    const supabaseClient = await createClient()
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
     // Verify HMAC signature
