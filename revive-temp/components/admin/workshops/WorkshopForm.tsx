@@ -1,14 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { createWorkshop, updateWorkshop } from '@/lib/actions/admin/workshopActions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function WorkshopForm({ initialData = {} as Record<string, any>, isEdit = false }: { initialData?: Record<string, any>, isEdit?: boolean }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const [formData, setFormData] = useState({
     title: initialData.title || '',
@@ -29,47 +33,52 @@ export function WorkshopForm({ initialData = {} as Record<string, any>, isEdit =
     status: initialData.status || 'draft',
     is_featured: initialData.is_featured ?? false,
     featured_order: initialData.featured_order || 0,
-    what_you_will_learn: initialData.what_you_will_learn || [],
+    what_you_will_learn: initialData.what_you_learn || [],
     requirements: initialData.requirements || [],
     instructors: initialData.instructors || [],
     faqs: initialData.faqs || [],
-    registration_fields: initialData.registration_fields || []
+    registration_fields: initialData.registrationFields || [],
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement
     const checked = (e.target as HTMLInputElement).checked
-    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
     }))
-
     if (name === 'title' && !isEdit) {
       setFormData(prev => ({ ...prev, slug: value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') }))
     }
   }
 
-  const handleArrayChange = (field: string, index: number, value: any) => {
-    const newArray = [...formData[field as keyof typeof formData] as any[]]
-    newArray[index] = value
-    setFormData(prev => ({ ...prev, [field]: newArray }))
-  }
-
-  const addArrayItem = (field: string, defaultItem: any) => {
-    setFormData(prev => ({ ...prev, [field]: [...(prev[field as keyof typeof prev] as any[]), defaultItem] }))
-  }
-
-  const removeArrayItem = (field: string, index: number) => {
-    const newArray = [...formData[field as keyof typeof formData] as any[]]
-    newArray.splice(index, 1)
-    setFormData(prev => ({ ...prev, [field]: newArray }))
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setError('')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('bucket', 'revive-workshops')
+      fd.append('folder', initialData.id ? `${initialData.id}-cover` : `new-cover-${Date.now()}`)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload failed')
+      setFormData(prev => ({ ...prev, cover_image_path: data.url }))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Image upload failed')
+    } finally {
+      setUploading(false)
+      if (fileRef.current) fileRef.current.value = ''
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setSuccess('')
 
     const payload = {
       title: formData.title,
@@ -100,169 +109,224 @@ export function WorkshopForm({ initialData = {} as Record<string, any>, isEdit =
     }
 
     try {
-      const res = isEdit 
+      const res = isEdit
         ? await updateWorkshop(initialData.id, payload)
         : await createWorkshop(payload)
-        
       if (res.success) {
-        router.push('/admin/workshops')
+        setSuccess(isEdit ? 'Workshop updated!' : 'Workshop created!')
+        setTimeout(() => router.push('/admin/workshops'), 800)
       } else {
         setError(res.error || 'Something went wrong')
       }
-    } catch (err: any) {
-      setError(err.message || 'Error saving workshop')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error saving workshop')
     } finally {
       setLoading(false)
     }
   }
 
+  const inputClass = 'w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/40 focus:outline-none font-[family-name:var(--font-body)] placeholder:text-[#4b5563] transition-colors'
+  const labelClass = 'block font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-1.5'
+  const sectionClass = 'bg-[#0f1110] border border-white/[0.06] p-5 space-y-4'
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{error}</div>}
+    <form onSubmit={handleSubmit} className="space-y-5">
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Title *</label>
-          <input required name="title" value={formData.title} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-        </div>
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Slug *</label>
-          <input required name="slug" value={formData.slug} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
+      {/* ── BASIC INFO ── */}
+      <div className={sectionClass}>
+        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-sm uppercase tracking-wider border-b border-white/[0.07] pb-2">Basic Info</h3>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="col-span-2">
+            <label className={labelClass}>Title *</label>
+            <input name="title" required value={formData.title} onChange={handleChange}
+              placeholder="e.g. MMA Fundamentals Workshop" className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Slug</label>
+            <input name="slug" value={formData.slug} onChange={handleChange}
+              placeholder="auto-generated-from-title" className={inputClass} />
+            <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563] mt-1">URL: /workshops/{formData.slug || 'your-slug'}</p>
+          </div>
+          <div>
+            <label className={labelClass}>Status *</label>
+            <select name="status" value={formData.status} onChange={handleChange} className={inputClass}>
+              <option value="draft">Draft (not visible to public)</option>
+              <option value="published">Published (live on website)</option>
+              <option value="closed">Closed (visible, no new registrations)</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            {formData.status === 'draft' && (
+              <p className="font-[family-name:var(--font-body)] text-xs text-yellow-500 mt-1">⚠ Draft workshops are NOT visible to the public. Change to Published to show on website.</p>
+            )}
+          </div>
+          <div className="col-span-2">
+            <label className={labelClass}>Short Description</label>
+            <textarea name="short_description" rows={2} value={formData.short_description} onChange={handleChange}
+              placeholder="One-line summary shown in workshop cards" className={inputClass} />
+          </div>
+          <div className="col-span-2">
+            <label className={labelClass}>Full Description</label>
+            <textarea name="description" rows={5} value={formData.description} onChange={handleChange}
+              placeholder="Detailed description of the workshop" className={inputClass} />
+          </div>
         </div>
       </div>
 
-      <div className="space-y-1">
-        <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Short Description (max 300) *</label>
-        <textarea required maxLength={300} name="short_description" value={formData.short_description} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none h-20" />
-      </div>
-
-      <div className="space-y-1">
-        <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Description *</label>
-        <textarea required name="description" value={formData.description} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none h-40" />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Workshop Mode *</label>
-          <select name="workshop_mode" value={formData.workshop_mode} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none [&>option]:bg-[#111312]">
-            <option value="in_person">In Person</option>
-            <option value="online">Online</option>
-            <option value="hybrid">Hybrid</option>
-          </select>
-        </div>
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Cover Image Path</label>
-          <input name="cover_image_path" value={formData.cover_image_path} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Start Time *</label>
-          <input required type="datetime-local" name="start_datetime" value={formData.start_datetime} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" style={{ colorScheme: 'dark' }} />
-        </div>
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">End Time *</label>
-          <input required type="datetime-local" name="end_datetime" value={formData.end_datetime} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" style={{ colorScheme: 'dark' }} />
-        </div>
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Reg Deadline</label>
-          <input type="datetime-local" name="registration_deadline" value={formData.registration_deadline} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" style={{ colorScheme: 'dark' }} />
+      {/* ── COVER IMAGE ── */}
+      <div className={sectionClass}>
+        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-sm uppercase tracking-wider border-b border-white/[0.07] pb-2">Cover Image</h3>
+        <div className="space-y-3">
+          <p className="font-[family-name:var(--font-body)] text-xs text-[#6b7280]">Recommended size: <span className="text-[#e2e3e1] font-bold">1200 × 675 px</span> (16:9 ratio) — JPEG, PNG or WebP — max 5 MB</p>
+          <div className="flex items-center gap-4">
+            <label className="cursor-pointer">
+              <span className="inline-block bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-4 py-2 hover:bg-white transition-colors">
+                {uploading ? 'Uploading…' : formData.cover_image_path ? 'Change Image' : 'Upload Image'}
+              </span>
+              <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} disabled={uploading} className="hidden" />
+            </label>
+            {formData.cover_image_path && (
+              <button type="button" onClick={() => setFormData(prev => ({ ...prev, cover_image_path: '' }))}
+                className="font-[family-name:var(--font-body)] text-xs text-red-400 hover:text-red-300 uppercase tracking-wider">
+                Remove
+              </button>
+            )}
+          </div>
+          {formData.cover_image_path && (
+            <div className="relative w-full max-w-sm aspect-video border border-white/[0.07] overflow-hidden">
+              <Image src={formData.cover_image_path} alt="Cover preview" fill className="object-cover" unoptimized />
+            </div>
+          )}
+          {!formData.cover_image_path && (
+            <div className="w-full max-w-sm aspect-video border border-dashed border-white/[0.12] flex items-center justify-center">
+              <span className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">No image uploaded</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {(formData.workshop_mode === 'in_person' || formData.workshop_mode === 'hybrid') && (
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Location *</label>
-          <input required name="location" value={formData.location} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
+      {/* ── SCHEDULE ── */}
+      <div className={sectionClass}>
+        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-sm uppercase tracking-wider border-b border-white/[0.07] pb-2">Schedule</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className={labelClass}>Start Date & Time *</label>
+            <input type="datetime-local" name="start_datetime" required value={formData.start_datetime} onChange={handleChange} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>End Date & Time *</label>
+            <input type="datetime-local" name="end_datetime" required value={formData.end_datetime} onChange={handleChange} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Registration Deadline</label>
+            <input type="datetime-local" name="registration_deadline" value={formData.registration_deadline} onChange={handleChange} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Mode</label>
+            <select name="workshop_mode" value={formData.workshop_mode} onChange={handleChange} className={inputClass}>
+              <option value="in_person">In-Person</option>
+              <option value="online">Online</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          {(formData.workshop_mode === 'in_person' || formData.workshop_mode === 'hybrid') && (
+            <div className="col-span-2">
+              <label className={labelClass}>Location / Venue</label>
+              <input name="location" value={formData.location} onChange={handleChange}
+                placeholder="e.g. Revive Fight Club, Bangalore" className={inputClass} />
+            </div>
+          )}
+          {(formData.workshop_mode === 'online' || formData.workshop_mode === 'hybrid') && (
+            <div className="col-span-2">
+              <label className={labelClass}>Online Meeting URL <span className="text-[#4b5563] normal-case font-normal">(shared only in confirmation email)</span></label>
+              <input name="online_meeting_url" type="url" value={formData.online_meeting_url} onChange={handleChange}
+                placeholder="https://zoom.us/j/..." className={inputClass} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── PRICING ── */}
+      <div className={sectionClass}>
+        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-sm uppercase tracking-wider border-b border-white/[0.07] pb-2">Pricing & Capacity</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className={labelClass}>Pricing Type</label>
+            <select name="pricing_type" value={formData.pricing_type} onChange={handleChange} className={inputClass}>
+              <option value="free">Free</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
+          {formData.pricing_type === 'paid' && (
+            <div>
+              <label className={labelClass}>Price (₹)</label>
+              <input type="number" name="price" min="0" step="1" value={formData.price} onChange={handleChange} className={inputClass} />
+            </div>
+          )}
+          <div>
+            <label className={labelClass}>Capacity <span className="text-[#4b5563] normal-case font-normal">(leave blank = unlimited)</span></label>
+            <input type="number" name="capacity" min="1" value={formData.capacity} onChange={handleChange}
+              placeholder="e.g. 30" className={inputClass} />
+          </div>
+          <div className="flex items-center gap-3 pt-5">
+            <input type="checkbox" name="waitlist_enabled" id="waitlist_enabled" checked={formData.waitlist_enabled} onChange={handleChange}
+              className="w-4 h-4 border border-white/[0.2] bg-white/[0.03] accent-[#ff571a]" />
+            <label htmlFor="waitlist_enabled" className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider cursor-pointer">Enable Waitlist</label>
+          </div>
+        </div>
+      </div>
+
+      {/* ── FEATURED ── */}
+      <div className={sectionClass}>
+        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-sm uppercase tracking-wider border-b border-white/[0.07] pb-2">Homepage Feature</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-3">
+            <input type="checkbox" name="is_featured" id="is_featured" checked={formData.is_featured} onChange={handleChange}
+              className="w-4 h-4 border border-white/[0.2] bg-white/[0.03] accent-[#ff571a]" />
+            <label htmlFor="is_featured" className="font-[family-name:var(--font-body)] text-xs text-[#9ca3af] uppercase tracking-wider cursor-pointer">Show on Homepage</label>
+          </div>
+          {formData.is_featured && (
+            <div>
+              <label className={labelClass}>Display Order <span className="text-[#4b5563] normal-case font-normal">(1 = first)</span></label>
+              <input type="number" name="featured_order" min="0" value={formData.featured_order} onChange={handleChange} className={inputClass} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── ERRORS / SUCCESS ── */}
+      {error && (
+        <div className="p-4 bg-red-500/10 border border-red-500/30 text-red-400 font-[family-name:var(--font-body)] text-sm">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="p-4 bg-green-500/10 border border-green-500/30 text-green-400 font-[family-name:var(--font-body)] text-sm">
+          {success}
         </div>
       )}
 
-      {(formData.workshop_mode === 'online' || formData.workshop_mode === 'hybrid') && (
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Online Meeting URL (shown only in confirmation emails) *</label>
-          <input required name="online_meeting_url" value={formData.online_meeting_url} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-        </div>
-      )}
-
-      <div className="grid grid-cols-4 gap-4">
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Pricing Type</label>
-          <select name="pricing_type" value={formData.pricing_type} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none [&>option]:bg-[#111312]">
-            <option value="free">Free</option>
-            <option value="paid">Paid</option>
-          </select>
-        </div>
-        {formData.pricing_type === 'paid' && (
-          <div className="space-y-1">
-            <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Price *</label>
-            <input required type="number" min="0" step="0.01" name="price" value={formData.price} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-          </div>
-        )}
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Capacity (Empty = Unltd)</label>
-          <input type="number" min="1" name="capacity" value={formData.capacity} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-        </div>
-        <div className="space-y-1">
-          <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Status</label>
-          <select name="status" value={formData.status} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none [&>option]:bg-[#111312]">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="closed">Closed</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancelled</option>
-            <option value="archived">Archived</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="flex gap-6 pt-2">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="waitlist_enabled" checked={formData.waitlist_enabled} onChange={handleChange} className="accent-[#ff571a]" />
-          <span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Enable Waitlist</span>
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="is_featured" checked={formData.is_featured} onChange={handleChange} className="accent-[#ff571a]" />
-          <span className="font-[family-name:var(--font-body)] text-sm text-[#e2e3e1]">Is Featured</span>
-        </label>
-        {formData.is_featured && (
-          <div className="flex items-center gap-2">
-            <label className="font-[family-name:var(--font-body)] text-xs font-bold text-[#9ca3af] uppercase tracking-wider">Order:</label>
-            <input type="number" name="featured_order" value={formData.featured_order} onChange={handleChange} className="w-20 px-2 py-1 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-          </div>
-        )}
-      </div>
-
-      <div className="border-t border-white/[0.07] pt-6 space-y-4">
-        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-lg uppercase tracking-tight">What You'll Learn</h3>
-        {formData.what_you_will_learn.map((item: string, i: number) => (
-          <div key={i} className="flex gap-2">
-            <input value={item} onChange={e => handleArrayChange('what_you_will_learn', i, e.target.value)} className="flex-1 px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1] focus:border-[#ff571a]/50 focus:outline-none" />
-            <button type="button" onClick={() => removeArrayItem('what_you_will_learn', i)} className="px-3 text-[#ff571a] border border-[#ff571a]/30 hover:bg-[#ff571a]/10">Remove</button>
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayItem('what_you_will_learn', '')} className="text-[#ff571a] font-bold text-xs uppercase tracking-wider">+ Add Item</button>
-      </div>
-
-      <div className="border-t border-white/[0.07] pt-6 space-y-4">
-        <h3 className="font-[family-name:var(--font-outfit)] font-bold text-[#e2e3e1] text-lg uppercase tracking-tight">Instructors</h3>
-        {formData.instructors.map((inst: any, i: number) => (
-          <div key={i} className="p-4 bg-white/[0.02] border border-white/[0.07] space-y-3 relative">
-            <button type="button" onClick={() => removeArrayItem('instructors', i)} className="absolute top-4 right-4 text-xs text-red-400">Remove</button>
-            <input placeholder="Name" value={inst.name} onChange={e => handleArrayChange('instructors', i, { ...inst, name: e.target.value })} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1]" />
-            <input placeholder="Bio" value={inst.bio} onChange={e => handleArrayChange('instructors', i, { ...inst, bio: e.target.value })} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1]" />
-            <input placeholder="Photo Path" value={inst.photo_path} onChange={e => handleArrayChange('instructors', i, { ...inst, photo_path: e.target.value })} className="w-full px-3 py-2 bg-white/[0.02] border border-white/[0.07] text-sm text-[#e2e3e1]" />
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayItem('instructors', { name: '', bio: '', photo_path: '' })} className="text-[#ff571a] font-bold text-xs uppercase tracking-wider">+ Add Instructor</button>
-      </div>
-
-      <div className="border-t border-white/[0.07] pt-6 flex justify-end gap-3">
-        <button type="button" onClick={() => router.back()} className="px-5 py-2.5 font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-wider text-[#9ca3af] hover:text-white transition-colors">Cancel</button>
-        <button type="submit" disabled={loading} className="px-6 py-2.5 bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-sm font-bold uppercase tracking-wider hover:bg-white transition-colors disabled:opacity-50">
-          {loading ? 'Saving...' : 'Save Workshop'}
+      {/* ── SUBMIT ── */}
+      <div className="flex gap-3">
+        <button type="submit" disabled={loading || uploading}
+          className="bg-[#ff571a] text-black font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-6 py-3 hover:bg-white transition-colors disabled:opacity-50">
+          {loading ? 'Saving…' : isEdit ? 'Update Workshop' : 'Create Workshop'}
         </button>
+        <button type="button" onClick={() => router.push('/admin/workshops')}
+          className="border border-white/[0.07] text-[#9ca3af] font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-6 py-3 hover:bg-white/5 transition-colors">
+          Cancel
+        </button>
+        {!isEdit && (
+          <button type="button" onClick={() => setFormData(prev => ({ ...prev, status: 'published' }))}
+            className="ml-auto border border-green-500/40 text-green-400 font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider px-6 py-3 hover:bg-green-500/10 transition-colors">
+            Set as Published
+          </button>
+        )}
       </div>
+      <p className="font-[family-name:var(--font-body)] text-xs text-[#4b5563]">
+        ⚡ After saving, go to <strong className="text-[#9ca3af]">Admin → Workshops</strong> and use the <strong className="text-[#9ca3af]">Toggle</strong> button or set Status = Published to make it live.
+      </p>
     </form>
   )
 }

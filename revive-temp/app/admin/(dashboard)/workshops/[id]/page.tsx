@@ -6,9 +6,10 @@ import { WorkshopForm } from '@/components/admin/workshops/WorkshopForm'
 
 export const metadata: Metadata = { title: 'Edit Workshop' }
 
-export default async function EditWorkshopPage({ params }: { params: { id: string } }) {
+export default async function EditWorkshopPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
-  const workshop = await adminGetWorkshopById(params.id)
+  const { id } = await params
+  const workshop = await adminGetWorkshopById(id)
 
   if (!workshop) {
     notFound()

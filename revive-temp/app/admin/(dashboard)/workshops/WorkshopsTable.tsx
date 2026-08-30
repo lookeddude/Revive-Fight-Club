@@ -86,26 +86,37 @@ export function WorkshopsTable({ workshops }: { workshops: any[] }) {
                     <td className="px-4 py-2.5 font-[family-name:var(--font-body)] text-xs text-[#9ca3af]">
                       {new Date(w.start_datetime).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-3 flex items-center gap-3">
+                    <td className="px-4 py-3 flex items-center gap-3 flex-wrap">
                       <Link href={`/admin/workshops/${w.id}/registrations`} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">
-                        Regs
+                        Regs ({w.totalRegistrations ?? 0})
                       </Link>
-                      <Link href={`/admin/workshops/${w.id}`} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#ff571a] hover:text-white transition-colors">
+                      <Link href={`/admin/workshops/${w.id}`} className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#9ca3af] hover:text-white transition-colors">
                         Edit
                       </Link>
-                      <form action={async () => {
-                        await duplicateWorkshop(w.id)
-                      }}>
+                      {w.status === 'draft' && (
+                        <form action={async (): Promise<void> => { await updateWorkshopStatus(w.id, 'published') }}>
+                          <button type="submit" className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-green-400 hover:text-white transition-colors">
+                            Publish
+                          </button>
+                        </form>
+                      )}
+                      {w.status === 'published' && (
+                        <form action={async (): Promise<void> => { await updateWorkshopStatus(w.id, 'closed') }}>
+                          <button type="submit" className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-yellow-400 hover:text-white transition-colors">
+                            Close
+                          </button>
+                        </form>
+                      )}
+                      {(w.status === 'closed' || w.status === 'completed') && (
+                        <form action={async (): Promise<void> => { await updateWorkshopStatus(w.id, 'draft') }}>
+                          <button type="submit" className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563] hover:text-white transition-colors">
+                            → Draft
+                          </button>
+                        </form>
+                      )}
+                      <form action={async (): Promise<void> => { await duplicateWorkshop(w.id) }}>
                         <button type="submit" className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563] hover:text-white transition-colors">
                           Dup
-                        </button>
-                      </form>
-                      <form action={async () => {
-                        const newStatus = w.status === 'draft' ? 'published' : (w.status === 'published' ? 'closed' : 'draft')
-                        await updateWorkshopStatus(w.id, newStatus)
-                      }}>
-                        <button type="submit" className="font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-wider text-[#4b5563] hover:text-white transition-colors">
-                          Toggle
                         </button>
                       </form>
                     </td>
