@@ -151,7 +151,8 @@ export const getWorkshopBySlug = cache(async (slug: string): Promise<WorkshopDet
     .from('workshops')
     .select('*')
     .eq('slug', slug)
-    .eq('status', 'published')
+    // Allow published, closed, completed — only exclude draft/cancelled/archived
+    .not('status', 'in', '("draft","cancelled","archived")')
     .single()
 
   if (!workshop) return null
@@ -183,18 +184,27 @@ export const getWorkshopBySlug = cache(async (slug: string): Promise<WorkshopDet
 })
 
 /**
- * Get workshop by ID for registration (used in API routes).
+ * Get workshop by SLUG for registration page (public-facing).
  */
-export async function getWorkshopForRegistration(workshopId: string) {
+export async function getWorkshopForRegistration(slug: string) {
   const adminClient = createAdminClient()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: workshop } = await (adminClient as any)
     .from('workshops')
-    .select('id,slug,title,status,pricing_type,price,currency,capacity,waitlist_enabled,registration_deadline,start_datetime,end_datetime')
-    .eq('id', workshopId)
+    .select('id,slug,title,status,pricing_type,price,currency,capacity,waitlist_enabled,registration_deadline,start_datetime,end_datetime,location,online_meeting_url,workshop_mode')
+    .eq('slug', slug)
     .single()
 
-  return workshop ?? null
+  if (!workshop) return null
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { count } = await (adminClient as any)
+    .from('workshop_registrations')
+    .select('id', { count: 'exact', head: true })
+    .eq('workshop_id', workshop.id)
+    .in('registration_status', ['confirmed', 'pending'])
+
+  return { ...workshop, confirmedCount: count ?? 0 }
 }
 
 /**
