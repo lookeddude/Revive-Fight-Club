@@ -313,6 +313,20 @@ body {
   animation: heroFadeUp var(--hero-dur, 0.75s) cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) both;
 }
 
+/* ── Hero CTA buttons ────────────────────────────────────── */
+.hero-btn-primary {
+  box-shadow: 0 2px 12px rgba(255,255,255,0.15), 0 1px 3px rgba(0,0,0,0.2);
+}
+.hero-btn-primary:hover {
+  box-shadow: 0 4px 20px rgba(255,255,255,0.25), 0 2px 6px rgba(0,0,0,0.3);
+}
+.hero-btn-secondary {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.hero-btn-secondary:hover {
+  box-shadow: 0 2px 12px rgba(255,255,255,0.08);
+}
+
 /* ── Hero image subtle life ──────────────────────────────── */
 @keyframes imgSettle {
   from { transform: scale(1.04); }
