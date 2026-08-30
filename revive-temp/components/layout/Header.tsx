@@ -11,6 +11,7 @@ import { SiteLogo } from '@/components/ui/SiteLogo'
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/programs', label: 'Programs' },
+  { href: '/workshops', label: 'Workshops' },
   { href: '/membership', label: 'Membership' },
   { href: '/trainers', label: 'Trainers' },
   { href: '/about', label: 'About' },

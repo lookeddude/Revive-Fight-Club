@@ -37,9 +37,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
-  const [programsRes, trainersRes] = await Promise.all([
+  const [programsRes, trainersRes, workshopsRes] = await Promise.all([
     supabase.from('programs').select('slug, updated_at').eq('is_active', true).order('sort_order'),
     supabase.from('trainers').select('slug, updated_at').eq('is_active', true),
+    supabase.from('workshops').select('slug, updated_at').eq('status', 'published').order('start_datetime', { ascending: true }),
   ])
 
   const programRoutes: MetadataRoute.Sitemap = (programsRes.data ?? []).map(p => ({
@@ -56,10 +57,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  const workshopRoutes: MetadataRoute.Sitemap = (workshopsRes.data ?? []).map((w: { slug: string; updated_at?: string }) => ({
+    url: `${SITE_URL}/workshops/${w.slug}`,
+    lastModified: w.updated_at ? new Date(w.updated_at) : new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }))
+
   return [
     // ── Core pages ──────────────────────────────────────────────
     url('/',           1.0, 'weekly'),
     url('/programs',   0.9, 'weekly'),
+    url('/workshops',  0.85, 'weekly'),
     url('/trainers',   0.8, 'weekly'),
     url('/membership', 0.8, 'monthly'),
     url('/about',      0.7, 'monthly'),
@@ -70,6 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ── Dynamic pages ───────────────────────────────────────────
     ...programRoutes,
     ...trainerRoutes,
+    ...workshopRoutes,
 
     // ── Legal ───────────────────────────────────────────────────
     url('/privacy-policy',   0.2, 'yearly'),

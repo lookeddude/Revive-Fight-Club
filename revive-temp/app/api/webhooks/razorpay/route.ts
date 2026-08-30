@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyWebhookSignature } from '@/lib/razorpay'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendMembershipConfirmation, sendTrialConfirmation } from '@/lib/email'
+import { sendWorkshopConfirmation } from '@/lib/email-workshops'
+import { generateQrToken, generateQrDataUrl } from '@/lib/qr'
 
 /**
  * Razorpay Webhook Handler
@@ -117,6 +119,52 @@ export async function POST(req: NextRequest) {
                 amount: existing.amount / 100,
                 referenceId: existing.id,
               })
+            }
+          }
+          // Workshop payment recovery
+          if (existing.payment_type === 'workshop' && existing.reference_id) {
+            try {
+              // Call the idempotent confirm function
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              await (supabase as any).rpc('confirm_workshop_payment', {
+                p_razorpay_order_id: orderId,
+                p_razorpay_payment_id: paymentId,
+                p_razorpay_signature: '',
+              })
+              // Load registration for email
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const { data: reg } = await (supabase as any)
+                .from('workshop_registrations')
+                .select('registration_id,full_name,email,qr_token,workshop_id,workshops(title,start_datetime,end_datetime,location,workshop_mode)')
+                .eq('id', existing.reference_id)
+                .maybeSingle()
+              if (reg) {
+                // Update qr_token with final token if needed
+                const finalQrToken = generateQrToken(reg.registration_id, reg.workshop_id)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                await (supabase as any).from('workshop_registrations')
+                  .update({ qr_token: finalQrToken, amount_paid: existing.amount / 100 })
+                  .eq('id', existing.reference_id)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const ws = reg.workshops as any
+                let qrDataUrl: string | undefined
+                try { qrDataUrl = await generateQrDataUrl(finalQrToken) } catch { /* non-fatal */ }
+                await sendWorkshopConfirmation({
+                  customerName: reg.full_name,
+                  customerEmail: reg.email,
+                  workshopTitle: ws?.title ?? 'Workshop',
+                  startDatetime: ws?.start_datetime ?? '',
+                  endDatetime: ws?.end_datetime ?? '',
+                  location: ws?.location ?? null,
+                  workshopMode: ws?.workshop_mode ?? 'in_person',
+                  registrationId: reg.registration_id,
+                  pricingType: 'paid',
+                  amountPaid: existing.amount / 100,
+                  qrDataUrl,
+                })
+              }
+            } catch (wsErr) {
+              console.error('[webhook] workshop payment recovery error (non-fatal):', wsErr)
             }
           }
         } catch (emailErr) {

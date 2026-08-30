@@ -32,6 +32,11 @@ export const RATE_LIMITS = {
   ADMIN_UPLOAD:    { limit: 30, windowMs: 60 * 1000,      endpoint: 'admin:upload'    },
   ADMIN_VIDEO:     { limit: 10, windowMs: 60 * 1000,      endpoint: 'admin:video'     },
   ADMIN_API:       { limit: 60, windowMs: 60 * 1000,      endpoint: 'admin:api'       },
+
+  // Workshop endpoints
+  WORKSHOP_REGISTER: { limit: 5,  windowMs: 60 * 60 * 1000, endpoint: 'workshop:register'  },
+  WORKSHOP_PAYMENT:  { limit: 5,  windowMs: 10 * 60 * 1000, endpoint: 'workshop:payment'   },
+  WORKSHOP_QR_VERIFY:{ limit: 20, windowMs: 60 * 1000,      endpoint: 'workshop:qr-verify' },
 } as const
 
 export type RateLimitConfig = (typeof RATE_LIMITS)[keyof typeof RATE_LIMITS]

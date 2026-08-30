@@ -11,6 +11,7 @@ import { HomeReviews } from '@/components/sections/home/HomeReviews'
 import { HomeMembership } from '@/components/sections/home/HomeMembership'
 import { HomeSuccessStories } from '@/components/sections/home/HomeSuccessStories'
 import { HomeCTA } from '@/components/sections/home/HomeCTA'
+import { HomeFeaturedWorkshop } from '@/components/sections/home/HomeFeaturedWorkshop'
 import {
   getFeaturedPrograms,
   getFeaturedTrainers,
@@ -19,6 +20,7 @@ import {
 } from '@/lib/data/content'
 import { getActiveHeroSlides, getHeroSettings } from '@/lib/data/heroSlideshow'
 import { getFirstProgramSlides } from '@/lib/data/programSlides'
+import { getFeaturedWorkshops } from '@/lib/data/workshops'
 
 export const metadata: Metadata = {
   title: 'Revive Fight Club | MMA, Boxing & Fitness Gym in Bengaluru',
@@ -37,13 +39,14 @@ export const metadata: Metadata = {
 export const revalidate = 3600 // 1 hour — content is stable, no need to re-fetch every 5 min
 
 export default async function HomePage() {
-  const [programs, trainers, reviews, settings, heroSlides, heroSettings] = await Promise.all([
+  const [programs, trainers, reviews, settings, heroSlides, heroSettings, featuredWorkshops] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
     getFeaturedReviews(10),
     getBusinessSettings(),
     getActiveHeroSlides(),
     getHeroSettings(),
+    getFeaturedWorkshops(),
   ])
 
   // Fetch first slide image per program (overrides image_path on cards)
@@ -62,6 +65,9 @@ export default async function HomePage() {
         <HomeStats />
         <HomePhilosophy />
         <HomeProgramsPreview programs={programs} slideImages={slideImages} />
+        {featuredWorkshops.length > 0 && (
+          <HomeFeaturedWorkshop workshops={featuredWorkshops} />
+        )}
         <HomeTrainersPreview trainers={trainers} />
         <HomeVideo videoUrl={settings?.homepage_video_url ?? null} />
         <HomeReviews reviews={reviews} />
