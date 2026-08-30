@@ -5,51 +5,8 @@ import { notFound } from 'next/navigation'
 import { WorkshopShare } from '@/components/workshops/WorkshopShare'
 import { WorkshopStatusBadge } from '@/components/workshops/WorkshopStatusBadge'
 import { getBusinessSettings } from '@/lib/data/content'
-
-// Mock fetcher
-async function getWorkshopBySlug(slug: string) {
-  if (slug === 'advanced-striking') {
-    return {
-      id: '2',
-      slug: 'advanced-striking',
-      title: 'Advanced Striking Seminar',
-      shortDescription: 'Master complex striking combinations and footwork with our head coach.',
-      description: 'Join us for an intensive 3-hour seminar focused on advanced striking techniques. This workshop is designed for intermediate to advanced practitioners looking to elevate their striking game.\n\nTopics covered:\n- Advanced Dutch kickboxing combinations\n- Defensive footwork and angling\n- Counter-striking strategies\n- Clinch entry and exit',
-      date: 'Sunday, October 22, 2026',
-      time: '2:00 PM - 5:00 PM',
-      location: 'Revive Fight Club, Fraser Town',
-      imagePath: 'https://images.unsplash.com/photo-1593359677879-a4bb92f4834b?w=1600&q=85&fit=crop',
-      status: 'full',
-      ctaLabel: 'Waitlist',
-      pricingType: 'paid',
-      price: 1500,
-      availableSeats: 0,
-      instructors: [{ name: 'Coach Raj', role: 'Head Striking Coach' }],
-      whatYouLearn: ['Advanced combos', 'Footwork', 'Counters'],
-      requirements: ['16oz Gloves', 'Shin Guards', 'Mouthguard', 'Minimum 6 months experience']
-    }
-  }
-  
-  return {
-    id: '1',
-    slug: 'intro-to-mma',
-    title: 'Intro to MMA Bootcamp',
-    shortDescription: 'A 2-hour intensive workshop covering the fundamentals of MMA for complete beginners.',
-    description: 'Perfect for complete beginners. Learn the absolute basics of Mixed Martial Arts in a safe, controlled environment. We will cover fundamental striking, basic takedowns, and introductory grappling positions.',
-    date: 'Saturday, October 14, 2026',
-    time: '10:00 AM - 12:00 PM',
-    location: 'Revive Fight Club, Fraser Town',
-    imagePath: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1600&q=85&fit=crop',
-    status: 'open',
-    ctaLabel: 'Register Now',
-    pricingType: 'free',
-    price: null,
-    availableSeats: 20,
-    instructors: [{ name: 'Coach Raj', role: 'Head Coach' }],
-    whatYouLearn: ['Stance and movement', 'Basic punches and kicks', 'Takedown defense basics'],
-    requirements: ['Comfortable athletic wear', 'Water bottle', 'No prior experience needed']
-  }
-}
+import { getWorkshopBySlug } from '@/lib/data/workshops'
+import { getWorkshopAvailability } from '@/lib/workshops'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -57,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!workshop) return { title: 'Workshop Not Found' }
   return {
     title: `${workshop.title} | Revive Fight Club Events`,
-    description: workshop.shortDescription,
+    description: workshop.short_description ?? '',
     alternates: { canonical: `https://revivefightclub.com/workshops/${slug}` },
     openGraph: { url: `https://revivefightclub.com/workshops/${slug}` },
   }
@@ -72,7 +29,21 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
 
   if (!workshop) notFound()
 
-  const isFullOrClosed = workshop.status === 'full' || workshop.status === 'closed'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const avail = getWorkshopAvailability({
+    status: workshop.status as any,
+    registrationDeadline: workshop.registration_deadline,
+    capacity: workshop.capacity,
+    confirmedCount: workshop.confirmedCount,
+    waitlistEnabled: workshop.waitlist_enabled,
+    startDatetime: workshop.start_datetime,
+  })
+
+  const isFullOrClosed = !avail.canRegister && !avail.isWaitlist
+
+  const startDate = new Date(workshop.start_datetime).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  const startTime = new Date(workshop.start_datetime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+  const endTime = new Date(workshop.end_datetime).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
 
   return (
     <>
@@ -84,9 +55,10 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
             '@context': 'https://schema.org',
             '@type': 'Event',
             name: workshop.title,
-            description: workshop.shortDescription,
-            image: workshop.imagePath,
-            startDate: workshop.date, // Ideal format would be ISO8601
+            description: workshop.short_description,
+            image: workshop.cover_image_path,
+            startDate: workshop.start_datetime,
+            endDate: workshop.end_datetime,
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             eventStatus: 'https://schema.org/EventScheduled',
             location: {
@@ -97,7 +69,7 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
             offers: {
               '@type': 'Offer',
               price: workshop.price ?? 0,
-              priceCurrency: 'INR',
+              priceCurrency: workshop.currency ?? 'INR',
               availability: isFullOrClosed ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
             }
           }),
@@ -120,21 +92,21 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
         <section className="max-w-[1280px] mx-auto px-5 md:px-16 pb-12">
           <div className="relative h-[400px] md:h-[500px] mb-8 overflow-hidden">
             <Image
-              src={workshop.imagePath ?? 'https://images.unsplash.com/photo-1549476464-37392f717541?w=1600&q=85&fit=crop'}
+              src={workshop.cover_image_path ?? 'https://images.unsplash.com/photo-1549476464-37392f717541?w=1600&q=85&fit=crop'}
               alt={workshop.title}
               fill
               className="object-cover"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0E0C10] via-black/50 to-transparent" />
-            
+
             <div className="absolute bottom-0 left-0 p-6 md:p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="max-w-2xl">
                 <div className="mb-4">
-                  <WorkshopStatusBadge 
-                    status={workshop.status}
-                    ctaLabel={workshop.ctaLabel}
-                    pricingType={workshop.pricingType}
+                  <WorkshopStatusBadge
+                    status={avail.isFull ? 'full' : avail.canRegister ? 'open' : 'closed'}
+                    ctaLabel={avail.ctaLabel}
+                    pricingType={workshop.pricing_type}
                     price={workshop.price}
                   />
                 </div>
@@ -142,31 +114,31 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
                   {workshop.title}
                 </h1>
                 <p className="font-[family-name:var(--font-body)] text-lg text-[#A0A0A8]">
-                  {workshop.shortDescription}
+                  {workshop.short_description}
                 </p>
               </div>
-              
+
               <div className="flex-shrink-0 flex flex-col gap-4">
                 <Link
                   href={`/workshops/${slug}/register`}
                   className={`inline-flex items-center justify-center gap-2 font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-8 py-4 transition-all duration-300 ${
-                    isFullOrClosed 
-                      ? 'bg-white/10 text-white/50 cursor-not-allowed' 
+                    isFullOrClosed
+                      ? 'bg-white/10 text-white/50 cursor-not-allowed'
                       : 'bg-[#DC2626] text-white hover:bg-white hover:text-black'
                   }`}
                   aria-disabled={isFullOrClosed}
                 >
-                  {isFullOrClosed ? workshop.ctaLabel : 'REGISTER NOW'}
+                  {isFullOrClosed ? avail.ctaLabel : 'REGISTER NOW'}
                 </Link>
-                <WorkshopShare 
-                  title={workshop.title} 
-                  slug={slug} 
-                  whatsappNumber={settings?.whatsapp_number} 
+                <WorkshopShare
+                  title={workshop.title}
+                  slug={slug}
+                  whatsappNumber={settings?.whatsapp_number}
                 />
               </div>
             </div>
           </div>
-          
+
           {/* Details Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-8">
             <div className="lg:col-span-2">
@@ -176,11 +148,11 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
                   {workshop.description}
                 </div>
 
-                {workshop.whatYouLearn && workshop.whatYouLearn.length > 0 && (
+                {workshop.what_you_learn && workshop.what_you_learn.length > 0 && (
                   <>
-                    <h3 className="text-xl font-black mb-4">What You'll Learn</h3>
+                    <h3 className="text-xl font-black mb-4">What You&apos;ll Learn</h3>
                     <ul className="list-disc pl-5 mb-10 text-[#A0A0A8] font-[family-name:var(--font-body)] text-lg space-y-2">
-                      {workshop.whatYouLearn.map((item, idx) => (
+                      {workshop.what_you_learn.map((item, idx) => (
                         <li key={idx}>{item}</li>
                       ))}
                     </ul>
@@ -197,6 +169,20 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
                     </ul>
                   </>
                 )}
+
+                {workshop.faqs && workshop.faqs.length > 0 && (
+                  <>
+                    <h3 className="text-xl font-black mb-4 mt-10">FAQs</h3>
+                    <div className="space-y-4 not-prose">
+                      {workshop.faqs.map((faq) => (
+                        <div key={faq.id} className="border border-white/10 p-4">
+                          <p className="font-[family-name:var(--font-body)] text-[#FCFDFD] font-bold mb-2">{faq.question}</p>
+                          <p className="font-[family-name:var(--font-body)] text-[#A0A0A8] text-sm leading-relaxed">{faq.answer}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -205,45 +191,50 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
                 <h3 className="font-[family-name:var(--font-outfit)] font-black text-[#FCFDFD] text-xl uppercase mb-6 pb-4 border-b border-white/10">
                   Event Details
                 </h3>
-                
+
                 <div className="space-y-6">
                   <div>
-                    <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">
-                      Date & Time
-                    </span>
+                    <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Date &amp; Time</span>
                     <span className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">
-                      {workshop.date}<br/>{workshop.time}
-                    </span>
-                  </div>
-                  
-                  <div>
-                    <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">
-                      Location
-                    </span>
-                    <span className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">
-                      {workshop.location}
+                      {startDate}<br />{startTime} – {endTime}
                     </span>
                   </div>
 
-                  <div>
-                    <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">
-                      Instructors
-                    </span>
-                    {workshop.instructors.map((inst, idx) => (
-                      <span key={idx} className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">
-                        {inst.name} <span className="text-[#A0A0A8] text-sm">({inst.role})</span>
-                      </span>
-                    ))}
-                  </div>
-
-                  {workshop.availableSeats !== null && workshop.availableSeats > 0 && (
+                  {workshop.location && (
                     <div>
-                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">
-                        Availability
-                      </span>
-                      <span className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">
-                        {workshop.availableSeats} spots left
-                      </span>
+                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Location</span>
+                      <span className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">{workshop.location}</span>
+                    </div>
+                  )}
+
+                  {workshop.pricing_type === 'paid' && workshop.price ? (
+                    <div>
+                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Price</span>
+                      <span className="block font-[family-name:var(--font-body)] text-[18px] font-bold text-[#DC2626]">₹{workshop.price.toLocaleString('en-IN')}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Price</span>
+                      <span className="block font-[family-name:var(--font-body)] text-[18px] font-bold text-green-400">FREE</span>
+                    </div>
+                  )}
+
+                  {workshop.instructors && workshop.instructors.length > 0 && (
+                    <div>
+                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Instructors</span>
+                      {workshop.instructors.map((inst) => (
+                        <span key={inst.id} className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">
+                          {inst.name}
+                          {inst.bio && <span className="text-[#A0A0A8] text-sm block">{inst.bio}</span>}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {avail.remainingSeats !== null && avail.remainingSeats > 0 && (
+                    <div>
+                      <span className="block font-[family-name:var(--font-body)] text-[11px] font-bold tracking-[0.1em] text-[#707078] uppercase mb-1">Availability</span>
+                      <span className="block font-[family-name:var(--font-body)] text-[15px] text-[#FCFDFD]">{avail.remainingSeats} spots left</span>
                     </div>
                   )}
                 </div>
@@ -252,13 +243,13 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
                   <Link
                     href={`/workshops/${slug}/register`}
                     className={`flex items-center justify-center gap-2 font-[family-name:var(--font-body)] text-sm font-black tracking-[0.14em] uppercase px-6 py-4 w-full transition-all duration-300 ${
-                      isFullOrClosed 
-                        ? 'bg-white/10 text-white/50 cursor-not-allowed' 
+                      isFullOrClosed
+                        ? 'bg-white/10 text-white/50 cursor-not-allowed'
                         : 'bg-[#DC2626] text-white hover:bg-white hover:text-black'
                     }`}
                     aria-disabled={isFullOrClosed}
                   >
-                    {isFullOrClosed ? workshop.ctaLabel : 'REGISTER NOW'}
+                    {isFullOrClosed ? avail.ctaLabel : 'REGISTER NOW'}
                   </Link>
                 </div>
               </div>
