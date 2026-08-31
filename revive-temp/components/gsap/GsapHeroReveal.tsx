@@ -19,10 +19,12 @@
  * Each class is optional — the timeline skips missing elements.
  * Multiple .gsap-extra elements stagger in sequence.
  * Respects prefers-reduced-motion: skips animation, content stays visible.
+ *
+ * Performance: GSAP is dynamically imported inside useEffect —
+ * it does NOT appear in the critical-path JS bundle.
  */
 
 import { useEffect, useRef } from 'react'
-import { gsap } from '@/lib/gsap'
 
 interface GsapHeroRevealProps {
   children: React.ReactNode
@@ -41,48 +43,59 @@ export function GsapHeroReveal({ children, className = '', delay = 0 }: GsapHero
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    const label    = el.querySelector<HTMLElement>('.gsap-label')
-    const headings = Array.from(el.querySelectorAll<HTMLElement>('.gsap-heading'))
-    const heading  = headings[0] ?? null
-    const text     = el.querySelector<HTMLElement>('.gsap-text')
-    const extras   = el.querySelectorAll<HTMLElement>('.gsap-extra')
+    let mounted = true
+    let cleanup: (() => void) | null = null
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: delay / 1000 })
+    import('@/lib/gsap').then(({ gsap }) => {
+      if (!mounted || !el) return
 
-      if (label) {
-        tl.fromTo(label,
-          { opacity: 0, x: -16 },
-          { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' }
-        )
-      }
+      const label    = el.querySelector<HTMLElement>('.gsap-label')
+      const headings = Array.from(el.querySelectorAll<HTMLElement>('.gsap-heading'))
+      const text     = el.querySelector<HTMLElement>('.gsap-text')
+      const extras   = el.querySelectorAll<HTMLElement>('.gsap-extra')
 
-      if (headings.length > 0) {
-        tl.fromTo(headings,
-          { opacity: 0, y: 28 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08 },
-          label ? '-=0.28' : 0
-        )
-      }
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({ delay: delay / 1000 })
 
-      if (text) {
-        tl.fromTo(text,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-          '-=0.42'
-        )
-      }
+        if (label) {
+          tl.fromTo(label,
+            { opacity: 0, x: -16 },
+            { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' }
+          )
+        }
 
-      if (extras.length > 0) {
-        tl.fromTo(extras,
-          { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.07 },
-          '-=0.35'
-        )
-      }
-    }, el)
+        if (headings.length > 0) {
+          tl.fromTo(headings,
+            { opacity: 0, y: 28 },
+            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08 },
+            label ? '-=0.28' : 0
+          )
+        }
 
-    return () => ctx.revert()
+        if (text) {
+          tl.fromTo(text,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+            '-=0.42'
+          )
+        }
+
+        if (extras.length > 0) {
+          tl.fromTo(extras,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.07 },
+            '-=0.35'
+          )
+        }
+      }, el)
+
+      cleanup = () => ctx.revert()
+    })
+
+    return () => {
+      mounted = false
+      cleanup?.()
+    }
   }, [delay])
 
   return (

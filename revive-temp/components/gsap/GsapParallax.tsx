@@ -9,18 +9,20 @@
  * Works by animating the child's yPercent as the parent scrolls out of view.
  * The child should be `position: absolute; inset: 0` to avoid clipping issues.
  *
- * Usage (in HomeHero — the image layer):
+ * Usage (in HomeHero — the overlay layer):
  *   <GsapParallax speed={0.15}>
  *     <div className="absolute inset-0">
- *       <Image fill ... />
+ *       overlay content
  *     </div>
  *   </GsapParallax>
  *
  * speed: 0 = no movement, 1 = moves at same speed as scroll, 0.15 = subtle depth
+ *
+ * Performance: GSAP is dynamically imported inside useEffect —
+ * it does NOT appear in the critical-path JS bundle.
  */
 
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 interface GsapParallaxProps {
   children: React.ReactNode
@@ -45,20 +47,32 @@ export function GsapParallax({ children, speed = 0.15, className = '' }: GsapPar
     const child = container.firstElementChild as HTMLElement | null
     if (!child) return
 
-    const ctx = gsap.context(() => {
-      gsap.to(child, {
-        yPercent: speed * 100,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-    }, container)
+    let mounted = true
+    let cleanup: (() => void) | null = null
 
-    return () => ctx.revert()
+    import('@/lib/gsap').then(({ gsap }) => {
+      if (!mounted || !container) return
+
+      const ctx = gsap.context(() => {
+        gsap.to(child, {
+          yPercent: speed * 100,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      }, container)
+
+      cleanup = () => ctx.revert()
+    })
+
+    return () => {
+      mounted = false
+      cleanup?.()
+    }
   }, [speed])
 
   return (

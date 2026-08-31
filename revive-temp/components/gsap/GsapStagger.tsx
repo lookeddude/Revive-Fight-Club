@@ -14,10 +14,12 @@
  *   </GsapStagger>
  *
  * If children don't have .gsap-item, falls back to animating all direct children.
+ *
+ * Performance: GSAP is dynamically imported inside useEffect —
+ * it does NOT appear in the critical-path JS bundle.
  */
 
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 interface GsapStaggerProps {
   children: React.ReactNode
@@ -49,33 +51,45 @@ export function GsapStagger({
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    // Use .gsap-item selector, fall back to direct children
-    let targets = Array.from(el.querySelectorAll<HTMLElement>(selector))
-    if (targets.length === 0) {
-      targets = Array.from(el.children) as HTMLElement[]
+    let mounted = true
+    let cleanup: (() => void) | null = null
+
+    import('@/lib/gsap').then(({ gsap }) => {
+      if (!mounted || !el) return
+
+      // Use .gsap-item selector, fall back to direct children
+      let targets = Array.from(el.querySelectorAll<HTMLElement>(selector))
+      if (targets.length === 0) {
+        targets = Array.from(el.children) as HTMLElement[]
+      }
+      if (targets.length === 0) return
+
+      const ctx = gsap.context(() => {
+        gsap.fromTo(targets,
+          { opacity: 0, y: distance },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power3.out',
+            stagger,
+            delay: delay / 1000,
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 82%',
+              once: true,
+            },
+          }
+        )
+      }, el)
+
+      cleanup = () => ctx.revert()
+    })
+
+    return () => {
+      mounted = false
+      cleanup?.()
     }
-    if (targets.length === 0) return
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(targets,
-        { opacity: 0, y: distance },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.55,
-          ease: 'power3.out',
-          stagger,
-          delay: delay / 1000,
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 82%',
-            once: true,
-          },
-        }
-      )
-    }, el)
-
-    return () => ctx.revert()
   }, [stagger, distance, delay, selector])
 
   return (

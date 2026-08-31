@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
-import { motion } from 'motion/react'
 import { MembershipCheckout } from '@/components/payments/MembershipCheckout'
 import { WhatsAppCTA } from '@/components/ui/WhatsAppCTA'
 import { BATCH_META, BATCH_ORDER } from '@/lib/membership-constants'
@@ -58,27 +56,41 @@ function BatchCard({ cat, plans, settings, index }: {
   })
 
   useEffect(() => {
-    if (!cardRef.current) return
+    const card = cardRef.current
+    if (!card) return
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(cardRef.current,
-        { opacity: 0, y: 48, scale: 0.96 },
-        {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.75,
-          ease: 'power4.out',
-          delay: index * 0.1,
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: 'top 88%',
-            once: true,
-          },
-        }
-      )
+    let mounted = true
+    let cleanup: (() => void) | null = null
+
+    import('@/lib/gsap').then(({ gsap }) => {
+      if (!mounted || !cardRef.current) return
+
+      const ctx = gsap.context(() => {
+        gsap.fromTo(cardRef.current,
+          { opacity: 0, y: 48, scale: 0.96 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.75,
+            ease: 'power4.out',
+            delay: index * 0.1,
+            scrollTrigger: {
+              trigger: cardRef.current,
+              start: 'top 88%',
+              once: true,
+            },
+          }
+        )
+      })
+
+      cleanup = () => ctx.revert()
     })
-    return () => ctx.revert()
+
+    return () => {
+      mounted = false
+      cleanup?.()
+    }
   }, [index])
 
   return (

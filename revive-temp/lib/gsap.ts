@@ -11,7 +11,8 @@
  *   Lenis       → smooth scrolling         (LenisProvider.tsx)
  *   GSAP/ST     → reveals, counters,       (THIS — components/gsap/)
  *                 hero entrance, parallax
- *   Motion      → nav, dropdown, mobile    (motion/react)
+ *   CSS         → nav, dropdown, mobile,   (Header, MobileNav, MembershipHero)
+ *                 membership entrance      (no JS animation library needed)
  *   CSS Reveal  → home section reveals     (Reveal.tsx + globals.css)
  */
 

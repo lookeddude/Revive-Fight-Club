@@ -10,12 +10,15 @@
  *   <GsapCountUp target={126} className="stat-number text-[80px]" />
  *   <GsapCountUp target={5.0} decimals={1} className="..." />
  *
- * Note: renders "0" on server (SSR). GSAP immediately counts up on client.
- * suppressHydrationWarning prevents React from complaining about the mismatch.
+ * Note: renders final value on server (SSR). GSAP resets to 0 and
+ * counts up on client. suppressHydrationWarning prevents React from
+ * complaining about the mismatch.
+ *
+ * Performance: GSAP is dynamically imported inside useEffect —
+ * it does NOT appear in the critical-path JS bundle.
  */
 
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 interface GsapCountUpProps {
   /** Final numeric value to animate to */
@@ -49,29 +52,37 @@ export function GsapCountUp({
       return
     }
 
-    const obj = { value: 0 }
+    let mounted = true
+    let st: { kill(): void } | null = null
 
-    const st = ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.to(obj, {
-          value: target,
-          duration,
-          ease: 'power2.out',
-          onUpdate() {
-            if (el) el.textContent = obj.value.toFixed(decimals)
-          },
-          onComplete() {
-            if (el) el.textContent = target.toFixed(decimals)
-          },
-        })
-      },
+    import('@/lib/gsap').then(({ gsap, ScrollTrigger }) => {
+      if (!mounted || !el) return
+
+      const obj = { value: 0 }
+
+      st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          gsap.to(obj, {
+            value: target,
+            duration,
+            ease: 'power2.out',
+            onUpdate() {
+              if (el) el.textContent = obj.value.toFixed(decimals)
+            },
+            onComplete() {
+              if (el) el.textContent = target.toFixed(decimals)
+            },
+          })
+        },
+      })
     })
 
     return () => {
-      st.kill()
+      mounted = false
+      st?.kill()
     }
   }, [target, decimals, duration])
 

@@ -17,10 +17,12 @@
  *   <GsapFadeReveal direction="left" delay={100}>
  *     <div>...content slides from left...</div>
  *   </GsapFadeReveal>
+ *
+ * Performance: GSAP is dynamically imported inside useEffect —
+ * it does NOT appear in the critical-path JS bundle of any page.
  */
 
 import { useEffect, useRef } from 'react'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 interface GsapFadeRevealProps {
   children: React.ReactNode
@@ -52,32 +54,43 @@ export function GsapFadeReveal({
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
 
-    const fromVars: gsap.TweenVars = { opacity: 0 }
+    let mounted = true
+    let cleanup: (() => void) | null = null
 
-    if (direction === 'up')    fromVars.y = distance
-    if (direction === 'left')  fromVars.x = -distance
-    if (direction === 'right') fromVars.x = distance
+    import('@/lib/gsap').then(({ gsap }) => {
+      if (!mounted || !el) return
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(el,
-        fromVars,
-        {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          duration,
-          delay: delay / 1000,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 82%',
-            once: true,
-          },
-        }
-      )
-    }, el)
+      const fromVars: gsap.TweenVars = { opacity: 0 }
+      if (direction === 'up')    fromVars.y = distance
+      if (direction === 'left')  fromVars.x = -distance
+      if (direction === 'right') fromVars.x = distance
 
-    return () => ctx.revert()
+      const ctx = gsap.context(() => {
+        gsap.fromTo(el,
+          fromVars,
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            duration,
+            delay: delay / 1000,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 82%',
+              once: true,
+            },
+          }
+        )
+      }, el)
+
+      cleanup = () => ctx.revert()
+    })
+
+    return () => {
+      mounted = false
+      cleanup?.()
+    }
   }, [direction, distance, delay, duration])
 
   return (
