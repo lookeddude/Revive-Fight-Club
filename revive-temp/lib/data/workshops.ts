@@ -149,7 +149,7 @@ export const getWorkshopBySlug = cache(async (slug: string): Promise<WorkshopDet
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: workshop } = await (supabase as any)
     .from('workshops')
-    .select('*')
+    .select('id,slug,title,short_description,description,cover_image_path,gallery_images,location,online_meeting_url,workshop_mode,start_datetime,end_datetime,registration_deadline,pricing_type,price,currency,capacity,waitlist_enabled,status,is_featured,featured_order,what_you_learn,requirements,published_at')
     .eq('slug', slug)
     // Allow published, closed, completed — only exclude draft/cancelled/archived
     .not('status', 'in', '("draft","cancelled","archived")')

@@ -35,7 +35,7 @@ type Plan = {
 export default async function MembershipPage() {
   const supabase = await createClient()
   const [{ data: rawPlans }, settings] = await Promise.all([
-    supabase.from('membership_plans').select('*').eq('is_active', true).order('sort_order'),
+    supabase.from('membership_plans').select('id,name,price,billing_period,sort_label,batch_category,description,features,is_active,is_featured,sort_order').eq('is_active', true).order('sort_order'),
     getBusinessSettings(),
   ])
 

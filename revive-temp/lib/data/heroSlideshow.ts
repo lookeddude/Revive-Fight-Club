@@ -34,10 +34,26 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
   return (data ?? []) as HeroSlide[]
 }
 
+/**
+ * Get only active hero slides for public display.
+ * Filters at the database level — does NOT fetch inactive slides.
+ */
 export async function getActiveHeroSlides(): Promise<HeroSlide[]> {
-  const slides = await getHeroSlides()
-  return slides.filter(s => s.is_active)
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('hero_slides')
+    .select('id, desktop_url, mobile_url, tablet_url, alt_text, sort_order, is_active, created_at, updated_at')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    console.error('[getActiveHeroSlides]', error.message)
+    return []
+  }
+  return (data ?? []) as HeroSlide[]
 }
+
 
 export async function getHeroSettings(): Promise<HeroSettings> {
   const supabase = await createClient()

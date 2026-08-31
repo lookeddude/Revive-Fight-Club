@@ -1,0 +1,73 @@
+-- ============================================================
+-- Migration 015: Phase 4 Backend Performance Indexes
+-- Revive Fight Club
+-- Applied: 2026-09-01
+-- ============================================================
+--
+-- PURPOSE:
+--   Add two targeted composite indexes identified during the
+--   Phase 4 backend performance audit.
+--
+-- EXISTING INDEXES (already in place — do NOT recreate):
+--   workshop_registrations: ws_reg_workshop_id_idx, ws_reg_status_idx,
+--     ws_reg_email_idx, ws_reg_qr_token_idx, ws_reg_user_id_idx,
+--     ws_reg_created_at_idx, no_duplicate_active_registration
+--   workshops: workshops_slug_key, workshops_status_idx,
+--     workshops_start_datetime_idx, workshops_featured_idx
+--   payments: payments_razorpay_order_id_idx, payments_razorpay_payment_id_idx,
+--     payments_status_idx, payments_customer_email_idx
+--   rate_limit_entries: idx_rate_limit_expires, idx_rate_limit_key_created
+--   staff_invitations: idx_invitations_email, idx_invitations_status
+--
+-- ── 1. rate_limit_entries — composite covering index ──────────────────────────
+--
+-- PROBLEM:
+--   All rate limit checks run this query:
+--     SELECT COUNT(*) FROM rate_limit_entries
+--       WHERE key = ? AND endpoint = ? AND created_at >= ?
+--
+--   The existing index idx_rate_limit_key_created covers (key, created_at)
+--   but NOT endpoint. Postgres uses the index for key+created_at, then
+--   filters endpoint in memory — an extra heap access per row.
+--
+--   With a composite (key, endpoint, created_at) index, all three
+--   predicates are satisfied directly in the index without a heap access.
+--
+-- BENEFIT: Every API call that rate-limits saves a heap scan.
+--   Rate limiting runs on: payment create, payment verify, trial booking,
+--   contact form, workshop register, workshop payment, QR verify, auth.
+--   This is one of the highest-frequency internal queries.
+--
+-- WRITE COST: Low — rate_limit_entries rows are short-lived (TTL-based).
+--   The table stays small due to cleanup(). Index overhead is negligible.
+
+CREATE INDEX IF NOT EXISTS idx_rate_limit_key_endpoint_created
+  ON public.rate_limit_entries (key, endpoint, created_at);
+
+-- ── 2. workshop_registrations — workshop_id + status composite ───────────────
+--
+-- PROBLEM:
+--   Workshop availability counts are queried as:
+--     SELECT COUNT(*) FROM workshop_registrations
+--       WHERE workshop_id = ? AND registration_status IN ('confirmed','pending')
+--
+--   Existing separate indexes: ws_reg_workshop_id_idx (workshop_id) and
+--   ws_reg_status_idx (registration_status). Postgres can use an index
+--   merge but a composite (workshop_id, registration_status) index is
+--   more efficient — covers both predicates in a single scan.
+--
+--   This query runs for EVERY published workshop on:
+--     - Homepage (featured workshops)
+--     - /workshops listing page
+--     - /workshops/[slug] detail page
+--     - /workshops/[slug]/register page
+--
+-- BENEFIT: Reduces I/O for availability checks proportional to total
+--   registrations across all workshops.
+--
+-- WRITE COST: Low-medium — workshop_registrations is written once per
+--   registration and updated on payment confirmation. The insert/update
+--   cost is marginal compared to the read benefit.
+
+CREATE INDEX IF NOT EXISTS ws_reg_workshop_status_idx
+  ON public.workshop_registrations (workshop_id, registration_status);

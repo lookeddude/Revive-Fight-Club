@@ -1,16 +1,25 @@
 import 'server-only'
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { headers } from 'next/headers'
 
-// Untyped admin client for rate limiting table (not in generated Database types)
-function getRateLimitClient() {
+// ── Module-level singleton ────────────────────────────────────────────────────
+// Rate limiter creates 2-3 DB calls per API request (COUNT + optional oldest + INSERT).
+// A module-level singleton avoids opening a new Supabase connection on every call.
+// Safe: this client uses autoRefreshToken=false, persistSession=false — stateless.
+let _rateLimitClient: SupabaseClient | null = null
+
+function getRateLimitClient(): SupabaseClient {
+  if (_rateLimitClient) return _rateLimitClient
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) throw new Error('Missing Supabase rate-limit config')
-  return createClient(url, key, {
+
+  _rateLimitClient = createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   })
+  return _rateLimitClient
 }
 
 // ── Rate Limit Configuration ──────────────────────────────────────────

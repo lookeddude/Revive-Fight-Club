@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     // ── Find payment record ────────────────────────────────────
     const { data: payment, error: paymentError } = await supabase
       .from('payments')
-      .select('*, metadata')
+      .select('id, status, payment_type, reference_id, customer_name, customer_email, amount')
       .eq('razorpay_order_id', razorpay_order_id)
       .single()
 
