@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import type React from 'react'
 import Link from 'next/link'
-import * as motion from 'motion/react-client'
 import { WorkshopCard } from '@/components/workshops/WorkshopCard'
 import { getPublishedWorkshops } from '@/lib/data/workshops'
 import { getWorkshopAvailability } from '@/lib/workshops'
@@ -45,7 +45,11 @@ export default async function WorkshopsPage() {
                   startDatetime: workshop.start_datetime,
                 })
                 return (
-                  <motion.div key={workshop.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1, duration: 0.5 }}>
+                  <div
+                    key={workshop.id}
+                    className="ws-card-reveal"
+                    style={{ '--ws-card-delay': `${idx * 0.1}s` } as React.CSSProperties}
+                  >
                     <WorkshopCard
                       id={workshop.id}
                       slug={workshop.slug}
@@ -60,7 +64,7 @@ export default async function WorkshopsPage() {
                       price={workshop.price}
                       availableSeats={avail.remainingSeats}
                     />
-                  </motion.div>
+                  </div>
                 )
               })}
             </div>

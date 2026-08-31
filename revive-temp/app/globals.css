@@ -382,6 +382,17 @@ body {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ── Workshop Card Stagger Entrance ─────────────────────────── */
+/* Replaces motion/react-client <motion.div> entrance on /workshops */
+@keyframes wsCardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ws-card-reveal {
+  animation: wsCardIn 0.5s ease-out var(--ws-card-delay, 0ms) both;
+}
+
 /* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--color-background); }
@@ -402,7 +413,8 @@ body {
   .animate-fade-up,
   .animate-fade-in,
   .hero-enter,
-  .img-settle {
+  .img-settle,
+  .ws-card-reveal {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -416,3 +428,4 @@ body {
     transition: none !important;
   }
 }
+
