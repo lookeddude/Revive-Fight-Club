@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600 // 1 hour — content is stable, no need to re-fetch every 5 min
 
 export default async function HomePage() {
-  const [programs, trainers, reviews, settings, heroSlides, heroSettings, featuredWorkshops] = await Promise.all([
+  const [programs, trainers, reviews, settings, heroSlides, heroSettings, featuredWorkshops, allSlideImages] = await Promise.all([
     getFeaturedPrograms(),
     getFeaturedTrainers(),
     getFeaturedReviews(10),
@@ -47,10 +47,14 @@ export default async function HomePage() {
     getActiveHeroSlides(),
     getHeroSettings(),
     getFeaturedWorkshops(),
+    getFirstProgramSlides([]), // fetches ALL active slides in one query; filtered below
   ])
 
-  // Fetch first slide image per program (overrides image_path on cards)
-  const slideImages = await getFirstProgramSlides(programs.map(p => p.id))
+  // Filter slide images to only those matching the fetched programs
+  const programIds = programs.map(p => p.id)
+  const slideImages = Object.fromEntries(
+    Object.entries(allSlideImages).filter(([k]) => programIds.includes(k))
+  )
 
   return (
     <>

@@ -105,37 +105,38 @@ export function HomeHero({ whatsappNumber, slides = [], settings, programNames =
     >
       {/* ── Background Image ── */}
       <div className="absolute inset-0 z-0">
-        <GsapParallax speed={0.1} className="w-full h-full">
-          <div
-            className="absolute inset-0"
-            style={{
-              opacity: bgOpacity,
-              transition: transition === 'fade' ? 'opacity 0.4s ease' : 'opacity 0.15s ease',
-            }}
-          >
-            <Image
-              key={bgImage}
-              src={bgImage}
-              alt={bgAlt}
-              fill
-              priority
-              quality={80}
-              fetchPriority="high"
-              sizes="100vw"
-              className="hero-bg-img img-settle"
-              style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center 30%' : 'center top' }}
-            />
-          </div>
-        </GsapParallax>
-
-        {/* Cinematic dark overlay — heavier at top and bottom */}
+        {/* Hero image renders without any JS dependency — pure static element for LCP */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to bottom, rgba(14,12,16,0.35) 0%, rgba(14,12,16,0.08) 30%, rgba(14,12,16,0.15) 55%, rgba(14,12,16,0.92) 100%)',
+            opacity: bgOpacity,
+            transition: transition === 'fade' ? 'opacity 0.4s ease' : 'opacity 0.15s ease',
           }}
-          aria-hidden="true"
-        />
+        >
+          <Image
+            key={bgImage}
+            src={bgImage}
+            alt={bgAlt}
+            fill
+            priority
+            quality={80}
+            fetchPriority="high"
+            sizes="100vw"
+            className="hero-bg-img img-settle"
+            style={{ objectFit: 'cover', objectPosition: screenSize === 'mobile' ? 'center 30%' : 'center top' }}
+          />
+        </div>
+
+        {/* Cinematic dark overlay — GsapParallax applied here (not on LCP image) */}
+        <GsapParallax speed={0.06} className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(14,12,16,0.35) 0%, rgba(14,12,16,0.08) 30%, rgba(14,12,16,0.15) 55%, rgba(14,12,16,0.92) 100%)',
+            }}
+            aria-hidden="true"
+          />
+        </GsapParallax>
         {/* Side vignettes */}
         <div
           className="absolute inset-0"

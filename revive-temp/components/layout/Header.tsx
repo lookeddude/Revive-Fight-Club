@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'motion/react'
 import { createClient } from '@/lib/supabase/client'
 import { MobileNav } from './MobileNav'
 import { SiteLogo } from '@/components/ui/SiteLogo'
@@ -143,10 +142,8 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                 >
                   {link.label}
                   {isActive && (
-                    <motion.span
-                      layoutId="nav-underline"
+                    <span
                       className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/60"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                     />
                   )}
                 </Link>
@@ -193,17 +190,17 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                   </svg>
                 </button>
 
-                {/* Dropdown */}
-                <AnimatePresence>
-                  {dropdownOpen && (
-                    <motion.div
-                      key="auth-dropdown"
-                      initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute right-0 top-full mt-3 w-56 bg-[#121116] border border-white/[0.08] shadow-2xl z-50"
-                    >
+                {/* Dropdown — CSS transition replaces motion.div */}
+                <div
+                  className="absolute right-0 top-full mt-3 w-56 bg-[#121116] border border-white/[0.08] shadow-2xl z-50"
+                  style={{
+                    opacity: dropdownOpen ? 1 : 0,
+                    transform: dropdownOpen ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.97)',
+                    visibility: dropdownOpen ? 'visible' : 'hidden',
+                    transition: 'opacity 0.18s cubic-bezier(0.16,1,0.3,1), transform 0.18s cubic-bezier(0.16,1,0.3,1)',
+                    pointerEvents: dropdownOpen ? 'auto' : 'none',
+                  }}
+                >
                     <div className="px-4 py-3 border-b border-white/[0.06]">
                       <p className="font-[family-name:var(--font-body)] text-sm font-bold text-[#FCFDFD] truncate">
                         {authUser.name ?? 'My Account'}
@@ -244,9 +241,7 @@ export function Header({ logoUrl = null }: { logoUrl?: string | null }) {
                         Sign Out
                       </span>
                     </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </div>
               </div>
             ) : (
               <Link

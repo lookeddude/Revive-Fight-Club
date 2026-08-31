@@ -23,7 +23,7 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('hero_slides')
-    .select('*')
+    .select('id, desktop_url, mobile_url, tablet_url, alt_text, sort_order, is_active, created_at, updated_at')
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: true })
 
@@ -43,7 +43,7 @@ export async function getHeroSettings(): Promise<HeroSettings> {
   const supabase = await createClient()
   const { data } = await supabase
     .from('hero_settings')
-    .select('*')
+    .select('id, interval_seconds, transition, updated_at')
     .eq('id', 1)
     .single()
 
@@ -54,3 +54,4 @@ export async function getHeroSettings(): Promise<HeroSettings> {
     updated_at: new Date().toISOString(),
   }
 }
+

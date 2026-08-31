@@ -188,7 +188,7 @@ export async function getBusinessSettings(): Promise<BusinessSettingsRow | null>
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('business_settings')
-    .select('*, logo_url')
+    .select('*')
     .eq('id', 1)
     .single()
 

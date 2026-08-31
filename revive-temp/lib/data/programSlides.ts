@@ -61,18 +61,24 @@ export async function getProgramSlides(programId: string): Promise<ProgramSlide[
  * Fetch the FIRST active slide URL for each program.
  * Returns a map of programId → imageUrl.
  * Used by homepage and programs list to show the uploaded slide as featured image.
+ * When programIds is empty array, fetches ALL program slides (used by homepage).
  */
 export async function getFirstProgramSlides(
   programIds: string[]
 ): Promise<Record<string, string>> {
-  if (programIds.length === 0) return {}
   const supabase = await createClient()
-  const { data } = await supabase
+  let query = supabase
     .from('program_slides')
     .select('program_id, image_url, sort_order')
-    .in('program_id', programIds)
     .eq('is_active', true)
     .order('sort_order')
+
+  // Only filter by IDs when specific IDs are provided
+  if (programIds.length > 0) {
+    query = query.in('program_id', programIds)
+  }
+
+  const { data } = await query
 
   const result: Record<string, string> = {}
   ;(data ?? []).forEach(row => {
