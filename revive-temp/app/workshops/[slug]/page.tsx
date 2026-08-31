@@ -97,6 +97,8 @@ export default async function WorkshopDetailPage({ params }: { params: Promise<{
               fill
               className="object-cover"
               priority
+              quality={80}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1280px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0E0C10] via-black/50 to-transparent" />
 

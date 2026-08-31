@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // 1 year CDN cache for Next.js-optimised images
     minimumCacheTTL: 31536000,
+    // Serve optimized images inline for better CDN caching
+    contentDispositionType: 'inline',
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },

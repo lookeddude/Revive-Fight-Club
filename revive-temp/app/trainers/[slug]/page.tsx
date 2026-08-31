@@ -165,7 +165,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                   priority
                   className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  unoptimized={image.startsWith('http')}
+                  quality={80}
                 />
                 {/* Feather-edge blend — left only, very subtle */}
                 <div

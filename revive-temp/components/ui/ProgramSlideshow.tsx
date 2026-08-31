@@ -75,6 +75,8 @@ export function ProgramSlideshow({ images, programName }: SlideshowProps) {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 80vw"
             priority={i === 0}
+            loading={i === 0 ? undefined : 'lazy'}
+            quality={80}
           />
         </div>
       ))}

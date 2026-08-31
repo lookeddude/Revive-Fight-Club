@@ -29,8 +29,9 @@ function WorkshopCard({ workshop }: { workshop: WorkshopListItem }) {
           alt={workshop.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={75}
+          loading="lazy"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
-          unoptimized={!!(workshop.cover_image_path?.startsWith('https://'))}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0E0C10] via-[#0E0C10]/20 to-transparent" />
         <div className="absolute top-3 right-3">

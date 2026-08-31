@@ -106,7 +106,8 @@ export default async function TrainersPage() {
                           fill
                           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           sizes="220px"
-                          unoptimized={imgSrc.startsWith('http')}
+                          quality={75}
+                          loading="lazy"
                         />
                         <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 60%, #111210)' }} />
                         {trainer.is_featured && (

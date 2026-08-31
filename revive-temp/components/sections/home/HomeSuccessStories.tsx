@@ -133,7 +133,8 @@ export function HomeSuccessStories() {
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 1024px) 100vw, 60vw"
-                  priority
+                  loading="lazy"
+                  quality={80}
                 />
                 {/* Gradient from bottom — only lower 40% */}
                 <div
@@ -168,6 +169,8 @@ export function HomeSuccessStories() {
                       fill
                       className="object-cover object-center"
                       sizes="(max-width: 1024px) 100vw, 40vw"
+                      loading="lazy"
+                      quality={75}
                     />
                     <div
                       className="absolute inset-0"
@@ -202,6 +205,8 @@ export function HomeSuccessStories() {
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, 1280px"
+                  loading="lazy"
+                  quality={75}
                 />
                 {/* Bottom gradient */}
                 <div

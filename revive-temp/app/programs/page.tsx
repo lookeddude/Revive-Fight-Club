@@ -93,6 +93,8 @@ export default async function ProgramsPage() {
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-700"
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            quality={75}
+                            loading="lazy"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
